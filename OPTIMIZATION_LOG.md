@@ -88,3 +88,10 @@
 
 - The experimenter confirmed active dispatch and documented a warp-per-row/register-reduction hypothesis, but ended before making a candidate. No code was built, correctness was not run, and no performance conclusion follows.
 - Source and active CUDA library hashes matched the current best. Keep the optimization frontier open; the next experiment must implement the candidate and benchmark it rather than repeat analysis only. See `experiments/014-planar-warp-reduction/REPORT.md`.
+
+## Experiment 015: direct warp-per-row reduction
+
+- Implemented an sm_86 compile-time one-column path with four warps per CTA, one output row per warp, local K-block accumulation, and a final warp sum. It removed dynamic shared partials and the CTA barrier; other column counts retained the existing kernel.
+- The candidate passed 4/4 selected CTests, 96/96 CUDA-vs-CPU PTQ1_0/PQ2_0 matmul cases, and both 32-token model smokes. Generated text matched the ROWS=1 reference after ignoring the build identifier. The full correctness script's build began recompiling 394 missing outputs and was stopped at 129; its selected tests were then executed directly against the candidate library.
+- Two reversed-order seven-repetition decode pairs consistently lost: -3.27/-3.27% at contexts 512/4096 in pair 1 and -3.79/-3.72% in pair 2. Peak VRAM was effectively unchanged (6803 vs 6805 MiB). Reject this mapping; serial per-lane K work and only four output rows per CTA likely cost more than the shared partial/barrier savings.
+- Restored and hash-verified the ROWS=1 source/library. Next test should combine K work across two/four warps per output row, reducing per-K shared partial traffic while restoring more K parallelism. See `experiments/015-warp-reduction-impl/REPORT.md`.

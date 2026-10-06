@@ -248,19 +248,47 @@
   },
   "source_results": "results/baseline.json",
   "latest_experiment": {
-    "id": "014",
-    "hypothesis": "A warp-per-row/register reduction could remove the active planar PTQ1_0 GEMV shared partial array and CTA barrier.",
-    "decision": "INCONCLUSIVE - NO CANDIDATE IMPLEMENTED",
-    "performance_effect": "Not measured; no source candidate was implemented or built.",
-    "correctness": "Not run; no candidate exists. Current-best source and CUDA library SHA-256 values were verified unchanged.",
+    "id": "015",
+    "hypothesis": "A warp-per-output-row local K-block accumulator can remove per-K shared partial writes and the CTA barrier from one-column planar PTQ1_0 GEMV.",
+    "decision": "REVERT",
+    "performance_effect": "Two reversed-order seven-repetition pairs: -3.27/-3.27% median at contexts 512/4096 (pair 1), and -3.79/-3.72% (pair 2). Candidate medians were 78.66\u201379.25 tok/s at 512 and 75.56\u201376.76 at 4096; ROWS=1 controls were 81.75\u201381.92 and 78.49\u201379.36. Peak VRAM 6803 vs 6805 MiB.",
+    "correctness": "4/4 selected CTests, 96/96 CUDA-vs-CPU PTQ1_0/PQ2_0 matmul cases; PTQ1_0 and PQ2_0 fixed 32-token model-smoke completions match reference after ignoring build identifier. Candidate source/library restoration independently hash-verified.",
+    "benchmark_configuration": {
+      "gpu": "NVIDIA GeForce RTX 3080",
+      "compute_capability": "8.6",
+      "contexts": [
+        512,
+        4096
+      ],
+      "decode_tokens": 128,
+      "repetitions": 7,
+      "paired_orders": [
+        "candidate-control",
+        "control-candidate"
+      ],
+      "flash_attention": "on",
+      "kv_type": "f16",
+      "n_gpu_layers": 99,
+      "batch_size": 2048,
+      "ubatch_size": 512,
+      "cpu_threads": 8,
+      "cooldown_temperature_c": 60
+    },
     "artifacts": [
-      "experiments/014-planar-warp-reduction/REPORT.md",
-      "experiments/014-planar-warp-reduction/unchanged-hashes.txt"
+      "results/exp015/raw/control_pair1.json",
+      "results/exp015/raw/warp_pair1.json",
+      "results/exp015/raw/control_pair2.json",
+      "results/exp015/raw/warp_pair2.json",
+      "results/exp015/raw/ctest.log",
+      "results/exp015/raw/backend_ops.log",
+      "results/exp015/raw/model_smoke_warp.json"
     ],
-    "report": "experiments/014-planar-warp-reduction/REPORT.md",
-    "project_source_commit": "53385bc23961a200c1d91bc373d361397e915de8"
+    "report": "experiments/015-warp-reduction-impl/REPORT.md",
+    "source_restoration_sha256": "f398417accddf1948fbf12155b4180fd362a3dfea88366ef3980161700d56496",
+    "cuda_library_restoration_sha256": "4b7b09cd570d3f2ca289a97806ab7d2cac0c8c0eb40d73f79e3ec2a752825fde",
+    "project_source_commit": "7ad2951f3844d9232a839d0d063ca67e65a49844"
   },
-  "updated_timestamp_utc": "2026-10-06T18:07:28Z",
+  "updated_timestamp_utc": "2026-10-06T18:25:59Z",
   "project_commit": "9fa97200e68fd798ef027470c8e420172a0ac719",
   "current_best": {
     "commit": "9fa97200e68fd798ef027470c8e420172a0ac719",

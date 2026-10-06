@@ -24,6 +24,7 @@
 - Experiment 012: pairwise `x*9` trit decode became exact after correcting an activation-word index, but lost 1.97–24.59% in full-block dot screens at 65K/16K/128 blocks; no model integration.
 - Experiment 013: CTA row-tile caps 4/8/24/32 and a larger shared-memory target did not improve decode; the best-looking cap-8 candidate tied ROWS=1 within 0.11% / -0.01% at contexts 512/4096. Larger tiles lost, with cap-32/8192 notably slower. Exact ROWS=1 source and library restoration were independently hash-verified.
 - Experiment 014: inspected a warp-per-row reduction idea but stopped before implementing or measuring it. This is no performance evidence; the kernel hypothesis remains unresolved.
+- Experiment 015: implemented four warps/CTA, one warp/output-row with register K accumulation; it passed selected correctness/model checks but lost 3.27–3.79% in two reversed-order decode pairs. Source/library restoration hashes match the ROWS=1 control.
 
 ## Important discoveries
 
@@ -33,5 +34,5 @@
 
 ## Next candidates
 
-1. Implement and measure the warp-per-row register reduction proposed in 014; do not treat the inspection-only report as a completed kernel experiment.
-2. Revisit PQ2_0 activation fusion after testing one distinct PTQ1 reduction design.
+1. Test a cooperative 2/4-warp-per-row reduction that restores K-block parallelism while storing only a few warp partials per row; experiment 015's serial one-warp K loop was slower.
+2. Revisit PQ2_0 activation fusion after this alternate PTQ1 reduction mapping.
