@@ -2,9 +2,9 @@
 
 Ranked against the current ROWS=1 implementation. Controlled batch-1 model decode is the decision metric; isolated kernel gains are screening evidence only.
 
-1. Freshly challenge the dominant plain PTQ1_0 batch-1 planar GEMV (30.6%, 590.8 ms / 31,219 launches in the mixed context-512 trace). Look for a fundamentally different, sm_86-suitable dataflow for the packed block dot or memory access; first screen the implementation-equivalent operation, then require matched end-to-end decode. Avoid repeating row/warp mapping, scalar/LUT or two-bit decoders, cooperative eight-lane recurrence, and source-only strip mining without a new premise.
-2. Fused-gate PTQ1_0 accounts for 15.5% (298.6 ms / 5,161 launches), but its active SASS already shares the nine 128-bit Q8_1 activation loads with the ungated dot. Only pursue a paired-dot candidate if the audit identifies redundant non-load work or a concrete scheduling opportunity.
-3. Consider targeted PQ2_0 decode work after higher-value PTQ1_0 investigation, with identical model and workload settings.
+1. The active plain PTQ1_0 GEMV flattens `(row group,K block)` items and each thread advances by 128. Screen a prefetch of the next per-thread work item, not the current block; compare one-item lookahead and a cache policy only if an implementation-equivalent event harness shows useful overlap without excess requests. Require matched end-to-end decode.
+2. Consider a different packed-weight staging/dataflow for the 28-byte PTQ1_0 block, with correctness and instruction/resource checks before integration.
+3. Fused-gate PTQ1_0 accounts for 15.5% (298.6 ms / 5,161 launches), but its active SASS already shares the nine 128-bit Q8_1 activation loads with the ungated dot. Only pursue paired-dot scheduling if the audit identifies redundant non-load work. PQ2_0 decode remains another lower-ranked path.
 
 Preserve ROWS=1. Avoid repeating row-tile geometry, warp-per-row splits, the scalar decoder, two-bit side encodings, pairwise trit decode, the eight-lane production recurrence, or 2/4-item source unrolling without a materially new premise. Experiment 024's isolated 1.49x recurrence gain regressed model decode about 81.5%; experiment 025's source strip mining did not change static resources and lost about 0.4–1.4% end-to-end.
 

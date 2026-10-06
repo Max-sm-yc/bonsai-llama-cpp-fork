@@ -169,3 +169,9 @@
 - Compared the active `<1,1,true,true>` and `<1,1,true,false>` sm_86 SASS bodies. Each has nine 128-bit activation loads; the extra gated `LDG`s are scalar weight-stream loads, not a second activation vector set. Stop the paired-helper implementation path because its load-reuse premise is absent.
 - Manager independently re-counted the instructions and verified source/library hashes. No candidate was built and no correctness run was needed. The seven-repetition fresh control was 81.5795/79.0749 tok/s at contexts 512/4096; this refreshes the control but does not change current best. See `experiments/026-ptq1-gate-activation-reuse/REPORT.md` and `results/exp026/`.
 - Follow-up: challenge the active plain PTQ1_0 GEMV with a materially different dataflow, while avoiding already-tested row/warp mappings, decoder variants, and source-only unrolling.
+
+## Experiment 027: active plain PTQ1_0 dataflow challenge
+
+- Static source/SASS inspection considered current-block `.L1` prefetch and packed-weight vector/cache-policy changes. Current-block prefetch did not create lookahead, while successive weights are separated by a 28-byte block stride. No candidate reached an implementation-equivalent event screen, so no performance conclusion was drawn.
+- Manager reviewed the report and independently verified source/library hashes remain the current production baseline. Keep this as an inconclusive screening result, not evidence that all lookahead or staging approaches fail. See `experiments/027-ptq1-dataflow-challenge/REPORT.md` and `results/exp027/`.
+- Follow-up: screen a prefetch for each thread's next `(row group,K block)` work item, since the active 128-thread work list advances each thread by 128 items.

@@ -1,0 +1,21 @@
+Experiment 027 inspection capture
+Date: 2026-10-06
+GPU: NVIDIA GeForce RTX 3080, sm_86
+Source commit: 6fff4477bed01241cffafafa9849128f2ce787c7
+Requested production source hash: f398417accddf1948fbf12155b4180fd362a3dfea88366ef3980161700d56496
+Requested active library hash: 708eceba48460ad3d963b88c7f84a0f60a2bbed061d2cf7fdec70e39b15e29a9
+Observed source hash: f398417accddf1948fbf12155b4180fd362a3dfea88366ef3980161700d56496
+Observed library hash: 708eceba48460ad3d963b88c7f84a0f60a2bbed061d2cf7fdec70e39b15e29a9
+Observed GPU memory: 173 MiB used of 10240 MiB; 52 C
+
+Active plain specialization: mul_mat_vec_ptq1_0_pt<1,1,false,false> (source specialization; existing exp026 SASS dump contains gate and no-gate fusion specializations).
+
+Dataflow observations from ggml/src/ggml-cuda/mmvq-ptq1_0.cuh:
+- One thread owns one (output row, K-block) dot item, with 128 threads/CTA and shared-memory partial reduction.
+- For each item, the routine loads the scale/sum int4, five activation int4 planes for qs[0..15], then five qh/qs activation int4 planes for qs[16..23]/qh, and advances the original packed recurrence serially.
+- PTQ1_0 block size is 28 bytes. qs starts at byte offset 0 in the block struct? The structure fields are qs[24], qh[2], d (half); qs itself is aligned to the block base, but successive block bases advance by 28 bytes. Therefore later blocks do not preserve 16-byte alignment. The code uses get_int_b4 for packed byte groups rather than assuming aligned int4 loads.
+- Existing SASS audit in results/exp026/ASSEMBLY_AUDIT.txt found 9 LDG.E.128 activation loads in both fused gate and no-gate kernel bodies. No duplicate activation traffic premise remains.
+
+Candidate considered: explicit prefetch.global.L1 of each current weight block before invoking ptq1_0_pt_block_dot. Rejected before implementation: this is not lookahead. It adds work immediately before the same dot's existing loads and yields only the fixed decode/use interval as overlap; there is no demonstrated latency hiding or new reuse. Prefetching the next work item would require reproducing CTA work-list index/row division and prefetching a distant row/K item; no evidence in existing SASS or reports supports this as a likely gain. The current `qs` accesses are unaligned for most 28-byte block positions, limiting clean vector/cache-modifier loads. No candidate CUDA-event screen or candidate patch exists.
+f398417accddf1948fbf12155b4180fd362a3dfea88366ef3980161700d56496  ggml/src/ggml-cuda/mmvq-ptq1_0.cuh
+708eceba48460ad3d963b88c7f84a0f60a2bbed061d2cf7fdec70e39b15e29a9  build/bin/libggml-cuda.so.0

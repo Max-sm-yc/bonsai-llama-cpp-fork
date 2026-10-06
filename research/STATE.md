@@ -38,6 +38,7 @@
 - Experiment 024: the production packed recurrence's cooperative-eight-lane screen was 1.49x faster in isolation (16,384 blocks), exact, and sanitizer-clean; integrating it into the active GEMV regressed decode 81.47% at context 512 and 81.50% at 4096. Reverted and hash-restored; do not repeat this mapping. See report 024.
 - Experiment 025: explicit 2/4-item strip mining preserved correctness but lost 0.42–0.52% at context 512 and 0.42–1.36% at 4096; the active specialization stayed at 76 registers/thread with no stack/local storage. No evidence of useful ILP from source unrolling alone. Reverted and hash-restored.
 - Experiment 026: SASS audit found nine 128-bit activation loads in both gated and ungated fused GEMV variants; compiler already reuses the activation vectors. No paired-helper candidate was built.
+- Experiment 027: active-kernel current-block prefetch has no useful lookahead; 28-byte weight-block spacing complicates vector loads. Static challenge ended before a candidate/event test, so alternate dataflows remain open.
 
 ## Important discoveries
 
@@ -51,11 +52,12 @@
 - Experiment 023's scalar extraction cost dominated its cooperative microbenchmark; 024 then tested the actual packed recurrence and showed that its isolated 1.49x screen did not translate to production decode.
 - Experiment 025's work-list strip mining changed neither static register usage nor model throughput favorably; do not retry source unrolling alone without disassembly or kernel-counter evidence.
 - Experiments 001/002 changed only the generic PTQ1 prefetch, while the RTX 3080 batch-1 decode takes the dedicated kernel. Experiment 026's gated/ungated SASS each has nine 128-bit activation loads, so do not pursue load reuse there without a new codegen premise.
+- The dedicated GEMV assigns `(row group,K block)` work items with per-thread loop stride 128. Prefetching that thread's next work item is a distinct lookahead candidate; current-block prefetch is not.
 
 - Experiment 021 confirmed graph gather fusion is active: the 16-token trace had 864 GDN calls and no GET_ROWS; disabling fusion added exactly 864 GET_ROWS calls. Cache-copy fusion was source-audited, not toggled.
 
 ## Next candidates
 
-1. Fresh challenge of the dominant plain PTQ1_0 batch-1 GEMV (30.6% of the mixed trace): identify a materially different active-kernel dataflow, validate it with an implementation-equivalent CUDA screen, then integrate only if it can plausibly improve decode without repeating the failed row/warp/decoder/strip-mine approaches.
-2. Audit non-load instruction/data reuse in fused-gate PTQ1_0 (15.5%) only if SASS identifies repeated activation prep or avoidable serialization; the activation global-load set is already shared.
-3. Consider targeted PQ2_0 decode work after the active PTQ1_0 path, using identical model and workload conditions.
+1. Test per-thread work-list lookahead prefetch in active PTQ1_0 GEMV: each thread advances by 128 items, so prefetch the upcoming `(row group,K block)` weight item while computing the current dot. Screen cache policy/distance and measure overhead before end-to-end integration.
+2. A different packed-weight staging/dataflow for the 28-byte PTQ1_0 block, only with an implementation-equivalent event screen and correctness proof.
+3. Audit fused-gate non-load reuse or targeted PQ2_0 decode only after a concrete SASS/source premise; maintain identical model and workload conditions.

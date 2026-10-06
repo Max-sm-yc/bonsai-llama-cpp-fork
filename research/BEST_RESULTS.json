@@ -248,46 +248,19 @@
   },
   "source_results": "results/baseline.json",
   "latest_experiment": {
-    "id": "026",
-    "hypothesis": "The active fused-gate PTQ1_0 GEMV may duplicate planar Q8_1 activation-vector loads across main and gate dots.",
-    "decision": "INCONCLUSIVE / STOP IMPLEMENTATION: disassembly falsified duplicate-load premise; no candidate was built.",
-    "performance_effect": "No candidate comparison. Fresh baseline medians: 81.5795 tok/s at context 512 and 79.0749 at 4096; current best unchanged.",
-    "correctness": "No candidate changed or was built. Production source and active CUDA library hashes match baseline.",
-    "benchmark_configuration": {
-      "gpu": "NVIDIA GeForce RTX 3080",
-      "compute_capability": "8.6",
-      "quantization": "PTQ1_0",
-      "contexts": [
-        512,
-        4096
-      ],
-      "decode_tokens": 128,
-      "repetitions": 7,
-      "n_gpu_layers": 99,
-      "flash_attention": "on",
-      "batch_size": 2048,
-      "ubatch_size": 512,
-      "kv_type": "f16",
-      "cpu_threads": 8,
-      "cooldown_temperature_c": 60
-    },
+    "id": "027",
+    "hypothesis": "A materially different sm_86 dataflow for active plain PTQ1_0 batch-1 planar GEMV may improve decode.",
+    "decision": "INCONCLUSIVE: source/SASS inspection did not support a candidate for implementation-equivalent screening.",
+    "performance_effect": "Not measured. No candidate, CUDA-event screen, or E2E comparison.",
+    "correctness": "No source changed; no candidate correctness run applies. Production source/library hashes independently verified unchanged.",
     "results": {
-      "control_median_tokens_per_second": {
-        "512": 81.5795,
-        "4096": 79.0749
-      },
-      "peak_gpu_memory_used_mib": 6805,
-      "gated_128bit_activation_loads": 9,
-      "ungated_128bit_activation_loads": 9
+      "candidate_e2e": "not measured",
+      "considered": "current-block L1 prefetch; aligned/vector cache-policy weight access",
+      "follow_up": "per-thread next-work-item lookahead prefetch"
     },
     "artifacts": [
-      "experiments/026-ptq1-gate-activation-reuse/REPORT.md",
-      "results/exp026/control.json",
-      "results/exp026/control.stdout.json",
-      "results/exp026/gate-specialization.sass",
-      "results/exp026/nogate-specialization.sass",
-      "results/exp026/gate-global-loads.txt",
-      "results/exp026/nogate-global-loads.txt"
+      "experiments/027-ptq1-dataflow-challenge/REPORT.md",
+      "results/exp027/inspection.txt"
     ],
     "source_file": "ggml/src/ggml-cuda/mmvq-ptq1_0.cuh",
     "production_source_sha256": "f398417accddf1948fbf12155b4180fd362a3dfea88366ef3980161700d56496",
@@ -295,9 +268,9 @@
     "production_source_changed": false,
     "project_source_commit": "9fa97200e68fd798ef027470c8e420172a0ac719",
     "reference_runtime_commit": "6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17",
-    "timestamp_utc": "2026-10-06T22:49:05.585962+00:00"
+    "timestamp_utc": "2026-10-06T23:05:05.422280+00:00"
   },
-  "updated_timestamp_utc": "2026-10-06T22:58:19.874833+00:00",
+  "updated_timestamp_utc": "2026-10-06T23:05:05.422297+00:00",
   "project_commit": "9fa97200e68fd798ef027470c8e420172a0ac719",
   "current_best": {
     "commit": "9fa97200e68fd798ef027470c8e420172a0ac719",
