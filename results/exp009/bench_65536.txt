@@ -1,0 +1,9 @@
+device_direct_exhaustive values=1280 mismatches=0
+device_qh_interleave_exhaustive pairs=65536 digits=4 outputs=524288 mismatches=0
+address_check b=0 e=0 group=0 lane=0 word=0 byte=0 offset=0/9437184
+address_check b=0 e=127 group=0 lane=0 word=31 byte=3 offset=3971/9437184
+address_check b=65535 e=0 group=2047 lane=31 word=0 byte=0 offset=9432700/9437184
+address_check b=65535 e=127 group=2047 lane=31 word=31 byte=3 offset=9436671/9437184
+production-base3 0.0186197 0.0186129 0.0186231 0.0186266 0.0186289 0.0186231 0.0186197 ms/launch n=65536 reps=300
+parallel-floor 0.0188416 0.0188539 0.0189011 0.0188553 0.0188471 0.0189030 0.0188387 ms/launch n=65536 reps=300
+verified_codes=8388608 code_mismatches=0 base_side_mismatches=0 parallel_output_mismatches=0 host_output_mismatches=0 max_abs_error=0 blocks=65536

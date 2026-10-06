@@ -1,0 +1,11 @@
+========= COMPUTE-SANITIZER
+device_direct_exhaustive values=1280 mismatches=0
+device_qh_interleave_exhaustive pairs=65536 digits=4 outputs=524288 mismatches=0
+address_check b=0 e=0 group=0 lane=0 word=0 byte=0 offset=0/18432
+address_check b=0 e=127 group=0 lane=0 word=31 byte=3 offset=3971/18432
+address_check b=127 e=0 group=3 lane=31 word=0 byte=0 offset=13948/18432
+address_check b=127 e=127 group=3 lane=31 word=31 byte=3 offset=17919/18432
+production-base3 0.1535040 0.1514560 0.1454080 0.1423360 0.1433600 0.1402880 0.1648640 ms/launch n=128 reps=1
+parallel-floor 0.1484800 0.1464320 0.1413120 0.1587200 0.1433280 0.1398720 0.1460480 ms/launch n=128 reps=1
+verified_codes=16384 code_mismatches=0 base_side_mismatches=0 parallel_output_mismatches=0 host_output_mismatches=0 max_abs_error=0 blocks=128
+========= ERROR SUMMARY: 0 errors

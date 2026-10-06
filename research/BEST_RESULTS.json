@@ -248,16 +248,20 @@
   },
   "source_results": "results/baseline.json",
   "latest_experiment": {
-    "id": "008",
-    "hypothesis": "Benchmark parallel floor-difference trit decoding on the original PTQ1_0 representation",
-    "decision": "INCONCLUSIVE",
-    "performance_effect": "Host identity exact for all 256 bytes × five digits; initial packed CUDA path failed full-block exactness in qh stream interleaving. No timing or E2E run.",
+    "id": "009",
+    "hypothesis": "Fix qh interleave and device-verify the PTQ1_0 floor-difference decoder",
+    "decision": "REJECT",
+    "performance_effect": "Exact device/full-block checks passed; candidate was 7.04%, 4.11%, and 1.24% slower than production at 1,024, 16,384, and 65,536 blocks. No E2E run.",
     "candidate_results": [
-      "results/exp008/exhaustive_identity.txt",
-      "results/exp008/parallel_bench.cu"
+      "results/exp009/parallel_bench.cu",
+      "results/exp009/bench_1024.txt",
+      "results/exp009/bench_16384.txt",
+      "results/exp009/bench_65536.txt",
+      "results/exp009/compute_sanitizer_128.txt",
+      "results/exp009/compute_sanitizer_65536.txt"
     ],
-    "report": "experiments/008-ptq1-parallel-trit-decode/REPORT.md"
+    "report": "experiments/009-ptq1-floor-decoder-qh/REPORT.md"
   },
-  "updated_timestamp_utc": "2026-10-06T15:00:45+00:00",
+  "updated_timestamp_utc": "2026-10-06T15:09:30+00:00",
   "project_commit": "2a6ac568b69a61db0ee151b24c9b2cdb7a4f8a7c"
 }

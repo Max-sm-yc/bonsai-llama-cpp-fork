@@ -1,0 +1,9 @@
+CUDA build command: nvcc -O3 -arch=sm_86 results/exp009/parallel_bench.cu -o results/exp009/parallel_bench
+Compute Sanitizer: compute-sanitizer --tool memcheck ./results/exp009/parallel_bench 128 1; full-size run 65536 1
+
+GPU telemetry snapshots (nvidia-smi query: timestamp, temperature, current SM clock, current memory clock, power, utilization):
+2026/10/06 11:04:52.737, 46 C, 210 MHz, 405 MHz, 25.50 W, 0% (idle before measurements)
+2026/10/06 11:04:53.190, 48 C, 1845 MHz, 9501 MHz, 34.47 W, 5% (after 1,024 blocks)
+2026/10/06 11:04:53.567, 49 C, 1845 MHz, 9501 MHz, 62.21 W, 5% (after 16,384 blocks)
+2026/10/06 11:04:54.049, 49 C, 1995 MHz, 9501 MHz, 115.94 W, 34% (after 65,536 blocks)
+2026/10/06 11:05:30.088, 46 C, 210 MHz, 405 MHz, 25.58 W, 0% (idle after measurements)
