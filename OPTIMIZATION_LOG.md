@@ -116,3 +116,9 @@
 ## Profiling note: graph launches already used
 
 - The post-ROWS=1 Nsight Systems trace records 127 CUDA graph-launch API calls in its mixed context-512 workload. The runtime already uses CUDA Graphs, so a generic graph-capture optimization is not the next candidate.
+
+## Experiment 019: RMSNorm plus FWHT/Q8_1 fusion audit
+
+- Audited the current CUDA fusion chain and model graph before coding. Hadamard transform and Q8_1 quantization are already one kernel, and standard RMSNorm plus learned-weight multiply are already fused separately.
+- On the Qwen3.5 attention path, `attn_norm` feeds `build_layer_attn`, which uses the activation independently for Q, K, and V projection construction. One projection's FWHT/Q8_1 kernel cannot eliminate that shared norm output. A coordinated multi-branch design would need to preserve/reuse the full-row RMS scale and was outside this candidate.
+- No code, tests, benchmarks, or binaries changed. Manager verified the graph fanout and the source/library SHA-256 values in the report. This is not a performance result; pursue the existing FWHT/Q8_1 and gated-delta kernels independently.

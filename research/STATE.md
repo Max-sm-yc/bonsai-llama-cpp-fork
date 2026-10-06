@@ -28,6 +28,7 @@
 - Experiment 016: the multiwarp-per-row follow-up ended before implementation; no performance or correctness evidence. The hypothesis is still open.
 - Experiment 017: two warps/output row (four warps/CTA) passed selected correctness and smoke checks but lost 2.60% at context 512 and 1.82% at 4096 in a seven-rep pair. The candidate lane split is uneven for common 40-block K rows; source and active library were independently restored.
 - Experiment 018: shape-gated four warps/output row for K>64 passed correctness but showed no repeatable decode gain (512: -0.32%/-0.69%; 4096: +0.77%/-0.58% across reversed pairs). Exact ROWS=1 source/library hashes were restored.
+- Experiment 019: per-branch RMSNorm→FWHT/Q8_1 fusion was not implemented; the attention-normalized activation feeds Q/K/V projection branches, so this route cannot discard the shared normalized tensor. No performance evidence; see report.
 
 ## Important discoveries
 
@@ -35,8 +36,10 @@
 - Median decode gains repeat, but context-4096 samples have intermittent slow tails in both ROWS=1 and ROWS=4 builds. Keep means/ranges with medians; do not hide outliers.
 - PTQ1_0 remains faster than PQ2_0 by 32–54% in the controlled reference format comparison; prefill is nearly tied. Both models fit in VRAM.
 - CUDA Graphs are already active (127 graph launches in the context-512 mixed trace); prioritize measured device work/fusion over generic launch-overhead changes.
+- The FWHT→Q8_1 path is already one kernel, and model attention normalization has Q/K/V fanout. Do not retry per-branch RMS fusion without a coordinated consumer design and measured evidence that it can avoid extra reductions.
 
 ## Next candidates
 
-1. Investigate fusing the separately profiled RMSNorm (3.9%) with the following activation FWHT/Q8_1 quantization (4.4%) on PTQ1_0 decode; preserve the exact model math and judge only by E2E decode.
-2. Consider PQ2_0 activation-path fusion or move to another measured bottleneck if the fusion is already present/blocked by reuse or graph constraints.
+1. Optimize the already-fused PTQ1_0 FWHT/Q8_1 activation kernel (4.4% of mixed trace) independently; test actual sm_86 PT layout and judge by full decode.
+2. Investigate the gated-delta network kernel (4.6%) or its remaining data movement on the Bonsai hybrid attention path.
+3. Consider the measured RMSNorm path (3.9%) independently, then revisit PQ2_0 activation fusion.
