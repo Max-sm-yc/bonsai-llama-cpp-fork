@@ -160,6 +160,7 @@ AGENTS.local.md
 .pi/SYSTEM.md
 
 # Experiment build outputs
+/results/exp010/builds/
 /results/exp002/on/bin/
 /results/exp002/off/bin/
 /results/exp003/*/bin/

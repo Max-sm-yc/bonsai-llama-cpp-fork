@@ -1,0 +1,17 @@
+Internal ctest changing into directory: /home/maxsun/autonomous_projects/bonsai2-rtx3080/build
+Test project /home/maxsun/autonomous_projects/bonsai2-rtx3080/build
+    Start 55: test-quantize-fns
+1/4 Test #55: test-quantize-fns ................   Passed    1.25 sec
+    Start 56: test-ptq1_0-element-map
+2/4 Test #56: test-ptq1_0-element-map ..........   Passed    0.05 sec
+    Start 57: test-ptq1_0-cuda-dot
+3/4 Test #57: test-ptq1_0-cuda-dot .............   Passed    0.06 sec
+    Start 58: test-pq2-row-shapes
+4/4 Test #58: test-pq2-row-shapes ..............   Passed    0.05 sec
+
+100% tests passed, 0 tests failed out of 4
+
+Label Time Summary:
+main    =   1.42 sec*proc (4 tests)
+
+Total Test time (real) =   1.43 sec

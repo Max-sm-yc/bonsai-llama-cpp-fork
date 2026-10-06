@@ -51,4 +51,23 @@ Nsight Compute 2026.1.1 attached to the real workload but hardware-counter colle
 3. Prompt-side ternary GEMM and activation quantization/Hadamard scheduling.
 4. Gated-delta recurrent attention and RMSNorm fusion/launch overhead.
 
-The next experiment should focus on the PTQ1_0 `mmvq.cu`/`vecdotq.cuh` path on sm_86. A microbenchmark-only win is insufficient; compare the complete controlled decode and combined workloads and run the CUDA-vs-CPU correctness suite.
+The next experiment should focus on the active PTQ1_0 `mmvq-ptq1_0.cuh` path on sm_86. A microbenchmark-only win is insufficient; compare controlled model decode and combined workloads and run the CUDA-vs-CPU correctness suite.
+
+## Post-ROWS=1 profile
+
+Re-profiled the final source-default ROWS=1 build on 2026-10-06 with Nsight Systems 2025.6.3.541, after the matched decode A/B and a 59°C/0%-utilization idle gate. The command, model, batch/offload/KV options, context, warm-up, and measured 64-token repetitions match the reference trace. This is still a mixed setup/decode trace, not a decode-only kernel timer. The trace reports 73.09 tok/s under profiler instrumentation; use the non-profiled benchmark for throughput.
+
+Raw profile: `results/profile/ptq1_decode512_rows1.nsys-rep`; CSV exports: `results/profile/ptq1_decode512_rows1.stats.csv_cuda_gpu_kern_sum.csv` and `_cuda_api_sum.csv`. Recreate with the command above, substituting output prefix `ptq1_decode512_rows1` and the checked-out ROWS=1 build.
+
+| Rank | ROWS=1 kernel family | Time | Reference trace | Interpretation |
+|---:|---|---:|---:|---|
+| 1 | Three `mul_mat_vec_ptq1_0_pt` variants (ROWS=1) | 60.4%, 1.166 s total | 61.8%, 1.253 s | Still dominates; combined time fell about 87.5 ms (7.0%) in the same mixed trace. |
+| 2 | `mul_mat_q<(ggml_type)143>` | 12.6%, 242.8 ms | 12.1%, 245.9 ms | Prompt-side matrix work is essentially unchanged. |
+| 3 | Gated delta network | 4.6%, 88.0 ms | 4.4%, 88.9 ms | Recurrent attention remains a secondary cost. |
+| 4 | Fused FWHT/Q8_1 quantization | 4.4%, 85.1 ms | 4.2%, 85.6 ms | Activation preparation is essentially unchanged. |
+| 5 | RMSNorm | 3.9%, 76.2 ms | 3.8%, 76.8 ms | Repeated normalization remains visible below GEMV. |
+| 6 | Flash attention | 1.3%, 25.5 ms | 1.3%, 26.5 ms | Not a leading context-512 cost. |
+
+The three GEMV specializations retain the same launch counts (31,219 / 10,192 / 5,161) but now instantiate one row/item instead of four. Their individual totals are 590.8, 298.6, and 276.3 ms. The corresponding reference totals were 616.1, 330.1, and 307.0 ms. The one-row mapping therefore improved all three measured variants in this trace, while total kernel-time share remains about 60%; the active GEMV is still the highest-value optimization target.
+
+The CUDA API summary still has 127 graph-launch calls. Synchronization and async-copy API durations overlap device work and are not additive bottleneck totals. Nsight Compute permissions remain unavailable, so this profile does not distinguish bandwidth, integer throughput, and occupancy limits.
