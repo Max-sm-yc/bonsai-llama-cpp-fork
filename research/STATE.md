@@ -4,6 +4,7 @@
 
 - **PTQ1_0, active sm_86 planar GEMV with ROWS=1.** Code commit `9fa97200e68fd798ef027470c8e420172a0ac719`; reference runtime commit `6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17`. Rebuilt source-default medians: 82.22 tok/s at context 512 and 79.70 at 4096 (7 reps, 128 decode tokens, F16 KV, FA on, 99 GPU layers, 8 CPU threads); matched archived ROWS=4 medians: 78.00/75.66, or +5.42%/+5.34%. Peak whole-GPU memory 6,805 MiB. Prefill not remeasured; reference medians are 1,378/1,331 tok/s at 512/4096.
 - Correctness: final source-default ROWS=1 passed 4 CTests, 96 CUDA-vs-CPU PTQ1_0/PQ2_0 matmul cases, and both fixed 32-token model smokes. See experiment 010 report and raw results.
+- Active experiment 021: test GDN columns-per-warp 1/2/4/8 for the measured S_v=128, scalar raw-gate sm_86 path; production remains at four columns per warp during the sweep.
 
 ## Bottlenecks
 
