@@ -18,7 +18,7 @@
 
 ## Failed or exhausted approaches
 
-- Experiments 001/002: disabling PTQ1_0 L2 prefetch tied within noise or varied with run order.
+- Experiments 001/002: dispatch audit found their `mmvq.cu` prefetch edit is bypassed by the dedicated sm_86 batch-1 planar kernel; decode data are no-op comparisons, not prefetch evidence. Exp003 edited the same generic dispatch region and is likewise a no-op for target decode.
 - Experiment 003 changed a generic path bypassed by sm_86 batch-1 dispatch. Experiments 004–009 either targeted SOA rather than this planar kernel or failed/slowed their focused test; see reports.
 - Experiment 010 ROWS=8 lost 16–17%. Its first archived-binary screens and follow-ups loaded the same `build/bin` library due absolute RUNPATH; treat those timings as invalid. Corrected per-library runs are marked `_isolated` and verified with `ldd`/`LD_DEBUG`.
 - Experiment 011: exact planar 2-bit side codes lost to base-3 by 3.02–7.01% (scalar) and 3.10–4.68% (packed-byte expansion) at 16K/65K blocks, before conversion; no model integration. Manager rebuilt and independently rechecked exact outputs.
@@ -37,6 +37,7 @@
 - Experiment 023: a four-lane-per-block screen with scalar trit extraction was exact but 3.82x slower than its scalar reference. It does not test partitioning the production packed recurrence and has no E2E candidate result.
 - Experiment 024: the production packed recurrence's cooperative-eight-lane screen was 1.49x faster in isolation (16,384 blocks), exact, and sanitizer-clean; integrating it into the active GEMV regressed decode 81.47% at context 512 and 81.50% at 4096. Reverted and hash-restored; do not repeat this mapping. See report 024.
 - Experiment 025: explicit 2/4-item strip mining preserved correctness but lost 0.42–0.52% at context 512 and 0.42–1.36% at 4096; the active specialization stayed at 76 registers/thread with no stack/local storage. No evidence of useful ILP from source unrolling alone. Reverted and hash-restored.
+- Experiment 026: SASS audit found nine 128-bit activation loads in both gated and ungated fused GEMV variants; compiler already reuses the activation vectors. No paired-helper candidate was built.
 
 ## Important discoveries
 
@@ -49,11 +50,12 @@
 - The RMSNorm profile has 16,770 calls / 76.18 ms for `<1024,true,false>` and 10,400 / 24.43 ms for `<256,true,false>`; Nsight recorded CTA sizes but not `ncols`. Global reduction to 256 threads on the fused-weight `ncols >= 1024` path regressed full-model decode, so retain its current geometry.
 - Experiment 023's scalar extraction cost dominated its cooperative microbenchmark; 024 then tested the actual packed recurrence and showed that its isolated 1.49x screen did not translate to production decode.
 - Experiment 025's work-list strip mining changed neither static register usage nor model throughput favorably; do not retry source unrolling alone without disassembly or kernel-counter evidence.
+- Experiments 001/002 changed only the generic PTQ1 prefetch, while the RTX 3080 batch-1 decode takes the dedicated kernel. Experiment 026's gated/ungated SASS each has nine 128-bit activation loads, so do not pursue load reuse there without a new codegen premise.
 
 - Experiment 021 confirmed graph gather fusion is active: the 16-token trace had 864 GDN calls and no GET_ROWS; disabling fusion added exactly 864 GET_ROWS calls. Cache-copy fusion was source-audited, not toggled.
 
 ## Next candidates
 
-1. Inspect the active PTQ1_0 `has_gate=true` specialization, 15.5% (298.6 ms) of the post-ROWS=1 mixed profile. Check generated instructions for duplicated planar Q8_1 activation loads across the main and gate weight dots; only prototype shared loads if disassembly confirms duplication.
-2. Consider an equally specific audit of the `has_fusion=true, has_gate=false` specialization (14.3%, 276.3 ms) if the gate-path audit finds no opportunity.
-3. Consider PQ2_0 activation fusion after higher-value PTQ1_0 paths.
+1. Fresh challenge of the dominant plain PTQ1_0 batch-1 GEMV (30.6% of the mixed trace): identify a materially different active-kernel dataflow, validate it with an implementation-equivalent CUDA screen, then integrate only if it can plausibly improve decode without repeating the failed row/warp/decoder/strip-mine approaches.
+2. Audit non-load instruction/data reuse in fused-gate PTQ1_0 (15.5%) only if SASS identifies repeated activation prep or avoidable serialization; the activation global-load set is already shared.
+3. Consider targeted PQ2_0 decode work after the active PTQ1_0 path, using identical model and workload conditions.

@@ -248,11 +248,11 @@
   },
   "source_results": "results/baseline.json",
   "latest_experiment": {
-    "id": "025",
-    "hypothesis": "Explicitly strip-mine 2/4 independent PTQ1_0 K-block work items per thread in the active 128-thread ROWS=1 GEMV to expose instruction-level parallelism.",
-    "decision": "REVERT",
-    "performance_effect": "Both candidates lost to the fresh control at both decode contexts: items2 -0.43%/-0.42%, items4 -0.52%/-1.36% at contexts 512/4096. The items4 context-4096 samples included a 49.84 tok/s outlier.",
-    "correctness": "Both candidates passed 4 selected CTests and 96/96 CUDA-vs-CPU PTQ1_0/PQ2_0 matmul tests; fixed-seed PTQ1_0/PQ2_0 32-token normalized completions matched the ROWS=1 baseline. Exact baseline source and CUDA library restored.",
+    "id": "026",
+    "hypothesis": "The active fused-gate PTQ1_0 GEMV may duplicate planar Q8_1 activation-vector loads across main and gate dots.",
+    "decision": "INCONCLUSIVE / STOP IMPLEMENTATION: disassembly falsified duplicate-load premise; no candidate was built.",
+    "performance_effect": "No candidate comparison. Fresh baseline medians: 81.5795 tok/s at context 512 and 79.0749 at 4096; current best unchanged.",
+    "correctness": "No candidate changed or was built. Production source and active CUDA library hashes match baseline.",
     "benchmark_configuration": {
       "gpu": "NVIDIA GeForce RTX 3080",
       "compute_capability": "8.6",
@@ -273,40 +273,21 @@
     },
     "results": {
       "control_median_tokens_per_second": {
-        "512": 81.9018,
-        "4096": 79.3736
-      },
-      "items2_median_tokens_per_second": {
-        "512": 81.5518,
-        "4096": 79.0432
-      },
-      "items4_median_tokens_per_second": {
-        "512": 81.4783,
-        "4096": 78.2916
-      },
-      "median_change_percent": {
-        "items2_512": -0.43,
-        "items2_4096": -0.42,
-        "items4_512": -0.52,
-        "items4_4096": -1.36
+        "512": 81.5795,
+        "4096": 79.0749
       },
       "peak_gpu_memory_used_mib": 6805,
-      "active_registers_per_thread": 76,
-      "stack_bytes": 0,
-      "local_bytes": 0
+      "gated_128bit_activation_loads": 9,
+      "ungated_128bit_activation_loads": 9
     },
     "artifacts": [
-      "experiments/025-ptq1-kblock-ilp/REPORT.md",
-      "experiments/025-ptq1-kblock-ilp/candidate.patch",
-      "results/exp025/control.json",
-      "results/exp025/items2.json",
-      "results/exp025/items4.json",
-      "results/exp025/items2_ctest.log",
-      "results/exp025/items4_ctest.log",
-      "results/exp025/items2_backend_ops.log",
-      "results/exp025/items4_backend_ops.log",
-      "results/exp025/items2_smoke.json",
-      "results/exp025/items4_smoke.json"
+      "experiments/026-ptq1-gate-activation-reuse/REPORT.md",
+      "results/exp026/control.json",
+      "results/exp026/control.stdout.json",
+      "results/exp026/gate-specialization.sass",
+      "results/exp026/nogate-specialization.sass",
+      "results/exp026/gate-global-loads.txt",
+      "results/exp026/nogate-global-loads.txt"
     ],
     "source_file": "ggml/src/ggml-cuda/mmvq-ptq1_0.cuh",
     "production_source_sha256": "f398417accddf1948fbf12155b4180fd362a3dfea88366ef3980161700d56496",
@@ -314,9 +295,9 @@
     "production_source_changed": false,
     "project_source_commit": "9fa97200e68fd798ef027470c8e420172a0ac719",
     "reference_runtime_commit": "6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17",
-    "timestamp_utc": "2026-10-06T22:45:20+00:00"
+    "timestamp_utc": "2026-10-06T22:49:05.585962+00:00"
   },
-  "updated_timestamp_utc": "2026-10-06T22:45:20+00:00",
+  "updated_timestamp_utc": "2026-10-06T22:58:19.874833+00:00",
   "project_commit": "9fa97200e68fd798ef027470c8e420172a0ac719",
   "current_best": {
     "commit": "9fa97200e68fd798ef027470c8e420172a0ac719",

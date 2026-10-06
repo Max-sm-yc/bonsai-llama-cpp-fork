@@ -99,3 +99,7 @@ The paired protocol removed the large workload-order and thermal-history mismatc
 - At 128 generated tokens, turning prefetch off changed no median by more than 0.04% and pair effects stayed within +/-0.11%.
 - At 512 tokens and context 4096, five three-repetition pairs showed a faster third sample with prefetch-on. In two seven-repetition pairs, samples 3–7 instead favored whichever variant ran first; the direction flipped under order reversal.
 - Requiring a strict 60 C gate became impractical after the first candidate workload; a 62 C gate consistently matched both variants and all final pairs.
+
+## MANAGER DISPATCH AUDIT (2026-10-06)
+
+The on/off patch changes only the PTQ1_0 prefetch in the generic `mul_mat_vec_q` loop in `mmvq.cu`. At the compared source revision `aa9edbb`, plain one-column PTQ1_0 on RTX 3080 already dispatches to `mul_mat_vec_ptq1_0_pt` before reaching that generic loop. Thus all batch-1 decode A/B arms ran the same active kernel, and their ties or order-dependent differences are a no-op comparison for the target decode path. Keep the captured runs as protocol/noise diagnostics, not evidence about prefetch. The generic-path prefetch effect for other eligible shapes was not tested here.

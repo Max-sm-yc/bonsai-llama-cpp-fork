@@ -77,3 +77,7 @@ The explicit prefetch is a plausible source of instruction overhead, but the exp
 
 - A decode-first quick screen at a cool start can report roughly 78 tok/s at context 512, while a decode run after prefill falls to the mid-40s. Mode order and thermal history materially affect this model's apparent throughput.
 - The no-prefetch candidate passed all requested correctness checks, but passing correctness does not resolve its uncertain performance effect.
+
+## MANAGER DISPATCH AUDIT (2026-10-06)
+
+The edited `prefetch.global.L2` block is in the generic `mul_mat_vec_q` loop in `mmvq.cu`. We verified that the dedicated `mul_mat_vec_ptq1_0_pt` switch and Ampere planar-layout selection were already present in baseline source commit `2a6ac56` and experiment 002's source revision `aa9edbb`. On RTX 3080, the plain one-column PTQ1_0 dispatch returns through that kernel before the generic loop. Therefore the benchmark's batch-1 decode path did not execute the edited prefetch code. Preserve the historical timings as run-order/thermal evidence, but do not interpret them as an on/off test of the active RTX 3080 decode kernel. The performance effect of that generic-path prefetch on other eligible shapes remains unmeasured.

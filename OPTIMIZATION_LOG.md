@@ -13,6 +13,7 @@
 - Reverted the source change. The full candidate matrix and report are preserved in `results/exp001_no_prefetch_full.json` and `experiments/001-ptq1-sm86-gemv/REPORT.md`; the effect is inconclusive.
 - After restoring the baseline source and rebuilding, manager reran `tests/run_correctness.sh`: 4/4 CTests, 96/96 CUDA-vs-CPU ternary matmul cases, and both actual-model smoke runs passed. Ninja again warned of a truncated log and recovered by rebuilding broadly.
 - Follow-up: paired same-build A/B runs isolated by workload/context, with alternating order and start temperature/clock telemetry, before tuning the GEMV further.
+- Manager dispatch audit (2026-10-06): the edited prefetch lies in generic `mul_mat_vec_q`; RTX 3080 one-column planar PTQ1_0 returns through `mul_mat_vec_ptq1_0_pt` first. The decode comparison is a no-op for the target path; preserve raw timings as protocol diagnostics only.
 
 ## Experiment 002: paired PTQ1_0 L2 prefetch A/B
 
@@ -20,6 +21,7 @@
 - A longer 512-token, context-4096 follow-up initially showed a faster third sample with prefetch-on. In two seven-repetition reversed-order pairs, the later-sample winner switched with process order; SM clock samples ranged from 270 to 1980 MHz. No robust prefetch effect was demonstrated.
 - Kept the baseline prefetch-on source. Candidate correctness passed: 4/4 upstream tests, 96/96 CUDA-vs-CPU ternary matmul cases, and both CUDA model smoke runs. The paired runner and raw results are preserved in `benchmark/prefetch_ab.py` and `results/exp002/`.
 - Follow-up: pursue a different PTQ1_0 GEMV work-partition/unpack hypothesis; use paired runs and retain results only when the end-to-end gain repeats across process orders and warmed samples.
+- Manager dispatch audit (2026-10-06): both decode variants use the same dedicated one-column planar kernel, so the paired result does not measure the prefetch edit. The generic-path effect on other shapes remains unmeasured.
 
 ## Experiment 003: generic PTQ1_0 GEMV warp-count override (no-op on sm_86)
 
@@ -161,3 +163,9 @@
 - Compile-time groups of two and four independent work-list items per lane preserved the existing row/K-block ownership, serial block-dot recurrence, partial-buffer slots, and reduction order. Both variants passed 4 selected CTests, 96/96 CUDA-vs-CPU matmul cases, and fixed-seed PTQ1_0/PQ2_0 model smokes with baseline-matching normalized completions.
 - Decode medians lost 0.43%/0.42% (items2) and 0.52%/1.36% (items4) at contexts 512/4096. The four-item long-context run had a 49.84 tok/s outlier. All variants reported 76 registers/thread and zero stack/local usage; no useful ILP effect was observed.
 - Reverted to the exact source-default ROWS=1 source and archived baseline CUDA library hashes. Do not retry source unrolling alone without disassembly or counter evidence. The next audit is the active fused-gate path's activation reuse. See `experiments/025-ptq1-kblock-ilp/REPORT.md`.
+
+## Experiment 026: gated PTQ1_0 activation-load reuse audit
+
+- Compared the active `<1,1,true,true>` and `<1,1,true,false>` sm_86 SASS bodies. Each has nine 128-bit activation loads; the extra gated `LDG`s are scalar weight-stream loads, not a second activation vector set. Stop the paired-helper implementation path because its load-reuse premise is absent.
+- Manager independently re-counted the instructions and verified source/library hashes. No candidate was built and no correctness run was needed. The seven-repetition fresh control was 81.5795/79.0749 tok/s at contexts 512/4096; this refreshes the control but does not change current best. See `experiments/026-ptq1-gate-activation-reuse/REPORT.md` and `results/exp026/`.
+- Follow-up: challenge the active plain PTQ1_0 GEMV with a materially different dataflow, while avoiding already-tested row/warp mappings, decoder variants, and source-only unrolling.
