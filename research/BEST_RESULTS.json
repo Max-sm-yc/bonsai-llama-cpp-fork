@@ -248,11 +248,11 @@
   },
   "source_results": "results/baseline.json",
   "latest_experiment": {
-    "id": "017",
-    "hypothesis": "Two warps per output row restore K-block parallelism versus experiment 015 while reducing shared FP32 partials to two sums per row.",
-    "decision": "REVERT",
-    "performance_effect": "One controlled 7-repetition pair: -2.60% median at context 512 (79.7669 vs 81.8994 tok/s) and -1.82% at context 4096 (77.4338 vs 78.8722). Peak VRAM 6803 vs 6805 MiB.",
-    "correctness": "4/4 selected CTests, 96/96 CUDA-vs-CPU PTQ1_0/PQ2_0 matrix cases, both 32-token model smokes; generated text matches reference after ignoring build/timing metadata. Candidate/control loading verified. Source and active library restoration independently hash-verified.",
+    "id": "018",
+    "hypothesis": "A shape-gated four-warps-per-row kernel can improve one-column PTQ1_0 decode for K>64 while retaining ROWS=1 for smaller K.",
+    "decision": "REVERT - NO REPEATABLE GAIN",
+    "performance_effect": "Two reversed-order seven-repetition pairs: context 512 deltas -0.32% and -0.69%; context 4096 deltas +0.77% and -0.58%. Peak VRAM 6805 MiB for both.",
+    "correctness": "4/4 selected CTests, 96/96 CUDA-vs-CPU PTQ1_0/PQ2_0 matmul cases, both fixed 32-token model smokes with baseline-matching generated text. Loader identity verified. Source/library restoration hash-verified.",
     "benchmark_configuration": {
       "gpu": "NVIDIA GeForce RTX 3080",
       "compute_capability": "8.6",
@@ -262,6 +262,10 @@
       ],
       "decode_tokens": 128,
       "repetitions": 7,
+      "paired_orders": [
+        "candidate-control",
+        "control-candidate"
+      ],
       "flash_attention": "on",
       "kv_type": "f16",
       "n_gpu_layers": 99,
@@ -271,18 +275,20 @@
       "cooldown_temperature_c": 60
     },
     "artifacts": [
-      "results/exp017/raw/control_pair1.json",
-      "results/exp017/raw/candidate_pair1.json",
-      "results/exp017/raw/ctest_candidate.log",
-      "results/exp017/raw/backend_ops_candidate.log",
-      "results/exp017/raw/model_smoke_candidate.json"
+      "results/exp018/raw/candidate_pair1.json",
+      "results/exp018/raw/control_pair1.json",
+      "results/exp018/raw/control_pair2.json",
+      "results/exp018/raw/candidate_pair2.json",
+      "results/exp018/raw/ctest_candidate.log",
+      "results/exp018/raw/backend_ops_candidate.log",
+      "results/exp018/raw/model_smoke_candidate.json"
     ],
-    "report": "experiments/017-two-warps-per-row/REPORT.md",
+    "report": "experiments/018-largek-fourwarp-row/REPORT.md",
     "source_restoration_sha256": "f398417accddf1948fbf12155b4180fd362a3dfea88366ef3980161700d56496",
     "cuda_library_restoration_sha256": "72d89c0c69200865b2200ef35b94e14b9a6a52a840c17cb031e987d809207e72",
-    "project_source_commit": "d2c144be7cda6df38a59029f2073bdcd9cee2dc5"
+    "project_source_commit": "7ff442a52ddf3611d6096acbb5a2082c946dc387"
   },
-  "updated_timestamp_utc": "2026-10-06T18:44:58Z",
+  "updated_timestamp_utc": "2026-10-06T19:06:42Z",
   "project_commit": "9fa97200e68fd798ef027470c8e420172a0ac719",
   "current_best": {
     "commit": "9fa97200e68fd798ef027470c8e420172a0ac719",

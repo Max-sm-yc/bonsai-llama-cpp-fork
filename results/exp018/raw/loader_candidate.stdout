@@ -1,0 +1,6 @@
+  dot products compared : 5000 (4 chunks each)
+  worst relative error  : 7.062e-05
+  worst err / sum|terms| : 2.399e-08   (immune to cancellation)
+  exact integer checks  : 20000, mismatches 0
+  exhaustive vec==scalar: 8192, mismatches 0
+  LOGIC EXACT: integer accumulator matches reference on every chunk

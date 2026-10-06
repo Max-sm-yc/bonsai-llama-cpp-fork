@@ -1,0 +1,6 @@
+Experiment 018 SHA-256 evidence
+Control/source ROWS=1 header: f398417accddf1948fbf12155b4180fd362a3dfea88366ef3980161700d56496
+Control/production libggml-cuda.so.0.21.0: 72d89c0c69200865b2200ef35b94e14b9a6a52a840c17cb031e987d809207e72
+Candidate header snapshot: 15ad110ce177ad39e30654597ada201c531ba163c7a26af22d4e22601957fa9e
+Candidate libggml-cuda.so.0.21.0: dfa8f09e9a781ee86dd6bcf21ac19a7acc476eddb93cdcf4b89be9b2b00a8237
+Restored production source and active library hashes match the control values above.

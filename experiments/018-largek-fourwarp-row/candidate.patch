@@ -1,0 +1,107 @@
+--- a/ggml/src/ggml-cuda/mmvq-ptq1_0.cuh
++++ b/ggml/src/ggml-cuda/mmvq-ptq1_0.cuh
+@@ -292,6 +292,10 @@
+ // twice that with gate fusion. The +1 is the odd stride the epilogue uses to avoid bank conflicts.
+ // Guard and launcher both call this so a shape that would exceed smpb falls back to the generic kernel.
+ static __host__ size_t ptq1_0_pt_smem_bytes(const int blocks_per_row, const int ncols_dst, const int nrows_x, const bool has_gate) {
++    if (ncols_dst == 1 && blocks_per_row > 64) {
++        GGML_UNUSED(nrows_x);
++        return sizeof(float) * (has_gate ? 8 : 4);
++    }
+     const int rows_per_cta = ptq1_0_pt_rows_per_cta(blocks_per_row, ncols_dst, nrows_x, ptq1_0_pt_rows_per_item(ncols_dst));
+     return (size_t) ncols_dst * rows_per_cta * (blocks_per_row + 1) * sizeof(float) * (has_gate ? 2 : 1);
+ }
+@@ -526,6 +530,82 @@
+ #undef PTQ1_0_PT_LAUNCH
+ }
+ 
++// Large-K one-column specialization: one warp owns each 32-block segment of
++// a row. 128 threads cover 128 K blocks in parallel; each warp accumulates
++// its strided blocks locally before four warp sums are combined.
++template <bool has_fusion, bool has_gate>
++static __global__ void mul_mat_vec_ptq1_0_pt_largek(
++        const void * vx_, const void * vy_, const ggml_cuda_mm_fusion_args_device fusion,
++        float * dst_, const int ncols_x, const int nrows_x, const int stride_row_x,
++        const int stride_col_dst) {
++    ggml_cuda_pdl_sync();
++    extern __shared__ float sums[]; // four warp sums, then four gate sums
++    const int row = blockIdx.x;
++    const int lane = threadIdx.x & (WARP_SIZE - 1);
++    const int warp = threadIdx.x / WARP_SIZE;
++    const int bpr = ncols_x / QK_PTQ1_0;
++    const int nblk = ptq1_0_pt_nblk(ncols_x);
++    const char * ycol[1] = { (const char *) vy_ };
++    const block_ptq1_0 * bq[1];
++    float local = 0.0f, local_gate = 0.0f;
++    for (int kbx = warp * WARP_SIZE + lane; kbx < bpr; kbx += PTQ1_0_PT_THREADS) {
++        bq[0] = (const block_ptq1_0 *) vx_ + (int64_t) row * stride_row_x + kbx;
++        float dots[1][1];
++        ptq1_0_pt_block_dot<1, 1>(bq, ycol, kbx, nblk, dots);
++        local += dots[0][0];
++        if constexpr (has_gate) {
++            bq[0] = (const block_ptq1_0 *) fusion.gate + (int64_t) row * stride_row_x + kbx;
++            ptq1_0_pt_block_dot<1, 1>(bq, ycol, kbx, nblk, dots);
++            local_gate += dots[0][0];
++        }
++    }
++    local = warp_reduce_sum<WARP_SIZE>(local);
++    if constexpr (has_gate) local_gate = warp_reduce_sum<WARP_SIZE>(local_gate);
++    if (lane == 0) {
++        sums[warp] = local;
++        if constexpr (has_gate) sums[4 + warp] = local_gate;
++    }
++    __syncthreads();
++    if (threadIdx.x == 0 && row < nrows_x) {
++        float result = (sums[0] + sums[1]) + (sums[2] + sums[3]);
++        if constexpr (has_fusion) {
++            if (fusion.x_bias) result += ((const float *) fusion.x_bias)[row];
++            if constexpr (has_gate) {
++                float gate_value = (sums[4] + sums[5]) + (sums[6] + sums[7]);
++                if (fusion.gate_bias) gate_value += ((const float *) fusion.gate_bias)[row];
++                switch (fusion.glu_op) {
++                    case GGML_GLU_OP_SWIGLU: result *= ggml_cuda_op_silu_single(gate_value); break;
++                    case GGML_GLU_OP_GEGLU: result *= ggml_cuda_op_gelu_single(gate_value); break;
++                    case GGML_GLU_OP_SWIGLU_OAI: result = ggml_cuda_op_swiglu_oai_single(gate_value, result); break;
++                    default: result *= gate_value; break;
++                }
++            }
++        }
++        dst_[row] = result;
++    }
++}
++
++static void mul_mat_vec_ptq1_0_pt_largek_launch(
++        const void * vx, const void * vy, const ggml_cuda_mm_fusion_args_device & fusion,
++        float * dst, const int ncols_x, const int nrows_x, const int stride_row_x,
++        const int stride_col_dst, cudaStream_t stream) {
++    const dim3 block_nums(nrows_x, 1, 1), block_dims(PTQ1_0_PT_THREADS, 1, 1);
++    const bool has_fusion = fusion.gate != nullptr || fusion.x_bias != nullptr || fusion.gate_bias != nullptr;
++    const bool has_gate = fusion.gate != nullptr;
++    const size_t smem = sizeof(float) * (has_gate ? 8 : 4);
++    const ggml_cuda_kernel_launch_params lp = ggml_cuda_kernel_launch_params(block_nums, block_dims, smem, stream);
++#define PTQ1_0_PT_LARGE_LAUNCH(FUS, GATE) \
++    ggml_cuda_kernel_launch(mul_mat_vec_ptq1_0_pt_largek<FUS, GATE>, lp, \
++        vx, vy, fusion, dst, ncols_x, nrows_x, stride_row_x, stride_col_dst)
++    if (has_fusion) {
++        if (has_gate) PTQ1_0_PT_LARGE_LAUNCH(true, true);
++        else PTQ1_0_PT_LARGE_LAUNCH(true, false);
++    } else {
++        PTQ1_0_PT_LARGE_LAUNCH(false, false);
++    }
++#undef PTQ1_0_PT_LARGE_LAUNCH
++}
++
+ // true when the dedicated kernel handles this call (plain 2D, K a multiple of 128, up to 8 columns)
+ static bool mul_mat_vec_ptq1_0_pt_switch(
+         const void * vx, const void * vy, const ggml_cuda_mm_fusion_args_device & fusion, float * dst,
+@@ -536,6 +616,10 @@
+         ncols_dst < 1 || ncols_dst > PTQ1_0_PT_MAX_COLS) {
+         return false;
+     }
++    if (ncols_dst == 1 && ncols_x / QK_PTQ1_0 > 64) {
++        mul_mat_vec_ptq1_0_pt_largek_launch(vx, vy, fusion, dst, ncols_x, nrows_x, stride_row_x, stride_col_dst, stream);
++        return true;
++    }
+     const size_t smem = ptq1_0_pt_smem_bytes(ncols_x / QK_PTQ1_0, ncols_dst, nrows_x, fusion.gate != nullptr);
+     if (smem > ggml_cuda_info().devices[ggml_cuda_get_device()].smpb) {
+         return false;

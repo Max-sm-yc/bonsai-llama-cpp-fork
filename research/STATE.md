@@ -27,14 +27,16 @@
 - Experiment 015: implemented four warps/CTA, one warp/output-row with register K accumulation; it passed selected correctness/model checks but lost 3.27–3.79% in two reversed-order decode pairs. Source/library restoration hashes match the ROWS=1 control.
 - Experiment 016: the multiwarp-per-row follow-up ended before implementation; no performance or correctness evidence. The hypothesis is still open.
 - Experiment 017: two warps/output row (four warps/CTA) passed selected correctness and smoke checks but lost 2.60% at context 512 and 1.82% at 4096 in a seven-rep pair. The candidate lane split is uneven for common 40-block K rows; source and active library were independently restored.
+- Experiment 018: shape-gated four warps/output row for K>64 passed correctness but showed no repeatable decode gain (512: -0.32%/-0.69%; 4096: +0.77%/-0.58% across reversed pairs). Exact ROWS=1 source/library hashes were restored.
 
 ## Important discoveries
 
 - RTX 3080/sm_86 selects planar-transposed Q8_1 and dedicated `mul_mat_vec_ptq1_0_pt` for plain batch-1 PTQ1_0. ROWS=1 changes the one-column work mapping only; other column counts retain the existing schedule.
 - Median decode gains repeat, but context-4096 samples have intermittent slow tails in both ROWS=1 and ROWS=4 builds. Keep means/ranges with medians; do not hide outliers.
 - PTQ1_0 remains faster than PQ2_0 by 32–54% in the controlled reference format comparison; prefill is nearly tied. Both models fit in VRAM.
+- CUDA Graphs are already active (127 graph launches in the context-512 mixed trace); prioritize measured device work/fusion over generic launch-overhead changes.
 
 ## Next candidates
 
-1. Consider a shape-aware 4-warp-per-row reduction only for K rows above 64 blocks, where four warps could cover the 136-block projection with high lane use; experiments 015/017 reject the fixed 1/2-warp row mappings.
-2. Revisit PQ2_0 activation fusion after this alternate PTQ1 reduction mapping.
+1. Investigate fusing the separately profiled RMSNorm (3.9%) with the following activation FWHT/Q8_1 quantization (4.4%) on PTQ1_0 decode; preserve the exact model math and judge only by E2E decode.
+2. Consider PQ2_0 activation-path fusion or move to another measured bottleneck if the fusion is already present/blocked by reuse or graph constraints.

@@ -106,3 +106,13 @@
 - Implemented a one-column-only 2-warps/row, 4-warps/CTA mapping. Each pair of warps split K-blocks, reduced locally, and wrote two sums per row for the final combine. Candidate compiled for sm_86 and passed 4 CTests, 96/96 CUDA-vs-CPU cases, and fixed 32-token PTQ1_0/PQ2_0 smokes with reference-matching generated text.
 - One seven-repetition end-to-end pair lost 2.60% at context 512 and 1.82% at 4096. Ranges were clearly separated at 512; no second pair was justified after the candidate lost at both contexts. The 40-block projections split unevenly (32+8 lanes); larger-K projections did not offset the combine overhead model-wide.
 - Reverted. The manager independently checked source and current-library restoration against saved hashes and removed temporary binaries. A shape-aware four-warps/row design for K>64 remains a distinct possible test; do not repeat the fixed one-/two-warp mappings. See `experiments/017-two-warps-per-row/REPORT.md`.
+
+## Experiment 018: shape-gated four-warps-per-row reduction for large K
+
+- Routed one CTA per output row through a four-warp reduction only for one-column PTQ1_0 shapes with more than 64 K blocks; K<=64 retained ROWS=1. At 136 blocks, 128 lanes covered K nearly in parallel and combined just four warp sums. Candidate passed 4 CTests, 96 CUDA-vs-CPU matmul cases, and both fixed model smokes.
+- Two reversed-order seven-repetition decode pairs showed no repeatable gain. Context 512 lost 0.32% and 0.69%; context 4096 changed from +0.77% to -0.58%, with long-context tails in both variants. Reject the specialization and restore ROWS=1.
+- Manager verified source and library restoration hashes; temporary build copies were removed. This exhausts the current shared-reduction row-layout sweep. Next focus is a different measured path: potentially fuse RMSNorm and FWHT/Q8_1 activation preparation (3.9% + 4.4% in the mixed profile). See `experiments/018-largek-fourwarp-row/REPORT.md`.
+
+## Profiling note: graph launches already used
+
+- The post-ROWS=1 Nsight Systems trace records 127 CUDA graph-launch API calls in its mixed context-512 workload. The runtime already uses CUDA Graphs, so a generic graph-capture optimization is not the next candidate.
