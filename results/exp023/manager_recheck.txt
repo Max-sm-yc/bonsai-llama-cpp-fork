@@ -1,0 +1,8 @@
+Manager independent RTX 3080 rerun
+
+Command: nvcc -O3 -arch=sm_86 results/exp023/coop_screen.cu -o results/exp023/coop_screen && results/exp023/coop_screen 16384 200
+GPU gate before run: 53 C, 0% utilization, 173 MiB used.
+
+coop4 block results bitwise_mismatch=0/16384 max_abs_error=0
+base median_ms=0.00351088 samples 0.00350672 0.00350672 0.00350720 0.00350832 0.00351088 0.00351184 0.00351248 0.00352144 0.00352304
+coop4 median_ms=0.01331200 samples 0.01330048 0.01330176 0.01330208 0.01330496 0.01331200 0.01331200 0.01331248 0.01331568 0.01341792

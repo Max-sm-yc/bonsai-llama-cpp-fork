@@ -34,6 +34,7 @@
 
 - Experiment 021: GDN columns-per-warp 1/2/4/8 had no repeatable decode winner; column 1 fell from +0.52/+0.41% to +0.10/+0.11% in reversed order, while the 2/8 screens were 0.05–0.32% below the later control without reversed ordering. See report and samples.
 - Experiment 022: changing the active fused-weight RMSNorm branch from 1024 to 256 threads lost 3.32%/3.25% decode at contexts 512/4096. Fixed-seed model smokes matched; the broad standalone correctness suite was interrupted during an unnecessary full rebuild after the clear regression. Keep the 1024-thread branch.
+- Experiment 023: a four-lane-per-block screen with scalar trit extraction was exact but 3.82x slower than its scalar reference. It does not test partitioning the production packed recurrence and has no E2E candidate result.
 
 ## Important discoveries
 
@@ -44,11 +45,12 @@
 - The FWHT→Q8_1 path is already one kernel, and model attention normalization has Q/K/V fanout. Do not retry per-branch RMS fusion without a coordinated consumer design and measured evidence that it can avoid extra reductions.
 - The active GDN trace is S_v=128, scalar-gate (`KDA=false`), raw-gate (`RAW=true`); on sm_86 it already uses four columns per warp, fused cache/gather paths, and CUDA Graphs.
 - The RMSNorm profile has 16,770 calls / 76.18 ms for `<1024,true,false>` and 10,400 / 24.43 ms for `<256,true,false>`; Nsight recorded CTA sizes but not `ncols`. Global reduction to 256 threads on the fused-weight `ncols >= 1024` path regressed full-model decode, so retain its current geometry.
+- Experiment 023's scalar extraction cost dominates its cooperative microbenchmark; treat it as evidence against that screen only, not against a cooperative implementation of the active packed base-3 decoder.
 
 - Experiment 021 confirmed graph gather fusion is active: the 16-token trace had 864 GDN calls and no GET_ROWS; disabling fusion added exactly 864 GET_ROWS calls. Cache-copy fusion was source-audited, not toggled.
 
 ## Next candidates
 
-1. Challenge dominant PTQ1_0 GEMV with a materially different exact sm_86 dataflow after the tested row schedules and trit decoders; avoid repeating them without a changed premise.
+1. Partition the active packed PTQ1_0 base-3 recurrence across lanes with a group-aware mapping; the scalar four-lane screen in 023 is not a production decoder test.
 2. Explore RMSNorm only with measured shape data and a different implementation idea than the rejected global 256-thread geometry; standard RMSNorm-plus-weight is already fused.
 3. Consider PQ2_0 activation fusion after the higher-value PTQ1_0 paths.

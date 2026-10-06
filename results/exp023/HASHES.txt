@@ -1,0 +1,6 @@
+f398417accddf1948fbf12155b4180fd362a3dfea88366ef3980161700d56496  ggml/src/ggml-cuda/mmvq-ptq1_0.cuh
+708eceba48460ad3d963b88c7f84a0f60a2bbed061d2cf7fdec70e39b15e29a9  build/bin/libggml-cuda.so.0.21.0
+0d1fb58a3f4b478cec9e066d6fcc97556d92be185884a8a1e1613ce478e9130f  results/exp023/control.json
+26044b9d47f6b3f28127e4c4fe19a5e379ee7509ccc9401ee675f16c1ecde7a6  results/exp023/control.stdout.json
+3e10e811786caa17f856b8c0fd910287888ba7e5b0f1b2568ecb7474242c2b3a  results/exp023/coop_screen.cu
+61c82a49dccb41190a1fe05df10a29451736c2266f72c0d87ea48d9e6edeaa1a  results/exp023/manager_recheck.txt

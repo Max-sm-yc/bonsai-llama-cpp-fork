@@ -141,3 +141,10 @@
 - Auditing the post-ROWS=1 trace showed the previously listed 3.9% RMSNorm share covered only the 1024-thread signature. Adding 10,400 calls / 24.43 ms from the 256-thread signature gives a family total of 100.61 ms, or 5.21% of summed kernel time.
 - Replacing the fused-weight `ncols >= 1024` path's 1024-thread CTA with 256 threads reduced full-model PTQ1_0 decode by 3.32% at context 512 and 3.25% at 4096 (seven repetitions, 128 tokens). Reject the global geometry change and retain the 1024-thread path.
 - Candidate PTQ1_0/PQ2_0 fixed-seed 32-token completions matched the saved controls after normalizing only build/timing text. The standalone correctness script's broad rebuild was stopped after the clear performance regression; its selected CTests and CUDA-vs-CPU matmul suite were not completed for this rejected candidate. Source, active library, and baseline smoke hashes were independently checked against the saved controls. See `experiments/022-rmsnorm-sm86/REPORT.md`.
+
+## Experiment 023: warp-cooperative PTQ1_0 block screen
+
+- A four-lane-per-block map assigned one lane to each 32-weight activation sub-block, then used a four-lane shuffle reduction. On a 16,384-block CUDA screen it was bitwise exact, but took 0.013312 ms/launch versus 0.003490 ms for the scalar-reference kernel (3.82x slower).
+- Both screen kernels used test-only scalar per-element trit extraction rather than the active packed base-3 recurrence. No production code changed and no candidate E2E or model correctness run exists; mark this screen inconclusive for the production dataflow. Keep ROWS=1 and the planar activation layout.
+- A follow-up is justified only for a group-aware mapping that partitions the active packed recurrence itself, with a focused implementation-equivalent screen before full model integration. See `experiments/023-ptq1-warp-cooperative/REPORT.md`.
+- The manager independently rebuilt and reran the scalar screen at 53°C/0% utilization: the 16,384-block output was still bitwise exact, and the medians were 0.003511 vs 0.013312 ms (3.79x slower). This confirms the prototype regression, not the production recurrence hypothesis.

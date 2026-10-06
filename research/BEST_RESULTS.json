@@ -248,21 +248,24 @@
   },
   "source_results": "results/baseline.json",
   "latest_experiment": {
-    "id": "022",
-    "hypothesis": "A 256-thread CTA may improve sm_86 occupancy for the active fused-weight RMSNorm branch currently launched with 1024 threads.",
-    "decision": "REVERT; retain 1024-thread fused-weight branch",
-    "performance_effect": "256-thread candidate decode medians were 79.5519 vs 82.2854 tok/s at context 512 (-3.32%), and 77.1453 vs 79.7347 tok/s at context 4096 (-3.25%).",
-    "correctness": "Candidate compiled; fixed-seed 32-token PTQ1_0 and PQ2_0 model completions matched saved references after normalizing build/timing text. Full selected CTests and CUDA-vs-CPU matmul suite were not completed after the clear regression triggered an unnecessary broad rebuild. Source and active-library restoration hashes verified.",
+    "id": "023",
+    "hypothesis": "Cooperative lane work within a PTQ1_0 128-weight block may shorten the current thread-serial unpack-and-dot critical path.",
+    "decision": "INCONCLUSIVE for production; do not promote the tested scalar-extraction screen",
+    "performance_effect": "The four-lane scalar-extraction screen was 3.82x slower than its scalar-reference screen (0.013312 vs 0.00348992 ms/launch). It did not partition the active packed recurrence; no production candidate E2E result exists.",
+    "correctness": "On 16,384 random encoded blocks, four-lane and scalar-reference outputs matched bitwise (0 mismatches, max absolute error 0). Production decoder, backend suite, and model correctness were not tested because there was no production candidate.",
     "benchmark_configuration": {
       "gpu": "NVIDIA GeForce RTX 3080",
       "compute_capability": "8.6",
       "quantization": "PTQ1_0",
-      "contexts": [
+      "screen_blocks": 16384,
+      "screen_launches_per_sample": 200,
+      "screen_alternating_samples": 9,
+      "end_to_end_control_contexts": [
         512,
         4096
       ],
-      "decode_tokens": 128,
-      "repetitions": 7,
+      "end_to_end_decode_tokens": 128,
+      "end_to_end_repetitions": 7,
       "n_gpu_layers": 99,
       "flash_attention": "on",
       "batch_size": 2048,
@@ -272,83 +275,68 @@
       "cooldown_temperature_c": 60
     },
     "results": {
-      "control_median_tok_s": {
-        "512": 82.2854,
-        "4096": 79.7347
+      "scalar_reference_median_ms_per_launch": 0.00348992,
+      "cooperative_four_lane_median_ms_per_launch": 0.013312,
+      "relative_latency": 3.82,
+      "scalar_reference_samples_ms": [
+        0.00348448,
+        0.00348656,
+        0.00348848,
+        0.0034896,
+        0.00348992,
+        0.00349136,
+        0.00349168,
+        0.00349184,
+        0.00349184
+      ],
+      "cooperative_samples_ms": [
+        0.01330688,
+        0.01331056,
+        0.0133112,
+        0.013312,
+        0.013312,
+        0.013312,
+        0.01331248,
+        0.01331568,
+        0.01331648
+      ],
+      "end_to_end_control_median_tok_s": {
+        "512": 82.1718,
+        "4096": 79.7003
       },
-      "candidate_median_tok_s": {
-        "512": 79.5519,
-        "4096": 77.1453
-      },
-      "candidate_median_delta_percent": {
-        "512": -3.32,
-        "4096": -3.25
-      },
-      "control_mean_sd_tok_s": {
-        "512": [
-          82.146708,
-          0.363683
-        ],
-        "4096": [
-          79.623004,
-          0.287561
-        ]
-      },
-      "candidate_mean_sd_tok_s": {
-        "512": [
-          79.413821,
-          0.306494
-        ],
-        "4096": [
-          77.050167,
-          0.266978
-        ]
-      },
-      "peak_gpu_memory_used_mib": {
-        "control": 6805,
-        "candidate": 6803
-      },
-      "rmsnorm_profile_family": {
-        "post_rows1_ms": 100.608131,
-        "post_rows1_share_percent": 5.205673,
-        "reference_ms": 101.388294,
-        "pq2_ms": 106.667743,
-        "pq2_share_percent": 4.796674
+      "end_to_end_candidate": "not integrated",
+      "peak_gpu_memory_used_mib": 6805,
+      "mismatches": 0,
+      "max_abs_error": 0,
+      "manager_independent_rerun": {
+        "temperature_c": 53,
+        "start_utilization_percent": 0,
+        "blocks": 16384,
+        "launches_per_sample": 200,
+        "mismatches": 0,
+        "max_abs_error": 0,
+        "scalar_reference_median_ms_per_launch": 0.00351088,
+        "cooperative_four_lane_median_ms_per_launch": 0.013312,
+        "relative_latency": 3.79,
+        "samples_file": "results/exp023/manager_recheck.txt"
       }
     },
     "artifacts": [
-      "experiments/022-rmsnorm-sm86/REPORT.md",
-      "results/exp022/control.json",
-      "results/exp022/candidate.json",
-      "results/exp022/candidate_smoke.json",
-      "results/exp022/baseline_smoke-before.json",
-      "results/exp022/HASHES.txt",
-      "results/exp022/loader_audit.txt",
-      "results/exp022/norm-candidate.patch",
-      "results/exp022/control.stdout.json",
-      "results/exp022/candidate.stdout.json",
-      "results/exp022/candidate_PTQ1_0_smoke.stdout.txt",
-      "results/exp022/candidate_PQ2_0_smoke.stdout.txt",
-      "results/raw/20261006T213356Z_PTQ1_0_decode.stdout.json",
-      "results/raw/20261006T214429Z_PTQ1_0_decode.stdout.json",
-      "results/raw/20261006T214638Z_PTQ1_0_smoke.stdout.txt",
-      "results/raw/20261006T214641Z_PQ2_0_smoke.stdout.txt",
-      "results/raw/20261006T213356Z_PTQ1_0_decode.stderr.log",
-      "results/raw/20261006T214429Z_PTQ1_0_decode.stderr.log",
-      "results/raw/20261006T214638Z_PTQ1_0_smoke.stderr.log",
-      "results/raw/20261006T214641Z_PQ2_0_smoke.stderr.log"
+      "experiments/023-ptq1-warp-cooperative/REPORT.md",
+      "results/exp023/control.json",
+      "results/exp023/control.stdout.json",
+      "results/exp023/coop_screen.cu",
+      "results/exp023/manager_recheck.txt"
     ],
-    "source_file": "ggml/src/ggml-cuda/norm.cu",
-    "source_sha256": "8cc9c21485c03dbced0757bf1623529ddd1547a3542a4c6a6f44e1ed5a26db60",
-    "candidate_source_change": "mul != nullptr && add == nullptr && ncols >= 1024: 1024-thread RMSNorm specialization to 256-thread specialization",
-    "cuda_library_candidate_sha256": "fe817e2fd9498d28abf90685fec5a74b404242b5d681ee1c105775f82099b8b3",
-    "cuda_library_control_sha256": "708eceba48460ad3d963b88c7f84a0f60a2bbed061d2cf7fdec70e39b15e29a9",
-    "cuda_library_restoration_sha256": "708eceba48460ad3d963b88c7f84a0f60a2bbed061d2cf7fdec70e39b15e29a9",
+    "source_file": "ggml/src/ggml-cuda/mmvq-ptq1_0.cuh",
+    "source_sha256": "f398417accddf1948fbf12155b4180fd362a3dfea88366ef3980161700d56496",
+    "active_library_sha256": "708eceba48460ad3d963b88c7f84a0f60a2bbed061d2cf7fdec70e39b15e29a9",
+    "production_source_changed": false,
     "project_source_commit": "9fa97200e68fd798ef027470c8e420172a0ac719",
     "reference_runtime_commit": "6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17",
-    "timestamp_utc": "2026-10-06T21:46:41Z"
+    "timestamp_utc": "2026-10-06T21:53:13Z"
   },
-  "updated_timestamp_utc": "2026-10-06T21:49:00Z",
+  "updated_timestamp_utc": "2026-10-06T21:57:30Z",
   "project_commit": "9fa97200e68fd798ef027470c8e420172a0ac719",
   "current_best": {
     "commit": "9fa97200e68fd798ef027470c8e420172a0ac719",
