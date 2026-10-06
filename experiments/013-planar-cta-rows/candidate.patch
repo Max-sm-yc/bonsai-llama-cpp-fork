@@ -1,0 +1,43 @@
+--- experiments/013-planar-cta-rows/control-mmvq-ptq1_0.cuh	2026-10-06 13:43:45.809136032 -0400
++++ ggml/src/ggml-cuda/mmvq-ptq1_0.cuh	2026-10-06 13:47:45.883804720 -0400
+@@ -32,9 +32,13 @@
+ 
+ // dedicated 2D kernel geometry, see mul_mat_vec_ptq1_0_pt below
+ #define PTQ1_0_PT_THREADS      128
++#ifndef PTQ1_0_PT_MAX_ROWS
+ #define PTQ1_0_PT_MAX_ROWS     16
++#endif
+ #define PTQ1_0_PT_MAX_COLS     8    // equals MMVQ_MAX_BATCH_SIZE, checked in mmvq.cu
++#ifndef PTQ1_0_PT_SMEM_FLOATS
+ #define PTQ1_0_PT_SMEM_FLOATS  4096 // 16 KiB target when choosing rows per CTA; the launch may request more for one item
++#endif
+ 
+ // the PT path is CUDA only; HIP keeps the block_q8_1 layout and the old vec_dot
+ static constexpr __host__ __device__ bool ptq1_0_pt_enabled() {
+@@ -251,8 +255,10 @@
+ 
+ // rows_per_cta: fill whole 128-thread iterations where possible, within the shared memory budget
+ static __host__ int ptq1_0_pt_rows_per_cta(const int blocks_per_row, const int ncols_dst, const int nrows_x, const int rows_per_item) {
+-    int rmax = PTQ1_0_PT_SMEM_FLOATS / (ncols_dst * (blocks_per_row + 1));
+-    rmax = rmax < rows_per_item ? rows_per_item : (rmax > PTQ1_0_PT_MAX_ROWS ? PTQ1_0_PT_MAX_ROWS : rmax);
++    const int max_rows = ncols_dst == 1 ? PTQ1_0_PT_MAX_ROWS : 16;
++    const int smem_floats = ncols_dst == 1 ? PTQ1_0_PT_SMEM_FLOATS : 4096;
++    int rmax = smem_floats / (ncols_dst * (blocks_per_row + 1));
++    rmax = rmax < rows_per_item ? rows_per_item : (rmax > max_rows ? max_rows : rmax);
+     rmax -= rmax % rows_per_item;
+     int best = rows_per_item;
+     double best_util = 0.0;
+@@ -260,11 +266,11 @@
+         const int items = (r / rows_per_item) * blocks_per_row;
+         const int iters = (items + PTQ1_0_PT_THREADS - 1) / PTQ1_0_PT_THREADS;
+         const double util = (double) items / (double) (iters * PTQ1_0_PT_THREADS);
+-        if (util > best_util + 1e-9) {
++        if (util > best_util + 1e-9 || (ncols_dst == 1 && util >= best_util - 1e-9 && r > best)) {
+             best_util = util;
+             best = r;
+         }
+-        if (util > 0.999) {
++        if (ncols_dst != 1 && util > 0.999) {
+             break;
+         }
+     }

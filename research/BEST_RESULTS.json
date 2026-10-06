@@ -248,21 +248,56 @@
   },
   "source_results": "results/baseline.json",
   "latest_experiment": {
-    "id": "012",
-    "hypothesis": "Pairwise radix-3 x*9 decode to reduce the active planar PTQ1_0 serial trit recurrence",
-    "decision": "REJECT",
-    "performance_effect": "After correcting an activation-word shift, exact candidate dots were slower than base-3 by 24.59% at 128 blocks, 9.82% at 16,384, and 1.97% at 65,536; sample ranges were disjoint. No runtime integration or model benchmark.",
-    "correctness": "Exact code/dot and independent CPU checks at 1, 127, 128, 129, 16,384, and 65,536 blocks; exhaustive qh gate; Compute Sanitizer 128-block memcheck clean; manager independently rebuilt and checked 127 blocks.",
-    "candidate_results": [
-      "results/exp012/pairwise_128.txt",
-      "results/exp012/pairwise_16384.txt",
-      "results/exp012/pairwise_65536.txt",
-      "results/exp012/sanitizer_128.txt",
-      "results/exp012/manager_verify_127.txt"
+    "id": "013",
+    "hypothesis": "Tune rows-per-CTA and shared-memory geometry in the active planar PTQ1_0 batch-1 GEMV while retaining ROWS=1",
+    "decision": "REVERT",
+    "performance_effect": "Cap 8 tied the ROWS=1 control in the seven-repetition pair (+0.11% at context 512; -0.01% at 4096); larger caps lost and cap 32 at an 8192-float target regressed materially. Nsight Systems showed -0.56% aggregate time for three PTQ1 variants, without E2E gain.",
+    "correctness": "Candidate changed only one-column host tile selection; dedicated PTQ1 planar kernel dispatch verified in Nsight Systems. Production source and CUDA library were independently restored and hash-verified. Candidate did not receive the full model correctness suite because it had no repeatable performance gain.",
+    "benchmark_configuration": {
+      "gpu": "NVIDIA GeForce RTX 3080",
+      "compute_capability": "8.6",
+      "contexts": [
+        512,
+        4096
+      ],
+      "decode_tokens": 128,
+      "repetitions": 7,
+      "flash_attention": "on",
+      "kv_type": "f16",
+      "n_gpu_layers": 99,
+      "batch_size": 2048,
+      "ubatch_size": 512,
+      "cpu_threads": 8,
+      "cooldown_temperature_c": 60
+    },
+    "results": {
+      "control_median_tok_s": {
+        "512": 81.8154,
+        "4096": 78.719
+      },
+      "cap8_median_tok_s": {
+        "512": 81.9074,
+        "4096": 78.709
+      },
+      "median_delta_percent": {
+        "512": 0.11,
+        "4096": -0.01
+      },
+      "peak_gpu_memory_used_mib": 6805
+    },
+    "artifacts": [
+      "results/exp013/control_pair1.json",
+      "results/exp013/cap8_pair1.json",
+      "results/exp013/cap4_screen.json",
+      "results/exp013/cap8_screen.json",
+      "results/exp013/cap24_screen.json",
+      "results/exp013/cap32_screen.json",
+      "results/exp013/cap32_t8192_screen.json"
     ],
-    "report": "experiments/012-ptq1-pairwise-trits/REPORT.md"
+    "report": "experiments/013-planar-cta-rows/REPORT.md",
+    "project_source_commit": "81200902bf21f954faf95a36a7ee67b3fb81d4c9"
   },
-  "updated_timestamp_utc": "2026-10-06T17:42:22.052460+00:00",
+  "updated_timestamp_utc": "2026-10-06T18:02:49Z",
   "project_commit": "9fa97200e68fd798ef027470c8e420172a0ac719",
   "current_best": {
     "commit": "9fa97200e68fd798ef027470c8e420172a0ac719",

@@ -76,3 +76,10 @@
 - Replaced two serial multiply-by-three remainder steps with one packed `x*9`, then split its quotient into two ordered trits. Exact byte/position, repeated-remainder, both qs stream mapping, exhaustive qh interleave, and full-block CPU-reference gates all passed after fixing a redundant activation-word shift. The manager independently rebuilt and checked a 127-block boundary.
 - The corrected candidate remains slower in all full-block screens: +24.59% at 128 blocks, +9.82% at 16,384, and +1.97% at 65,536, with disjoint candidate/control ranges. Registers and spills match the base-3 kernel (40/0).
 - Reject this pairwise decoder; no production changes or model benchmark were made. The next active-path question is rows-per-CTA/shared-memory reduction geometry, distinct from ROWS=1's per-item mapping. See `experiments/012-ptq1-pairwise-trits/REPORT.md`.
+
+## Experiment 013: active planar CTA row-tile geometry
+
+- Swept CTA caps 4/8/24/32 and a larger 8192-float target while keeping ROWS=1 and the dot/reduction math fixed. The best screen (cap 8) tied the control in a seven-repetition pair: +0.11% at context 512 and -0.01% at 4096. Cap 32 at the larger target regressed decode materially.
+- Matched Nsight Systems traces showed a 0.56% reduction in the three planar variants' aggregate time for cap 8, but no end-to-end benefit. Cap 8 increases CTA counts substantially on major projections; the existing chooser's utilization heuristic remains the best measured tradeoff.
+- Reverted the geometry changes. The manager independently verified the production source and CUDA library against the saved control SHA-256 and removed the temporary copied build. Keep the cap-16/4096-float production heuristic. See `experiments/013-planar-cta-rows/REPORT.md`.
+- Next: test a genuinely different warp/register reduction strategy that removes per-K-block shared partial traffic, and require exactness plus matched end-to-end decode improvement before retaining it.
