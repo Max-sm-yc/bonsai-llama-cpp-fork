@@ -95,3 +95,8 @@
 - The candidate passed 4/4 selected CTests, 96/96 CUDA-vs-CPU PTQ1_0/PQ2_0 matmul cases, and both 32-token model smokes. Generated text matched the ROWS=1 reference after ignoring the build identifier. The full correctness script's build began recompiling 394 missing outputs and was stopped at 129; its selected tests were then executed directly against the candidate library.
 - Two reversed-order seven-repetition decode pairs consistently lost: -3.27/-3.27% at contexts 512/4096 in pair 1 and -3.79/-3.72% in pair 2. Peak VRAM was effectively unchanged (6803 vs 6805 MiB). Reject this mapping; serial per-lane K work and only four output rows per CTA likely cost more than the shared partial/barrier savings.
 - Restored and hash-verified the ROWS=1 source/library. Next test should combine K work across two/four warps per output row, reducing per-K shared partial traffic while restoring more K parallelism. See `experiments/015-warp-reduction-impl/REPORT.md`.
+
+## Experiment 016: cooperative multiwarp reduction proposal (not implemented)
+
+- The follow-up agent inspected active dispatch and fusion, then stopped before implementing a candidate. No tests, profiling, or measurements were run; this is not evidence against the idea.
+- Keep the proposal open, but begin with a small compileable two-warps-per-row/4-warp-CTA path and iterate from build and timing feedback. See `experiments/016-multiwarp-row-reduce/REPORT.md`.

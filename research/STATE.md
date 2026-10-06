@@ -25,6 +25,7 @@
 - Experiment 013: CTA row-tile caps 4/8/24/32 and a larger shared-memory target did not improve decode; the best-looking cap-8 candidate tied ROWS=1 within 0.11% / -0.01% at contexts 512/4096. Larger tiles lost, with cap-32/8192 notably slower. Exact ROWS=1 source and library restoration were independently hash-verified.
 - Experiment 014: inspected a warp-per-row reduction idea but stopped before implementing or measuring it. This is no performance evidence; the kernel hypothesis remains unresolved.
 - Experiment 015: implemented four warps/CTA, one warp/output-row with register K accumulation; it passed selected correctness/model checks but lost 3.27–3.79% in two reversed-order decode pairs. Source/library restoration hashes match the ROWS=1 control.
+- Experiment 016: the multiwarp-per-row follow-up ended before implementation; no performance or correctness evidence. The hypothesis is still open.
 
 ## Important discoveries
 
@@ -34,5 +35,5 @@
 
 ## Next candidates
 
-1. Test a cooperative 2/4-warp-per-row reduction that restores K-block parallelism while storing only a few warp partials per row; experiment 015's serial one-warp K loop was slower.
+1. Compile and benchmark a minimal 2-warp-per-row reduction first, then consider 4 warps/row if the evidence supports it; experiment 015's serial one-warp K loop was slower, while 016 produced no candidate.
 2. Revisit PQ2_0 activation fusion after this alternate PTQ1 reduction mapping.
