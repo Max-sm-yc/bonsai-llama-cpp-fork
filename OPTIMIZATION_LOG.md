@@ -155,3 +155,9 @@
 - Integrated into the active ROWS=1 PTQ1_0 GEMV, the candidate passed 4 selected CTests, 96/96 CUDA-vs-CPU matmul cases, and both 32-token model smokes, but regressed seven-repetition decode by 81.47% at context 512 and 81.50% at 4096. The isolated recurrence screen did not capture the production schedule's communication and parallelism costs.
 - Reverted. Manager restored the exact archived ROWS=1 CUDA library and independently verified source/library hashes and PTQ1_0/PQ2_0 model smokes. See `experiments/024-packed-trit-warp/REPORT.md` and `results/exp024/`.
 - Next PTQ1_0 candidate: test explicit 2/4-item K-block software pipelining without changing lane ownership or output fold order; measure register pressure and end-to-end decode.
+
+## Experiment 025: PTQ1_0 K-block work-list strip mining
+
+- Compile-time groups of two and four independent work-list items per lane preserved the existing row/K-block ownership, serial block-dot recurrence, partial-buffer slots, and reduction order. Both variants passed 4 selected CTests, 96/96 CUDA-vs-CPU matmul cases, and fixed-seed PTQ1_0/PQ2_0 model smokes with baseline-matching normalized completions.
+- Decode medians lost 0.43%/0.42% (items2) and 0.52%/1.36% (items4) at contexts 512/4096. The four-item long-context run had a 49.84 tok/s outlier. All variants reported 76 registers/thread and zero stack/local usage; no useful ILP effect was observed.
+- Reverted to the exact source-default ROWS=1 source and archived baseline CUDA library hashes. Do not retry source unrolling alone without disassembly or counter evidence. The next audit is the active fused-gate path's activation reuse. See `experiments/025-ptq1-kblock-ilp/REPORT.md`.

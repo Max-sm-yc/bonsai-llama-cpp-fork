@@ -36,6 +36,7 @@
 - Experiment 022: changing the active fused-weight RMSNorm branch from 1024 to 256 threads lost 3.32%/3.25% decode at contexts 512/4096. Fixed-seed model smokes matched; the broad standalone correctness suite was interrupted during an unnecessary full rebuild after the clear regression. Keep the 1024-thread branch.
 - Experiment 023: a four-lane-per-block screen with scalar trit extraction was exact but 3.82x slower than its scalar reference. It does not test partitioning the production packed recurrence and has no E2E candidate result.
 - Experiment 024: the production packed recurrence's cooperative-eight-lane screen was 1.49x faster in isolation (16,384 blocks), exact, and sanitizer-clean; integrating it into the active GEMV regressed decode 81.47% at context 512 and 81.50% at 4096. Reverted and hash-restored; do not repeat this mapping. See report 024.
+- Experiment 025: explicit 2/4-item strip mining preserved correctness but lost 0.42–0.52% at context 512 and 0.42–1.36% at 4096; the active specialization stayed at 76 registers/thread with no stack/local storage. No evidence of useful ILP from source unrolling alone. Reverted and hash-restored.
 
 ## Important discoveries
 
@@ -47,11 +48,12 @@
 - The active GDN trace is S_v=128, scalar-gate (`KDA=false`), raw-gate (`RAW=true`); on sm_86 it already uses four columns per warp, fused cache/gather paths, and CUDA Graphs.
 - The RMSNorm profile has 16,770 calls / 76.18 ms for `<1024,true,false>` and 10,400 / 24.43 ms for `<256,true,false>`; Nsight recorded CTA sizes but not `ncols`. Global reduction to 256 threads on the fused-weight `ncols >= 1024` path regressed full-model decode, so retain its current geometry.
 - Experiment 023's scalar extraction cost dominated its cooperative microbenchmark; 024 then tested the actual packed recurrence and showed that its isolated 1.49x screen did not translate to production decode.
+- Experiment 025's work-list strip mining changed neither static register usage nor model throughput favorably; do not retry source unrolling alone without disassembly or kernel-counter evidence.
 
 - Experiment 021 confirmed graph gather fusion is active: the 16-token trace had 864 GDN calls and no GET_ROWS; disabling fusion added exactly 864 GET_ROWS calls. Cache-copy fusion was source-audited, not toggled.
 
 ## Next candidates
 
-1. Test explicit 2/4-item software pipelining for independent PTQ1_0 K-block work in the existing 128-thread ROWS=1 kernel. Preserve the current work-item mapping, output partial slots, and reduction order; compare registers/occupancy, an active-path dot microbenchmark, and model decode. This has not been tested by the row-tile or warp-reduction experiments.
-2. Inspect activation-load reuse in the `has_gate` PTQ1_0 variant; only pursue if generated code confirms redundant loads and a fused dual-weight dot can reduce traffic without harmful register growth.
+1. Inspect the active PTQ1_0 `has_gate=true` specialization, 15.5% (298.6 ms) of the post-ROWS=1 mixed profile. Check generated instructions for duplicated planar Q8_1 activation loads across the main and gate weight dots; only prototype shared loads if disassembly confirms duplication.
+2. Consider an equally specific audit of the `has_fusion=true, has_gate=false` specialization (14.3%, 276.3 ms) if the gate-path audit finds no opportunity.
 3. Consider PQ2_0 activation fusion after higher-value PTQ1_0 paths.

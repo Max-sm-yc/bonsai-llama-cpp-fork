@@ -180,3 +180,8 @@ AGENTS.local.md
 /results/exp021/raw/*.nsys-rep
 /results/exp021/raw/*.sqlite
 !/results/exp021/correctness.log
+
+# Experiment 025: isolated executables/libraries and full resource dumps are local artifacts;
+# commit compact benchmark, correctness, source, and report files instead.
+/results/exp025/libs/
+/results/exp025/*_resources.txt

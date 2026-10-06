@@ -248,11 +248,11 @@
   },
   "source_results": "results/baseline.json",
   "latest_experiment": {
-    "id": "024",
-    "hypothesis": "Partition the production packed PTQ1_0 base-3 recurrence across eight lanes to shorten its serial decode chain.",
+    "id": "025",
+    "hypothesis": "Explicitly strip-mine 2/4 independent PTQ1_0 K-block work items per thread in the active 128-thread ROWS=1 GEMV to expose instruction-level parallelism.",
     "decision": "REVERT",
-    "performance_effect": "The standalone recurrence screen improved 1.49x, but production integration reduced batch-1 decode by 81.47% at context 512 and 81.50% at 4096.",
-    "correctness": "Standalone: 16,384 blocks bitwise exact and Compute Sanitizer reported zero errors after aligned-load fix. Production candidate: 4/4 selected CTests, 96/96 CUDA-vs-CPU matmul cases, and PTQ1_0/PQ2_0 32-token smokes passed. Restored baseline smokes also passed.",
+    "performance_effect": "Both candidates lost to the fresh control at both decode contexts: items2 -0.43%/-0.42%, items4 -0.52%/-1.36% at contexts 512/4096. The items4 context-4096 samples included a 49.84 tok/s outlier.",
+    "correctness": "Both candidates passed 4 selected CTests and 96/96 CUDA-vs-CPU PTQ1_0/PQ2_0 matmul tests; fixed-seed PTQ1_0/PQ2_0 32-token normalized completions matched the ROWS=1 baseline. Exact baseline source and CUDA library restored.",
     "benchmark_configuration": {
       "gpu": "NVIDIA GeForce RTX 3080",
       "compute_capability": "8.6",
@@ -273,47 +273,40 @@
     },
     "results": {
       "control_median_tokens_per_second": {
-        "512": 82.1551,
-        "4096": 79.6645
+        "512": 81.9018,
+        "4096": 79.3736
       },
-      "candidate_median_tokens_per_second": {
-        "512": 15.2228,
-        "4096": 14.7398
+      "items2_median_tokens_per_second": {
+        "512": 81.5518,
+        "4096": 79.0432
+      },
+      "items4_median_tokens_per_second": {
+        "512": 81.4783,
+        "4096": 78.2916
       },
       "median_change_percent": {
-        "512": -81.47,
-        "4096": -81.5
-      },
-      "candidate_mean_tokens_per_second": {
-        "512": 15.233066,
-        "4096": 14.564822
-      },
-      "candidate_sample_stddev_tokens_per_second": {
-        "512": 0.10967,
-        "4096": 0.361308
+        "items2_512": -0.43,
+        "items2_4096": -0.42,
+        "items4_512": -0.52,
+        "items4_4096": -1.36
       },
       "peak_gpu_memory_used_mib": 6805,
-      "standalone_serial_median_ms": 0.00961536,
-      "standalone_cooperative8_median_ms": 0.00645936,
-      "standalone_speedup": 1.49,
-      "standalone_blocks": 16384,
-      "standalone_registers": {
-        "serial": 40,
-        "cooperative8": 32
-      },
-      "spills": 0,
-      "sanitizer_errors": 0
+      "active_registers_per_thread": 76,
+      "stack_bytes": 0,
+      "local_bytes": 0
     },
     "artifacts": [
-      "experiments/024-packed-trit-warp/REPORT.md",
-      "results/exp024/control.json",
-      "results/exp024/candidate_first.json",
-      "results/exp024/correctness.log",
-      "results/exp024/packed_recurrence.cu",
-      "results/exp024/microbench.txt",
-      "results/exp024/sanitizer_microbench.txt",
-      "results/exp024/resources.txt",
-      "results/exp024/HASHES.txt"
+      "experiments/025-ptq1-kblock-ilp/REPORT.md",
+      "experiments/025-ptq1-kblock-ilp/candidate.patch",
+      "results/exp025/control.json",
+      "results/exp025/items2.json",
+      "results/exp025/items4.json",
+      "results/exp025/items2_ctest.log",
+      "results/exp025/items4_ctest.log",
+      "results/exp025/items2_backend_ops.log",
+      "results/exp025/items4_backend_ops.log",
+      "results/exp025/items2_smoke.json",
+      "results/exp025/items4_smoke.json"
     ],
     "source_file": "ggml/src/ggml-cuda/mmvq-ptq1_0.cuh",
     "production_source_sha256": "f398417accddf1948fbf12155b4180fd362a3dfea88366ef3980161700d56496",
@@ -321,9 +314,9 @@
     "production_source_changed": false,
     "project_source_commit": "9fa97200e68fd798ef027470c8e420172a0ac719",
     "reference_runtime_commit": "6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17",
-    "timestamp_utc": "2026-10-06T22:35:31+00:00"
+    "timestamp_utc": "2026-10-06T22:45:20+00:00"
   },
-  "updated_timestamp_utc": "2026-10-06T22:35:31+00:00",
+  "updated_timestamp_utc": "2026-10-06T22:45:20+00:00",
   "project_commit": "9fa97200e68fd798ef027470c8e420172a0ac719",
   "current_best": {
     "commit": "9fa97200e68fd798ef027470c8e420172a0ac719",
