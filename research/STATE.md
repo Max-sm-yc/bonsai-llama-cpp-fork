@@ -35,4 +35,4 @@
 
 1. Test an exact 2-bit side representation for PTQ1_0 on sm_86: measure whether simpler per-weight decode offsets its larger weight traffic. Start with the full block dot, include `qh` and production activation layout, account for the added VRAM, then integrate only if decode improves within 10 GiB.
 2. If reformatting loses, test a bit-sliced decoder directly on the original base-3 layout; the direct constant-memory LUT was 5.89x slower.
-2. Measure whether broader Hadamard/Q8_1 fusion benefits PQ2_0; keep secondary to the faster PTQ1_0 decode path.
+3. Measure whether broader Hadamard/Q8_1 fusion benefits PQ2_0; keep secondary to the faster PTQ1_0 decode path.
