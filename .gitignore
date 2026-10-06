@@ -165,3 +165,4 @@ AGENTS.local.md
 /results/exp003/*/bin/
 /results/exp003/raw/*_smoke.stdout.txt
 /results/exp004/decoder_bench
+/results/exp005/side_bench

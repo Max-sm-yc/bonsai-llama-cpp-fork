@@ -1,0 +1,39 @@
+Tue Oct  6 10:29:39 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.178.04             Driver Version: 580.178.04     CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce RTX 3080        Off |   00000000:01:00.0 Off |                  N/A |
+| 65%   47C    P8             25W /  370W |     173MiB /  10240MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|    0   N/A  N/A            5602      G   /usr/bin/gnome-shell                    141MiB |
+|    0   N/A  N/A            7050      G   /usr/bin/Xwayland                         4MiB |
++-----------------------------------------------------------------------------------------+
+i=0 base=-7.000000 side=-316.250000 weight_mismatch=5
+i=1 base=33.125000 side=-549.375000 weight_mismatch=68
+i=2 base=-161.875000 side=-69.875000 weight_mismatch=65
+base3 0.075756 ms/launch n=65536 reps=100
+2-bit-side 0.081848 ms/launch n=65536 reps=100
+mismatches=65531 decoded_code_mismatches=4244304 payload base=28 side=34 delta=21.43%
+i=0 base=-7.000000 side=-316.250000 weight_mismatch=5
+i=1 base=33.125000 side=-549.375000 weight_mismatch=68
+i=2 base=-161.875000 side=-69.875000 weight_mismatch=65
+base3 0.075812 ms/launch n=65536 reps=100
+2-bit-side 0.081930 ms/launch n=65536 reps=100
+mismatches=65531 decoded_code_mismatches=4244355 payload base=28 side=34 delta=21.43%
+i=0 base=-7.000000 side=-316.250000 weight_mismatch=5
+i=1 base=33.125000 side=-549.375000 weight_mismatch=68
+i=2 base=-161.875000 side=-69.875000 weight_mismatch=65
+base3 0.075804 ms/launch n=65536 reps=100
+2-bit-side 0.081960 ms/launch n=65536 reps=100
+mismatches=65531 decoded_code_mismatches=4244280 payload base=28 side=34 delta=21.43%

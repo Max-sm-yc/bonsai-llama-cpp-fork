@@ -248,16 +248,16 @@
   },
   "source_results": "results/baseline.json",
   "latest_experiment": {
-    "id": "004",
-    "hypothesis": "Replace PTQ1_0 base-3 qs multiply/byte-permute expansion with a constant-memory LUT",
-    "decision": "REVERT",
-    "performance_effect": "Exact for 65,536 generated dot outputs; focused CUDA-event microbenchmark was 5.89x slower (0.130949 vs 0.022250 ms/launch); no E2E run",
+    "id": "005",
+    "hypothesis": "Represent PTQ1_0 ternary weights with an exact 2-bit side payload to simplify batch-1 decode",
+    "decision": "INCONCLUSIVE",
+    "performance_effect": "Invalid timing: prototype wrote per-weight bytes beyond its 32-byte packed-code field and also mapped PTQ1_0 staged qs elements incorrectly; 65,531/65,536 block-dot outputs mismatched. No E2E run. Proposed side blocks are 34 bytes vs 28 bytes (+21.43%).",
     "candidate_results": [
-      "results/exp004/microbenchmark.txt",
-      "results/exp004/decoder_bench.cu"
+      "results/exp005/microbenchmark.txt",
+      "results/exp005/side_bench.cu"
     ],
-    "report": "experiments/004-ptq1-trit-decoder/REPORT.md"
+    "report": "experiments/005-ptq1-2bit-side/REPORT.md"
   },
-  "updated_timestamp_utc": "2026-10-06T14:19:01+00:00",
+  "updated_timestamp_utc": "2026-10-06T14:31:28+00:00",
   "project_commit": "2a6ac568b69a61db0ee151b24c9b2cdb7a4f8a7c"
 }
