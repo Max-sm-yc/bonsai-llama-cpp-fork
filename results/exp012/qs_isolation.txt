@@ -1,0 +1,1 @@
+groups=6 repeated_pair_checks=18504 emitted_digit_vectors=37008 mismatches=0

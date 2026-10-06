@@ -1,0 +1,3 @@
+EXACT blocks=128 verified_codes=16384 code_mismatches=0 outputs=128 output_mismatches=0 independent_ref_mismatches=0 max_abs_error=0 payload=28->34 (+21.43%) planar_activation=18432 bytes
+planar-base3 0.00246784 0.00243285 0.00242688 0.00243360 0.00243360 0.00243349 0.00242347 0.00242219 0.00242005 ms/launch blocks=128 reps=300
+planar-pairwise 0.00303104 0.00302763 0.00303104 0.00303104 0.00302763 0.00303093 0.00303008 0.00303445 0.00303445 ms/launch blocks=128 reps=300

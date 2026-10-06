@@ -21,6 +21,7 @@
 - Experiment 003 changed a generic path bypassed by sm_86 batch-1 dispatch. Experiments 004–009 either targeted SOA rather than this planar kernel or failed/slowed their focused test; see reports.
 - Experiment 010 ROWS=8 lost 16–17%. Its first archived-binary screens and follow-ups loaded the same `build/bin` library due absolute RUNPATH; treat those timings as invalid. Corrected per-library runs are marked `_isolated` and verified with `ldd`/`LD_DEBUG`.
 - Experiment 011: exact planar 2-bit side codes lost to base-3 by 3.02–7.01% (scalar) and 3.10–4.68% (packed-byte expansion) at 16K/65K blocks, before conversion; no model integration. Manager rebuilt and independently rechecked exact outputs.
+- Experiment 012: pairwise `x*9` trit decode became exact after correcting an activation-word index, but lost 1.97–24.59% in full-block dot screens at 65K/16K/128 blocks; no model integration.
 
 ## Important discoveries
 
@@ -30,5 +31,5 @@
 
 ## Next candidates
 
-1. Explore a distinct active-planar trit unpack/reduction mapping; keep end-to-end PTQ1_0 decode as the decision metric.
+1. Tune the active planar kernel's rows-per-CTA and shared-memory reduction geometry around the retained ROWS=1 work item; the current heuristic caps the row tile at 16.
 2. Revisit PQ2_0 activation fusion after a few further PTQ1 experiments.

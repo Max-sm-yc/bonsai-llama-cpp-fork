@@ -1,0 +1,32 @@
+results/exp012/pairwise_bench.cu(28): warning #177-D: variable "d1" was declared but never referenced
+      for(int i=0;i<4;i++){unsigned v=(q>>(8*i))&255; unsigned d0=v/3; unsigned d1=v-d0*3; z[i]=(unsigned char)d0;}
+                                                                                ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+ptxas info    : 0 bytes gmem
+ptxas info    : Compiling entry function '_Z7convertPK9BaseBlockP9SideBlocki' for 'sm_86'
+ptxas info    : Function properties for _Z7convertPK9BaseBlockP9SideBlocki
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 13 registers, used 0 barriers, 372 bytes cmem[0]
+ptxas info    : Compile time = 16.629 ms
+ptxas info    : Compiling entry function '_Z15dot_side_expandPK9SideBlockPKiPfi' for 'sm_86'
+ptxas info    : Function properties for _Z15dot_side_expandPK9SideBlockPKiPfi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 0 barriers, 380 bytes cmem[0]
+ptxas info    : Compile time = 8.354 ms
+ptxas info    : Compiling entry function '_Z8dot_sidePK9SideBlockPKiPfi' for 'sm_86'
+ptxas info    : Function properties for _Z8dot_sidePK9SideBlockPKiPfi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 0 barriers, 380 bytes cmem[0]
+ptxas info    : Compile time = 9.215 ms
+ptxas info    : Compiling entry function '_Z8dot_pairPK9BaseBlockPKiPfi' for 'sm_86'
+ptxas info    : Function properties for _Z8dot_pairPK9BaseBlockPKiPfi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 0 barriers, 380 bytes cmem[0]
+ptxas info    : Compile time = 15.641 ms
+ptxas info    : Compiling entry function '_Z8dot_basePK9BaseBlockPKiPfi' for 'sm_86'
+ptxas info    : Function properties for _Z8dot_basePK9BaseBlockPKiPfi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 0 barriers, 380 bytes cmem[0]
+ptxas info    : Compile time = 6.518 ms

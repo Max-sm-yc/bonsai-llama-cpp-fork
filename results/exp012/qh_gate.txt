@@ -1,0 +1,1 @@
+qh byte pairs=65536 interleaved vectors=131072 mismatches=0

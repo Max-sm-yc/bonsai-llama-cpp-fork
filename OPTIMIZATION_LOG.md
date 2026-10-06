@@ -70,3 +70,9 @@
 - Repacked canonical PTQ1_0 blocks into 34-byte 2-bit side blocks and compared scalar extraction and packed-byte DP4A expansion against the active planar base-3 dot. All trits, full block outputs, and independent CPU references matched exactly; manager rebuilt the harness and independently rechecked 16,384 blocks.
 - Both decoders were slower at 16K and 65K K-blocks with disjoint sample ranges. At 65K, scalar extraction lost 3.02% and packed expansion lost 4.68%; this screen excluded conversion, favoring the side representation. No runtime/model candidate was integrated.
 - Reject the 2-bit side representation on this sm_86 planar kernel. The 34-byte blocks add 21.43% weight payload, with no decode benefit to cover that cost. Continue with a different base-3 unpack/reduction mapping. Full data: `experiments/011-ptq1-planar-2bit/REPORT.md`.
+
+## Experiment 012: pairwise radix-3 decode on the active planar path
+
+- Replaced two serial multiply-by-three remainder steps with one packed `x*9`, then split its quotient into two ordered trits. Exact byte/position, repeated-remainder, both qs stream mapping, exhaustive qh interleave, and full-block CPU-reference gates all passed after fixing a redundant activation-word shift. The manager independently rebuilt and checked a 127-block boundary.
+- The corrected candidate remains slower in all full-block screens: +24.59% at 128 blocks, +9.82% at 16,384, and +1.97% at 65,536, with disjoint candidate/control ranges. Registers and spills match the base-3 kernel (40/0).
+- Reject this pairwise decoder; no production changes or model benchmark were made. The next active-path question is rows-per-CTA/shared-memory reduction geometry, distinct from ROWS=1's per-item mapping. See `experiments/012-ptq1-pairwise-trits/REPORT.md`.

@@ -248,19 +248,21 @@
   },
   "source_results": "results/baseline.json",
   "latest_experiment": {
-    "id": "011",
-    "hypothesis": "Replace base-3 PTQ1_0 decoding with an exact 2-bit side representation in the active sm_86 planar batch-1 dot",
+    "id": "012",
+    "hypothesis": "Pairwise radix-3 x*9 decode to reduce the active planar PTQ1_0 serial trit recurrence",
     "decision": "REJECT",
-    "performance_effect": "Both exact side decoders lost before conversion/runtime integration. At 65,536 blocks scalar extraction was +3.02% and packed-byte expansion +4.68% slower; at 16,384 blocks losses were +7.01% and +3.10%.",
-    "correctness": "Exact trit conversion and full-block dot output against independent CPU reference; 16,384-block Compute Sanitizer memcheck clean; manager rebuilt and independently rechecked 16,384 blocks.",
+    "performance_effect": "After correcting an activation-word shift, exact candidate dots were slower than base-3 by 24.59% at 128 blocks, 9.82% at 16,384, and 1.97% at 65,536; sample ranges were disjoint. No runtime integration or model benchmark.",
+    "correctness": "Exact code/dot and independent CPU checks at 1, 127, 128, 129, 16,384, and 65,536 blocks; exhaustive qh gate; Compute Sanitizer 128-block memcheck clean; manager independently rebuilt and checked 127 blocks.",
     "candidate_results": [
-      "results/exp011/planar_16384.txt",
-      "results/exp011/planar_65536.txt",
-      "results/exp011/manager_verify_16384.txt"
+      "results/exp012/pairwise_128.txt",
+      "results/exp012/pairwise_16384.txt",
+      "results/exp012/pairwise_65536.txt",
+      "results/exp012/sanitizer_128.txt",
+      "results/exp012/manager_verify_127.txt"
     ],
-    "report": "experiments/011-ptq1-planar-2bit/REPORT.md"
+    "report": "experiments/012-ptq1-pairwise-trits/REPORT.md"
   },
-  "updated_timestamp_utc": "2026-10-06T17:26:38.437411+00:00",
+  "updated_timestamp_utc": "2026-10-06T17:42:22.052460+00:00",
   "project_commit": "9fa97200e68fd798ef027470c8e420172a0ac719",
   "current_best": {
     "commit": "9fa97200e68fd798ef027470c8e420172a0ac719",
