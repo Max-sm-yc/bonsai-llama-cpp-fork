@@ -23,6 +23,7 @@
 - Experiment 005's 2-bit side-format screen is inconclusive: it wrote 128 bytes through a 32-byte packed-code field (overrunning adjacent records) and used the wrong PTQ1_0 element order. No valid packed conversion was tested, so its timing is invalid; no runtime integration or model benchmark occurred. The proposed block grows from 28 to 34 bytes (+21.43%).
 - Experiment 006 corrected side-code packing and element mapping and passed exact code/dot checks, but its purported SOA_ISUM address is wrong (`kb=b>>2`, `sub=b&3` instead of `group=b>>5`, `lane=b&31`, `word=e>>2`). Its 18.4–18.8% slower timing is inconclusive; no runtime integration or E2E test occurred. Correct and remeasure only if this remains a priority. Side payload is +21.43%.
 - Experiment 007 corrected SOA addressing and matched the production DP4A block arithmetic. Code/dot checks and Compute Sanitizer passed; packed 2-bit was 3.44–3.50% slower at 65,536 blocks and 5.02% slower at 16,384, with 21.43% larger blocks. Reject this side format for runtime integration; no E2E work was justified.
+- Experiment 008's direct-floor decoder identity passed all 256 byte values × five digits on the host, but its packed CUDA block failed exactness: `qh` needs two interleaved code streams, while the helper treated them as four bytes (two were zero). No timing or runtime change; decoder speed remains unknown.
 - Nsight Compute counters are blocked by `ERR_NVGPUCTRPERM`; do not change system-wide driver permissions. Nsight Systems and static cubin resource reports are available.
 
 ## Important discoveries
@@ -37,5 +38,5 @@
 
 ## Next candidates
 
-1. Test a bit-sliced decoder on the original base-3 layout using the production DP4A path; the direct constant-memory LUT was 5.89x slower.
+1. Fix and device-exhaustively verify the direct-floor decoder, including PTQ1_0's interleaved `qh` path, then time it in the production DP4A block harness; the direct constant-memory LUT was 5.89x slower.
 2. Measure whether broader Hadamard/Q8_1 fusion benefits PQ2_0; keep secondary to the faster PTQ1_0 decode path.

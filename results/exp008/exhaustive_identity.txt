@@ -1,0 +1,4 @@
+Host exhaustive identity check, all source bytes x=0..255 and digits k=1..5:
+recurrence digit ((v*3)>>8), v <- (v*3)&255
+matches floor(x*3^k/256) - 3*floor(x*3^(k-1)/256).
+PASS: 1280 comparisons, 0 mismatches.

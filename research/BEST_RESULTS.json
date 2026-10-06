@@ -248,17 +248,16 @@
   },
   "source_results": "results/baseline.json",
   "latest_experiment": {
-    "id": "007",
-    "hypothesis": "Benchmark an exact packed 2-bit PTQ1_0 side representation with production SOA_ISUM activations and DP4A block arithmetic",
-    "decision": "REJECT",
-    "performance_effect": "Exact, sanitizer-clean screen; the packed side path was 3.44–3.50% slower at 65,536 blocks and 5.02% slower at 16,384, with +21.43% payload. No E2E run.",
+    "id": "008",
+    "hypothesis": "Benchmark parallel floor-difference trit decoding on the original PTQ1_0 representation",
+    "decision": "INCONCLUSIVE",
+    "performance_effect": "Host identity exact for all 256 bytes × five digits; initial packed CUDA path failed full-block exactness in qh stream interleaving. No timing or E2E run.",
     "candidate_results": [
-      "results/exp007/microbenchmark.txt",
-      "results/exp007/side_bench.cu",
-      "results/exp007/sanitizer.txt"
+      "results/exp008/exhaustive_identity.txt",
+      "results/exp008/parallel_bench.cu"
     ],
-    "report": "experiments/007-ptq1-side-production-dot/REPORT.md"
+    "report": "experiments/008-ptq1-parallel-trit-decode/REPORT.md"
   },
-  "updated_timestamp_utc": "2026-10-06T14:54:45+00:00",
+  "updated_timestamp_utc": "2026-10-06T15:00:45+00:00",
   "project_commit": "2a6ac568b69a61db0ee151b24c9b2cdb7a4f8a7c"
 }
