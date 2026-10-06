@@ -1,0 +1,35 @@
+
+Fatbin elf code:
+================
+arch = sm_86
+code version = [1,8]
+host = linux
+compile_size = 64bit
+
+Resource usage:
+ Common:
+  GLOBAL:0
+
+Fatbin elf code:
+================
+arch = sm_86
+code version = [1,8]
+host = linux
+compile_size = 64bit
+
+Resource usage:
+ Common:
+  GLOBAL:0
+ Function _Z5coop8PK1BPKiPfi:
+  REG:32 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:380 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z6serialPK1BPKiPfi:
+  REG:40 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:380 TEXTURE:0 SURFACE:0 SAMPLER:0
+
+Fatbin ptx code:
+================
+arch = sm_86
+code version = [9,2]
+host = linux
+compile_size = 64bit
+compressed
+ptxasOptions =

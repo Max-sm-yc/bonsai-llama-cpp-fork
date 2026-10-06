@@ -148,3 +148,10 @@
 - Both screen kernels used test-only scalar per-element trit extraction rather than the active packed base-3 recurrence. No production code changed and no candidate E2E or model correctness run exists; mark this screen inconclusive for the production dataflow. Keep ROWS=1 and the planar activation layout.
 - A follow-up is justified only for a group-aware mapping that partitions the active packed recurrence itself, with a focused implementation-equivalent screen before full model integration. See `experiments/023-ptq1-warp-cooperative/REPORT.md`.
 - The manager independently rebuilt and reran the scalar screen at 53°C/0% utilization: the 16,384-block output was still bitwise exact, and the medians were 0.003511 vs 0.013312 ms (3.79x slower). This confirms the prototype regression, not the production recurrence hypothesis.
+
+## Experiment 024: warp-cooperative packed PTQ1_0 recurrence
+
+- After fixing the standalone harness's aligned packed-word load, the production-style packed recurrence screen was exact and sanitizer-clean across 16,384 blocks. Cooperative eight-lane decoding took 0.006459 ms versus 0.009615 ms for serial (1.49x faster) and used 32 registers versus 40 without spills.
+- Integrated into the active ROWS=1 PTQ1_0 GEMV, the candidate passed 4 selected CTests, 96/96 CUDA-vs-CPU matmul cases, and both 32-token model smokes, but regressed seven-repetition decode by 81.47% at context 512 and 81.50% at 4096. The isolated recurrence screen did not capture the production schedule's communication and parallelism costs.
+- Reverted. Manager restored the exact archived ROWS=1 CUDA library and independently verified source/library hashes and PTQ1_0/PQ2_0 model smokes. See `experiments/024-packed-trit-warp/REPORT.md` and `results/exp024/`.
+- Next PTQ1_0 candidate: test explicit 2/4-item K-block software pipelining without changing lane ownership or output fold order; measure register pressure and end-to-end decode.

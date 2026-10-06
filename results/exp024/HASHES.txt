@@ -1,0 +1,11 @@
+f398417accddf1948fbf12155b4180fd362a3dfea88366ef3980161700d56496  ggml/src/ggml-cuda/mmvq-ptq1_0.cuh
+708eceba48460ad3d963b88c7f84a0f60a2bbed061d2cf7fdec70e39b15e29a9  build/bin/libggml-cuda.so
+
+The CUDA library above is the archived source-default artifact restored from
+results/exp021/libs/source_default/libggml-cuda.so.0.21.0. A fresh full relink
+of the restored source produced SHA-256
+b52508498167f12d97f81c071cb84397224f917855eeb2db26ff69962d866da4; the
+archived artifact was restored so the active runtime exactly matches the
+previously verified baseline library. `ldd` resolves llama-bench to
+build/bin/libggml-cuda.so.0; see ldd_baseline.txt. Both fixed 32-token model
+smokes passed with the archived library; see baseline_smoke_restored.json.
