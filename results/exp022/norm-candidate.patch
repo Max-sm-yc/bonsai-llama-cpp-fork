@@ -1,0 +1,8 @@
+--- a/ggml/src/ggml-cuda/norm.cu
++++ b/ggml/src/ggml-cuda/norm.cu
+@@ fused-weight dispatch for ncols >= 1024
+-            const dim3 block_dims(1024, 1, 1);
++            const dim3 block_dims(256, 1, 1);
+@@
+-            ggml_cuda_kernel_launch(rms_norm_f32<1024, true>, launch_params,
++            ggml_cuda_kernel_launch(rms_norm_f32<256, true>, launch_params,

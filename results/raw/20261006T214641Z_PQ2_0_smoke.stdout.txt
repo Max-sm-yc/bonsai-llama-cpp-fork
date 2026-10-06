@@ -1,0 +1,36 @@
+
+
+Loading model... 
+
+▄▄ ▄▄
+██ ██
+██ ██  ▀▀█▄ ███▄███▄  ▀▀█▄    ▄████ ████▄ ████▄
+██ ██ ▄█▀██ ██ ██ ██ ▄█▀██    ██    ██ ██ ██ ██
+██ ██ ▀█▄██ ██ ██ ██ ▀█▄██ ██ ▀████ ████▀ ████▀
+                                    ██    ██
+                                    ▀▀    ▀▀
+
+build      : b28-58a5d67
+model      : /home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PQ2_0.gguf
+ftype      : PQ2_0 - 2.13 bpw (group 128)
+modalities : text
+
+available commands:
+  /exit or Ctrl+C     stop or exit
+  /regen              regenerate the last response
+  /clear              clear the chat history
+  /read <file>        add a text file
+  /glob <pattern>     add text files using globbing pattern
+
+
+
+> The RTX 3080 is a graphics card that
+
+[Start thinking]
+
+We need to respond to user: "The RTX 3080 is a graphics card that". Likely they want completion? Maybe a fill-in? Need
+
+[ Prompt: 251.1 t/s | Generation: 65.4 t/s ]
+
+
+Exiting...

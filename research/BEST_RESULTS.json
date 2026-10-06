@@ -248,11 +248,11 @@
   },
   "source_results": "results/baseline.json",
   "latest_experiment": {
-    "id": "021",
-    "hypothesis": "Tune columns handled per warp for the active sm_86 GDN S_v=128 scalar raw-gate specialization.",
-    "decision": "REVERT; retain four columns per warp",
-    "performance_effect": "Columns=1 gained +0.52%/+0.41% in the candidate-first pair, but only +0.10%/+0.11% in the reversed pair at contexts 512/4096. The columns=2 and columns=8 screens were 0.05\u20130.32% below the later control2 run, but both candidates ran before that control and were not reversed-order pairs. No repeatable gain.",
-    "correctness": "Restored source-default passed 4/4 selected CTests, 96/96 CUDA-vs-CPU PTQ1_0/PQ2_0 matmul cases, and both fixed-seed model smokes; all candidate model completions matched after removing only timing text.",
+    "id": "022",
+    "hypothesis": "A 256-thread CTA may improve sm_86 occupancy for the active fused-weight RMSNorm branch currently launched with 1024 threads.",
+    "decision": "REVERT; retain 1024-thread fused-weight branch",
+    "performance_effect": "256-thread candidate decode medians were 79.5519 vs 82.2854 tok/s at context 512 (-3.32%), and 77.1453 vs 79.7347 tok/s at context 4096 (-3.25%).",
+    "correctness": "Candidate compiled; fixed-seed 32-token PTQ1_0 and PQ2_0 model completions matched saved references after normalizing build/timing text. Full selected CTests and CUDA-vs-CPU matmul suite were not completed after the clear regression triggered an unnecessary broad rebuild. Source and active-library restoration hashes verified.",
     "benchmark_configuration": {
       "gpu": "NVIDIA GeForce RTX 3080",
       "compute_capability": "8.6",
@@ -272,82 +272,83 @@
       "cooldown_temperature_c": 60
     },
     "results": {
-      "columns1_candidate_then_control_median_tok_s": {
+      "control_median_tok_s": {
+        "512": 82.2854,
+        "4096": 79.7347
+      },
+      "candidate_median_tok_s": {
+        "512": 79.5519,
+        "4096": 77.1453
+      },
+      "candidate_median_delta_percent": {
+        "512": -3.32,
+        "4096": -3.25
+      },
+      "control_mean_sd_tok_s": {
         "512": [
-          82.2421,
-          81.8205
+          82.146708,
+          0.363683
         ],
         "4096": [
-          79.757,
-          79.4284
+          79.623004,
+          0.287561
         ]
       },
-      "columns1_control_then_candidate_median_tok_s": {
+      "candidate_mean_sd_tok_s": {
         "512": [
-          81.6825,
-          81.7676
+          79.413821,
+          0.306494
         ],
         "4096": [
-          78.4597,
-          78.5492
+          77.050167,
+          0.266978
         ]
       },
-      "columns2_vs_control2_median_tok_s": {
-        "512": [
-          81.6299,
-          81.6825
-        ],
-        "4096": [
-          78.4208,
-          78.4597
-        ]
+      "peak_gpu_memory_used_mib": {
+        "control": 6805,
+        "candidate": 6803
       },
-      "columns8_vs_control2_median_tok_s": {
-        "512": [
-          81.4193,
-          81.6825
-        ],
-        "4096": [
-          78.2267,
-          78.4597
-        ]
-      },
-      "peak_gpu_memory_used_mib": 6805.0,
-      "gather_fusion_trace": {
-        "tokens": 16,
-        "gdn_calls": 864,
-        "default_get_rows_calls": 0,
-        "disabled_fusion_get_rows_calls": 864
-      },
-      "comparison_order_note": "cols2 and cols8 were each screened after control1 and before control2; their comparisons to control2 are not reversed-order pairs."
+      "rmsnorm_profile_family": {
+        "post_rows1_ms": 100.608131,
+        "post_rows1_share_percent": 5.205673,
+        "reference_ms": 101.388294,
+        "pq2_ms": 106.667743,
+        "pq2_share_percent": 4.796674
+      }
     },
     "artifacts": [
-      "experiments/021-gdn-column-grouping/REPORT.md",
-      "results/exp021/measurements.csv",
-      "results/exp021/cols1.json",
-      "results/exp021/control1.json",
-      "results/exp021/cols1_pair2.json",
-      "results/exp021/control2.json",
-      "results/exp021/cols2.json",
-      "results/exp021/cols8.json",
-      "results/exp021/correctness.log",
-      "results/exp021/model_output_comparison.txt",
-      "results/exp021/loader_audit.txt",
-      "results/exp021/HASHES.txt",
-      "results/exp021/raw/profile_kernel_excerpt.csv",
-      "results/exp021/raw/gather_enabled_stats.txt",
-      "results/exp021/raw/gather_disabled_stats.txt",
-      "results/exp021/baseline_smoke_preexisting.json"
+      "experiments/022-rmsnorm-sm86/REPORT.md",
+      "results/exp022/control.json",
+      "results/exp022/candidate.json",
+      "results/exp022/candidate_smoke.json",
+      "results/exp022/baseline_smoke-before.json",
+      "results/exp022/HASHES.txt",
+      "results/exp022/loader_audit.txt",
+      "results/exp022/norm-candidate.patch",
+      "results/exp022/control.stdout.json",
+      "results/exp022/candidate.stdout.json",
+      "results/exp022/candidate_PTQ1_0_smoke.stdout.txt",
+      "results/exp022/candidate_PQ2_0_smoke.stdout.txt",
+      "results/raw/20261006T213356Z_PTQ1_0_decode.stdout.json",
+      "results/raw/20261006T214429Z_PTQ1_0_decode.stdout.json",
+      "results/raw/20261006T214638Z_PTQ1_0_smoke.stdout.txt",
+      "results/raw/20261006T214641Z_PQ2_0_smoke.stdout.txt",
+      "results/raw/20261006T213356Z_PTQ1_0_decode.stderr.log",
+      "results/raw/20261006T214429Z_PTQ1_0_decode.stderr.log",
+      "results/raw/20261006T214638Z_PTQ1_0_smoke.stderr.log",
+      "results/raw/20261006T214641Z_PQ2_0_smoke.stderr.log"
     ],
-    "source_file": "ggml/src/ggml-cuda/gated_delta_net.cu",
-    "source_sha256": "b86838997dcd6e1e4d703a4f668a92f810e5ecc4d5070019abbd4701b2c95bc6",
-    "cuda_library_control_sha256": "a7651512d17d57d0f4ae76440d6f8453ab9e756057d3faa65489ca49b95ba4c3",
+    "source_file": "ggml/src/ggml-cuda/norm.cu",
+    "source_sha256": "8cc9c21485c03dbced0757bf1623529ddd1547a3542a4c6a6f44e1ed5a26db60",
+    "candidate_source_change": "mul != nullptr && add == nullptr && ncols >= 1024: 1024-thread RMSNorm specialization to 256-thread specialization",
+    "cuda_library_candidate_sha256": "fe817e2fd9498d28abf90685fec5a74b404242b5d681ee1c105775f82099b8b3",
+    "cuda_library_control_sha256": "708eceba48460ad3d963b88c7f84a0f60a2bbed061d2cf7fdec70e39b15e29a9",
     "cuda_library_restoration_sha256": "708eceba48460ad3d963b88c7f84a0f60a2bbed061d2cf7fdec70e39b15e29a9",
     "project_source_commit": "9fa97200e68fd798ef027470c8e420172a0ac719",
     "reference_runtime_commit": "6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17",
-    "timestamp_utc": "2026-10-06T21:29:31Z"
+    "timestamp_utc": "2026-10-06T21:46:41Z"
   },
-  "updated_timestamp_utc": "2026-10-06T21:29:31Z",
+  "updated_timestamp_utc": "2026-10-06T21:49:00Z",
   "project_commit": "9fa97200e68fd798ef027470c8e420172a0ac719",
   "current_best": {
     "commit": "9fa97200e68fd798ef027470c8e420172a0ac719",

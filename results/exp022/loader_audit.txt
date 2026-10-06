@@ -1,0 +1,6 @@
+Canonical benchmark executable: build/bin/llama-bench
+readelf -d build/bin/llama-bench: RUNPATH [/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin:]
+ldd build/bin/llama-bench resolved libggml-cuda.so.0 to /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libggml-cuda.so.0.
+At control benchmark: build/bin/libggml-cuda.so.0.21.0 SHA-256 708eceba48460ad3d963b88c7f84a0f60a2bbed061d2cf7fdec70e39b15e29a9 (preserved as lib-control.so).
+At candidate benchmark: candidate SHA-256 fe817e2fd9498d28abf90685fec5a74b404242b5d681ee1c105775f82099b8b3 copied into build/bin/libggml-cuda.so.0.21.0 (preserved as lib-candidate.so). The canonical runner's executable RUNPATH resolves the build/bin library.
+Restored active library after experiment: SHA-256 708eceba48460ad3d963b88c7f84a0f60a2bbed061d2cf7fdec70e39b15e29a9.
