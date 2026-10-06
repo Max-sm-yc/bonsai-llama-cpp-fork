@@ -22,6 +22,7 @@
 - Experiment 004 tested a constant-memory lookup table for PTQ1_0 `qs` trit expansion. It matched the multiply decoder but took 5.89x longer in a focused 120-trit dot kernel; no production change or E2E run. The test excluded `qh` and production activation layout, so it rejects this direct LUT design only.
 - Experiment 005's 2-bit side-format screen is inconclusive: it wrote 128 bytes through a 32-byte packed-code field (overrunning adjacent records) and used the wrong PTQ1_0 element order. No valid packed conversion was tested, so its timing is invalid; no runtime integration or model benchmark occurred. The proposed block grows from 28 to 34 bytes (+21.43%).
 - Experiment 006 corrected side-code packing and element mapping and passed exact code/dot checks, but its purported SOA_ISUM address is wrong (`kb=b>>2`, `sub=b&3` instead of `group=b>>5`, `lane=b&31`, `word=e>>2`). Its 18.4–18.8% slower timing is inconclusive; no runtime integration or E2E test occurred. Correct and remeasure only if this remains a priority. Side payload is +21.43%.
+- Experiment 007 corrected SOA addressing and matched the production DP4A block arithmetic. Code/dot checks and Compute Sanitizer passed; packed 2-bit was 3.44–3.50% slower at 65,536 blocks and 5.02% slower at 16,384, with 21.43% larger blocks. Reject this side format for runtime integration; no E2E work was justified.
 - Nsight Compute counters are blocked by `ERR_NVGPUCTRPERM`; do not change system-wide driver permissions. Nsight Systems and static cubin resource reports are available.
 
 ## Important discoveries
@@ -31,10 +32,10 @@
 - The hot PTQ1_0 GEMV variants compile to 106–126 registers/thread with no local spills. PTQ1_0 also fuses Hadamard and Q8_1 quantization; PQ2_0 uses separate kernels.
 - The baseline matrix temperature gate runs once per format, not once per workload. Isolated decode processes at <=62 C start measured about 76–78 tok/s, unlike the hotter baseline matrix. In 512-token, 4096-context runs, process tails varied strongly with pair order and SM clocks; compare matched isolated runs and capture per-process telemetry.
 - The default four-warp batch-1 PTQ1_0 GEMV CTA launch is unchanged by two- or eight-warp alternatives on the tested 512/4096 decode contexts; warp count alone is not a useful tuning lever.
+- SOA_ISUM activation addressing for PTQ1 K-block `b` and element `e` is `group=b>>5`, `lane=b&31`, `word=e>>2`, byte `e&3`; groups stride 32*36 words. A helper takes a Q8 block index, so it derives the sub-block from `ib&3` before reaching the same address. Preserve this mapping in GEMV screens.
 - Both files fit at 4096 context with F16 KV. Peak whole-GPU memory is 6805 MiB PTQ1_0 and 7949 MiB PQ2_0.
 
 ## Next candidates
 
-1. Decide whether to rerun the 2-bit side screen with correct SOA activation addressing; do not treat experiment 006 timing as evidence.
-2. If moving on from reformatting, test a bit-sliced decoder on the original base-3 layout; the direct constant-memory LUT was 5.89x slower.
-3. Measure whether broader Hadamard/Q8_1 fusion benefits PQ2_0; keep secondary to the faster PTQ1_0 decode path.
+1. Test a bit-sliced decoder on the original base-3 layout using the production DP4A path; the direct constant-memory LUT was 5.89x slower.
+2. Measure whether broader Hadamard/Q8_1 fusion benefits PQ2_0; keep secondary to the faster PTQ1_0 decode path.

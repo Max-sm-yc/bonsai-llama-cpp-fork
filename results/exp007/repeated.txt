@@ -1,0 +1,20 @@
+RUN 2
+2026/10/06 10:52:41.200, 51, 1845 MHz, 173 MiB, 111.35 W
+address_check b=0 e=0 group=0 lane=0 word=0 byte=0 offset=0/9437184
+address_check b=0 e=127 group=0 lane=0 word=31 byte=3 offset=3971/9437184
+address_check b=65535 e=0 group=2047 lane=31 word=0 byte=0 offset=9432700/9437184
+address_check b=65535 e=127 group=2047 lane=31 word=31 byte=3 offset=9436671/9437184
+production-base3 0.0184559 0.0184546 0.0185071 0.0184661 0.0185303 0.0184593 0.0184730 ms/launch n=65536 reps=300
+2-bit-side 0.0190907 0.0191042 0.0191036 0.0191002 0.0190874 0.0191009 0.0191482 ms/launch n=65536 reps=300
+verified_codes=8388608 code_mismatches=0 output_mismatches=0 host_output_mismatches=0 max_abs_error=0 blocks=65536 alloc_words=2359296 base_bytes=28 side_bytes=34 payload_delta=21.43%
+2026/10/06 10:52:41.563, 51, 2010 MHz, 173 MiB, 122.35 W
+RUN 3
+2026/10/06 10:52:41.582, 51, 2010 MHz, 173 MiB, 122.35 W
+address_check b=0 e=0 group=0 lane=0 word=0 byte=0 offset=0/9437184
+address_check b=0 e=127 group=0 lane=0 word=31 byte=3 offset=3971/9437184
+address_check b=65535 e=0 group=2047 lane=31 word=0 byte=0 offset=9432700/9437184
+address_check b=65535 e=127 group=2047 lane=31 word=31 byte=3 offset=9436671/9437184
+production-base3 0.0184593 0.0184556 0.0184525 0.0184530 0.0185344 0.0184491 0.0184557 ms/launch n=65536 reps=300
+2-bit-side 0.0190805 0.0190900 0.0190874 0.0190976 0.0190911 0.0190874 0.0190941 ms/launch n=65536 reps=300
+verified_codes=8388608 code_mismatches=0 output_mismatches=0 host_output_mismatches=0 max_abs_error=0 blocks=65536 alloc_words=2359296 base_bytes=28 side_bytes=34 payload_delta=21.43%
+2026/10/06 10:52:41.955, 51, 2010 MHz, 173 MiB, 151.74 W

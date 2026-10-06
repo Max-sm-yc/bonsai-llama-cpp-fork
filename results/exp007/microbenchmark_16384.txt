@@ -1,0 +1,7 @@
+address_check b=0 e=0 group=0 lane=0 word=0 byte=0 offset=0/2359296
+address_check b=0 e=127 group=0 lane=0 word=31 byte=3 offset=3971/2359296
+address_check b=16383 e=0 group=511 lane=31 word=0 byte=0 offset=2354812/2359296
+address_check b=16383 e=127 group=511 lane=31 word=31 byte=3 offset=2358783/2359296
+production-base3 0.0029286 0.0029216 0.0029218 0.0029237 0.0029212 0.0029218 0.0029252 ms/launch n=16384 reps=300
+2-bit-side 0.0030672 0.0030720 0.0030711 0.0030708 0.0030686 0.0030686 0.0030681 ms/launch n=16384 reps=300
+verified_codes=2097152 code_mismatches=0 output_mismatches=0 host_output_mismatches=0 max_abs_error=0 blocks=16384 alloc_words=589824 base_bytes=28 side_bytes=34 payload_delta=21.43%
