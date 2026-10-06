@@ -68,5 +68,6 @@ The absolute reference-matrix decode figures are shown to preserve the original 
 - Experiment 014 recorded a warp-per-row reduction hypothesis but did not implement or measure a candidate. It leaves no performance result and does not change the best.
 - Experiment 015 implemented the warp-per-output-row register reduction. It passed selected correctness and model checks but lost 3.3–3.8% in two reversed-order pairs; the exact ROWS=1 source and library were restored and hash-verified.
 - Experiment 016 proposed a cooperative multiwarp row reduction but did not implement or measure it; the hypothesis remains open.
-- After ROWS=1, the active planar GEMV still accounts for 60.4% of profiled kernel time. The next candidate is a minimal two-warp-per-row reduction that restores K parallelism while reducing shared partial writes; both CTA caps alone and one-warp-per-row were unsuccessful.
+- Experiment 017 implemented two warps per row and passed selected correctness and model checks, but decode fell by 2.60% at context 512 and 1.82% at 4096. The source and active library were hash-verified after restoration.
+- After ROWS=1, the active planar GEMV still accounts for 60.4% of profiled kernel time. A shape-aware four-warps-per-row path for K>64 is the next candidate; fixed one- and two-warp row assignments were unsuccessful.
 - Nsight Compute counters remain unavailable. Future claims should rely on isolated repeated end-to-end runs and available Nsight Systems timing.

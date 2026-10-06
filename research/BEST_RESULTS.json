@@ -248,15 +248,41 @@
   },
   "source_results": "results/baseline.json",
   "latest_experiment": {
-    "id": "016",
-    "hypothesis": "Two or four warps per output row could restore K-block parallelism versus experiment 015 while combining into only a few shared partials.",
-    "decision": "INCONCLUSIVE - NOT IMPLEMENTED",
-    "performance_effect": "Not measured; no candidate was built.",
-    "correctness": "Not run; production source/build unchanged.",
-    "report": "experiments/016-multiwarp-row-reduce/REPORT.md",
-    "project_source_commit": "9c7727d04090bfd2a6a3cf6af1e47c45bc7ed14c"
+    "id": "017",
+    "hypothesis": "Two warps per output row restore K-block parallelism versus experiment 015 while reducing shared FP32 partials to two sums per row.",
+    "decision": "REVERT",
+    "performance_effect": "One controlled 7-repetition pair: -2.60% median at context 512 (79.7669 vs 81.8994 tok/s) and -1.82% at context 4096 (77.4338 vs 78.8722). Peak VRAM 6803 vs 6805 MiB.",
+    "correctness": "4/4 selected CTests, 96/96 CUDA-vs-CPU PTQ1_0/PQ2_0 matrix cases, both 32-token model smokes; generated text matches reference after ignoring build/timing metadata. Candidate/control loading verified. Source and active library restoration independently hash-verified.",
+    "benchmark_configuration": {
+      "gpu": "NVIDIA GeForce RTX 3080",
+      "compute_capability": "8.6",
+      "contexts": [
+        512,
+        4096
+      ],
+      "decode_tokens": 128,
+      "repetitions": 7,
+      "flash_attention": "on",
+      "kv_type": "f16",
+      "n_gpu_layers": 99,
+      "batch_size": 2048,
+      "ubatch_size": 512,
+      "cpu_threads": 8,
+      "cooldown_temperature_c": 60
+    },
+    "artifacts": [
+      "results/exp017/raw/control_pair1.json",
+      "results/exp017/raw/candidate_pair1.json",
+      "results/exp017/raw/ctest_candidate.log",
+      "results/exp017/raw/backend_ops_candidate.log",
+      "results/exp017/raw/model_smoke_candidate.json"
+    ],
+    "report": "experiments/017-two-warps-per-row/REPORT.md",
+    "source_restoration_sha256": "f398417accddf1948fbf12155b4180fd362a3dfea88366ef3980161700d56496",
+    "cuda_library_restoration_sha256": "72d89c0c69200865b2200ef35b94e14b9a6a52a840c17cb031e987d809207e72",
+    "project_source_commit": "d2c144be7cda6df38a59029f2073bdcd9cee2dc5"
   },
-  "updated_timestamp_utc": "2026-10-06T18:29:03Z",
+  "updated_timestamp_utc": "2026-10-06T18:44:58Z",
   "project_commit": "9fa97200e68fd798ef027470c8e420172a0ac719",
   "current_best": {
     "commit": "9fa97200e68fd798ef027470c8e420172a0ac719",

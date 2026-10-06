@@ -26,6 +26,7 @@
 - Experiment 014: inspected a warp-per-row reduction idea but stopped before implementing or measuring it. This is no performance evidence; the kernel hypothesis remains unresolved.
 - Experiment 015: implemented four warps/CTA, one warp/output-row with register K accumulation; it passed selected correctness/model checks but lost 3.27–3.79% in two reversed-order decode pairs. Source/library restoration hashes match the ROWS=1 control.
 - Experiment 016: the multiwarp-per-row follow-up ended before implementation; no performance or correctness evidence. The hypothesis is still open.
+- Experiment 017: two warps/output row (four warps/CTA) passed selected correctness and smoke checks but lost 2.60% at context 512 and 1.82% at 4096 in a seven-rep pair. The candidate lane split is uneven for common 40-block K rows; source and active library were independently restored.
 
 ## Important discoveries
 
@@ -35,5 +36,5 @@
 
 ## Next candidates
 
-1. Compile and benchmark a minimal 2-warp-per-row reduction first, then consider 4 warps/row if the evidence supports it; experiment 015's serial one-warp K loop was slower, while 016 produced no candidate.
+1. Consider a shape-aware 4-warp-per-row reduction only for K rows above 64 blocks, where four warps could cover the 136-block projection with high lane use; experiments 015/017 reject the fixed 1/2-warp row mappings.
 2. Revisit PQ2_0 activation fusion after this alternate PTQ1 reduction mapping.

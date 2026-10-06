@@ -100,3 +100,9 @@
 
 - The follow-up agent inspected active dispatch and fusion, then stopped before implementing a candidate. No tests, profiling, or measurements were run; this is not evidence against the idea.
 - Keep the proposal open, but begin with a small compileable two-warps-per-row/4-warp-CTA path and iterate from build and timing feedback. See `experiments/016-multiwarp-row-reduce/REPORT.md`.
+
+## Experiment 017: two warps per PTQ1_0 output row
+
+- Implemented a one-column-only 2-warps/row, 4-warps/CTA mapping. Each pair of warps split K-blocks, reduced locally, and wrote two sums per row for the final combine. Candidate compiled for sm_86 and passed 4 CTests, 96/96 CUDA-vs-CPU cases, and fixed 32-token PTQ1_0/PQ2_0 smokes with reference-matching generated text.
+- One seven-repetition end-to-end pair lost 2.60% at context 512 and 1.82% at 4096. Ranges were clearly separated at 512; no second pair was justified after the candidate lost at both contexts. The 40-block projections split unevenly (32+8 lanes); larger-K projections did not offset the combine overhead model-wide.
+- Reverted. The manager independently checked source and current-library restoration against saved hashes and removed temporary binaries. A shape-aware four-warps/row design for K>64 remains a distinct possible test; do not repeat the fixed one-/two-warp mappings. See `experiments/017-two-warps-per-row/REPORT.md`.
