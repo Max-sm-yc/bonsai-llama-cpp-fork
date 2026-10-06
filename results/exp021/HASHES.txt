@@ -1,0 +1,10 @@
+b86838997dcd6e1e4d703a4f668a92f810e5ecc4d5070019abbd4701b2c95bc6  /home/maxsun/autonomous_projects/bonsai2-rtx3080/ggml/src/ggml-cuda/gated_delta_net.cu  (source_gated_delta_net_cu)
+708eceba48460ad3d963b88c7f84a0f60a2bbed061d2cf7fdec70e39b15e29a9  /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libggml-cuda.so.0.21.0  (active_production_lib_708ece)
+a7651512d17d57d0f4ae76440d6f8453ab9e756057d3faa65489ca49b95ba4c3  results/exp021/libs/control/libggml-cuda.so.0.21.0  (ab_control_cols4)
+1a5531c11e27ad4af31d66a728d570eb6042baa94bb9af48fece72cf298efa46  results/exp021/libs/cols1/libggml-cuda.so.0.21.0  (candidate_cols1)
+105e36b99a27072f13f622cd02421543f71bb75f5c43e2692ac3ca1becca9c70  results/exp021/libs/cols2/libggml-cuda.so.0.21.0  (candidate_cols2)
+3f9d19012fa29a8f93c91514115a2ed330a7d63b5b6fc95d51b09490e1139288  results/exp021/libs/cols8/libggml-cuda.so.0.21.0  (candidate_cols8)
+708eceba48460ad3d963b88c7f84a0f60a2bbed061d2cf7fdec70e39b15e29a9  results/exp021/libs/source_default/libggml-cuda.so.0.21.0  (source_default_archived)
+2a502e2d53f1ccb88c6944e4f84dc0f27f6b5ca8ea9e95e324084a0c20f7454d  /home/maxsun/autonomous_projects/bonsai2-rtx3080/results/baseline_smoke.json  (tracked_baseline_smoke)
+
+NVIDIA RTX 3080, sm_86. Source hash and active library were restored to baseline values.

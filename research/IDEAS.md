@@ -1,12 +1,13 @@
 # Candidate hypotheses
 
-Ranked after experiment 020 and the ROWS=1 profile. Judge each candidate by controlled end-to-end decode and combined throughput.
+Ranked after experiment 021. Use controlled end-to-end decode as the decision metric.
 
-1. Tune the active GDN S_v=128 scalar raw-gate (`KDA=false`, `RAW=true`) column mapping on sm_86. The mixed trace attributes 4.6% to GDN, and the current kernel maps four columns per warp with four warps per CTA. Sweep practical column groupings, preserve numerical behavior, and verify the actual full-model decode path. The runtime already has fused recurrent-state gather/cache paths; first confirm which are active.
-2. Profile standalone RMSNorm (3.9%) and optimize only measured launch or data-movement overhead.
-3. Periodically challenge the active PTQ1_0 GEMV design with a substantially different approach. Experiments 015, 017, and 018 rejected fixed and shape-gated multiwarp row reductions; do not repeat them without a changed architectural premise.
-4. Revisit PQ2_0 activation fusion after PTQ1_0's active GDN/RMS paths.
+1. Profile standalone RMSNorm on sm_86 and investigate geometry changes or a safe fusion with a single-consumer neighbor. Standard RMSNorm plus learned weight is already fused, and per-branch fusion must preserve the Q/K/V shared normalized activation.
+2. Challenge the dominant PTQ1_0 GEMV with a materially different decode design. Prior fixed and shape-gated multiwarp row reductions, side-code formats, and pairwise trit decoding did not win; do not repeat those variants without a concrete architectural change.
+3. Consider activation fusion or other targeted work on PQ2_0 after higher-value PTQ1_0 paths.
 
-Experiments 019–020 exhausted the current per-branch RMS→FWHT fusion and FWHT CTA-width sweeps: normalization output is shared across Q/K/V, and NT=128 regressed while NT=512 tied with NT=256. Do not repeat either idea without a concrete design change.
+Experiment 021 screened GDN columns-per-warp 1/2/4/8 for the active S_v=128 scalar raw-gate specialization. No mapping change had a repeatable end-to-end gain. Do not repeat this sweep without a new kernel design or dispatch premise. The default graph already fuses recurrent-state gather into GDN; disabling that rewrite adds one GET_ROWS launch per observed GDN call. Cache-copy fusion was inspected in source but not independently toggled.
 
-Nsight Compute counters are unavailable (`ERR_NVGPUCTRPERM`); do not change system-wide driver permissions. Use Nsight Systems, static cubin resources, and controlled size/workload sweeps.
+Experiments 019–020 exhausted the current per-branch RMSNorm→FWHT/Q8_1 fusion and FWHT CTA-width sweeps. Do not retry without a coordinated consumer design or a concrete kernel change.
+
+Nsight Compute counters are unavailable (ERR_NVGPUCTRPERM); do not change system-wide driver permissions. Use Nsight Systems, static cubin resources, and controlled workload sweeps.

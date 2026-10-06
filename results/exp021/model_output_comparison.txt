@@ -1,0 +1,4 @@
+control: normalized_match_control=True raw_match=True
+cols1: normalized_match_control=True raw_match=False
+cols2: normalized_match_control=True raw_match=False
+cols8: normalized_match_control=True raw_match=False

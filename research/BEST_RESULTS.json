@@ -248,11 +248,11 @@
   },
   "source_results": "results/baseline.json",
   "latest_experiment": {
-    "id": "020",
-    "hypothesis": "Tune the fused PTQ1_0 FWHT/Q8_1 CTA width on sm_86 while preserving the N=1024 transform and PT stores.",
-    "decision": "REVERT; retain NT=256",
-    "performance_effect": "NT=128 lost 1.00%/0.90% at contexts 512/4096. NT=512 showed +0.15%/+0.06% in the reversed-order pair and is within noise; no verified E2E gain.",
-    "correctness": "NT=128/256/512 passed 4 selected CTests, 96/96 CUDA-vs-CPU PTQ1_0/PQ2_0 matmul cases, and fixed-seed 32-token model smokes; candidate completions matched NT=256.",
+    "id": "021",
+    "hypothesis": "Tune columns handled per warp for the active sm_86 GDN S_v=128 scalar raw-gate specialization.",
+    "decision": "REVERT; retain four columns per warp",
+    "performance_effect": "Columns=1 gained +0.52%/+0.41% in the candidate-first pair, but only +0.10%/+0.11% in the reversed pair at contexts 512/4096. The columns=2 and columns=8 screens were 0.05\u20130.32% below the later control2 run, but both candidates ran before that control and were not reversed-order pairs. No repeatable gain.",
+    "correctness": "Restored source-default passed 4/4 selected CTests, 96/96 CUDA-vs-CPU PTQ1_0/PQ2_0 matmul cases, and both fixed-seed model smokes; all candidate model completions matched after removing only timing text.",
     "benchmark_configuration": {
       "gpu": "NVIDIA GeForce RTX 3080",
       "compute_capability": "8.6",
@@ -272,47 +272,82 @@
       "cooldown_temperature_c": 60
     },
     "results": {
-      "NT128_candidate_vs_control_median_tok_s": {
+      "columns1_candidate_then_control_median_tok_s": {
         "512": [
-          81.1476,
-          81.9661
+          82.2421,
+          81.8205
         ],
         "4096": [
-          78.6971,
-          79.4136
+          79.757,
+          79.4284
         ]
       },
-      "NT512_reversed_pair_candidate_vs_control_median_tok_s": {
+      "columns1_control_then_candidate_median_tok_s": {
         "512": [
-          81.8397,
-          81.7174
+          81.6825,
+          81.7676
         ],
         "4096": [
-          78.6604,
-          78.6099
+          78.4597,
+          78.5492
         ]
       },
-      "peak_gpu_memory_used_mib": 6805.0
+      "columns2_vs_control2_median_tok_s": {
+        "512": [
+          81.6299,
+          81.6825
+        ],
+        "4096": [
+          78.4208,
+          78.4597
+        ]
+      },
+      "columns8_vs_control2_median_tok_s": {
+        "512": [
+          81.4193,
+          81.6825
+        ],
+        "4096": [
+          78.2267,
+          78.4597
+        ]
+      },
+      "peak_gpu_memory_used_mib": 6805.0,
+      "gather_fusion_trace": {
+        "tokens": 16,
+        "gdn_calls": 864,
+        "default_get_rows_calls": 0,
+        "disabled_fusion_get_rows_calls": 864
+      },
+      "comparison_order_note": "cols2 and cols8 were each screened after control1 and before control2; their comparisons to control2 are not reversed-order pairs."
     },
     "artifacts": [
-      "experiments/020-ptq1-fwht-q8-ampere/REPORT.md",
-      "results/exp020/nt128_pair1_candidate.json",
-      "results/exp020/nt128_pair1_control.json",
-      "results/exp020/nt512_pair1_candidate.json",
-      "results/exp020/nt512_pair1_control.json",
-      "results/exp020/nt512_pair2_candidate.json",
-      "results/exp020/nt512_pair2_control.json",
-      "results/exp020/loader_audit.txt"
+      "experiments/021-gdn-column-grouping/REPORT.md",
+      "results/exp021/measurements.csv",
+      "results/exp021/cols1.json",
+      "results/exp021/control1.json",
+      "results/exp021/cols1_pair2.json",
+      "results/exp021/control2.json",
+      "results/exp021/cols2.json",
+      "results/exp021/cols8.json",
+      "results/exp021/correctness.log",
+      "results/exp021/model_output_comparison.txt",
+      "results/exp021/loader_audit.txt",
+      "results/exp021/HASHES.txt",
+      "results/exp021/raw/profile_kernel_excerpt.csv",
+      "results/exp021/raw/gather_enabled_stats.txt",
+      "results/exp021/raw/gather_disabled_stats.txt",
+      "results/exp021/baseline_smoke_preexisting.json"
     ],
-    "source_file": "ggml/src/ggml-cuda/quantize.cu",
-    "source_sha256": "6027c6ab846050ec4c63009f9b0eea70edc29a2447a3801a8c31fb937e866f33",
-    "cuda_library_control_sha256": "23bd3d1201b2378ef0e343a313e1a01651d5749a7a155af02180c30f8d565811",
+    "source_file": "ggml/src/ggml-cuda/gated_delta_net.cu",
+    "source_sha256": "b86838997dcd6e1e4d703a4f668a92f810e5ecc4d5070019abbd4701b2c95bc6",
+    "cuda_library_control_sha256": "a7651512d17d57d0f4ae76440d6f8453ab9e756057d3faa65489ca49b95ba4c3",
     "cuda_library_restoration_sha256": "708eceba48460ad3d963b88c7f84a0f60a2bbed061d2cf7fdec70e39b15e29a9",
     "project_source_commit": "9fa97200e68fd798ef027470c8e420172a0ac719",
     "reference_runtime_commit": "6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17",
-    "timestamp_utc": "2026-10-06T20:30:00Z"
+    "timestamp_utc": "2026-10-06T21:29:31Z"
   },
-  "updated_timestamp_utc": "2026-10-06T20:30:00Z",
+  "updated_timestamp_utc": "2026-10-06T21:29:31Z",
   "project_commit": "9fa97200e68fd798ef027470c8e420172a0ac719",
   "current_best": {
     "commit": "9fa97200e68fd798ef027470c8e420172a0ac719",

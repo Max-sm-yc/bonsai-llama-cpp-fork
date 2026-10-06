@@ -173,3 +173,10 @@ AGENTS.local.md
 /results/exp009/parallel_bench
 /results/exp020/lib_*/
 /results/exp020/raw/model_outputs/*.stdout.txt
+
+# Experiment 021: retain compact summaries; large libraries and per-process loader traces stay local.
+/results/exp021/libs/
+/results/exp021/raw/*lddebug_*
+/results/exp021/raw/*.nsys-rep
+/results/exp021/raw/*.sqlite
+!/results/exp021/correctness.log

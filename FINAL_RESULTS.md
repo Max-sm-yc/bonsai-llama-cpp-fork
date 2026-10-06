@@ -1,6 +1,6 @@
 # Final results — research in progress
 
-The optimization campaign is active. Experiment 010 is the current verified best; this file records the reference results and the first retained optimization. Continue updating it as experiments are accepted.
+The optimization campaign is active. Experiment 010 remains the current verified best; experiment 021 produced no repeatable gain and left production unchanged. This file records the reference results and retained optimization while research continues.
 
 ## Hardware and software
 
@@ -74,3 +74,4 @@ The absolute reference-matrix decode figures are shown to preserve the original 
 - Experiment 020 screened NT=128/256/512 for fused PTQ1_0 FWHT/Q8_1 on sm_86. NT=128 lost 0.9–1.0%; NT=512 tied within noise in reversed-order pairs. Correctness passed for both quantization formats; no production change was retained.
 - After ROWS=1, the active planar GEMV still accounts for 60.4% of profiled kernel time. Fixed and shape-gated warp-per-row reductions have not improved it. Next investigate the measured gated-delta kernel (4.6%) and RMSNorm (3.9%). CUDA Graphs are already active in the baseline trace.
 - Nsight Compute counters remain unavailable. Future claims should rely on isolated repeated end-to-end runs and available Nsight Systems timing.
+- Experiment 021 tested GDN columns-per-warp 1/2/4/8 on the active sm_86 path. A small column-1 advantage in the first pair collapsed in the reversed pair; the 2/8 screens were close to the later control and were not reversed-order pairs. The default source and active library were restored and hash-verified. No performance change is retained.

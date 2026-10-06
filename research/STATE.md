@@ -4,7 +4,6 @@
 
 - **PTQ1_0, active sm_86 planar GEMV with ROWS=1.** Code commit `9fa97200e68fd798ef027470c8e420172a0ac719`; reference runtime commit `6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17`. Rebuilt source-default medians: 82.22 tok/s at context 512 and 79.70 at 4096 (7 reps, 128 decode tokens, F16 KV, FA on, 99 GPU layers, 8 CPU threads); matched archived ROWS=4 medians: 78.00/75.66, or +5.42%/+5.34%. Peak whole-GPU memory 6,805 MiB. Prefill not remeasured; reference medians are 1,378/1,331 tok/s at 512/4096.
 - Correctness: final source-default ROWS=1 passed 4 CTests, 96 CUDA-vs-CPU PTQ1_0/PQ2_0 matmul cases, and both fixed 32-token model smokes. See experiment 010 report and raw results.
-- Active experiment 021: test GDN columns-per-warp 1/2/4/8 for the measured S_v=128, scalar raw-gate sm_86 path; production remains at four columns per warp during the sweep.
 
 ## Bottlenecks
 
@@ -32,6 +31,8 @@
 - Experiment 019: per-branch RMSNorm→FWHT/Q8_1 fusion was not implemented; the attention-normalized activation feeds Q/K/V projection branches, so this route cannot discard the shared normalized tensor. No performance evidence; see report.
 - Experiment 020: FWHT/Q8_1 NT=128 lost about 0.9–1.0%; NT=512 tied after reversed-order pairs (+0.15%/+0.06%). Preserve NT=256; A/B correctness and samples are in the report.
 
+- Experiment 021: GDN columns-per-warp 1/2/4/8 had no repeatable decode winner; column 1 fell from +0.52/+0.41% to +0.10/+0.11% in reversed order, while the 2/8 screens were 0.05–0.32% below the later control without reversed ordering. See report and samples.
+
 ## Important discoveries
 
 - RTX 3080/sm_86 selects planar-transposed Q8_1 and dedicated `mul_mat_vec_ptq1_0_pt` for plain batch-1 PTQ1_0. ROWS=1 changes the one-column work mapping only; other column counts retain the existing schedule.
@@ -41,9 +42,10 @@
 - The FWHT→Q8_1 path is already one kernel, and model attention normalization has Q/K/V fanout. Do not retry per-branch RMS fusion without a coordinated consumer design and measured evidence that it can avoid extra reductions.
 - The active GDN trace is S_v=128, scalar-gate (`KDA=false`), raw-gate (`RAW=true`); on sm_86 it already uses four columns per warp, fused cache/gather paths, and CUDA Graphs.
 
+- Experiment 021 confirmed graph gather fusion is active: the 16-token trace had 864 GDN calls and no GET_ROWS; disabling fusion added exactly 864 GET_ROWS calls. Cache-copy fusion was source-audited, not toggled.
+
 ## Next candidates
 
-1. Tune the active GDN S_v=128 scalar raw-gate warp-column mapping (4.6% of mixed trace); test real decode and verify its existing fused gather/cache path stays active.
-2. Profile and optimize standalone RMSNorm (3.9%) where launch or data movement remains exposed.
-3. Revisit the dominant PTQ1_0 GEMV with a fundamentally different strategy after the tested row-reduction mappings; do not repeat those schedules without a concrete architectural change.
-4. Consider PQ2_0 activation fusion after the active PTQ1_0 paths.
+1. Profile the standalone RMSNorm calls (3.9% of the mixed trace) and test sm_86 geometry or safe producer/consumer fusion only where graph fanout permits; standard RMSNorm-plus-weight is already fused.
+2. Revisit dominant PTQ1_0 GEMV with a materially different approach after the tested row schedules and trit decoders; avoid repeating them without a changed premise.
+3. Consider PQ2_0 activation fusion after the higher-value PTQ1_0 paths.
