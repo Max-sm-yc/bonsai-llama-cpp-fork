@@ -142,6 +142,11 @@ flake.lock
 /run-spec.sh
 /.ccache/
 
+# Large Nsight binary captures are kept locally; check in compact CSV summaries instead.
+/results/profile/*.nsys-rep
+/results/profile/*.sqlite
+/results/profile/*.ncu-rep
+
 # IDE
 
 /*.code-workspace
