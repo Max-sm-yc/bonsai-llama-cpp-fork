@@ -162,3 +162,5 @@ AGENTS.local.md
 # Experiment build outputs
 /results/exp002/on/bin/
 /results/exp002/off/bin/
+/results/exp003/*/bin/
+/results/exp003/raw/*_smoke.stdout.txt

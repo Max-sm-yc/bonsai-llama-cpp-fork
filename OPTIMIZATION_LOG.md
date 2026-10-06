@@ -20,3 +20,8 @@
 - A longer 512-token, context-4096 follow-up initially showed a faster third sample with prefetch-on. In two seven-repetition reversed-order pairs, the later-sample winner switched with process order; SM clock samples ranged from 270 to 1980 MHz. No robust prefetch effect was demonstrated.
 - Kept the baseline prefetch-on source. Candidate correctness passed: 4/4 upstream tests, 96/96 CUDA-vs-CPU ternary matmul cases, and both CUDA model smoke runs. The paired runner and raw results are preserved in `benchmark/prefetch_ab.py` and `results/exp002/`.
 - Follow-up: pursue a different PTQ1_0 GEMV work-partition/unpack hypothesis; use paired runs and retain results only when the end-to-end gain repeats across process orders and warmed samples.
+
+## Experiment 003: PTQ1_0 batch-1 GEMV warp geometry
+
+- Compared the four-warp baseline with two and eight warps on the actual RTX 3080. The two-warp screen changed medians by +0.001% at context 512 and -0.047% at 4096; five paired eight-warp runs changed them by -0.025% and +0.026%. The 8-warp paired sign varied by context and pair, within overlapping sample ranges.
+- Both candidates passed CUDA-vs-CPU coverage (96/96 cases) and PTQ1_0/PQ2_0 CUDA smoke inference. No end-to-end gain was demonstrated; restored the four-warp source and baseline build. See `experiments/003-ptq1-gemv-geometry/REPORT.md` and `results/exp003/`.

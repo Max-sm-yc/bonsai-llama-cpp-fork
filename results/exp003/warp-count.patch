@@ -1,0 +1,17 @@
+--- results/exp003/mmvq.cu.baseline	2026-10-06 09:14:25.181244360 -0400
++++ ggml/src/ggml-cuda/mmvq.cu	2026-10-06 09:14:34.119233940 -0400
+@@ -408,5 +408,14 @@
+ }
+static constexpr __host__ __device__ int calc_nwarps(ggml_type type, int ncols_dst, mmvq_parameter_table_id table_id, bool small_k = false, bool halve_iters = false) {
++#if !defined(GGML_USE_HIP)
++    if (type == GGML_TYPE_PTQ1_0 && ncols_dst == 1 &&
++        (table_id == MMVQ_PARAMETERS_GENERIC || table_id == MMVQ_PARAMETERS_TURING)) {
++#ifndef GGML_CUDA_PTQ1_0_GEMV_NWARPS
++#define GGML_CUDA_PTQ1_0_GEMV_NWARPS 4
++#endif
++        return GGML_CUDA_PTQ1_0_GEMV_NWARPS;
++    }
++#endif
+     if (ptq1_0_pt_enabled() && type == GGML_TYPE_PTQ1_0 && ncols_dst > 1 &&
+         (table_id == MMVQ_PARAMETERS_GENERIC || table_id == MMVQ_PARAMETERS_TURING)) {
+         // one K partition for every column count, so the fp32 sums of a column
