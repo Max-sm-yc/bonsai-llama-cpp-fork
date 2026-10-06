@@ -1,0 +1,44 @@
+diff --git a/ggml/src/ggml-cuda/mmvq-ptq1_0.cuh b/ggml/src/ggml-cuda/mmvq-ptq1_0.cuh
+index a1f932a..628d700 100644
+--- a/ggml/src/ggml-cuda/mmvq-ptq1_0.cuh
++++ b/ggml/src/ggml-cuda/mmvq-ptq1_0.cuh
+@@ -36,6 +36,13 @@
+ #define PTQ1_0_PT_MAX_COLS     8    // equals MMVQ_MAX_BATCH_SIZE, checked in mmvq.cu
+ #define PTQ1_0_PT_SMEM_FLOATS  4096 // 16 KiB target when choosing rows per CTA; the launch may request more for one item
+ 
++#ifndef PTQ1_0_PT_PREFETCH_DISTANCE
++#define PTQ1_0_PT_PREFETCH_DISTANCE 0
++#endif
++#ifndef PTQ1_0_PT_PREFETCH_POLICY
++#define PTQ1_0_PT_PREFETCH_POLICY 1
++#endif
++
+ // the PT path is CUDA only; HIP keeps the block_q8_1 layout and the old vec_dot
+ static constexpr __host__ __device__ bool ptq1_0_pt_enabled() {
+ #if defined(GGML_USE_HIP)
+@@ -335,6 +342,25 @@ static __global__ void mul_mat_vec_ptq1_0_pt(
+         const int rg  = fastdiv((uint32_t) idx, bpr_fd); // row group within the CTA
+         const int kbx = idx - rg*bpr;
+ 
++#if PTQ1_0_PT_PREFETCH_DISTANCE > 0
++        // Prefetch the same thread's future work-list item. Check before decoding
++        // it so the tail never forms an address past the final logical item.
++        const int prefetch_idx = idx + PTQ1_0_PT_PREFETCH_DISTANCE*PTQ1_0_PT_THREADS;
++        if (prefetch_idx < n_items) {
++            const int prefetch_rg = fastdiv((uint32_t) prefetch_idx, bpr_fd);
++            const int prefetch_kbx = prefetch_idx - prefetch_rg*bpr;
++            int prefetch_r = prefetch_rg*ROWS;
++            prefetch_r = prefetch_r < n_rows_cta ? prefetch_r : n_rows_cta - 1;
++            const block_ptq1_0 * prefetch_bq = (const block_ptq1_0 *) vx +
++                    (int64_t) (row0 + prefetch_r)*stride_row_x + prefetch_kbx;
++#if PTQ1_0_PT_PREFETCH_POLICY == 1
++            asm volatile("prefetch.global.L1 [%0];" :: "l"(prefetch_bq));
++#else
++            asm volatile("prefetch.global.L2 [%0];" :: "l"(prefetch_bq));
++#endif
++        }
++#endif
++
+         const block_ptq1_0 * bq[ROWS];
+ #pragma unroll
+         for (int i = 0; i < ROWS; ++i) {

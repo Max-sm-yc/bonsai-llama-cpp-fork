@@ -1,0 +1,2 @@
+f398417accddf1948fbf12155b4180fd362a3dfea88366ef3980161700d56496  ggml/src/ggml-cuda/mmvq-ptq1_0.cuh
+708eceba48460ad3d963b88c7f84a0f60a2bbed061d2cf7fdec70e39b15e29a9  build/bin/libggml-cuda.so.0.21.0

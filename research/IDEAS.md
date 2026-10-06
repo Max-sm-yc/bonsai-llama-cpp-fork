@@ -2,7 +2,7 @@
 
 Ranked against the current ROWS=1 implementation. Controlled batch-1 model decode is the decision metric; isolated kernel gains are screening evidence only.
 
-1. The active plain PTQ1_0 GEMV flattens `(row group,K block)` items and each thread advances by 128. Screen a prefetch of the next per-thread work item, not the current block; compare one-item lookahead and a cache policy only if an implementation-equivalent event harness shows useful overlap without excess requests. Require matched end-to-end decode.
+1. Compare default global caching with `.cg` L1-bypass or `.cs` streaming policy for aligned packed PTQ1_0 weight-word loads in the active plain GEMV. Weights stream once per token while activation planes repeat across output rows; test whether limiting weight residency protects useful activation L1 data. Preserve the 28-byte layout and arithmetic; require an active-kernel screen and matched end-to-end decode if promising.
 2. Consider a different packed-weight staging/dataflow for the 28-byte PTQ1_0 block, with correctness and instruction/resource checks before integration.
 3. Fused-gate PTQ1_0 accounts for 15.5% (298.6 ms / 5,161 launches), but its active SASS already shares the nine 128-bit Q8_1 activation loads with the ungated dot. Only pursue paired-dot scheduling if the audit identifies redundant non-load work. PQ2_0 decode remains another lower-ranked path.
 

@@ -1,0 +1,10 @@
+Experiment 028 Nsight Systems run configuration (read from each saved .nsys-rep).
+GPU: NVIDIA GeForce RTX 3080, compute capability 8.6
+Workload: llama-bench -m models/Ternary-Bonsai-2-27B-PTQ1_0.gguf -ngl 99 -fa on -b 2048 -ub 512 -ctk f16 -ctv f16 -t 8 -r 1 -o json -p 0 -n 16 -d 512
+Nsight graph trace: node mode; one trace per variant/control.
+Target kernel filtered in kernel summary: mul_mat_vec_ptq1_0_pt<(int)1,(int)1,(bool)0,(bool)0>.
+control_trace_exact: LD_LIBRARY_PATH="/home/maxsun/autonomous_projects/bonsai2-rtx3080/results/exp028/libs/control"
+l1d1_trace: LD_LIBRARY_PATH="/home/maxsun/autonomous_projects/bonsai2-rtx3080/results/exp028/libs/l1d1:/usr/local/cuda/lib64:/usr/local/cuda/lib64:"
+l1d2_trace: LD_LIBRARY_PATH="/home/maxsun/autonomous_projects/bonsai2-rtx3080/results/exp028/libs/l1d2:/usr/local/cuda/lib64:/usr/local/cuda/lib64:"
+l2d1_trace: LD_LIBRARY_PATH="/home/maxsun/autonomous_projects/bonsai2-rtx3080/results/exp028/libs/l2d1:/usr/local/cuda/lib64:/usr/local/cuda/lib64:"
+The LD_LIBRARY_PATH entries identify the libraries loaded during capture; those variant binaries were subsequently removed after their hashes and trace artifacts were recorded.

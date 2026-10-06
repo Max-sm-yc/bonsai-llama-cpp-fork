@@ -1,0 +1,12 @@
+Libraries used for the Experiment 028 traces (binaries omitted from Git):
+control 708eceba48460ad3d963b88c7f84a0f60a2bbed061d2cf7fdec70e39b15e29a9 results/exp028/control-libggml-cuda.so.0.21.0
+l1d1 7e7a75732c4d908f35d2af1e945887b96b1980dc6bbb89228a169d832706439f results/exp028/libs/l1d1/libggml-cuda.so.0.21.0
+l1d2 e283d6ae052b877d872873d3c5ca8ebc6c460e48cd0279f0a5259ebac461898d results/exp028/libs/l1d2/libggml-cuda.so.0.21.0
+l2d1 8b3c034b84e23cd7174b9ec450adb30e13bf12325de1d0576a3591989ec74eb3 results/exp028/libs/l2d1/libggml-cuda.so.0.21.0
+
+Variant compiler definitions injected into the mmvq.cu nvcc command:
+l1d1 -DPTQ1_0_PT_PREFETCH_DISTANCE=1 -DPTQ1_0_PT_PREFETCH_POLICY=1
+l1d2 -DPTQ1_0_PT_PREFETCH_DISTANCE=2 -DPTQ1_0_PT_PREFETCH_POLICY=1
+l2d1 -DPTQ1_0_PT_PREFETCH_DISTANCE=1 -DPTQ1_0_PT_PREFETCH_POLICY=2
+
+The baseline/control library hash matches the restored active build. The per-variant shared objects were removed after the trace and SASS audits; rebuild from candidate.patch plus the definitions above to recreate them.

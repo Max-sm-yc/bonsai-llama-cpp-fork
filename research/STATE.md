@@ -39,6 +39,7 @@
 - Experiment 025: explicit 2/4-item strip mining preserved correctness but lost 0.42–0.52% at context 512 and 0.42–1.36% at 4096; the active specialization stayed at 76 registers/thread with no stack/local storage. No evidence of useful ILP from source unrolling alone. Reverted and hash-restored.
 - Experiment 026: SASS audit found nine 128-bit activation loads in both gated and ungated fused GEMV variants; compiler already reuses the activation vectors. No paired-helper candidate was built.
 - Experiment 027: active-kernel current-block prefetch has no useful lookahead; 28-byte weight-block spacing complicates vector loads. Static challenge ended before a candidate/event test, so alternate dataflows remain open.
+- Experiment 028: per-thread next-item lookahead was address-safe and emitted active `CCTL.E.PF1/PF2`, but one trace per variant showed 2.3% (distance 1) and 7.4% (distance 2) more plain-kernel time. Reverted at the focused screen; no E2E claim.
 
 ## Important discoveries
 
@@ -53,11 +54,12 @@
 - Experiment 025's work-list strip mining changed neither static register usage nor model throughput favorably; do not retry source unrolling alone without disassembly or kernel-counter evidence.
 - Experiments 001/002 changed only the generic PTQ1 prefetch, while the RTX 3080 batch-1 decode takes the dedicated kernel. Experiment 026's gated/ungated SASS each has nine 128-bit activation loads, so do not pursue load reuse there without a new codegen premise.
 - The dedicated GEMV assigns `(row group,K block)` work items with per-thread loop stride 128. Prefetching that thread's next work item is a distinct lookahead candidate; current-block prefetch is not.
+- The work-list lookahead adds index/address instructions before the dot and did not repay that overhead in the first actual-kernel trace. PTQ1 packed `qs` words remain naturally 4-byte aligned even though 28-byte block starts are not 16-byte aligned.
 
 - Experiment 021 confirmed graph gather fusion is active: the 16-token trace had 864 GDN calls and no GET_ROWS; disabling fusion added exactly 864 GET_ROWS calls. Cache-copy fusion was source-audited, not toggled.
 
 ## Next candidates
 
-1. Test per-thread work-list lookahead prefetch in active PTQ1_0 GEMV: each thread advances by 128 items, so prefetch the upcoming `(row group,K block)` weight item while computing the current dot. Screen cache policy/distance and measure overhead before end-to-end integration.
+1. Compare default caching with `.cg` L1-bypass or `.cs` streaming loads for active PTQ1_0 packed weight words. The aligned u32 `qs` loads can be targeted without changing the 28-byte storage layout; test whether avoiding weight pollution preserves useful activation L1 residency.
 2. A different packed-weight staging/dataflow for the 28-byte PTQ1_0 block, only with an implementation-equivalent event screen and correctness proof.
 3. Audit fused-gate non-load reuse or targeted PQ2_0 decode only after a concrete SASS/source premise; maintain identical model and workload conditions.

@@ -175,3 +175,9 @@
 - Static source/SASS inspection considered current-block `.L1` prefetch and packed-weight vector/cache-policy changes. Current-block prefetch did not create lookahead, while successive weights are separated by a 28-byte block stride. No candidate reached an implementation-equivalent event screen, so no performance conclusion was drawn.
 - Manager reviewed the report and independently verified source/library hashes remain the current production baseline. Keep this as an inconclusive screening result, not evidence that all lookahead or staging approaches fail. See `experiments/027-ptq1-dataflow-challenge/REPORT.md` and `results/exp027/`.
 - Follow-up: screen a prefetch for each thread's next `(row group,K block)` work item, since the active 128-thread work list advances each thread by 128 items.
+
+## Experiment 028: PTQ1_0 work-list lookahead prefetch
+
+- Tested `.L1` distance 1/2 and `.L2` distance 1 for each thread's future work item in the actual active plain specialization. Address checks passed for 4,575 shape/pitch combinations and 21.6M future indices; SASS emitted the expected `CCTL.E.PF1/PF2` hints.
+- In one 16-token Nsight Systems trace per arm (485 target launches each), plain-kernel totals were 9.577 ms control, 9.799 ms L1-D1 (+2.3%), 10.281 ms L1-D2 (+7.4%), and 9.793 ms L2-D1 (+2.3%). Manager independently reproduced the totals, medians, selected library paths, and address-check result. The screen was negative; no correctness suite or end-to-end candidate A/B was run, and no candidate is retained.
+- Next, test load-cache policy directly on the active packed weight reads. This avoids adding future-index decode and tests whether streaming weights currently displace the reusable activation planes.
