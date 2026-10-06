@@ -20,6 +20,7 @@
 - Experiments 001/002: disabling PTQ1_0 L2 prefetch tied within noise or varied with run order.
 - Experiment 003 changed a generic path bypassed by sm_86 batch-1 dispatch. Experiments 004–009 either targeted SOA rather than this planar kernel or failed/slowed their focused test; see reports.
 - Experiment 010 ROWS=8 lost 16–17%. Its first archived-binary screens and follow-ups loaded the same `build/bin` library due absolute RUNPATH; treat those timings as invalid. Corrected per-library runs are marked `_isolated` and verified with `ldd`/`LD_DEBUG`.
+- Experiment 011: exact planar 2-bit side codes lost to base-3 by 3.02–7.01% (scalar) and 3.10–4.68% (packed-byte expansion) at 16K/65K blocks, before conversion; no model integration. Manager rebuilt and independently rechecked exact outputs.
 
 ## Important discoveries
 
@@ -29,6 +30,5 @@
 
 ## Next candidates
 
-1. Test a PTQ1 2-bit side-code/unpack design against the active planar sm_86 path; prior side-code tests used SOA and do not decide this layout. Benchmark actual model decode, including any repacking and VRAM cost.
-2. Explore a distinct active-planar trit unpack/reduction mapping; keep end-to-end PTQ1_0 decode as the decision metric.
-3. Revisit PQ2_0 activation fusion after a few further PTQ1 experiments.
+1. Explore a distinct active-planar trit unpack/reduction mapping; keep end-to-end PTQ1_0 decode as the decision metric.
+2. Revisit PQ2_0 activation fusion after a few further PTQ1 experiments.

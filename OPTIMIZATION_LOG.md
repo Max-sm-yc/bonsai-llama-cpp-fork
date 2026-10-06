@@ -64,3 +64,9 @@
 - Some context-4096 repetitions have severe low-throughput tails in both row1 and baseline binaries. Preserve medians and means/ranges together; there is not yet a causal diagnosis. The first archived-binary timing set is invalid because of absolute RUNPATH leakage and is explicitly excluded in the report and `results/exp010/README.md`.
 - Rebuilt and rechecked the final source-default library independently. A fresh matched seven-repetition pair measured +5.4%/+5.3% medians at contexts 512/4096; all sample ranges were tight. Four CTests, 96 CUDA-vs-CPU cases, and both model smokes passed.
 - Re-profiled with Nsight Systems: the three PTQ1_0 GEMV variants fell from 1.253 s to 1.166 s combined in the mixed setup/decode trace and remain 60.4% of GPU kernel time. Retained ROWS=1; investigate a 2-bit code specialized to the actual planar path, because prior 2-bit screens were SOA-only.
+
+## Experiment 011: exact 2-bit side codes on the active planar path
+
+- Repacked canonical PTQ1_0 blocks into 34-byte 2-bit side blocks and compared scalar extraction and packed-byte DP4A expansion against the active planar base-3 dot. All trits, full block outputs, and independent CPU references matched exactly; manager rebuilt the harness and independently rechecked 16,384 blocks.
+- Both decoders were slower at 16K and 65K K-blocks with disjoint sample ranges. At 65K, scalar extraction lost 3.02% and packed expansion lost 4.68%; this screen excluded conversion, favoring the side representation. No runtime/model candidate was integrated.
+- Reject the 2-bit side representation on this sm_86 planar kernel. The 34-byte blocks add 21.43% weight payload, with no decode benefit to cover that cost. Continue with a different base-3 unpack/reduction mapping. Full data: `experiments/011-ptq1-planar-2bit/REPORT.md`.

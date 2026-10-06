@@ -1,0 +1,6 @@
+========= COMPUTE-SANITIZER
+EXACT blocks=16384 verified_codes=2097152 code_mismatches=0 outputs=16384 output_mismatches=0 independent_ref_mismatches=0 max_abs_error=0 payload=28->34 (+21.43%) planar_activation=2359296 bytes
+planar-base3 0.33679360 0.31078398 0.31094784 0.30922496 0.31081727 0.31274816 0.31043586 0.31208640 0.31002626 ms/launch blocks=16384 reps=50
+planar-2bit-scalar 0.31188095 0.30988288 0.28723776 0.28827265 0.28450814 0.28661761 0.28563455 0.28534785 0.28672001 ms/launch blocks=16384 reps=50
+planar-2bit-expand 0.31209472 0.31073791 0.28710401 0.28671038 0.28721151 0.28708863 0.28697217 0.28573632 0.28723201 ms/launch blocks=16384 reps=50
+========= ERROR SUMMARY: 0 errors

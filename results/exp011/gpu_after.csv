@@ -1,0 +1,2 @@
+temperature.gpu, clocks.current.graphics [MHz], clocks.current.memory [MHz], power.draw [W], memory.used [MiB]
+60, 1995 MHz, 9501 MHz, 83.17 W, 173 MiB
