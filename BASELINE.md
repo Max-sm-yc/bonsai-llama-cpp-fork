@@ -34,7 +34,7 @@ Median tokens/s over seven repetitions:
 | 2048 | 42.82 | 29.26 | 46.3% |
 | 4096 | 39.21 | 25.53 | 53.6% |
 
-The first one or two timed repetitions were faster than the remaining repetitions in several decode rows. The seven-sample median tracks the stable middle of each row without selecting the fastest run. Raw distributions and standard deviations are retained for later comparisons.
+The first one or two timed repetitions were faster than the remaining repetitions in several decode rows. The seven-sample median tracks the stable middle of each row without selecting the fastest run. Raw distributions and standard deviations are retained for later comparisons. The 60°C gate applies only once per format, not before each mode; later modes inherit GPU heating from earlier ones. Decode-first screenings therefore cannot be compared with this prefill-first matrix, and a follow-up paired experiment should isolate each mode/context and record the thermal state for each run.
 
 ## Combined prompt and generation throughput
 
