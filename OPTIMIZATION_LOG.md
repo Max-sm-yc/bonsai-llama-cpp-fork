@@ -83,3 +83,8 @@
 - Matched Nsight Systems traces showed a 0.56% reduction in the three planar variants' aggregate time for cap 8, but no end-to-end benefit. Cap 8 increases CTA counts substantially on major projections; the existing chooser's utilization heuristic remains the best measured tradeoff.
 - Reverted the geometry changes. The manager independently verified the production source and CUDA library against the saved control SHA-256 and removed the temporary copied build. Keep the cap-16/4096-float production heuristic. See `experiments/013-planar-cta-rows/REPORT.md`.
 - Next: test a genuinely different warp/register reduction strategy that removes per-K-block shared partial traffic, and require exactness plus matched end-to-end decode improvement before retaining it.
+
+## Experiment 014: warp-per-row reduction proposal (not implemented)
+
+- The experimenter confirmed active dispatch and documented a warp-per-row/register-reduction hypothesis, but ended before making a candidate. No code was built, correctness was not run, and no performance conclusion follows.
+- Source and active CUDA library hashes matched the current best. Keep the optimization frontier open; the next experiment must implement the candidate and benchmark it rather than repeat analysis only. See `experiments/014-planar-warp-reduction/REPORT.md`.

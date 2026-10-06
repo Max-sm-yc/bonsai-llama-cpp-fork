@@ -23,6 +23,7 @@
 - Experiment 011: exact planar 2-bit side codes lost to base-3 by 3.02–7.01% (scalar) and 3.10–4.68% (packed-byte expansion) at 16K/65K blocks, before conversion; no model integration. Manager rebuilt and independently rechecked exact outputs.
 - Experiment 012: pairwise `x*9` trit decode became exact after correcting an activation-word index, but lost 1.97–24.59% in full-block dot screens at 65K/16K/128 blocks; no model integration.
 - Experiment 013: CTA row-tile caps 4/8/24/32 and a larger shared-memory target did not improve decode; the best-looking cap-8 candidate tied ROWS=1 within 0.11% / -0.01% at contexts 512/4096. Larger tiles lost, with cap-32/8192 notably slower. Exact ROWS=1 source and library restoration were independently hash-verified.
+- Experiment 014: inspected a warp-per-row reduction idea but stopped before implementing or measuring it. This is no performance evidence; the kernel hypothesis remains unresolved.
 
 ## Important discoveries
 
@@ -32,5 +33,5 @@
 
 ## Next candidates
 
-1. Challenge the active planar kernel's shared partial array and CTA-wide reduction with a warp/register reduction design; measure whether fewer shared-memory exchanges repay any change in parallel work and scheduling.
+1. Implement and measure the warp-per-row register reduction proposed in 014; do not treat the inspection-only report as a completed kernel experiment.
 2. Revisit PQ2_0 activation fusion after testing one distinct PTQ1 reduction design.

@@ -248,56 +248,19 @@
   },
   "source_results": "results/baseline.json",
   "latest_experiment": {
-    "id": "013",
-    "hypothesis": "Tune rows-per-CTA and shared-memory geometry in the active planar PTQ1_0 batch-1 GEMV while retaining ROWS=1",
-    "decision": "REVERT",
-    "performance_effect": "Cap 8 tied the ROWS=1 control in the seven-repetition pair (+0.11% at context 512; -0.01% at 4096); larger caps lost and cap 32 at an 8192-float target regressed materially. Nsight Systems showed -0.56% aggregate time for three PTQ1 variants, without E2E gain.",
-    "correctness": "Candidate changed only one-column host tile selection; dedicated PTQ1 planar kernel dispatch verified in Nsight Systems. Production source and CUDA library were independently restored and hash-verified. Candidate did not receive the full model correctness suite because it had no repeatable performance gain.",
-    "benchmark_configuration": {
-      "gpu": "NVIDIA GeForce RTX 3080",
-      "compute_capability": "8.6",
-      "contexts": [
-        512,
-        4096
-      ],
-      "decode_tokens": 128,
-      "repetitions": 7,
-      "flash_attention": "on",
-      "kv_type": "f16",
-      "n_gpu_layers": 99,
-      "batch_size": 2048,
-      "ubatch_size": 512,
-      "cpu_threads": 8,
-      "cooldown_temperature_c": 60
-    },
-    "results": {
-      "control_median_tok_s": {
-        "512": 81.8154,
-        "4096": 78.719
-      },
-      "cap8_median_tok_s": {
-        "512": 81.9074,
-        "4096": 78.709
-      },
-      "median_delta_percent": {
-        "512": 0.11,
-        "4096": -0.01
-      },
-      "peak_gpu_memory_used_mib": 6805
-    },
+    "id": "014",
+    "hypothesis": "A warp-per-row/register reduction could remove the active planar PTQ1_0 GEMV shared partial array and CTA barrier.",
+    "decision": "INCONCLUSIVE - NO CANDIDATE IMPLEMENTED",
+    "performance_effect": "Not measured; no source candidate was implemented or built.",
+    "correctness": "Not run; no candidate exists. Current-best source and CUDA library SHA-256 values were verified unchanged.",
     "artifacts": [
-      "results/exp013/control_pair1.json",
-      "results/exp013/cap8_pair1.json",
-      "results/exp013/cap4_screen.json",
-      "results/exp013/cap8_screen.json",
-      "results/exp013/cap24_screen.json",
-      "results/exp013/cap32_screen.json",
-      "results/exp013/cap32_t8192_screen.json"
+      "experiments/014-planar-warp-reduction/REPORT.md",
+      "experiments/014-planar-warp-reduction/unchanged-hashes.txt"
     ],
-    "report": "experiments/013-planar-cta-rows/REPORT.md",
-    "project_source_commit": "81200902bf21f954faf95a36a7ee67b3fb81d4c9"
+    "report": "experiments/014-planar-warp-reduction/REPORT.md",
+    "project_source_commit": "53385bc23961a200c1d91bc373d361397e915de8"
   },
-  "updated_timestamp_utc": "2026-10-06T18:02:49Z",
+  "updated_timestamp_utc": "2026-10-06T18:07:28Z",
   "project_commit": "9fa97200e68fd798ef027470c8e420172a0ac719",
   "current_best": {
     "commit": "9fa97200e68fd798ef027470c8e420172a0ac719",
