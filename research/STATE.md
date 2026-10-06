@@ -32,5 +32,5 @@
 
 ## Next candidates
 
-1. Test a different PTQ1_0 GEMV work mapping or fused unpack/dot schedule while keeping the four-warp baseline; use a focused kernel measurement to screen, then require repeatable end-to-end decode gain and numerical tests.
+1. Replace or reorganize the repeated base-3 PTQ1_0 trit expansion (`multiply by 3` plus byte permutes) in `vec_dot_ptq1_0_q8_1_multi`; compare an exact LUT/bit-sliced decoder in a CUDA kernel timer, then validate the integrated 4-warp path end-to-end if promising.
 2. Measure whether broader Hadamard/Q8_1 fusion benefits PQ2_0; keep secondary to the faster PTQ1_0 decode path.
