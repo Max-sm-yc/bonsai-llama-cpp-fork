@@ -75,3 +75,7 @@ This suggests launch warp count alone is not the limiting factor for the dominan
 ## FINAL SOURCE/BINARY STATE
 
 Both candidate geometry changes were reverted. The checked-out CUDA source matches the verified four-warp baseline, `CMAKE_CUDA_FLAGS` is empty, and the default `build/bin/` matches the saved baseline build. The experimenter made no commit; the manager records the report and measurements in a research-only commit. Candidate binaries remain as local ignored artifacts under `results/exp003/{baseline,nwarps2,nwarps8}/bin/`.
+
+## MANAGER AUDIT (post-exp009 dispatch review)
+
+The RTX 3080 host layout selector routes batch-1 PTQ1_0 to the planar-transposed `GGML_CUDA_Q8_1_PT` layout. The plain one-column matvec dispatcher then invokes the dedicated `mul_mat_vec_ptq1_0_pt` kernel and returns before instantiating the generic `mul_mat_vec_q` path whose `calc_nwarps` value this experiment changed. Thus the 2/4/8-warp binaries used the same active PTQ1_0 batch-1 kernel. The measured decode ties are a useful no-op control, but provide no evidence about warp geometry in the actual RTX 3080 kernel.

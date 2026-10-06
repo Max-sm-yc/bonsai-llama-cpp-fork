@@ -65,3 +65,7 @@ This corrects both material comparability errors in experiment 006: SOA activati
 - Production SOA_ISUM maps each PTQ K-block to one lane in a group of 32; each of the 32 Q8 words is indexed by `e>>2`. The group stride is 1,152 words, followed by four per-lane scale/isum words.
 - The corrected harness checked all 8,388,608 codes and exact full-block outputs and passed memcheck with zero errors.
 - On repeated 65,536-block runs, packed 2-bit dots were 3.44–3.50% slower than the production-style base-3 DP4A path. The side block remains 21.43% larger.
+
+## MANAGER AUDIT (post-exp009 dispatch review)
+
+This harness reproduces the SOA_ISUM activation layout. On the target RTX 3080 / sm_86, `ggml_cuda_q8_1_layout_host` selects planar-transposed `GGML_CUDA_Q8_1_PT`, and batch-1 inference uses `mul_mat_vec_ptq1_0_pt`. Therefore the measured slowdown rejects this exact 2-bit SOA dot variant, but is not evidence that a side representation would lose in the active sm_86 kernel. Re-evaluate only with the planar layout and active CTA work mapping.

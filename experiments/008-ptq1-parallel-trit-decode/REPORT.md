@@ -42,3 +42,7 @@ If this direction is revisited, verify each direct digit byte against the recurr
 
 - The floor-difference formula matches the recurrence mathematically for all 256 byte values and five emitted digits.
 - The initial packed-lane CUDA implementation failed full-block exactness because `qh` requires paired-stream interleaving; no performance conclusions can be drawn.
+
+## MANAGER AUDIT (post-exp009 dispatch review)
+
+The harness transcribes the SOA_ISUM activation layout. On the target RTX 3080 / sm_86, batch-1 PTQ1_0 uses planar-transposed `GGML_CUDA_Q8_1_PT` activations and the dedicated `mul_mat_vec_ptq1_0_pt` kernel. This report's correctness failure remains valid for its harness, but it does not test the target runtime's active block-dot path.

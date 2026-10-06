@@ -58,3 +58,7 @@ No follow-up is needed for this decoder variant. Any future decoder experiment s
 - The two `qh` bytes are two independent streams interleaved at each digit position; packing them as two separated bytes leaves two lanes zero in a four-byte decoder helper.
 - Correct qh packing is `[qh0[t], qh1[t], qh0[t+1], qh1[t+1]]`; exhaustive device coverage of every qh byte pair and digit is practical and passed.
 - The floor-difference identity is device-exact across all source bytes and positions, but is slower than production base-3 arithmetic by 1.24–7.04% in the tested full-block workload.
+
+## MANAGER AUDIT (post-exp009 dispatch review)
+
+This harness uses SOA_ISUM activation addressing. The target RTX 3080 / sm_86 uses planar-transposed `GGML_CUDA_Q8_1_PT` activations and the dedicated `mul_mat_vec_ptq1_0_pt` path for batch-1 PTQ1_0. The reported exactness and slowdown are valid for the isolated SOA harness, but do not establish the candidate's performance in the active target kernel.

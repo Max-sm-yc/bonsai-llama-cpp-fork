@@ -21,10 +21,10 @@
 - Kept the baseline prefetch-on source. Candidate correctness passed: 4/4 upstream tests, 96/96 CUDA-vs-CPU ternary matmul cases, and both CUDA model smoke runs. The paired runner and raw results are preserved in `benchmark/prefetch_ab.py` and `results/exp002/`.
 - Follow-up: pursue a different PTQ1_0 GEMV work-partition/unpack hypothesis; use paired runs and retain results only when the end-to-end gain repeats across process orders and warmed samples.
 
-## Experiment 003: PTQ1_0 batch-1 GEMV warp geometry
+## Experiment 003: generic PTQ1_0 GEMV warp-count override (no-op on sm_86)
 
-- Compared the four-warp baseline with two and eight warps on the actual RTX 3080. The two-warp screen changed medians by +0.001% at context 512 and -0.047% at 4096; five paired eight-warp runs changed them by -0.025% and +0.026%. The 8-warp paired sign varied by context and pair, within overlapping sample ranges.
-- Both candidates passed CUDA-vs-CPU coverage (96/96 cases) and PTQ1_0/PQ2_0 CUDA smoke inference. No end-to-end gain was demonstrated; restored the four-warp source and baseline build. See `experiments/003-ptq1-gemv-geometry/REPORT.md` and `results/exp003/`.
+- The decode values tied at contexts 512 and 4096, and the candidate passed correctness, but a later source dispatch audit found that sm_86 batch-1 PTQ1_0 uses the dedicated `mul_mat_vec_ptq1_0_pt` kernel. The edited generic `calc_nwarps` path was bypassed, so all compared binaries ran the same active kernel.
+- Keep the no-op comparison as a dispatch control; do not treat it as evidence on active GEMV geometry. The active planar-transposed PT kernel still needs tuning. See the manager audit in `experiments/003-ptq1-gemv-geometry/REPORT.md`.
 
 ## Experiment 004: PTQ1_0 constant-memory trit LUT
 
@@ -45,6 +45,7 @@
 
 - Corrected the activation map and used the same full-block DP4A reduction for base-3 and packed codes. Every packed code and output matched; Compute Sanitizer found no errors.
 - Across three 65,536-block invocations, the 2-bit path was 3.44–3.50% slower; it was 5.02% slower at 16,384 blocks. With a 21.43% larger payload and no kernel win, rejected runtime integration without E2E testing. See `experiments/007-ptq1-side-production-dot/REPORT.md`.
+- Manager source audit later established the harness uses SOA_ISUM, while the target RTX 3080 selects planar PT activations and the dedicated PTQ1 kernel. Its measured slowdown rejects the SOA dot only; it does not decide the side representation in the active sm_86 path.
 
 ## Experiment 008: PTQ1_0 parallel floor-difference decoder
 
