@@ -1,0 +1,24 @@
+00000000003ce4a0 t void fwht_quantize_q8_1<1024, 256, (ggml_cuda_q8_1_layout)0, __half, false>(__half const*, float const*, void*, long, long, unsigned int, uint3, float)
+000000000000deb0 t void fwht_quantize_q8_1<1024, 256, (ggml_cuda_q8_1_layout)0, __half, false>(__half const*, float const*, void*, long, long, unsigned int, uint3, float) [clone .cold]
+00000000003ce620 t void fwht_quantize_q8_1<1024, 256, (ggml_cuda_q8_1_layout)0, __half, true>(__half const*, float const*, void*, long, long, unsigned int, uint3, float)
+000000000000dec4 t void fwht_quantize_q8_1<1024, 256, (ggml_cuda_q8_1_layout)0, __half, true>(__half const*, float const*, void*, long, long, unsigned int, uint3, float) [clone .cold]
+00000000003d1aa0 t void fwht_quantize_q8_1<1024, 256, (ggml_cuda_q8_1_layout)0, float, false>(float const*, float const*, void*, long, long, unsigned int, uint3, float)
+000000000000e180 t void fwht_quantize_q8_1<1024, 256, (ggml_cuda_q8_1_layout)0, float, false>(float const*, float const*, void*, long, long, unsigned int, uint3, float) [clone .cold]
+00000000003d1c20 t void fwht_quantize_q8_1<1024, 256, (ggml_cuda_q8_1_layout)0, float, true>(float const*, float const*, void*, long, long, unsigned int, uint3, float)
+000000000000e194 t void fwht_quantize_q8_1<1024, 256, (ggml_cuda_q8_1_layout)0, float, true>(float const*, float const*, void*, long, long, unsigned int, uint3, float) [clone .cold]
+00000000003ce7a0 t void fwht_quantize_q8_1<1024, 256, (ggml_cuda_q8_1_layout)1, __half, false>(__half const*, float const*, void*, long, long, unsigned int, uint3, float)
+000000000000ded8 t void fwht_quantize_q8_1<1024, 256, (ggml_cuda_q8_1_layout)1, __half, false>(__half const*, float const*, void*, long, long, unsigned int, uint3, float) [clone .cold]
+00000000003ce920 t void fwht_quantize_q8_1<1024, 256, (ggml_cuda_q8_1_layout)1, __half, true>(__half const*, float const*, void*, long, long, unsigned int, uint3, float)
+000000000000deec t void fwht_quantize_q8_1<1024, 256, (ggml_cuda_q8_1_layout)1, __half, true>(__half const*, float const*, void*, long, long, unsigned int, uint3, float) [clone .cold]
+00000000003d1da0 t void fwht_quantize_q8_1<1024, 256, (ggml_cuda_q8_1_layout)1, float, false>(float const*, float const*, void*, long, long, unsigned int, uint3, float)
+000000000000e1a8 t void fwht_quantize_q8_1<1024, 256, (ggml_cuda_q8_1_layout)1, float, false>(float const*, float const*, void*, long, long, unsigned int, uint3, float) [clone .cold]
+00000000003d1f20 t void fwht_quantize_q8_1<1024, 256, (ggml_cuda_q8_1_layout)1, float, true>(float const*, float const*, void*, long, long, unsigned int, uint3, float)
+000000000000e1bc t void fwht_quantize_q8_1<1024, 256, (ggml_cuda_q8_1_layout)1, float, true>(float const*, float const*, void*, long, long, unsigned int, uint3, float) [clone .cold]
+00000000003ceaa0 t void fwht_quantize_q8_1<1024, 256, (ggml_cuda_q8_1_layout)2, __half, false>(__half const*, float const*, void*, long, long, unsigned int, uint3, float)
+000000000000df00 t void fwht_quantize_q8_1<1024, 256, (ggml_cuda_q8_1_layout)2, __half, false>(__half const*, float const*, void*, long, long, unsigned int, uint3, float) [clone .cold]
+00000000003cec20 t void fwht_quantize_q8_1<1024, 256, (ggml_cuda_q8_1_layout)2, __half, true>(__half const*, float const*, void*, long, long, unsigned int, uint3, float)
+000000000000df14 t void fwht_quantize_q8_1<1024, 256, (ggml_cuda_q8_1_layout)2, __half, true>(__half const*, float const*, void*, long, long, unsigned int, uint3, float) [clone .cold]
+00000000003d20a0 t void fwht_quantize_q8_1<1024, 256, (ggml_cuda_q8_1_layout)2, float, false>(float const*, float const*, void*, long, long, unsigned int, uint3, float)
+000000000000e1d0 t void fwht_quantize_q8_1<1024, 256, (ggml_cuda_q8_1_layout)2, float, false>(float const*, float const*, void*, long, long, unsigned int, uint3, float) [clone .cold]
+00000000003d2220 t void fwht_quantize_q8_1<1024, 256, (ggml_cuda_q8_1_layout)2, float, true>(float const*, float const*, void*, long, long, unsigned int, uint3, float)
+000000000000e1e4 t void fwht_quantize_q8_1<1024, 256, (ggml_cuda_q8_1_layout)2, float, true>(float const*, float const*, void*, long, long, unsigned int, uint3, float) [clone .cold]

@@ -1,0 +1,5 @@
+Fixed-seed output comparison against the NT=256 control smoke outputs. Normalization trims outer whitespace and replaces only the timing line.
+NT=128 PTQ1_0: MATCH
+NT=128 PQ2_0: MATCH
+NT=512 PTQ1_0: MATCH
+NT=512 PQ2_0: MATCH

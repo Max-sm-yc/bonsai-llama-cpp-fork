@@ -248,22 +248,71 @@
   },
   "source_results": "results/baseline.json",
   "latest_experiment": {
-    "id": "019",
-    "hypothesis": "Fuse PTQ1_0 RMSNorm and learned-weight multiply into the existing FWHT/Q8_1 activation-preparation path.",
-    "decision": "DO NOT IMPLEMENT - SINGLE-BRANCH FUSION BLOCKED BY SHARED Q/K/V INPUT",
-    "performance_effect": "Not measured; the attention-normalized activation fans out to Q, K, and V projection construction, so a single branch cannot discard its shared result.",
-    "correctness": "No candidate generated and no tests run. Manager source audit confirmed Q/K/V fanout; active CUDA library hash matches the recorded source-default state.",
-    "benchmark_configuration": null,
+    "id": "020",
+    "hypothesis": "Tune the fused PTQ1_0 FWHT/Q8_1 CTA width on sm_86 while preserving the N=1024 transform and PT stores.",
+    "decision": "REVERT; retain NT=256",
+    "performance_effect": "NT=128 lost 1.00%/0.90% at contexts 512/4096. NT=512 showed +0.15%/+0.06% in the reversed-order pair and is within noise; no verified E2E gain.",
+    "correctness": "NT=128/256/512 passed 4 selected CTests, 96/96 CUDA-vs-CPU PTQ1_0/PQ2_0 matmul cases, and fixed-seed 32-token model smokes; candidate completions matched NT=256.",
+    "benchmark_configuration": {
+      "gpu": "NVIDIA GeForce RTX 3080",
+      "compute_capability": "8.6",
+      "quantization": "PTQ1_0",
+      "contexts": [
+        512,
+        4096
+      ],
+      "decode_tokens": 128,
+      "repetitions": 7,
+      "n_gpu_layers": 99,
+      "flash_attention": "on",
+      "batch_size": 2048,
+      "ubatch_size": 512,
+      "kv_type": "f16",
+      "cpu_threads": 8,
+      "cooldown_temperature_c": 60
+    },
+    "results": {
+      "NT128_candidate_vs_control_median_tok_s": {
+        "512": [
+          81.1476,
+          81.9661
+        ],
+        "4096": [
+          78.6971,
+          79.4136
+        ]
+      },
+      "NT512_reversed_pair_candidate_vs_control_median_tok_s": {
+        "512": [
+          81.8397,
+          81.7174
+        ],
+        "4096": [
+          78.6604,
+          78.6099
+        ]
+      },
+      "peak_gpu_memory_used_mib": 6805.0
+    },
     "artifacts": [
-      "experiments/019-rms-fwht-q8-fusion/REPORT.md"
+      "experiments/020-ptq1-fwht-q8-ampere/REPORT.md",
+      "results/exp020/nt128_pair1_candidate.json",
+      "results/exp020/nt128_pair1_control.json",
+      "results/exp020/nt512_pair1_candidate.json",
+      "results/exp020/nt512_pair1_control.json",
+      "results/exp020/nt512_pair2_candidate.json",
+      "results/exp020/nt512_pair2_control.json",
+      "results/exp020/loader_audit.txt"
     ],
-    "report": "experiments/019-rms-fwht-q8-fusion/REPORT.md",
-    "source_file": "ggml/src/ggml-cuda/ggml-cuda.cu",
-    "source_sha256": "2ae527aba2b42f6658a2b856c605a8d40e2f3e1ee8c37a3448cb76c409b28e5e",
-    "cuda_library_restoration_sha256": "72d89c0c69200865b2200ef35b94e14b9a6a52a840c17cb031e987d809207e72",
-    "project_source_commit": "9fa97200e68fd798ef027470c8e420172a0ac719"
+    "source_file": "ggml/src/ggml-cuda/quantize.cu",
+    "source_sha256": "6027c6ab846050ec4c63009f9b0eea70edc29a2447a3801a8c31fb937e866f33",
+    "cuda_library_control_sha256": "23bd3d1201b2378ef0e343a313e1a01651d5749a7a155af02180c30f8d565811",
+    "cuda_library_restoration_sha256": "708eceba48460ad3d963b88c7f84a0f60a2bbed061d2cf7fdec70e39b15e29a9",
+    "project_source_commit": "9fa97200e68fd798ef027470c8e420172a0ac719",
+    "reference_runtime_commit": "6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17",
+    "timestamp_utc": "2026-10-06T20:30:00Z"
   },
-  "updated_timestamp_utc": "2026-10-06T19:12:10Z",
+  "updated_timestamp_utc": "2026-10-06T20:30:00Z",
   "project_commit": "9fa97200e68fd798ef027470c8e420172a0ac719",
   "current_best": {
     "commit": "9fa97200e68fd798ef027470c8e420172a0ac719",

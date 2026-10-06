@@ -1,0 +1,2 @@
+	libggml-cuda.so.0 => /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libggml-cuda.so.0 (0x00007f98c5000000)
+	libggml-base.so.0 => /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libggml-base.so.0 (0x00007f98c9ec7000)

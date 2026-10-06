@@ -29,6 +29,7 @@
 - Experiment 017: two warps/output row (four warps/CTA) passed selected correctness and smoke checks but lost 2.60% at context 512 and 1.82% at 4096 in a seven-rep pair. The candidate lane split is uneven for common 40-block K rows; source and active library were independently restored.
 - Experiment 018: shape-gated four warps/output row for K>64 passed correctness but showed no repeatable decode gain (512: -0.32%/-0.69%; 4096: +0.77%/-0.58% across reversed pairs). Exact ROWS=1 source/library hashes were restored.
 - Experiment 019: per-branch RMSNorm→FWHT/Q8_1 fusion was not implemented; the attention-normalized activation feeds Q/K/V projection branches, so this route cannot discard the shared normalized tensor. No performance evidence; see report.
+- Experiment 020: FWHT/Q8_1 NT=128 lost about 0.9–1.0%; NT=512 tied after reversed-order pairs (+0.15%/+0.06%). Preserve NT=256; A/B correctness and samples are in the report.
 
 ## Important discoveries
 
@@ -37,9 +38,11 @@
 - PTQ1_0 remains faster than PQ2_0 by 32–54% in the controlled reference format comparison; prefill is nearly tied. Both models fit in VRAM.
 - CUDA Graphs are already active (127 graph launches in the context-512 mixed trace); prioritize measured device work/fusion over generic launch-overhead changes.
 - The FWHT→Q8_1 path is already one kernel, and model attention normalization has Q/K/V fanout. Do not retry per-branch RMS fusion without a coordinated consumer design and measured evidence that it can avoid extra reductions.
+- The active GDN trace is S_v=128, scalar-gate (`KDA=false`), raw-gate (`RAW=true`); on sm_86 it already uses four columns per warp, fused cache/gather paths, and CUDA Graphs.
 
 ## Next candidates
 
-1. Optimize the already-fused PTQ1_0 FWHT/Q8_1 activation kernel (4.4% of mixed trace) independently; test actual sm_86 PT layout and judge by full decode.
-2. Investigate the gated-delta network kernel (4.6%) or its remaining data movement on the Bonsai hybrid attention path.
-3. Consider the measured RMSNorm path (3.9%) independently, then revisit PQ2_0 activation fusion.
+1. Tune the active GDN S_v=128 scalar raw-gate warp-column mapping (4.6% of mixed trace); test real decode and verify its existing fused gather/cache path stays active.
+2. Profile and optimize standalone RMSNorm (3.9%) where launch or data movement remains exposed.
+3. Revisit the dominant PTQ1_0 GEMV with a fundamentally different strategy after the tested row-reduction mappings; do not repeat those schedules without a concrete architectural change.
+4. Consider PQ2_0 activation fusion after the active PTQ1_0 paths.

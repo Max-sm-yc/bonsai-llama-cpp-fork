@@ -1,12 +1,12 @@
 # Candidate hypotheses
 
-Ranked after experiment 019 and the ROWS=1 profile. Judge every candidate by controlled end-to-end decode and combined throughput.
+Ranked after experiment 020 and the ROWS=1 profile. Judge each candidate by controlled end-to-end decode and combined throughput.
 
-1. Optimize the active PTQ1_0 fused FWHT/Q8_1 kernel (4.4% of the post-ROWS=1 mixed trace), especially the PT Q8 layout and transform-block scheduling; require full model decode impact.
-2. Investigate gated-delta network work/data movement (4.6%), checking whether the existing gather fusion is active before proposing changes.
-3. Profile the standalone RMSNorm path (3.9%) and optimize only where launch or data movement remains exposed.
-4. Treat active PTQ1_0 multiwarp row reduction as exhausted for now: experiments 015, 017, and 018 all failed to show E2E gain.
+1. Tune the active GDN S_v=128 scalar raw-gate (`KDA=false`, `RAW=true`) column mapping on sm_86. The mixed trace attributes 4.6% to GDN, and the current kernel maps four columns per warp with four warps per CTA. Sweep practical column groupings, preserve numerical behavior, and verify the actual full-model decode path. The runtime already has fused recurrent-state gather/cache paths; first confirm which are active.
+2. Profile standalone RMSNorm (3.9%) and optimize only measured launch or data-movement overhead.
+3. Periodically challenge the active PTQ1_0 GEMV design with a substantially different approach. Experiments 015, 017, and 018 rejected fixed and shape-gated multiwarp row reductions; do not repeat them without a changed architectural premise.
+4. Revisit PQ2_0 activation fusion after PTQ1_0's active GDN/RMS paths.
 
-Experiment 019 found that the model's attention norm output fans out into Q/K/V projection construction, while the FWHT/Q8_1 path is already fused. Do not repeat a single-branch RMS→FWHT fusion proposal; a multi-branch design must account for shared normalization and its reduction cost.
+Experiments 019–020 exhausted the current per-branch RMS→FWHT fusion and FWHT CTA-width sweeps: normalization output is shared across Q/K/V, and NT=128 regressed while NT=512 tied with NT=256. Do not repeat either idea without a concrete design change.
 
 Nsight Compute counters are unavailable (`ERR_NVGPUCTRPERM`); do not change system-wide driver permissions. Use Nsight Systems, static cubin resources, and controlled size/workload sweeps.

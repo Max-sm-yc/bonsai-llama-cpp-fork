@@ -1,0 +1,10 @@
+# Loader audit for the six measured A/B processes
+
+- 20261006T195154Z_PTQ1_0_decode.stderr.log: /home/maxsun/autonomous_projects/bonsai2-rtx3080/results/exp020/lib_nt128/libggml-cuda.so.0; RTX 3080 detected; separate build/bin plugin probe lacks entrypoints.
+- 20261006T195252Z_PTQ1_0_decode.stderr.log: /home/maxsun/autonomous_projects/bonsai2-rtx3080/results/exp020/lib_control/libggml-cuda.so.0; RTX 3080 detected; separate build/bin plugin probe lacks entrypoints.
+- 20261006T195940Z_PTQ1_0_decode.stderr.log: /home/maxsun/autonomous_projects/bonsai2-rtx3080/results/exp020/lib_nt512/libggml-cuda.so.0; RTX 3080 detected; separate build/bin plugin probe lacks entrypoints.
+- 20261006T200014Z_PTQ1_0_decode.stderr.log: /home/maxsun/autonomous_projects/bonsai2-rtx3080/results/exp020/lib_control/libggml-cuda.so.0; RTX 3080 detected; separate build/bin plugin probe lacks entrypoints.
+- 20261006T200201Z_PTQ1_0_decode.stderr.log: /home/maxsun/autonomous_projects/bonsai2-rtx3080/results/exp020/lib_control/libggml-cuda.so.0; RTX 3080 detected; separate build/bin plugin probe lacks entrypoints.
+- 20261006T200402Z_PTQ1_0_decode.stderr.log: /home/maxsun/autonomous_projects/bonsai2-rtx3080/results/exp020/lib_nt512/libggml-cuda.so.0; RTX 3080 detected; separate build/bin plugin probe lacks entrypoints.
+
+The build uses GGML_BACKEND_DL=OFF. ggml-backend-reg.cpp directly registers ggml_backend_cuda_reg() under GGML_USE_CUDA; each llama-bench JSON reports backends=CUDA. The candidate/control library is the linked libggml-cuda.so.0 dependency in each process.

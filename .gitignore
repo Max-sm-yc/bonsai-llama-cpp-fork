@@ -171,3 +171,5 @@ AGENTS.local.md
 /results/exp007/side_bench
 /results/exp008/parallel_bench
 /results/exp009/parallel_bench
+/results/exp020/lib_*/
+/results/exp020/raw/model_outputs/*.stdout.txt
