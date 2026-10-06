@@ -1,0 +1,18 @@
+2026-10-06T10:38:17-04:00
+name, temperature.gpu, clocks.current.sm [MHz], utilization.gpu [%], memory.used [MiB]
+NVIDIA GeForce RTX 3080, 47, 210 MHz, 0 %, 173 MiB
+ptq1-base3 0.0133190 ms/launch n=65536 reps=300
+2-bit-packed 0.0157787 ms/launch n=65536 reps=300
+verified_codes=8388608 host_reference_codes=8388608 verified_outputs=65536 max_abs_error=0 base_block=28 side_block=34 payload_delta=21.43%
+temperature.gpu, clocks.current.sm [MHz], utilization.gpu [%], memory.used [MiB]
+49, 1845 MHz, 6 %, 173 MiB
+ptq1-base3 0.0134588 ms/launch n=65536 reps=300
+2-bit-packed 0.0159266 ms/launch n=65536 reps=300
+verified_codes=8388608 host_reference_codes=8388608 verified_outputs=65536 max_abs_error=0 base_block=28 side_block=34 payload_delta=21.43%
+temperature.gpu, clocks.current.sm [MHz], utilization.gpu [%], memory.used [MiB]
+50, 1845 MHz, 8 %, 173 MiB
+ptq1-base3 0.0134002 ms/launch n=65536 reps=300
+2-bit-packed 0.0159161 ms/launch n=65536 reps=300
+verified_codes=8388608 host_reference_codes=8388608 verified_outputs=65536 max_abs_error=0 base_block=28 side_block=34 payload_delta=21.43%
+temperature.gpu, clocks.current.sm [MHz], utilization.gpu [%], memory.used [MiB]
+50, 1845 MHz, 11 %, 173 MiB

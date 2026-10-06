@@ -1,0 +1,5 @@
+========= COMPUTE-SANITIZER
+ptq1-base3 0.7087539 ms/launch n=16384 reps=50
+2-bit-packed 0.7839744 ms/launch n=16384 reps=50
+verified_codes=2097152 host_reference_codes=2097152 verified_outputs=16384 max_abs_error=0 base_block=28 side_block=34 payload_delta=21.43%
+========= ERROR SUMMARY: 0 errors

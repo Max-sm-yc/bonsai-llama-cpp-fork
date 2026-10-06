@@ -248,16 +248,17 @@
   },
   "source_results": "results/baseline.json",
   "latest_experiment": {
-    "id": "005",
-    "hypothesis": "Represent PTQ1_0 ternary weights with an exact 2-bit side payload to simplify batch-1 decode",
+    "id": "006",
+    "hypothesis": "Benchmark an exact packed 2-bit PTQ1_0 side representation with production SOA_ISUM activations",
     "decision": "INCONCLUSIVE",
-    "performance_effect": "Invalid timing: prototype wrote per-weight bytes beyond its 32-byte packed-code field and also mapped PTQ1_0 staged qs elements incorrectly; 65,531/65,536 block-dot outputs mismatched. No E2E run. Proposed side blocks are 34 bytes vs 28 bytes (+21.43%).",
+    "performance_effect": "Invalid timing: packing and weight mapping were exact, but the activation address did not match production SOA_ISUM. Reported 18.4–18.8% slowdown on the synthetic layout is not decision-grade; no E2E run. Proposed side blocks are 34 bytes vs 28 bytes (+21.43%).",
     "candidate_results": [
-      "results/exp005/microbenchmark.txt",
-      "results/exp005/side_bench.cu"
+      "results/exp006/microbenchmark.txt",
+      "results/exp006/side_bench.cu",
+      "results/exp006/sanitizer.txt"
     ],
-    "report": "experiments/005-ptq1-2bit-side/REPORT.md"
+    "report": "experiments/006-ptq1-2bit-corrected/REPORT.md"
   },
-  "updated_timestamp_utc": "2026-10-06T14:31:28+00:00",
+  "updated_timestamp_utc": "2026-10-06T14:43:33+00:00",
   "project_commit": "2a6ac568b69a61db0ee151b24c9b2cdb7a4f8a7c"
 }

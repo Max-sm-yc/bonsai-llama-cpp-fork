@@ -21,6 +21,7 @@
 - Experiments 001/002 disabled PTQ1_0's L2 prefetch; the paired 128-token workloads tied within 0.04%, and long-run tail effects reversed with process order and broad clock variation. Experiment 003 changed the one-column GEMV CTA warps from four to two/eight: deltas were +0.001%/-0.047% for two warps and -0.025%/+0.026% for eight at contexts 512/4096. No robust gain; prefetch and four-warp geometry restored. See reports 001–003.
 - Experiment 004 tested a constant-memory lookup table for PTQ1_0 `qs` trit expansion. It matched the multiply decoder but took 5.89x longer in a focused 120-trit dot kernel; no production change or E2E run. The test excluded `qh` and production activation layout, so it rejects this direct LUT design only.
 - Experiment 005's 2-bit side-format screen is inconclusive: it wrote 128 bytes through a 32-byte packed-code field (overrunning adjacent records) and used the wrong PTQ1_0 element order. No valid packed conversion was tested, so its timing is invalid; no runtime integration or model benchmark occurred. The proposed block grows from 28 to 34 bytes (+21.43%).
+- Experiment 006 corrected side-code packing and element mapping and passed exact code/dot checks, but its purported SOA_ISUM address is wrong (`kb=b>>2`, `sub=b&3` instead of `group=b>>5`, `lane=b&31`, `word=e>>2`). Its 18.4–18.8% slower timing is inconclusive; no runtime integration or E2E test occurred. Correct and remeasure only if this remains a priority. Side payload is +21.43%.
 - Nsight Compute counters are blocked by `ERR_NVGPUCTRPERM`; do not change system-wide driver permissions. Nsight Systems and static cubin resource reports are available.
 
 ## Important discoveries
@@ -34,6 +35,6 @@
 
 ## Next candidates
 
-1. Implement actual 2-bit pack/unpack with bounded writes and the canonical PTQ1_0 element order; compare all 128 weights against `dequantize_row_ptq1_0`, then measure the production full-block dot/activation layout and payload. Integrate only if decode improves and the full runtime stays within 10 GiB.
-2. If reformatting loses, test a bit-sliced decoder directly on the original base-3 layout; the direct constant-memory LUT was 5.89x slower.
+1. Decide whether to rerun the 2-bit side screen with correct SOA activation addressing; do not treat experiment 006 timing as evidence.
+2. If moving on from reformatting, test a bit-sliced decoder on the original base-3 layout; the direct constant-memory LUT was 5.89x slower.
 3. Measure whether broader Hadamard/Q8_1 fusion benefits PQ2_0; keep secondary to the faster PTQ1_0 decode path.
