@@ -248,19 +248,16 @@
   },
   "source_results": "results/baseline.json",
   "latest_experiment": {
-    "id": "003",
-    "hypothesis": "Change PTQ1_0 one-column GEMV CTA warp count from 4 to 2 or 8",
+    "id": "004",
+    "hypothesis": "Replace PTQ1_0 base-3 qs multiply/byte-permute expansion with a constant-memory LUT",
     "decision": "REVERT",
-    "performance_effect": "2 warps: +0.001% / -0.047%; 8 warps: -0.025% / +0.026% at contexts 512 / 4096; no repeatable gain",
+    "performance_effect": "Exact for 65,536 generated dot outputs; focused CUDA-event microbenchmark was 5.89x slower (0.130949 vs 0.022250 ms/launch); no E2E run",
     "candidate_results": [
-      "results/exp003/screen_nwarps2.json",
-      "results/exp003/screen_nwarps8.json",
-      "results/exp003/final_nwarps8_pairs3-5.json",
-      "results/exp003/correctness_smoke_nwarps2.json",
-      "results/exp003/correctness_smoke_nwarps8.json"
+      "results/exp004/microbenchmark.txt",
+      "results/exp004/decoder_bench.cu"
     ],
-    "report": "experiments/003-ptq1-gemv-geometry/REPORT.md"
+    "report": "experiments/004-ptq1-trit-decoder/REPORT.md"
   },
-  "updated_timestamp_utc": "2026-10-06T14:09:17+00:00",
+  "updated_timestamp_utc": "2026-10-06T14:19:01+00:00",
   "project_commit": "2a6ac568b69a61db0ee151b24c9b2cdb7a4f8a7c"
 }

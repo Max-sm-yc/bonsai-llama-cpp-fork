@@ -1,0 +1,3 @@
+multiply 0.022250 ms/launch (n=65536 reps=100)
+lut 0.130949 ms/launch (n=65536 reps=100)
+dot mismatches 0

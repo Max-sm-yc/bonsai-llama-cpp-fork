@@ -19,6 +19,7 @@
 
 - The first format comparison started PTQ1_0 cool and PQ2_0 hot; it is retained as `results/baseline_initial_uncontrolled.json` but excluded from decisions.
 - Experiments 001/002 disabled PTQ1_0's L2 prefetch; the paired 128-token workloads tied within 0.04%, and long-run tail effects reversed with process order and broad clock variation. Experiment 003 changed the one-column GEMV CTA warps from four to two/eight: deltas were +0.001%/-0.047% for two warps and -0.025%/+0.026% for eight at contexts 512/4096. No robust gain; prefetch and four-warp geometry restored. See reports 001–003.
+- Experiment 004 tested a constant-memory lookup table for PTQ1_0 `qs` trit expansion. It matched the multiply decoder but took 5.89x longer in a focused 120-trit dot kernel; no production change or E2E run. The test excluded `qh` and production activation layout, so it rejects this direct LUT design only.
 - Nsight Compute counters are blocked by `ERR_NVGPUCTRPERM`; do not change system-wide driver permissions. Nsight Systems and static cubin resource reports are available.
 
 ## Important discoveries
@@ -32,5 +33,5 @@
 
 ## Next candidates
 
-1. Replace or reorganize the repeated base-3 PTQ1_0 trit expansion (`multiply by 3` plus byte permutes) in `vec_dot_ptq1_0_q8_1_multi`; compare an exact LUT/bit-sliced decoder in a CUDA kernel timer, then validate the integrated 4-warp path end-to-end if promising.
+1. Compare an exact bit-sliced/integer extraction scheme against the repeated base-3 PTQ1_0 decoder in a full-block CUDA microbenchmark, including `qh` and production activation layout. Do not repeat the direct constant-LUT design; require a clear microbenchmark signal and then integrated 4-warp end-to-end gain.
 2. Measure whether broader Hadamard/Q8_1 fusion benefits PQ2_0; keep secondary to the faster PTQ1_0 decode path.

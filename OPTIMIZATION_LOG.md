@@ -25,3 +25,8 @@
 
 - Compared the four-warp baseline with two and eight warps on the actual RTX 3080. The two-warp screen changed medians by +0.001% at context 512 and -0.047% at 4096; five paired eight-warp runs changed them by -0.025% and +0.026%. The 8-warp paired sign varied by context and pair, within overlapping sample ranges.
 - Both candidates passed CUDA-vs-CPU coverage (96/96 cases) and PTQ1_0/PQ2_0 CUDA smoke inference. No end-to-end gain was demonstrated; restored the four-warp source and baseline build. See `experiments/003-ptq1-gemv-geometry/REPORT.md` and `results/exp003/`.
+
+## Experiment 004: PTQ1_0 constant-memory trit LUT
+
+- Compared the production-style repeated multiply/byte-permute decoder with an exact 256-by-5 constant-memory LUT in a CUDA-event microbenchmark of 120 `qs` trits and DP4A dot/bias correction. They matched 65,536 generated block-dot outputs, but the LUT took 0.130949 ms/launch versus 0.022250 ms for multiply (5.89x slower).
+- Rejected without production integration or model benchmarking. The focused harness excluded `qh` and the exact warp-transposed activation layout; it rejects the direct LUT arrangement, not all alternate trit decoders. See `experiments/004-ptq1-trit-decoder/REPORT.md`.

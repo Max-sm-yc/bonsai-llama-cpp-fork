@@ -9,7 +9,7 @@ The reference baseline is verified; the optimization campaign has not selected a
 - Reference runtime: PrismML `https://github.com/PrismML-Eng/llama.cpp`, branch `prism`, commit `6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17`.
 - Model repository: `https://huggingface.co/prism-ml/Ternary-Bonsai-2-27B-gguf`, revision `b072e1d3b35a0a630cece372c2127528e0994386`.
 - Files: `Ternary-Bonsai-2-27B-PTQ1_0.gguf` (5,946,648,928 bytes; SHA-256 `53107f530aa52eb00912263ab1ee29bd199261c87cd7b4ad4ca1318c1fe33ee3`); `Ternary-Bonsai-2-27B-PQ2_0.gguf` (7,206,168,928 bytes; SHA-256 `3907dc1658db1f78a9826bf8d5bcb8dc65db0d466388937af57f2294fae62ec1`).
-- Current implementation source is unchanged reference code. The baseline-harness commit will be recorded after the snapshot is committed; final optimized commit: pending.
+- Current implementation source is unchanged reference code. Project baseline commit: `2a6ac568b69a61db0ee151b24c9b2cdb7a4f8a7c`; final optimized commit: pending.
 
 ## Method
 
@@ -38,13 +38,15 @@ PTQ1_0 is 53.6% faster in decode at context 4096 under these conditions; prefill
 
 | Code commit | Format | Decode tok/s at context 4096 | Prefill tok/s at 4096 | Correctness | Decision |
 |---|---|---:|---:|---|---|
-| `6bfcd79a` reference | PTQ1_0 | 39.21 | 1331.3 | Pass | Baseline |
-| `6bfcd79a` reference | PQ2_0 | 25.53 | 1326.9 | Pass | Baseline |
-| Future experiment commits | — | — | — | — | Pending |
+| `2a6ac56` (PrismML `6bfcd79a`) | PTQ1_0 | 39.21 | 1331.3 | Pass | Baseline |
+| `2a6ac56` (PrismML `6bfcd79a`) | PQ2_0 | 25.53 | 1326.9 | Pass | Baseline |
+| Optimization commits | — | — | — | — | None accepted yet |
 
 ## Retained changes, failures, and next work
 
-- No performance optimization has been accepted yet; upstream CUDA PTQ1_0/PQ2_0 GEMV and existing PTQ1_0 Hadamard/Q8_1 fusion remain the reference implementation.
-- The first, uncontrolled benchmark began the two formats at different temperatures and is excluded from comparisons. Its raw data is retained for diagnosis.
-- The next research target is the dominant PTQ1_0 sm_86 batch-1 GEMV path. Determine whether unpack arithmetic, register pressure, or weight traffic explains the remaining gap; use end-to-end decode and combined performance to decide.
-- Final bottleneck ranking, total speedup, and future work remain pending after optimization experiments.
+- No performance optimization has been accepted; retained speedup over the verified baseline is currently 0%. Upstream CUDA PTQ1_0/PQ2_0 GEMV and existing PTQ1_0 Hadamard/Q8_1 fusion remain the current best implementation.
+- The first format benchmark began PTQ1_0 cool and PQ2_0 hot and is excluded. Experiments 001/002 disabled explicit PTQ1_0 GEMV L2 prefetch; paired 128-token workloads tied within 0.04%, while longer tails varied with process order and clocks. The source was restored.
+- Experiment 003 compared two and eight warps with the four-warp batch-1 PTQ1_0 baseline. Decode changes remained within +/-0.05% at contexts 512 and 4096, so warp-count tuning was rejected.
+- Experiment 004's exact constant-memory LUT matched 65,536 focused dot outputs but took 5.89x longer than multiply/byte-permute decoding; it was not integrated. Its harness excluded `qh` and production activation layout.
+- The next research target is a materially different exact bit-sliced/integer PTQ1_0 trit decoder, first measured on the full block dot path and then validated with end-to-end decode/combined workloads if promising.
+- Final bottleneck ranking, total speedup, and future work remain pending while the optimization campaign continues.
