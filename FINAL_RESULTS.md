@@ -1,6 +1,6 @@
 # Final results — research in progress
 
-The reference baseline is verified; the optimization campaign has not selected a final optimized commit yet. Values below establish the comparison point and will be extended as experiments are accepted.
+The optimization campaign is active. Experiment 010 is the current verified best; this file records the reference results and the first retained optimization. Continue updating it as experiments are accepted.
 
 ## Hardware and software
 
@@ -9,13 +9,13 @@ The reference baseline is verified; the optimization campaign has not selected a
 - Reference runtime: PrismML `https://github.com/PrismML-Eng/llama.cpp`, branch `prism`, commit `6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17`.
 - Model repository: `https://huggingface.co/prism-ml/Ternary-Bonsai-2-27B-gguf`, revision `b072e1d3b35a0a630cece372c2127528e0994386`.
 - Files: `Ternary-Bonsai-2-27B-PTQ1_0.gguf` (5,946,648,928 bytes; SHA-256 `53107f530aa52eb00912263ab1ee29bd199261c87cd7b4ad4ca1318c1fe33ee3`); `Ternary-Bonsai-2-27B-PQ2_0.gguf` (7,206,168,928 bytes; SHA-256 `3907dc1658db1f78a9826bf8d5bcb8dc65db0d466388937af57f2294fae62ec1`).
-- Current implementation source is unchanged reference code. Project baseline commit: `2a6ac568b69a61db0ee151b24c9b2cdb7a4f8a7c`; final optimized commit: pending.
+- Current best project commit: `9fa97200e68fd798ef027470c8e420172a0ac719` (PTQ1_0 ROWS=1); project reference baseline commit: `2a6ac568b69a61db0ee151b24c9b2cdb7a4f8a7c`.
 
 ## Method
 
 Seven llama-bench repetitions per row with default warm-up. Paired format runs start when the GPU is at or below 60°C and 5% utilization. Contexts 128/512/2048/4096; decode length 128; batch 2048, microbatch 512; batch-1 decode; F16 KV; Flash Attention on; 99 GPU layers; 8 CPU threads. The raw JSON stores each sample and sampled whole-GPU memory. Combined throughput includes prompt evaluation and 128 autoregressive tokens but excludes tokenization and sampling. Full details are in [BASELINE.md](BASELINE.md).
 
-## Reference performance
+## Original reference performance
 
 Median tokens/s from the controlled baseline:
 
@@ -24,27 +24,37 @@ Median tokens/s from the controlled baseline:
 | PTQ1_0 | 1331.3 | 46.88 | 39.21 | 426.16 | 6805 MiB |
 | PQ2_0 | 1326.9 | 35.53 | 25.53 | 346.71 | 7949 MiB |
 
-PTQ1_0 is 53.6% faster in decode at context 4096 under these conditions; prefill is nearly tied. This is the measured RTX 3080 result, independent of cross-GPU model-card claims.
+PTQ1_0 is 53.6% faster than PQ2_0 in the original context-4096 decode matrix; prefill is nearly tied. That matrix ran prefill before decode, heated the GPU, and is not an apples-to-apples speedup denominator for the later isolated decode experiment. The per-format data remain a reference record, not the matched optimization comparison.
+
+## Current best: PTQ1_0 ROWS=1
+
+The active sm_86 planar GEMV now uses one row per item for batch-1 decode. In the manager's rebuilt source-default A/B, the seven-repetition medians were 82.22 tok/s at context 512 and 79.70 tok/s at context 4096. The paired archived ROWS=4 build measured 78.00 and 75.66 tok/s under the same isolated decode command, respectively: **+5.42% at context 512 and +5.34% at context 4096**. The improvement was also reproduced in two earlier reversed-order paired rounds. See [experiment 010](experiments/010-ptq1-planar-rows/REPORT.md) and its [raw paired measurements](results/exp010/final_rebuilt_pair/).
+
+Both paired builds peaked at 6,805 MiB whole-GPU memory. The timing uses 128 generated tokens, batch-1 decode, F16 KV, Flash Attention, 99 GPU layers, batch/microbatch 2048/512, eight CPU threads, and a start gate of at most 60°C. The exact start temperatures in the manager's final pair differed (51°C candidate, 59°C control); earlier reversed-order pairs started at 58–60°C and showed the same direction. Keep this qualification with the point estimate.
+
+Optimized prefill was not remeasured; ROWS=1 only changes the one-column matvec schedule. The reference PTQ1_0 prefill medians remain 1,378.1 tok/s at prompt 512 and 1,331.3 tok/s at 4096 as reference values, not new measurements. PQ2_0 has not been optimized and retains its original benchmark results.
 
 ## Correctness and profiling
 
 - Upstream quantization/layout/shape tests: 4/4 pass.
 - Random CUDA-vs-CPU PTQ1_0/PQ2_0 `MUL_MAT` checks: 96/96 pass, upstream NMSE threshold 5e-4.
 - Both actual model files load on CUDA and produce greedy 32-token completions.
-- Nsight Systems identifies ternary GEMV as 61.8% (PTQ1_0) and 62.6% (PQ2_0) of the mixed context-512 trace's GPU kernel time. Full measured ranking and profiler limitations are documented in [PROFILE.md](PROFILE.md).
+- Nsight Systems identifies ternary GEMV as 60.4% of GPU kernel time after ROWS=1 (down from 61.8% in the PTQ1_0 reference trace); the three active GEMV variants now total 1.166 s versus 1.253 s. Full ranking and profiler limitations are in [PROFILE.md](PROFILE.md).
 - Nsight Compute hardware counters were denied by `ERR_NVGPUCTRPERM`; no system-wide permission changes were made.
 
 ## Progression by verified implementation
 
-| Code commit | Format | Decode tok/s at context 4096 | Prefill tok/s at 4096 | Correctness | Decision |
-|---|---|---:|---:|---|---|
-| `2a6ac56` (PrismML `6bfcd79a`) | PTQ1_0 | 39.21 | 1331.3 | Pass | Baseline |
-| `2a6ac56` (PrismML `6bfcd79a`) | PQ2_0 | 25.53 | 1326.9 | Pass | Baseline |
-| Optimization commits | — | — | — | — | None accepted yet |
+| Code commit | Format / schedule | Decode tok/s at context 512 / 4096 | Matched decode delta | Prefill tok/s at 4096 | Correctness | Decision |
+|---|---|---:|---:|---:|---|---|
+| `2a6ac56` (PrismML `6bfcd79a`) | PTQ1_0 reference matrix | 46.09 / 39.21 | Original matrix; hot decode is not comparable to isolated pairs | 1331.3 | Pass | Baseline |
+| `2a6ac56` (PrismML `6bfcd79a`) | PQ2_0 reference matrix | 31.11 / 25.53 | Reference only; not optimized | 1326.9 | Pass | Baseline |
+| `9fa9720` | PTQ1_0 ROWS=1 | 82.22 / 79.70 | +5.42% / +5.34% vs matched isolated ROWS=4 at 78.00 / 75.66 | Not remeasured | Pass | Keep |
+
+The absolute reference-matrix decode figures are shown to preserve the original record. Due to heating before those decode rows, use the isolated ROWS=1-vs-ROWS=4 pair for the optimization percentage.
 
 ## Retained changes, failures, and next work
 
-- No performance optimization has been accepted; retained speedup over the verified baseline is currently 0%. Upstream CUDA PTQ1_0/PQ2_0 GEMV and existing PTQ1_0 Hadamard/Q8_1 fusion remain the current best implementation.
+- Retained optimization: one-row scheduling in the active PTQ1_0 planar batch-1 GEMV, for +5.3% median decode at context 4096 against the matched isolated ROWS=4 control. Current PQ2_0 remains the unmodified reference implementation.
 - The first format benchmark began PTQ1_0 cool and PQ2_0 hot and is excluded. Experiments 001/002 disabled explicit PTQ1_0 GEMV L2 prefetch; paired 128-token workloads tied within 0.04%, while longer tails varied with process order and clocks. The source was restored.
 - Experiment 003 changed the generic PTQ1_0 warp-count selection, but a dispatch audit found that sm_86 batch-1 inference bypasses it for the dedicated planar PT kernel. Its decode measurements compared the same active kernel and do not inform kernel geometry.
 - Experiment 004's exact constant-memory LUT matched 65,536 focused dot outputs but took 5.89x longer than multiply/byte-permute decoding; it was not integrated. Its harness excluded `qh` and production activation layout.
@@ -53,5 +63,6 @@ PTQ1_0 is 53.6% faster in decode at context 4096 under these conditions; prefill
 - Experiment 007 used the SOA_ISUM mapping and DP4A block arithmetic; packed 2-bit was 3.44–3.50% slower at 65,536 blocks and 5.02% slower at 16,384 blocks. RTX 3080 batch-1 uses planar PT instead, so this rejects the tested SOA side dot but does not decide active-kernel performance.
 - Experiment 008's direct-floor trit identity passed host exhaustive checks, but the first packed CUDA implementation failed full-block correctness because its `qh` path did not interleave the two trit streams. No timing or runtime change was made.
 - Experiment 009 fixed the `qh` interleave and passed exhaustive device, full-block, and sanitizer checks; the floor-difference decoder was 1.24–7.04% slower in the SOA block harness. The active planar sm_86 kernel was not tested.
-- The next experiment targets rows-per-item and CTA mapping in the active `mul_mat_vec_ptq1_0_pt` kernel, with end-to-end confirmation. Check the 10 GiB VRAM limit before any future runtime route.
-- Final bottleneck ranking, total speedup, and future work remain pending while the optimization campaign continues.
+- Experiments 001–009 tested prefetch, generic geometry, alternate decoders, and 2-bit side-code variants; they either addressed an inactive SOA path, failed exactness, or lost their focused timings. Details are indexed in [research/EXPERIMENTS.md](research/EXPERIMENTS.md).
+- After ROWS=1, the active planar GEMV still accounts for 60.4% of the profiled kernel time. The next candidate is a 2-bit side-code decoder integrated into that active layout, with actual-model correctness, throughput, and its +21.43% packed-weight cost measured before any decision.
+- Nsight Compute counters remain unavailable. Future claims should rely on isolated repeated end-to-end runs and available Nsight Systems timing.

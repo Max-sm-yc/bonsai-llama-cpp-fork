@@ -77,7 +77,7 @@ Reducing rows per item lowers register use and exposes more independent row work
 
 ## DECISION
 
-**KEEP ROWS=1.** It is the fastest exact candidate in the corrected paired tests. The tracked CUDA source defaults the one-column PTQ1_0 path to ROWS=1, and `build/bin/libggml-cuda.so` was rebuilt from that source with `CMAKE_CUDA_FLAGS` empty. No commit was made.
+**KEEP ROWS=1.** It is the fastest exact candidate in the corrected paired tests. The tracked CUDA source defaults the one-column PTQ1_0 path to ROWS=1, and `build/bin/libggml-cuda.so` was rebuilt from that source with `CMAKE_CUDA_FLAGS` empty. The manager independently rebuilt the tree and verified the A/B and correctness results; the retained change is commit `9fa97200e68fd798ef027470c8e420172a0ac719`.
 
 ## FOLLOW-UPS
 

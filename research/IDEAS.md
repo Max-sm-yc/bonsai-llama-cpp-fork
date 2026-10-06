@@ -1,7 +1,9 @@
 # Candidate hypotheses
 
-Ranked from the RTX 3080 baseline trace; results must be judged by controlled end-to-end decode and combined throughput.
+Ranked after experiment 010 and the ROWS=1 re-profile. Judge every candidate by controlled end-to-end decode and combined throughput.
 
-1. PTQ1_0 GEMV dominates the trace. Tune the active RTX 3080 `mul_mat_vec_ptq1_0_pt` kernel and its planar-transposed Q8 layout; prior warp-count tuning edited a bypassed path, and SOA side-code/floor screens did not cover the active sm_86 layout.
-2. Determine whether PTQ1_0's lower payload is converting into DRAM traffic reduction or whether instruction/occupancy limits dominate. NCU counters are unavailable to this user; use static resources, controlled size sweeps, and end-to-end evidence without changing system counter permissions.
-3. Test whether fused Hadamard-to-Q8_1 activation preparation for PQ2_0 recovers its extra transform/quantization kernels; then revisit launch gaps, RMSNorm, and gated-delta recurrent attention after a matvec improvement changes the ranking.
+1. Test a compact 2-bit side-code decoder against the actual planar-transposed activation layout. Previous side-code tests used SOA and do not settle the sm_86 path. Include model-load repacking, extra 21.43% weight storage, peak VRAM, and end-to-end decode in the comparison.
+2. Try a distinct trit unpack/reduction mapping inside the active planar `mul_mat_vec_ptq1_0_pt` kernel; the earlier LUT and floor paths were tested in SOA harnesses only.
+3. Revisit Hadamard-to-Q8_1 fusion for PQ2_0; then inspect recurrent attention, RMSNorm, and launch gaps if their share rises after PTQ1 improvements.
+
+Nsight Compute counters are unavailable (`ERR_NVGPUCTRPERM`); do not change system-wide driver permissions. Use Nsight Systems, static cubin resources, and controlled size/workload sweeps.

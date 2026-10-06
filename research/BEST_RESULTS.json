@@ -1,5 +1,5 @@
 {
-  "status": "verified_reference_baseline",
+  "status": "optimization_campaign_active",
   "implementation_commit": "6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17",
   "timestamp_utc": "2026-10-06T11:00:24.981932+00:00",
   "hardware": {
@@ -248,20 +248,64 @@
   },
   "source_results": "results/baseline.json",
   "latest_experiment": {
-    "id": "009",
-    "hypothesis": "Fix qh interleave and device-verify the PTQ1_0 floor-difference decoder",
-    "decision": "REJECT",
-    "performance_effect": "Exact device/full-block checks passed; candidate was 7.04%, 4.11%, and 1.24% slower than production at 1,024, 16,384, and 65,536 blocks. No E2E run.",
-    "candidate_results": [
-      "results/exp009/parallel_bench.cu",
-      "results/exp009/bench_1024.txt",
-      "results/exp009/bench_16384.txt",
-      "results/exp009/bench_65536.txt",
-      "results/exp009/compute_sanitizer_128.txt",
-      "results/exp009/compute_sanitizer_65536.txt"
-    ],
-    "report": "experiments/009-ptq1-floor-decoder-qh/REPORT.md"
+    "id": "010",
+    "hypothesis": "Tune rows-per-item in the active RTX 3080 sm_86 planar PTQ1_0 batch-1 GEMV",
+    "decision": "KEEP ROWS=1",
+    "performance_effect": "+5.42% median decode at context 512 and +5.34% at context 4096 in the manager rebuilt source-default A/B; two prior reversed-order paired rounds also favored ROWS=1 over ROWS=4. ROWS=1 uses 76 vs 108 registers/thread.",
+    "report": "experiments/010-ptq1-planar-rows/REPORT.md"
   },
-  "updated_timestamp_utc": "2026-10-06T15:09:30+00:00",
-  "project_commit": "2a6ac568b69a61db0ee151b24c9b2cdb7a4f8a7c"
+  "updated_timestamp_utc": "2026-10-06T16:54:22.458979+00:00",
+  "project_commit": "9fa97200e68fd798ef027470c8e420172a0ac719",
+  "current_best": {
+    "commit": "9fa97200e68fd798ef027470c8e420172a0ac719",
+    "reference_runtime_commit": "6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17",
+    "quantization": "PTQ1_0",
+    "decode_benchmark": {
+      "batch_size": 1,
+      "decode_tokens": 128,
+      "contexts": [
+        512,
+        4096
+      ],
+      "repetitions": 7,
+      "flash_attention": "on",
+      "kv_type": "f16",
+      "n_gpu_layers": 99,
+      "cpu_threads": 8,
+      "cooldown_temperature_c": 60,
+      "artifact": "results/exp010/final_rebuilt_pair/rows1_rebuilt.json",
+      "paired_reference_artifact": "results/exp010/final_rebuilt_pair/baseline.json",
+      "results": {
+        "512": {
+          "median_tokens_per_second": 82.2218,
+          "mean_tokens_per_second": 82.125754,
+          "sample_stddev_tokens_per_second": 0.318211,
+          "min_tokens_per_second": 81.4097,
+          "max_tokens_per_second": 82.3303,
+          "median_total_decode_latency_ms_derived": 1556.765,
+          "mean_total_decode_latency_ms": 1558.605582,
+          "paired_reference_median_tokens_per_second": 77.9966,
+          "median_improvement_percent": 5.417
+        },
+        "4096": {
+          "median_tokens_per_second": 79.6967,
+          "mean_tokens_per_second": 79.606147,
+          "sample_stddev_tokens_per_second": 0.268069,
+          "min_tokens_per_second": 79.0024,
+          "max_tokens_per_second": 79.7528,
+          "median_total_decode_latency_ms_derived": 1606.089,
+          "mean_total_decode_latency_ms": 1607.931762,
+          "paired_reference_median_tokens_per_second": 75.6584,
+          "median_improvement_percent": 5.338
+        }
+      }
+    },
+    "prefill_reference_not_remeasured": {
+      "512_median_tokens_per_second": 1378.14,
+      "4096_median_tokens_per_second": 1331.25
+    },
+    "peak_gpu_memory_used_mib": 6805.0,
+    "correctness": "pass: fresh 394-target build; 4/4 selected CTests; 96/96 CUDA-vs-CPU ternary matmul cases; PTQ1_0 and PQ2_0 fixed greedy 32-token model smokes",
+    "timestamp_utc": "2026-10-06T16:54:22.458979+00:00"
+  }
 }

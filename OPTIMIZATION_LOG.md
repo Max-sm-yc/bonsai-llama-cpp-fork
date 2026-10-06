@@ -5,7 +5,7 @@
 - Built the unchanged PrismML runtime for sm_86, verified both model files and smoke runs, and passed upstream numerical tests plus 96 CUDA-vs-CPU ternary matmul cases.
 - Measured both formats with seven repetitions at contexts 128, 512, 2048, and 4096 under a matched 60°C idle start gate. PTQ1_0 is the faster decode baseline; see `BASELINE.md`.
 - Nsight Systems ranks PTQ1_0 GEMV as the first optimization target (61.8% of traced GPU kernel time). Nsight Compute counters are unavailable due `ERR_NVGPUCTRPERM`; no system setting was changed.
-- No optimization has been accepted yet. PTQ1_0 GEMV remains the highest-value target. Paired follow-up in experiment 002 found no L2-prefetch gain, experiment 003 found no warp-count gain, and experiment 004 rejected a direct constant-memory decoder LUT; next compare an exact 2-bit side representation's simpler decode with its extra weight traffic.
+- Experiments 001–009 did not produce a retained end-to-end optimization. Experiment 010 is the first verified speedup; its active-path row schedule and measured effect are recorded below.
 
 ## Experiment 001: PTQ1_0 L2 prefetch
 
@@ -56,3 +56,11 @@
 
 - Device exhaustive checks covered every source byte and digit and every pair of `qh` bytes; the full production-layout block harness matched its recurrence and independent host reference exactly, and Compute Sanitizer found no errors.
 - The corrected decoder was slower than the production recurrence in all three paired RTX 3080 screens: 7.04% at 1,024 blocks, 4.11% at 16,384, and 1.24% at 65,536. Rejected without runtime integration or E2E testing. Keep the production decoder. See `experiments/009-ptq1-floor-decoder-qh/REPORT.md`.
+
+## Experiment 010: active PTQ1_0 planar GEMV row scheduling
+
+- Changed the one-column work item from four rows to one in the dedicated sm_86 `mul_mat_vec_ptq1_0_pt` kernel. The specialization dropped from 108 to 76 registers/thread with no spills; the final source-default build passed correctness.
+- Corrected isolated A/Bs show ROWS=1 faster than ROWS=4 by 4.9–5.8% in paired medians, and faster than ROWS=2 by 0.65–0.73% in both direct pair orders. The manager's fresh rebuilt A/B measured +5.42% at context 512 and +5.34% at context 4096. ROWS=8 regressed 16–17%.
+- Some context-4096 repetitions have severe low-throughput tails in both row1 and baseline binaries. Preserve medians and means/ranges together; there is not yet a causal diagnosis. The first archived-binary timing set is invalid because of absolute RUNPATH leakage and is explicitly excluded in the report and `results/exp010/README.md`.
+- Rebuilt and rechecked the final source-default library independently. A fresh matched seven-repetition pair measured +5.4%/+5.3% medians at contexts 512/4096; all sample ranges were tight. Four CTests, 96 CUDA-vs-CPU cases, and both model smokes passed.
+- Re-profiled with Nsight Systems: the three PTQ1_0 GEMV variants fell from 1.253 s to 1.166 s combined in the mixed setup/decode trace and remain 60.4% of GPU kernel time. Retained ROWS=1; investigate a 2-bit code specialized to the actual planar path, because prior 2-bit screens were SOA-only.

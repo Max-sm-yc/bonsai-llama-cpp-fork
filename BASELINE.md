@@ -1,6 +1,6 @@
 # Reference baseline
 
-Status: verified on the RTX 3080 using the unmodified PrismML runtime at commit `6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17`. No performance-critical source changes have been made.
+Status: these reference measurements were verified on the RTX 3080 using unmodified PrismML runtime commit `6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17`. The current optimized project commit is `9fa97200e68fd798ef027470c8e420172a0ac719`; see the matched isolated comparison below.
 
 ## Conditions
 
@@ -55,3 +55,14 @@ These are reference results, not optimization gains. The separate first pass in 
 - CUDA-vs-CPU `MUL_MAT` reference checks on PTQ1_0 and PQ2_0, with odd row tails and K sizes 1024, 5120, 6144, and 17408: 96/96 passed within the upstream `5e-4` NMSE bound.
 - Actual CUDA model smoke inference: both GGUF files loaded and produced non-empty 32-token completions using greedy decoding. See [results/baseline_smoke.json](results/baseline_smoke.json).
 - Re-run using `tests/run_correctness.sh`.
+
+## Matched isolated decode comparison after optimization
+
+The original matrix ran prefill before decode and warmed the GPU; its decode figures above are reference data and should not be used as a speedup denominator. Experiment 010 compared the rebuilt ROWS=1 source-default implementation against an archived ROWS=4 baseline build using isolated batch-1 decode, seven repetitions, 128 generated tokens, and a start gate of at most 60°C. The measured medians were:
+
+| Existing context | ROWS=1 PTQ1_0 | ROWS=4 PTQ1_0 control | Median delta |
+|---:|---:|---:|---:|
+| 512 | 82.22 tok/s | 78.00 tok/s | +5.42% |
+| 4096 | 79.70 tok/s | 75.66 tok/s | +5.34% |
+
+Both builds peaked at 6,805 MiB. The manager's final pair started at 51°C for ROWS=1 and 59°C for ROWS=4; two earlier reversed-order pairs starting at 58–60°C also favored ROWS=1. Full samples, per-run telemetry, and correctness evidence are in [experiment 010](experiments/010-ptq1-planar-rows/REPORT.md).
