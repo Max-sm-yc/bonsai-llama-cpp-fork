@@ -1,5 +1,9 @@
 # Optimization log
 
+## Experiment 068: active PTQ1_0 GEMV direct-dot audit
+
+- Source inspection disproved the signed-byte-materialization premise: `ptq1_0_pt_block_dot` unpacks raw ternary digits in registers and feeds them directly to `dp4a`; the `isum` fold subtracts the activation sum to implement signed `digit-1`. A positive/negative mask formulation had no demonstrated instruction reduction and overlaps exhausted decoder screens, so no candidate was implemented, built, or benchmarked. Production source and current best are unchanged. See `experiments/068-direct-ternary-gemv/REPORT.md` and `results/exp068/source_audit.txt`.
+
 ## Experiment 062: repeated SSM+SiLU+L2 fusion
 
 - Added a guarded one-token CUDA path that materializes the full 10,240-element SSM+SiLU output and computes the separate 4,096-element normalized QK view in the same launch. The matcher handles 24 of 48 adjacent sites; graph nodes fell 1,384→1,360 and replay kernel time fell 0.0323/0.0305 ms at contexts 512/4096.

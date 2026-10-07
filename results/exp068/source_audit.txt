@@ -1,0 +1,18 @@
+Exp068 source audit (manager HEAD 661966965935edc19243a54dc6404027491edff7)
+
+Target file: ggml/src/ggml-cuda/mmvq-ptq1_0.cuh
+SHA-256: f398417accddf1948fbf12155b4180fd362a3dfea88366ef3980161700d56496
+Target function: ptq1_0_pt_block_dot
+
+Observed dataflow:
+1. qs bytes are unpacked to packed byte-lane remainders (vlo/vhi).
+2. ptq1_0_trit_step multiplies remainders by 3, updates masked remainders, and emits four raw digits in {0,1,2} through __byte_perm.
+3. Each raw-digit word q is passed immediately to ggml_cuda_dp4a_us(q, activation_word, sumi). No signed-byte weight vector or intermediate signed-weight buffer is written or loaded.
+4. At each 32-element Q8 sub-block fold, the integer correction sumi-isum is multiplied by d8 and accumulated. Since each signed PTQ weight is digit-1, this computes sum((digit-1)*activation) directly.
+5. qh is decoded with the same recurrence and immediately fed to DP4A, then the final fold is performed.
+
+Thus the proposed optimization target (avoid materializing signed-byte weights before the dot) is already met by this path. The correction term is exactly what allows raw ternary digits to feed DP4A directly.
+
+Distinct alternative considered: emit positive/negative one-hot masks per four digits and conditionally mask activation bytes before accumulation. This still has to derive ternary classes from the same base-3 packed stream, and then adds class extraction plus byte masking/packing before one or more dot operations. It is another decoder formulation without a demonstrated instruction reduction and overlaps the prior direct-arithmetic/side-encoding investigations. No grounded reason predicts it will beat the present packed-lane recurrence + one DP4A per four digits; per task constraints it was not implemented as an unmotivated decoder tweak.
+
+Related evidence reviewed: Exp011 exact 2-bit side-code dot slower (including the largest 65,536-block screen); Exp012 exact pairwise radix-3 dot slower at 128/16,384/65,536 blocks; Exp039 exact active planar fixed-point floor differences slower at both K shapes, with 490 vs 338 SASS instructions; Exp046 source audit already found cooperative mapping, direct arithmetic, recurrence strip-mining, staging, transpose, and scheduling exhausted. No new candidate source, build, timing, correctness result, or E2E benchmark exists for Exp068.

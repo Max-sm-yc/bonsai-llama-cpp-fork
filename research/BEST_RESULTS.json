@@ -1126,80 +1126,22 @@
     "timestamp_utc": "2026-10-07T12:50:36.609483+00:00"
   },
   "latest_research_audit": {
-    "id": "067",
-    "description": "Global PTQ1_0 prefill ubatch sweep at fixed logical batch 2048.",
-    "decision": "REVERT; retain global ub=512. No setting consistently improved all four prompts.",
+    "id": "068",
+    "description": "Source audit of the active PTQ1_0 one-column batch-1 GEMV direct-dot dataflow.",
+    "decision": "NO CANDIDATE; active path already feeds packed raw ternary digits directly to DP4A and applies the signed digit-1 correction through isum. Production and verified best are unchanged.",
     "verified_by_manager": true,
+    "hardware": "NVIDIA GeForce RTX 3080, sm_86",
     "method": {
-      "contexts": [
-        128,
-        512,
-        2048,
-        4096
-      ],
-      "repetitions_per_screen": 3,
-      "settings": {
-        "batch_size": 2048,
-        "ubatch_sizes": [
-          128,
-          256,
-          512,
-          1024,
-          2048
-        ],
-        "n_gpu_layers": 99,
-        "flash_attention": true,
-        "kv_type": "f16",
-        "cpu_threads": 8,
-        "warmup": "llama-bench default",
-        "cooldown_temperature_c": 60
-      },
-      "comparison": "All settings measured in same isolated build/session with cooldown gate; medians compared to same-session ub=512 control."
+      "target": "ggml/src/ggml-cuda/mmvq-ptq1_0.cuh::ptq1_0_pt_block_dot",
+      "comparison": "Main checkout and isolated experiment worktree source hashes matched; no source diff or performance candidate.",
+      "source_sha256": "f398417accddf1948fbf12155b4180fd362a3dfea88366ef3980161700d56496"
     },
-    "prefill_median_tokens_per_second": {
-      "128": {
-        "128": 1303.46,
-        "256": 1297.26,
-        "512": 1310.81,
-        "1024": 1297.16,
-        "2048": 1293.36
-      },
-      "512": {
-        "128": 1285.54,
-        "256": 1326.45,
-        "512": 1395.87,
-        "1024": 1371.34,
-        "2048": 1375.02
-      },
-      "2048": {
-        "128": 1263.59,
-        "256": 1323.45,
-        "512": 1382.69,
-        "1024": 1385.0,
-        "2048": 1408.3
-      },
-      "4096": {
-        "128": 1243.08,
-        "256": 1304.39,
-        "512": 1366.58,
-        "1024": 1368.26,
-        "2048": 1391.06
-      }
-    },
-    "peak_gpu_memory_mib_by_ubatch": {
-      "128": 6403,
-      "256": 6531,
-      "512": 6793,
-      "1024": 7313,
-      "2048": 8363
-    },
-    "screen_sample_count": 3,
-    "correctness": "Fixed-seed 32-token PTQ1_0 CLI completion text matched for ub=512 and ub=2048; only throughput diagnostic differed. No logits-level test. No decode/PQ2 comparison because no global candidate qualified.",
-    "outcome": "ub=2048 gained 1.85%/1.79% at prompts 2048/4096 but lost 1.33%/1.49% at prompts 128/512; ub=1024 was near-flat on long prompts and slower on short prompts. No 7-repetition confirmation or production setting change.",
+    "correctness": "No candidate was built or tested; existing production arithmetic is unchanged. No new correctness claim.",
+    "outcome": "Packed qs/qh decode emits raw digits {0,1,2} in registers, each word is passed immediately to DP4A, and isum subtracts activation sum to compute signed digit-1. No signed-byte vector is materialized. Mask-based alternative lacked a grounded reduction in work.",
     "artifacts": [
-      "experiments/067-prefill-ubatch-sweep/REPORT.md",
-      "results/exp067/"
+      "experiments/068-direct-ternary-gemv/REPORT.md",
+      "results/exp068/source_audit.txt"
     ],
-    "timestamp_utc": "2026-10-07T14:50:55.799836+00:00"
+    "timestamp_utc": "2026-10-07T14:59:17Z"
   }
 }

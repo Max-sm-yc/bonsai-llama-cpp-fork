@@ -26,7 +26,7 @@
 - Exp066: source/PTX/SASS audit confirmed a serial five-step trit expansion and shared-tile staging in type-143 MMQ but produced no concrete candidate. Baseline rebuilt cleanly; no source or performance change. Any decoder follow-up must account for Exp004/009/039 LUT and floor-difference losses.
 - Exp063/064: the remaining 24 recurrent SSM/L2 sites alias the first 16 KiB of SSM input. Cooperative fusion was exact, sanitizer-clean, and graph-capturable (2 nodes→1), but focused replay was 7.6% slower and decode A/B was flat (−0.016%/+0.030%); reverted. Keep Exp062's alias guard.
 
-- Dispatch, decoder, and GEMV scheduling: generic-path edits in 001–003 do not reach the active sm_86 batch-1 path. LUT/floor, two-bit, pairwise, fixed-point, row-tile, warp/multiwarp reduction, recurrence distribution, and source strip-mining attempts (004–025, 039) were invalid for the target or exact but slower/no better. Exp024's isolated 1.49x cooperative recurrence screen became an 81.5% model regression.
+- Dispatch, decoder, and GEMV scheduling: generic-path edits in 001–003 do not reach the active sm_86 batch-1 path. LUT/floor, two-bit, pairwise, fixed-point, row-tile, warp/multiwarp reduction, recurrence distribution, and source strip-mining attempts (004–025, 039) were invalid for the target or exact but slower/no better. Exp024's isolated 1.49x cooperative recurrence screen became an 81.5% model regression. Exp068 confirmed active GEMV already feeds raw packed trits directly to DP4A; `isum` accounts for the signed `digit-1` bias, so no signed-byte vector is materialized.
 - Prefetch/cache/load/layout variants: next-item hints and `.cs` lost E2E; `.cg` lost its kernel screen; padding to 32B added 14.3% payload and lost. Exp032's same-footprint SoA block screen gained 7.8% at 136 blocks but tied at 40; the runtime sidecar in 034–035 had no repeatable decode gain, added 1,280 MiB peak VRAM, and cost ~294 ms load time. Synchronous shared staging (037) lost 9.9–12.9%; warp-register transpose (038) lost 2.42–2.75x. The measured sm_86 `cp.async` next-work-item pipeline (040) emitted real async transfers but lost 10.4%/23.2% at 40/136 blocks. CTA widths 64/128/256/512 (042) lowered active-kernel registers at 256/512 but did not win both K shapes; a 256-at-K40/128-otherwise dispatch regressed matched decode 0.60%/0.68%.
 - Register pressure/occupancy: Exp045 held 128-thread ROWS=1 geometry fixed and asked for 6/7/8 resident CTAs on `ncols==1`. Active plain/gated register use fell to 72/77, 68/72, and 60/63 with no active spills, but all three short reversed model screens regressed at contexts 512/4096 (-2.5% to -5.1%). Keep the four-CTA bound.
 - Inconclusive only: 014/016/027 ended before candidate measurement; 029 had one unmatched `.cg` trace. See `research/EXPERIMENTS.md` and linked reports before revisiting any idea.
@@ -42,9 +42,11 @@
 
 ## Active experiment
 
-- Exp068 is a fresh direct-dot challenge for the active PTQ1_0 one-column planar GEMV: can packed ternary codes feed the activation dot without materializing the current signed-byte weight vector? All proven/failed decoder and geometry results remain indexed; production source is unchanged pending exactness and timing.
+- Exp069 challenges the measured FlashAttention Stream-K fixup overhead with a new reduction/launch-fusion premise. Baseline at ctx4096 is 16 main calls plus 16 fixups per token, 0.5511+0.0359 ms; do not repeat Exp053 tile geometry. Production remains unchanged unless exactness and focused/model timing both qualify.
 
 ## Latest research result
+
+- Exp068 found the active PTQ1_0 batch-1 GEMV already performs direct packed-digit DP4A: raw digits stay in registers and `isum` subtracts the activation sum to implement signed `digit-1`. No new decoder or timing candidate was justified; production source is unchanged. See `experiments/068-direct-ternary-gemv/REPORT.md` and `results/exp068/source_audit.txt`.
 
 - Exp067 screened `ub=128/256/512/1024/2048` at fixed `-b 2048`. `ub=2048` gained about 1.8% at prompts 2048/4096 but lost 1.3–1.5% at 128/512; `ub=1024` was nearly flat on long prompts and slower on short prompts. Peak was 8,363 MiB. Fixed-seed smoke text matched `ub=512`. No global candidate qualified, so no parameter change or decode/PQ2 follow-up. See `experiments/067-prefill-ubatch-sweep/REPORT.md`.
 
@@ -82,6 +84,6 @@
 
 ## Next candidates
 
-1. Profile and screen PTQ1_0 prompt-side MMQ on sm_86. This path has not had a focused optimization campaign; preserve decode performance and measure prompts 128/512/2048/4096.
-2. Revisit the dominant PTQ1_0 batch-1 GEMV only with a new decoder, dataflow, or code-generation premise; Exp046 and earlier screens closed the obvious variants.
-3. Revisit QKV preparation, GDN, or BF16 matvec only if a new measured source/codegen opportunity appears. Exp049–051 found no model-level gain in the obvious candidates.
+1. Test whether a new FlashAttention reduction/dataflow can remove the measured Stream-K fixup launch cost; keep the current tile geometry and require full correctness plus matched decode A/B.
+2. Profile and screen PTQ1_0 prompt-side MMQ only with a concrete dataflow/decoder premise; Exp065/066 closed geometry-only and ungrounded source screens. Preserve decode and measure prompts 128/512/2048/4096.
+3. Revisit the dominant PTQ1_0 batch-1 GEMV only with a genuinely new primitive, code-generation, or representation premise; Exp046/068 and earlier screens close current direct-dot and obvious decoder variants.
