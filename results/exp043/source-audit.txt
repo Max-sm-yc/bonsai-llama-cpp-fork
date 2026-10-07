@@ -1,0 +1,35 @@
+Experiment 043 source and binary audit
+Manager checkout HEAD: 5c937b83827bad67d5f0e872e9ea5ecd9a012fa5
+Production code commit: c6cdaa5fa62787c97db58d1d2e1db666a4aeddb5
+Current manager branch source SHA-256:
+  ggml/src/ggml-cuda/mmvq-ptq1_0.cuh f398417accddf1948fbf12155b4180fd362a3dfea88366ef3980161700d56496
+Active production CUDA library SHA-256:
+  build/bin/libggml-cuda.so.0 bad70d76b19fdd1b21f61e5c9eb4900b5334c638ff75cdec11f3a4d3b2b28642
+
+Source inspection:
+- ptq1_0_pt_block_dot starts at line 92 and contains the 128-element ternary recurrence and DP4A/FMA chain.
+- mul_mat_vec_ptq1_0_pt calls it for the main weights at line 346, then for fusion.gate at line 362; activation pointers ycol are shared.
+- The gate output partials are written separately at line 367 and folded separately in the existing epilogue.
+- No code was edited, and no candidate was built.
+
+Compiled SASS evidence is from the active production sm_86 library, extracted previously by:
+  cuobjdump --dump-sass build/bin/libggml-cuda.so
+Relevant specialization:
+  _Z21mul_mat_vec_ptq1_0_ptILi1ELi1ELb1ELb1EEvPKvS1_31ggml_cuda_mm_fusion_args_devicePfiiiiii5uint3S4_b
+See exp026_activation_audit.txt for nine LDG.E.128 loads (same as ungated) and gate_global_loads.txt for the complete load listing.
+The gate kernel active resource record from:
+  cuobjdump --dump-resource-usage build/bin/libggml-cuda.so
+is REG:98 STACK:0 SHARED:0 LOCAL:0. The corresponding no-gate fused specialization is REG:74 STACK:0 SHARED:0 LOCAL:0.
+
+Selected IDP.4A.U8.S8 instruction schedule in the gated SASS:
+  0x0870 R50 <- R51*R20, RZ       / 0x0880 R70 <- R71*R20, RZ
+  0x0910 R73 <- R73*R21, R50      / 0x0b40 R79 <- R79*R21, R70
+  0x0d40 R88 <- R88*R22, R73      / 0x0e00 R76 <- R76*R22, R79
+  0x0fa0 R85 <- R85*R23, R88      / 0x0fb0 R76 <- R80*R23, R76
+  0x0ff0 R62 <- R62*R16, R85      / 0x1000 R65 <- R65*R16, R76
+  0x1040 R61 <- R61*R17, R62      / 0x1060 R65 <- R72*R17, R65
+  0x10a0 R60 <- R60*R24, RZ       / 0x10d0 R66 <- R66*R24, RZ
+  0x1110 R61 <- R71*R18, R61      / 0x1130 R65 <- R70*R18, R65
+  0x1180 R60 <- R63*R25, R60      / 0x1190 R25 <- R74*R25, R66
+
+The two independent DP4A accumulator chains are already interleaved by SASS scheduling, with the same activation operand register in adjacent/pairwise instructions. In the initial region, packed loads from both weight bases also issue ahead of the arithmetic. Thus source-level call serialization does not persist as a serial two-dot DP4A schedule after compilation. SASS provides no defensible premise that manually joining the helpers would improve instruction-level parallelism. Register count is higher for the gate specialization but there are no stack/local spills to eliminate by changing the schedule.

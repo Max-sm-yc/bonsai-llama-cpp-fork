@@ -1,0 +1,22 @@
+Active fused-gate PTQ1_0 SASS (sm_86), selected DP4A schedule, from results/exp026/gate-specialization.sass:
+
+/*0870*/ IDP.4A.U8.S8 R50, R51, R20, RZ ;
+/*0880*/ IDP.4A.U8.S8 R70, R71, R20, RZ ;
+/*0910*/ IDP.4A.U8.S8 R73, R73, R21, R50 ;
+/*0b40*/ IDP.4A.U8.S8 R79, R79, R21, R70 ;
+/*0d40*/ IDP.4A.U8.S8 R88, R88, R22, R73 ;
+/*0e00*/ IDP.4A.U8.S8 R76, R76, R22, R79 ;
+/*0fa0*/ IDP.4A.U8.S8 R85, R85, R23, R88 ;
+/*0fb0*/ IDP.4A.U8.S8 R76, R80, R23, R76 ;
+/*0ff0*/ IDP.4A.U8.S8 R62, R62, R16, R85 ;
+/*1000*/ IDP.4A.U8.S8 R65, R65, R16, R76 ;
+/*1040*/ IDP.4A.U8.S8 R61, R61, R17, R62 ;
+/*1060*/ IDP.4A.U8.S8 R65, R72, R17, R65 ;
+/*10a0*/ IDP.4A.U8.S8 R60, R60, R24, RZ ;
+/*10d0*/ IDP.4A.U8.S8 R66, R66, R24, RZ ;
+/*1110*/ IDP.4A.U8.S8 R61, R71, R18, R61 ;
+/*1130*/ IDP.4A.U8.S8 R65, R70, R18, R65 ;
+/*1180*/ IDP.4A.U8.S8 R60, R63, R25, R60 ;
+/*1190*/ IDP.4A.U8.S8 R25, R74, R25, R66 ;
+
+This excerpt is evidence that the compiler interleaves independent accumulation dependencies; it is not a performance measurement.

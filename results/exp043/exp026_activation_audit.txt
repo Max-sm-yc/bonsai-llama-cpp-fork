@@ -1,0 +1,11 @@
+Library: build/bin/libggml-cuda.so.0 (source-default build)
+GPU: RTX 3080, compute capability 8.6
+Extracted by: cuobjdump --dump-sass build/bin/libggml-cuda.so
+Target function: _Z21mul_mat_vec_ptq1_0_ptILi1ELi1ELb1ELb1EEvPKvS1_31ggml_cuda_mm_fusion_args_devicePfiiiiii5uint3S4_b
+Control function: _Z21mul_mat_vec_ptq1_0_ptILi1ELi1ELb1ELb0EEvPKvS1_31ggml_cuda_mm_fusion_args_devicePfiiiiii5uint3S4_b
+
+Function-body instruction counts:
+  has_gate=true:  32 LDG total, 9 LDG.E.128
+  has_gate=false: 20 LDG total, 9 LDG.E.128
+
+Conclusion: no duplicated 128-bit planar activation-fragment loads in the gated specialization. Additional LDG instructions in the gated body are scalar loads; the vector-load count is unchanged.

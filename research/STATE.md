@@ -33,4 +33,4 @@
 
 ## Next candidates
 
-1. Screen explicit interleaving of independent gate/up PTQ1_0 decode/DP4A streams. The source calls the block-dot helper serially, while SASS already shares activation loads; test whether joint scheduling hides dependency latency without spills. Require exactness, K=40/136 work-plus-fold gains, and matched E2E decode. Exp042 closed CTA-width tuning; retain 128 threads.
+1. Screen CTA-local reuse of the planar Q8_1 activation tile across output rows. Exp037 staged weights and lost; this tests the distinct premise that the same activation vectors are reloaded for many rows. Gate on exact work-plus-fold gains at K=40/136, shared-memory occupancy, and matched E2E decode. Exp043 found gate/up DP4A streams already interleaved by ptxas; retain current 128-thread, ROWS=1 production code.

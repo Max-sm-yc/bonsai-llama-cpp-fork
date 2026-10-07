@@ -1,0 +1,8 @@
+ Function _Z21mul_mat_vec_ptq1_0_ptILi1ELi1ELb1ELb0EEvPKvS1_31ggml_cuda_mm_fusion_args_devicePfiiiiii5uint3S4_b:
+  REG:74 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:473 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z21mul_mat_vec_ptq1_0_ptILi1ELi1ELb1ELb1EEvPKvS1_31ggml_cuda_mm_fusion_args_devicePfiiiiii5uint3S4_b:
+  REG:98 STACK:0 SHARED:0 LOCAL:0 CONSTANT[2]:48 CONSTANT[0]:473 TEXTURE:0 SURFACE:0 SAMPLER:0
+--
+ Function _Z21mul_mat_vec_ptq1_0_ptILi1ELi1ELb1ELb0EEvPKvS1_31ggml_cuda_mm_fusion_args_devicePfiiiiii5uint3S4_b:
+  REG:74 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:473 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z21mul_mat_vec_ptq1_0_ptILi1ELi1ELb1ELb1EEvPKvS1_31ggml_cuda_mm_fusion_args_devicePfiiiiii5uint3S4_b:
