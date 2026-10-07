@@ -1,0 +1,2 @@
+name, compute_cap, memory.total [MiB], temperature.gpu, utilization.gpu [%], memory.used [MiB]
+NVIDIA GeForce RTX 3080, 8.6, 10240 MiB, 51, 0 %, 173 MiB

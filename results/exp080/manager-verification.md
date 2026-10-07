@@ -1,0 +1,8 @@
+# Exp080 manager verification
+
+- The isolated report and all entries in the experimenter's original `SHA256SUMS` verified before artifact transfer. Recomputed the production source hashes; `mmvq.cu` is `e889b154…` and `mmvq-ptq1_0.cuh` is `f398417a…`, matching the best source. `git diff` for both files is empty.
+- Recomputed hashes for the reference `llama-bench` (`aadddd4d…`), CUDA library (`7b94bcc9…`), and active `mmvq.cu.o` (`328b1779…`) in the isolated build. The recorded `ldd` paths resolve to that experiment-local build.
+- Independently recounted the retained active-function SASS: 32 `IDP.4A`, 9 `LDG.E.128.CONSTANT`, 217 `LDS`, 1 `STS` site, 1 `BAR.SYNC`, and 4 `FFMA`. The experiment report originally said 214 shared loads; corrected it to the reproducible count 217. Ptxas resource output reports 76 registers/thread and zero stack/spills for `<1,1,false,false>`.
+- Dispatch audit confirms the one-column plain 2D/no-ids model path reaches `<1,1,false,false>` subject to documented shape and shared-memory guards. For exact four-stream accumulation, fewer owners imply 10 serial block dots per stream at K=40 and 34 at K=136; parallelizing a stream changes FP32 association. This is a reasoned no-candidate screen, not a new measured performance result.
+- The clean Release sm_86 441-step `llama-bench` build succeeded. No candidate was built, so the experimenter appropriately ran no candidate correctness, microbenchmark, or model A/B. The current-best result remains unchanged.
+- The portable artifact manifest excludes the 212 MiB build directory. Its binary/object/library hashes remain in `raw/build_hashes.txt`; raw SASS/resource evidence and the reproducible build command are retained.

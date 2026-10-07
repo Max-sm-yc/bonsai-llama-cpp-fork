@@ -415,3 +415,10 @@
 - Captured the production PTQ1_0 GEMV with real `[5120,1024]` weights and deterministic valid planar Q8_1 activations. All 1,024 outputs matched the CPU reference exactly. One-matrix forced-cold graph replay improved by 1.728 µs under persistence, while warm replay was 0.352 µs slower; four- and 32-matrix sets showed no meaningful gain.
 - Two reversed seven-repetition model pairs at each context found max-reservation decode medians of 84.170/83.418 tok/s (−0.894%) at 512 and 81.747/81.051 (−0.852%) at 4096. Exact-size reservation was 84.265/84.130 (−0.159%) and 81.762/81.762 (flat). Fixed 32-token completion text matched; peak VRAM was 6,579/6,803 MiB.
 - **REVERT BOTH.** Forced-cold local benefit did not translate to decode. Manager independently recomputed medians, confirmed all samples passed the ≤60 C / ≤5% utilization gate, verified smoke parity and source restoration, and retained the prior best. See `experiments/079-ptq1-l2-persistence/REPORT.md` and `results/exp079/manager-verification.md`.
+
+
+## Experiment 080: PTQ1_0 GEMV accumulation/dataflow challenge
+
+- A fresh source/codegen audit followed the active one-column dispatch and compiled the clean Release sm_86 reference (441 build steps). The active <1,1,false,false> specialization uses 76 registers/thread, zero spills, 32 IDP.4A, nine 128-bit activation loads, one shared store site, and one CTA barrier. Manager independently recounted 217 LDS instructions and corrected the report from 214.
+- The current epilogue preserves four sequential FP32 streams per row in modulo-4 K-block order. Reducing shared partial owners while preserving the exact result order assigns 10 serial block dots/stream at K=40 or 34 at K=136; distributing a stream changes FP32 association. Prior geometry/reduction families are already measured.
+- **NO CANDIDATE.** No source change, correctness delta, microbenchmark, or E2E result was produced. The current best is unchanged. See experiments/080-ptq1-gemv-dataflow/REPORT.md and results/exp080/.

@@ -1,0 +1,841 @@
+
+Fatbin ptx code:
+================
+arch = sm_86
+code version = [9,2]
+host = linux
+compile_size = 64bit
+compressed
+ptxasOptions = 
+
+Fatbin elf code:
+================
+arch = sm_86
+code version = [1,8]
+host = linux
+compile_size = 64bit
+compressed
+
+Resource usage:
+ Common:
+  GLOBAL:26792 CONSTANT[4]:88
+ Function _Z13mul_mat_vec_qIL9ggml_type21ELi8ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:168 STACK:0 SHARED:2048 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type21ELi7ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:154 STACK:0 SHARED:1792 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type21ELi6ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:143 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type21ELi5ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:128 STACK:0 SHARED:1280 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type21ELi4ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:118 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type21ELi3ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:109 STACK:0 SHARED:2304 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type21ELi2ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:95 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type21ELi1ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:55 STACK:0 SHARED:384 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type21ELi1ELb1ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:60 STACK:0 SHARED:384 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type21ELi1ELb1ELb1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:89 STACK:0 SHARED:768 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type21ELi1ELb0ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:110 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type21ELi1ELb1ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:107 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type21ELi1ELb1ELb1ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:148 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z17mul_mat_vec_q_moeIL9ggml_type21ELi2EEvPKvS2_PKiPfj5uint3jjjjjjjjj:
+  REG:78 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:436 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type23ELi8ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:152 STACK:0 SHARED:2048 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type23ELi7ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:144 STACK:0 SHARED:1792 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type23ELi6ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:132 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type23ELi5ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:122 STACK:0 SHARED:1280 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type23ELi4ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:106 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type23ELi3ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:95 STACK:0 SHARED:2304 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type23ELi2ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:80 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type23ELi1ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:47 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type23ELi1ELb1ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:51 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type23ELi1ELb1ELb1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:72 STACK:0 SHARED:768 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type23ELi1ELb0ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:80 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type23ELi1ELb1ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:86 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type23ELi1ELb1ELb1ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:122 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z17mul_mat_vec_q_moeIL9ggml_type23ELi2EEvPKvS2_PKiPfj5uint3jjjjjjjjj:
+  REG:61 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:436 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type20ELi8ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:107 STACK:0 SHARED:2048 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type20ELi7ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:102 STACK:0 SHARED:1792 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type20ELi6ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:95 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type20ELi5ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:83 STACK:0 SHARED:1280 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type20ELi4ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:69 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type20ELi3ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:64 STACK:0 SHARED:2304 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type20ELi2ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:55 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type20ELi1ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:35 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type20ELi1ELb1ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:39 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type20ELi1ELb1ELb1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:52 STACK:0 SHARED:768 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type20ELi1ELb0ELb0ELb0ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:35 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type20ELi1ELb1ELb0ELb0ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:39 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type20ELi1ELb1ELb1ELb0ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:52 STACK:0 SHARED:768 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type20ELi1ELb0ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:56 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type20ELi1ELb1ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:63 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type20ELi1ELb1ELb1ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:88 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z17mul_mat_vec_q_moeIL9ggml_type20ELi2EEvPKvS2_PKiPfj5uint3jjjjjjjjj:
+  REG:48 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:436 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type29ELi8ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:167 STACK:0 SHARED:2048 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type29ELi7ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:161 STACK:0 SHARED:1792 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type29ELi6ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:147 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type29ELi5ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:132 STACK:0 SHARED:1280 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type29ELi4ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:118 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type29ELi3ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:103 STACK:0 SHARED:2304 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type29ELi2ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:96 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type29ELi1ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:48 STACK:0 SHARED:384 LOCAL:0 CONSTANT[2]:12 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type29ELi1ELb1ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:53 STACK:0 SHARED:384 LOCAL:0 CONSTANT[2]:12 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type29ELi1ELb1ELb1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:79 STACK:0 SHARED:768 LOCAL:0 CONSTANT[2]:12 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type29ELi1ELb0ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:96 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type29ELi1ELb1ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:103 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type29ELi1ELb1ELb1ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:153 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z17mul_mat_vec_q_moeIL9ggml_type29ELi2EEvPKvS2_PKiPfj5uint3jjjjjjjjj:
+  REG:72 STACK:0 SHARED:0 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:436 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type19ELi8ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:142 STACK:0 SHARED:2048 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type19ELi7ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:134 STACK:0 SHARED:1792 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type19ELi6ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:123 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type19ELi5ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:112 STACK:0 SHARED:1280 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type19ELi4ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:96 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type19ELi3ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:88 STACK:0 SHARED:2304 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type19ELi2ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:72 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type19ELi1ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:40 STACK:0 SHARED:384 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type19ELi1ELb1ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:45 STACK:0 SHARED:384 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type19ELi1ELb1ELb1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:56 STACK:0 SHARED:768 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type19ELi1ELb0ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:64 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type19ELi1ELb1ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:72 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type19ELi1ELb1ELb1ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:102 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z17mul_mat_vec_q_moeIL9ggml_type19ELi2EEvPKvS2_PKiPfj5uint3jjjjjjjjj:
+  REG:54 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:436 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type18ELi8ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:155 STACK:0 SHARED:2048 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type18ELi7ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:144 STACK:0 SHARED:1792 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type18ELi6ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:135 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type18ELi5ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:124 STACK:0 SHARED:1280 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type18ELi4ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:108 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type18ELi3ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:96 STACK:0 SHARED:2304 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type18ELi2ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:82 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type18ELi1ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:55 STACK:0 SHARED:384 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type18ELi1ELb1ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:56 STACK:0 SHARED:384 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type18ELi1ELb1ELb1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:71 STACK:0 SHARED:768 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type18ELi1ELb0ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:91 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type18ELi1ELb1ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:95 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type18ELi1ELb1ELb1ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:124 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z17mul_mat_vec_q_moeIL9ggml_type18ELi2EEvPKvS2_PKiPfj5uint3jjjjjjjjj:
+  REG:71 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:436 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type22ELi8ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:158 STACK:0 SHARED:2048 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type22ELi7ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:149 STACK:0 SHARED:1792 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type22ELi6ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:137 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type22ELi5ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:124 STACK:0 SHARED:1280 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type22ELi4ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:109 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type22ELi3ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:96 STACK:0 SHARED:2304 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type22ELi2ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:86 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type22ELi1ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:47 STACK:0 SHARED:384 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type22ELi1ELb1ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:50 STACK:0 SHARED:384 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type22ELi1ELb1ELb1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:71 STACK:0 SHARED:768 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type22ELi1ELb0ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:96 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type22ELi1ELb1ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:96 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type22ELi1ELb1ELb1ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:124 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z17mul_mat_vec_q_moeIL9ggml_type22ELi2EEvPKvS2_PKiPfj5uint3jjjjjjjjj:
+  REG:71 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:436 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type17ELi8ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:158 STACK:0 SHARED:2048 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type17ELi7ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:149 STACK:0 SHARED:1792 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type17ELi6ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:139 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type17ELi5ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:126 STACK:0 SHARED:1280 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type17ELi4ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:113 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type17ELi3ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:102 STACK:0 SHARED:2304 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type17ELi2ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:89 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type17ELi1ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:48 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type17ELi1ELb1ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:53 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type17ELi1ELb1ELb1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:72 STACK:0 SHARED:768 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type17ELi1ELb0ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:95 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type17ELi1ELb1ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:96 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type17ELi1ELb1ELb1ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:127 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z17mul_mat_vec_q_moeIL9ggml_type17ELi2EEvPKvS2_PKiPfj5uint3jjjjjjjjj:
+  REG:72 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:436 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type16ELi8ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:157 STACK:0 SHARED:2048 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type16ELi7ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:146 STACK:0 SHARED:1792 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type16ELi6ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:134 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type16ELi5ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:124 STACK:0 SHARED:1280 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type16ELi4ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:104 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type16ELi3ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:91 STACK:0 SHARED:2304 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type16ELi2ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:80 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type16ELi1ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:46 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type16ELi1ELb1ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:50 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type16ELi1ELb1ELb1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:64 STACK:0 SHARED:768 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type16ELi1ELb0ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:84 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type16ELi1ELb1ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:89 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type16ELi1ELb1ELb1ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:111 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z17mul_mat_vec_q_moeIL9ggml_type16ELi2EEvPKvS2_PKiPfj5uint3jjjjjjjjj:
+  REG:64 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:436 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type14ELi8ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:115 STACK:0 SHARED:2048 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type14ELi7ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:110 STACK:0 SHARED:1792 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type14ELi6ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:96 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type14ELi5ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:93 STACK:0 SHARED:1280 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type14ELi4ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:80 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type14ELi3ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:72 STACK:0 SHARED:2304 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type14ELi2ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:64 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:40 STACK:0 SHARED:384 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type14ELi1ELb1ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:44 STACK:0 SHARED:384 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type14ELi1ELb1ELb1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:64 STACK:0 SHARED:768 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb0ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:40 STACK:0 SHARED:384 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type14ELi1ELb1ELb0ELb0ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:44 STACK:0 SHARED:384 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type14ELi1ELb1ELb1ELb0ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:64 STACK:0 SHARED:768 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:72 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type14ELi1ELb1ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:80 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type14ELi1ELb1ELb1ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:118 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z17mul_mat_vec_q_moeIL9ggml_type14ELi2EEvPKvS2_PKiPfj5uint3jjjjjjjjj:
+  REG:56 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:436 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type13ELi8ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:148 STACK:0 SHARED:2048 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type13ELi7ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:137 STACK:0 SHARED:1792 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type13ELi6ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:124 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type13ELi5ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:113 STACK:0 SHARED:1280 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type13ELi4ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:102 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type13ELi3ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:93 STACK:0 SHARED:2304 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type13ELi2ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:80 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type13ELi1ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:40 STACK:0 SHARED:384 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type13ELi1ELb1ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:40 STACK:0 SHARED:384 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type13ELi1ELb1ELb1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:64 STACK:0 SHARED:768 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type13ELi1ELb0ELb0ELb0ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:40 STACK:0 SHARED:384 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type13ELi1ELb1ELb0ELb0ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:40 STACK:0 SHARED:384 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type13ELi1ELb1ELb1ELb0ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:64 STACK:0 SHARED:768 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type13ELi1ELb0ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:78 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type13ELi1ELb1ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:80 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type13ELi1ELb1ELb1ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:125 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z17mul_mat_vec_q_moeIL9ggml_type13ELi2EEvPKvS2_PKiPfj5uint3jjjjjjjjj:
+  REG:56 STACK:0 SHARED:0 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:436 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type12ELi8ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:144 STACK:0 SHARED:2048 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type12ELi7ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:128 STACK:0 SHARED:1792 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type12ELi6ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:116 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type12ELi5ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:105 STACK:0 SHARED:1280 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type12ELi4ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:92 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type12ELi3ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:78 STACK:0 SHARED:2304 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type12ELi2ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:69 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type12ELi1ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:39 STACK:0 SHARED:384 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type12ELi1ELb1ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:40 STACK:0 SHARED:384 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type12ELi1ELb1ELb1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:56 STACK:0 SHARED:768 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type12ELi1ELb0ELb0ELb0ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:39 STACK:0 SHARED:384 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type12ELi1ELb1ELb0ELb0ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:40 STACK:0 SHARED:384 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type12ELi1ELb1ELb1ELb0ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:56 STACK:0 SHARED:768 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type12ELi1ELb0ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:64 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type12ELi1ELb1ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:72 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type12ELi1ELb1ELb1ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:104 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z17mul_mat_vec_q_moeIL9ggml_type12ELi2EEvPKvS2_PKiPfj5uint3jjjjjjjjj:
+  REG:48 STACK:0 SHARED:0 LOCAL:0 CONSTANT[2]:4 CONSTANT[0]:436 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type11ELi8ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:192 STACK:0 SHARED:2048 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type11ELi7ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:184 STACK:0 SHARED:1792 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type11ELi6ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:167 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type11ELi5ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:157 STACK:0 SHARED:1280 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type11ELi4ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:149 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type11ELi3ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:138 STACK:0 SHARED:2304 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type11ELi2ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:126 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type11ELi1ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:64 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type11ELi1ELb1ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:70 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type11ELi1ELb1ELb1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:127 STACK:0 SHARED:768 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type11ELi1ELb0ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:126 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type11ELi1ELb1ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:144 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type11ELi1ELb1ELb1ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:210 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z17mul_mat_vec_q_moeIL9ggml_type11ELi2EEvPKvS2_PKiPfj5uint3jjjjjjjjj:
+  REG:112 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:436 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type10ELi8ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:152 STACK:0 SHARED:2048 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type10ELi7ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:140 STACK:0 SHARED:1792 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type10ELi6ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:127 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type10ELi5ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:123 STACK:0 SHARED:1280 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type10ELi4ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:107 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type10ELi3ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:95 STACK:0 SHARED:2304 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type10ELi2ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:80 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type10ELi1ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:43 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type10ELi1ELb1ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:48 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type10ELi1ELb1ELb1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:56 STACK:0 SHARED:768 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type10ELi1ELb0ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:64 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type10ELi1ELb1ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:71 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type10ELi1ELb1ELb1ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:96 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z17mul_mat_vec_q_moeIL9ggml_type10ELi2EEvPKvS2_PKiPfj5uint3jjjjjjjjj:
+  REG:55 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:436 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type40ELi8ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:86 STACK:0 SHARED:2048 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type40ELi7ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:84 STACK:0 SHARED:1792 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type40ELi6ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:89 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type40ELi5ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:80 STACK:0 SHARED:1280 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type40ELi4ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:70 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type40ELi3ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:75 STACK:0 SHARED:2304 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type40ELi2ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:75 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type40ELi1ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:38 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type40ELi1ELb1ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:41 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type40ELi1ELb1ELb1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:50 STACK:0 SHARED:768 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type40ELi1ELb0ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:45 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type40ELi1ELb1ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:48 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type40ELi1ELb1ELb1ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:64 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z17mul_mat_vec_q_moeIL9ggml_type40ELi2EEvPKvS2_PKiPfj5uint3jjjjjjjjj:
+  REG:40 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:436 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type39ELi8ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:115 STACK:0 SHARED:2048 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type39ELi7ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:104 STACK:0 SHARED:1792 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type39ELi6ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:96 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type39ELi5ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:87 STACK:0 SHARED:1280 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type39ELi4ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:72 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type39ELi3ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:72 STACK:0 SHARED:2304 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type39ELi2ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:56 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type39ELi1ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:35 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type39ELi1ELb1ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:39 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type39ELi1ELb1ELb1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:56 STACK:0 SHARED:768 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type39ELi1ELb0ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:72 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type39ELi1ELb1ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:72 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type39ELi1ELb1ELb1ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:113 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z17mul_mat_vec_q_moeIL9ggml_type39ELi2EEvPKvS2_PKiPfj5uint3jjjjjjjjj:
+  REG:48 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:436 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type8ELi8ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:96 STACK:0 SHARED:2048 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type8ELi7ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:90 STACK:0 SHARED:1792 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type8ELi6ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:80 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type8ELi5ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:72 STACK:0 SHARED:1280 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type8ELi4ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:64 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type8ELi3ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:56 STACK:0 SHARED:2304 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type8ELi2ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:56 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type8ELi1ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:64 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type8ELi1ELb1ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:68 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type8ELi1ELb1ELb1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:64 STACK:0 SHARED:768 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type8ELi1ELb0ELb0ELb0ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:64 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type8ELi1ELb1ELb0ELb0ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:68 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type8ELi1ELb1ELb1ELb0ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:64 STACK:0 SHARED:768 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type8ELi1ELb0ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:56 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type8ELi1ELb1ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:56 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type8ELi1ELb1ELb1ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:80 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z17mul_mat_vec_q_moeIL9ggml_type8ELi2EEvPKvS2_PKiPfj5uint3jjjjjjjjj:
+  REG:80 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:436 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type7ELi8ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:106 STACK:0 SHARED:2048 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type7ELi7ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:96 STACK:0 SHARED:1792 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type7ELi6ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:88 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type7ELi5ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:79 STACK:0 SHARED:1280 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type7ELi4ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:64 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type7ELi3ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:64 STACK:0 SHARED:2304 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type7ELi2ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:48 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type7ELi1ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:40 STACK:0 SHARED:384 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type7ELi1ELb1ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:40 STACK:0 SHARED:384 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type7ELi1ELb1ELb1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:48 STACK:0 SHARED:768 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type7ELi1ELb0ELb0ELb0ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:40 STACK:0 SHARED:384 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type7ELi1ELb1ELb0ELb0ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:40 STACK:0 SHARED:384 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type7ELi1ELb1ELb1ELb0ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:48 STACK:0 SHARED:768 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type7ELi1ELb0ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:56 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type7ELi1ELb1ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:64 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type7ELi1ELb1ELb1ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:88 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z17mul_mat_vec_q_moeIL9ggml_type7ELi2EEvPKvS2_PKiPfj5uint3jjjjjjjjj:
+  REG:47 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:436 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type6ELi8ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:111 STACK:0 SHARED:2048 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type6ELi7ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:108 STACK:0 SHARED:1792 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type6ELi6ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:95 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type6ELi5ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:92 STACK:0 SHARED:1280 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type6ELi4ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:80 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type6ELi3ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:80 STACK:0 SHARED:2304 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type6ELi2ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:63 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type6ELi1ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:39 STACK:0 SHARED:384 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type6ELi1ELb1ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:40 STACK:0 SHARED:384 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type6ELi1ELb1ELb1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:54 STACK:0 SHARED:768 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type6ELi1ELb0ELb0ELb0ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:39 STACK:0 SHARED:384 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type6ELi1ELb1ELb0ELb0ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:40 STACK:0 SHARED:384 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type6ELi1ELb1ELb1ELb0ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:54 STACK:0 SHARED:768 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type6ELi1ELb0ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:72 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type6ELi1ELb1ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:80 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type6ELi1ELb1ELb1ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:106 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z17mul_mat_vec_q_moeIL9ggml_type6ELi2EEvPKvS2_PKiPfj5uint3jjjjjjjjj:
+  REG:47 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:436 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type3ELi8ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:96 STACK:0 SHARED:2048 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type3ELi7ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:94 STACK:0 SHARED:1792 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type3ELi6ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:80 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type3ELi5ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:72 STACK:0 SHARED:1280 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type3ELi4ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:64 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type3ELi3ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:56 STACK:0 SHARED:2304 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type3ELi2ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:44 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type3ELi1ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:40 STACK:0 SHARED:384 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type3ELi1ELb1ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:48 STACK:0 SHARED:384 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type3ELi1ELb1ELb1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:40 STACK:0 SHARED:768 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type3ELi1ELb0ELb0ELb0ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:40 STACK:0 SHARED:384 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type3ELi1ELb1ELb0ELb0ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:48 STACK:0 SHARED:384 LOCAL:0 CONSTANT[2]:8 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type3ELi1ELb1ELb1ELb0ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:40 STACK:0 SHARED:768 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type3ELi1ELb0ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:48 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type3ELi1ELb1ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:48 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type3ELi1ELb1ELb1ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:70 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z17mul_mat_vec_q_moeIL9ggml_type3ELi2EEvPKvS2_PKiPfj5uint3jjjjjjjjj:
+  REG:40 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:436 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type2ELi8ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:106 STACK:0 SHARED:2048 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type2ELi7ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:96 STACK:0 SHARED:1792 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type2ELi6ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:90 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type2ELi5ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:80 STACK:0 SHARED:1280 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type2ELi4ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:72 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type2ELi3ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:64 STACK:0 SHARED:2304 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type2ELi2ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:56 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type2ELi1ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:55 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type2ELi1ELb1ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:54 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type2ELi1ELb1ELb1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:48 STACK:0 SHARED:768 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type2ELi1ELb0ELb0ELb0ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:55 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type2ELi1ELb1ELb0ELb0ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:54 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type2ELi1ELb1ELb1ELb0ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:48 STACK:0 SHARED:768 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type2ELi1ELb0ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:64 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type2ELi1ELb1ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:64 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type2ELi1ELb1ELb1ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:92 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z17mul_mat_vec_q_moeIL9ggml_type2ELi2EEvPKvS2_PKiPfj5uint3jjjjjjjjj:
+  REG:40 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:436 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type42ELi8ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:142 STACK:0 SHARED:2048 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type42ELi7ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:126 STACK:0 SHARED:1792 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type42ELi6ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:116 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type42ELi5ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:102 STACK:0 SHARED:1280 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type42ELi4ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:89 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type42ELi3ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:72 STACK:0 SHARED:2304 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type42ELi2ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:61 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type42ELi1ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:56 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type42ELi1ELb1ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:56 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type42ELi1ELb1ELb1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:48 STACK:0 SHARED:768 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type42ELi1ELb0ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:56 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type42ELi1ELb1ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:63 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type42ELi1ELb1ELb1ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:89 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z17mul_mat_vec_q_moeIL9ggml_type42ELi2EEvPKvS2_PKiPfj5uint3jjjjjjjjj:
+  REG:44 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:436 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type143ELi8ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:254 STACK:0 SHARED:6144 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type143ELi7ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:245 STACK:0 SHARED:5376 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type143ELi6ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:236 STACK:0 SHARED:4608 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type143ELi5ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:212 STACK:0 SHARED:3840 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type143ELi4ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:192 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type143ELi3ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:176 STACK:0 SHARED:2304 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type143ELi2ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:148 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type143ELi1ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:83 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type143ELi1ELb0ELb0ELb0ELb0ELb1EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:70 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type143ELi1ELb1ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:83 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type143ELi1ELb1ELb0ELb0ELb0ELb1EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:71 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type143ELi1ELb1ELb1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:109 STACK:0 SHARED:768 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type143ELi1ELb1ELb1ELb0ELb0ELb1EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:88 STACK:0 SHARED:768 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type143ELi1ELb0ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:116 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type143ELi1ELb0ELb0ELb1ELb0ELb1EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:68 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type143ELi1ELb1ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:119 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type143ELi1ELb1ELb0ELb1ELb0ELb1EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:68 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type143ELi1ELb1ELb1ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:176 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type143ELi1ELb1ELb1ELb1ELb0ELb1EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:85 STACK:0 SHARED:0 LOCAL:0 CONSTANT[2]:12 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z17mul_mat_vec_q_moeIL9ggml_type143ELi2EEvPKvS2_PKiPfj5uint3jjjjjjjjj:
+  REG:96 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:436 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type142ELi8ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:142 STACK:0 SHARED:2048 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type142ELi7ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:126 STACK:0 SHARED:1792 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type142ELi6ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:116 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type142ELi5ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:102 STACK:0 SHARED:1280 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type142ELi4ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:89 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type142ELi3ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:72 STACK:0 SHARED:2304 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type142ELi2ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:61 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type142ELi1ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:56 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type142ELi1ELb1ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:56 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type142ELi1ELb1ELb1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:48 STACK:0 SHARED:768 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type142ELi1ELb0ELb0ELb0ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:56 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type142ELi1ELb1ELb0ELb0ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:56 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type142ELi1ELb1ELb1ELb0ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:48 STACK:0 SHARED:768 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type142ELi1ELb0ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:56 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type142ELi1ELb1ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:63 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type142ELi1ELb1ELb1ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:89 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z17mul_mat_vec_q_moeIL9ggml_type142ELi2EEvPKvS2_PKiPfj5uint3jjjjjjjjj:
+  REG:46 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:436 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type41ELi8ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:141 STACK:0 SHARED:2048 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type41ELi7ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:127 STACK:0 SHARED:1792 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type41ELi6ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:117 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type41ELi5ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:104 STACK:0 SHARED:1280 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type41ELi4ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:88 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type41ELi3ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:74 STACK:0 SHARED:2304 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type41ELi2ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:61 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type41ELi1ELb0ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:51 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type41ELi1ELb1ELb0ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:54 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type41ELi1ELb1ELb1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:46 STACK:0 SHARED:768 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type41ELi1ELb0ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:55 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type41ELi1ELb1ELb0ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:55 STACK:0 SHARED:1536 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z13mul_mat_vec_qIL9ggml_type41ELi1ELb1ELb1ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj5uint3jjjS7_jjjS7_jjjj:
+  REG:74 STACK:0 SHARED:3072 LOCAL:0 CONSTANT[0]:512 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z17mul_mat_vec_q_moeIL9ggml_type41ELi2EEvPKvS2_PKiPfj5uint3jjjjjjjjj:
+  REG:46 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:436 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z21mul_mat_vec_ptq1_0_ptILi8ELi2ELb0ELb0EEvPKvS1_31ggml_cuda_mm_fusion_args_devicePfiiiiii5uint3S4_b:
+  REG:250 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:473 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z21mul_mat_vec_ptq1_0_ptILi8ELi2ELb1ELb0EEvPKvS1_31ggml_cuda_mm_fusion_args_devicePfiiiiii5uint3S4_b:
+  REG:250 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:473 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z21mul_mat_vec_ptq1_0_ptILi8ELi2ELb1ELb1EEvPKvS1_31ggml_cuda_mm_fusion_args_devicePfiiiiii5uint3S4_b:
+  REG:255 STACK:96 SHARED:0 LOCAL:0 CONSTANT[2]:48 CONSTANT[0]:473 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z21mul_mat_vec_ptq1_0_ptILi7ELi2ELb0ELb0EEvPKvS1_31ggml_cuda_mm_fusion_args_devicePfiiiiii5uint3S4_b:
+  REG:236 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:473 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z21mul_mat_vec_ptq1_0_ptILi7ELi2ELb1ELb0EEvPKvS1_31ggml_cuda_mm_fusion_args_devicePfiiiiii5uint3S4_b:
+  REG:238 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:473 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z21mul_mat_vec_ptq1_0_ptILi7ELi2ELb1ELb1EEvPKvS1_31ggml_cuda_mm_fusion_args_devicePfiiiiii5uint3S4_b:
+  REG:242 STACK:0 SHARED:0 LOCAL:0 CONSTANT[2]:48 CONSTANT[0]:473 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z21mul_mat_vec_ptq1_0_ptILi6ELi2ELb0ELb0EEvPKvS1_31ggml_cuda_mm_fusion_args_devicePfiiiiii5uint3S4_b:
+  REG:206 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:473 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z21mul_mat_vec_ptq1_0_ptILi6ELi2ELb1ELb0EEvPKvS1_31ggml_cuda_mm_fusion_args_devicePfiiiiii5uint3S4_b:
+  REG:208 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:473 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z21mul_mat_vec_ptq1_0_ptILi6ELi2ELb1ELb1EEvPKvS1_31ggml_cuda_mm_fusion_args_devicePfiiiiii5uint3S4_b:
+  REG:222 STACK:0 SHARED:0 LOCAL:0 CONSTANT[2]:48 CONSTANT[0]:473 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z21mul_mat_vec_ptq1_0_ptILi5ELi2ELb0ELb0EEvPKvS1_31ggml_cuda_mm_fusion_args_devicePfiiiiii5uint3S4_b:
+  REG:182 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:473 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z21mul_mat_vec_ptq1_0_ptILi5ELi2ELb1ELb0EEvPKvS1_31ggml_cuda_mm_fusion_args_devicePfiiiiii5uint3S4_b:
+  REG:185 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:473 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z21mul_mat_vec_ptq1_0_ptILi5ELi2ELb1ELb1EEvPKvS1_31ggml_cuda_mm_fusion_args_devicePfiiiiii5uint3S4_b:
+  REG:215 STACK:0 SHARED:0 LOCAL:0 CONSTANT[2]:48 CONSTANT[0]:473 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z21mul_mat_vec_ptq1_0_ptILi4ELi4ELb0ELb0EEvPKvS1_31ggml_cuda_mm_fusion_args_devicePfiiiiii5uint3S4_b:
+  REG:168 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:473 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z21mul_mat_vec_ptq1_0_ptILi4ELi4ELb1ELb0EEvPKvS1_31ggml_cuda_mm_fusion_args_devicePfiiiiii5uint3S4_b:
+  REG:168 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:473 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z21mul_mat_vec_ptq1_0_ptILi4ELi4ELb1ELb1EEvPKvS1_31ggml_cuda_mm_fusion_args_devicePfiiiiii5uint3S4_b:
+  REG:168 STACK:560 SHARED:0 LOCAL:0 CONSTANT[2]:48 CONSTANT[0]:473 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z21mul_mat_vec_ptq1_0_ptILi3ELi4ELb0ELb0EEvPKvS1_31ggml_cuda_mm_fusion_args_devicePfiiiiii5uint3S4_b:
+  REG:162 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:473 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z21mul_mat_vec_ptq1_0_ptILi3ELi4ELb1ELb0EEvPKvS1_31ggml_cuda_mm_fusion_args_devicePfiiiiii5uint3S4_b:
+  REG:160 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:473 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z21mul_mat_vec_ptq1_0_ptILi3ELi4ELb1ELb1EEvPKvS1_31ggml_cuda_mm_fusion_args_devicePfiiiiii5uint3S4_b:
+  REG:168 STACK:0 SHARED:0 LOCAL:0 CONSTANT[2]:48 CONSTANT[0]:473 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z21mul_mat_vec_ptq1_0_ptILi2ELi4ELb0ELb0EEvPKvS1_31ggml_cuda_mm_fusion_args_devicePfiiiiii5uint3S4_b:
+  REG:128 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:473 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z21mul_mat_vec_ptq1_0_ptILi2ELi4ELb1ELb0EEvPKvS1_31ggml_cuda_mm_fusion_args_devicePfiiiiii5uint3S4_b:
+  REG:128 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:473 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z21mul_mat_vec_ptq1_0_ptILi2ELi4ELb1ELb1EEvPKvS1_31ggml_cuda_mm_fusion_args_devicePfiiiiii5uint3S4_b:
+  REG:128 STACK:0 SHARED:0 LOCAL:0 CONSTANT[2]:48 CONSTANT[0]:473 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z21mul_mat_vec_ptq1_0_ptILi1ELi1ELb0ELb0EEvPKvS1_31ggml_cuda_mm_fusion_args_devicePfiiiiii5uint3S4_b:
+  REG:76 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:473 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z21mul_mat_vec_ptq1_0_ptILi1ELi1ELb1ELb0EEvPKvS1_31ggml_cuda_mm_fusion_args_devicePfiiiiii5uint3S4_b:
+  REG:74 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:473 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z21mul_mat_vec_ptq1_0_ptILi1ELi1ELb1ELb1EEvPKvS1_31ggml_cuda_mm_fusion_args_devicePfiiiiii5uint3S4_b:
+  REG:98 STACK:0 SHARED:0 LOCAL:0 CONSTANT[2]:48 CONSTANT[0]:473 TEXTURE:0 SURFACE:0 SAMPLER:0

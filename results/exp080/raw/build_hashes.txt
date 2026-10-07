@@ -1,0 +1,3 @@
+aadddd4d72d48a61c7c8953880d3b5036b0b53e1542cb0353d1f18ffe84ecfc3  results/exp080/build/bin/llama-bench
+7b94bcc9fabf068ecb3e60ddf0c84591855a615164e58ff5171a8958de56834a  results/exp080/build/bin/libggml-cuda.so.0.21.0
+328b17791c01a240bf569b8e4bf03ae26030ed064909d662abfb5f70d98c6431  results/exp080/build/ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/mmvq.cu.o

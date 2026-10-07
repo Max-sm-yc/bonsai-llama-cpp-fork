@@ -1,0 +1,13 @@
+# Isolated worktree checkout
+# git worktree add -b exp080-ptq1-gemv-dataflow /home/maxsun/autonomous_projects/.worktrees/exp080-ptq1-gemv-dataflow f4c8740d3307648626ad708671221c93ecab2083
+
+# Reference build (Release, CUDA FA/Graphs enabled, NCCL disabled, sm_86)
+cmake -S . -B results/exp080/build -G Ninja -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_CUDA_ARCHITECTURES=86 -DGGML_CUDA=ON -DGGML_CUDA_FA=ON \
+  -DGGML_CUDA_GRAPHS=ON -DGGML_CUDA_NCCL=OFF
+cmake --build results/exp080/build --target llama-bench -j 8
+
+# Active object codegen/resource inspection
+cuobjdump --dump-resource-usage results/exp080/build/ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/mmvq.cu.o
+cuobjdump --dump-sass results/exp080/build/ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/mmvq.cu.o
+cuobjdump --dump-ptx results/exp080/build/ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/mmvq.cu.o

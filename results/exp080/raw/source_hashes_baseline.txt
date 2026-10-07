@@ -1,0 +1,4 @@
+f398417accddf1948fbf12155b4180fd362a3dfea88366ef3980161700d56496  ggml/src/ggml-cuda/mmvq-ptq1_0.cuh
+e889b1543656cd2e5c0c6151f11bfdd7f641e88af441449d92064ac902b9483d  ggml/src/ggml-cuda/mmvq.cu
+b37f8359f519ba90ddecd9cb3ca5f8c2ae05685bfae6813d435d75763c2bb006  ggml/src/ggml-cuda/mmvq.cuh
+17d72e91495a7ffe4e726e90ebe99bf9d7b9acbe1d451a38c865352c3559092a  tests/test-ptq1_0-cuda-dot.cpp
