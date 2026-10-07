@@ -22,6 +22,8 @@
 
 ## Failed or exhausted approaches
 
+- Exp063 audited all 48 recurrent SSM/L2 sites at contexts 512/4096: the 24 omitted by Exp062 have the same QK view but their L2 output aliases the first 16 KiB of SSM input. The existing alias guard is required; a new fusion needs a safe global ordering mechanism. No code or performance change.
+
 - Dispatch, decoder, and GEMV scheduling: generic-path edits in 001–003 do not reach the active sm_86 batch-1 path. LUT/floor, two-bit, pairwise, fixed-point, row-tile, warp/multiwarp reduction, recurrence distribution, and source strip-mining attempts (004–025, 039) were invalid for the target or exact but slower/no better. Exp024's isolated 1.49x cooperative recurrence screen became an 81.5% model regression.
 - Prefetch/cache/load/layout variants: next-item hints and `.cs` lost E2E; `.cg` lost its kernel screen; padding to 32B added 14.3% payload and lost. Exp032's same-footprint SoA block screen gained 7.8% at 136 blocks but tied at 40; the runtime sidecar in 034–035 had no repeatable decode gain, added 1,280 MiB peak VRAM, and cost ~294 ms load time. Synchronous shared staging (037) lost 9.9–12.9%; warp-register transpose (038) lost 2.42–2.75x. The measured sm_86 `cp.async` next-work-item pipeline (040) emitted real async transfers but lost 10.4%/23.2% at 40/136 blocks. CTA widths 64/128/256/512 (042) lowered active-kernel registers at 256/512 but did not win both K shapes; a 256-at-K40/128-otherwise dispatch regressed matched decode 0.60%/0.68%.
 - Register pressure/occupancy: Exp045 held 128-thread ROWS=1 geometry fixed and asked for 6/7/8 resident CTAs on `ncols==1`. Active plain/gated register use fell to 72/77, 68/72, and 60/63 with no active spills, but all three short reversed model screens regressed at contexts 512/4096 (-2.5% to -5.1%). Keep the four-CTA bound.
@@ -37,6 +39,8 @@
 - Repeated context-4096 decode samples have slow tails in both arms. Preserve all repetitions/ranges and use medians. Verify candidate library paths with `ldd`/`LD_DEBUG`; earlier absolute RUNPATHs caused false A/Bs.
 
 ## Latest research result
+
+- Exp063 found the remaining 24 SSM/L2 pairs share the same view shape as Exp062 but reuse the SSM input buffer for L2 output; the current fusion cannot safely reorder these reads/writes. No code change. See `experiments/063-remaining-ssm-l2-views/REPORT.md`.
 
 - Exp062 fuses 24 repeated recurrent SSM+SiLU+L2 sites, removing 24 graph nodes and about 30 µs/replay. Combined experimenter/manager pairs were +0.037% at context 512 (within variation) and +0.231% at 4096. Kept as code commit `ffb0ef3`; final library SHA `860fcca9…`. See `experiments/062-repeated-smallop-fusion/REPORT.md` and `results/exp062/`.
 
@@ -68,7 +72,7 @@
 
 **Format profile:** Use Exp052's paired graph signatures as the baseline for any format-specific decoder work. The measurements show both a per-call GEMV difference and fewer PTQ1_0 activation-prep nodes, but do not identify the GEMV hardware bottleneck; collect permitted hardware counters before making a traffic-versus-integer-throughput claim.
 
-2. Audit the 24 SSM/L2 pairs that did not match Exp062's zero-offset QK view; consider another guarded variant only if their live view offsets, uses, and strides support the same exact outputs.
+2. Test whether a cooperative grid barrier can safely fuse the 24 SSM/L2 sites where L2 output aliases SSM input; first verify cooperative launch support under CUDA Graph capture and sm_86 residency.
 3. Revisit PTQ1_0 GEMV only when a genuinely new dataflow or codegen premise appears; Exp046 and prior screens close the obvious decoder, staging, geometry, scheduling, and paired K/V CTA mappings.
 4. Revisit GDN only if profiling/codegen exposes redundant state traffic, a removable launch, or synchronization-free gate sharing; Exp049 found none in the current kernel.
 5. Revisit BF16 matvec only if a future design can raise row-level CTA parallelism without an expensive cross-CTA K reduction; Exp050 found 48 CTAs per applicable 48-row launch and no surviving low-cost dataflow candidate. Per-replay family invocation counts remain unavailable in the compact profile artifacts.

@@ -1,0 +1,1010 @@
+ggml_cuda_init: found 1 CUDA devices (Total VRAM: 9867 MiB):
+  Device 0: NVIDIA GeForce RTX 3080, compute capability 8.6, VMM: yes, VRAM: 9867 MiB
+EXP063 pair index=33 l2_index=36
+EXP063 ssm name=conv_output_raw-0 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-0 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-0 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad075750 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-0 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-0 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.0.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fe9f1acb000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=111 l2_index=114
+EXP063 ssm name=conv_output_raw-1 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-1 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-1 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad07d180 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-1 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-1 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.1.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fe9f6bc5400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=189 l2_index=192
+EXP063 ssm name=conv_output_raw-2 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-2 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-2 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad084bb0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-2 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-2 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.2.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fe9fbcbf800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=322 l2_index=325
+EXP063 ssm name=conv_output_raw-4 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-4 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-4 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad0914f0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-4 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-4 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.4.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea05b6c400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=400 l2_index=403
+EXP063 ssm name=conv_output_raw-5 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-5 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-5 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad098f20 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-5 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-5 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.5.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea0ac66800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=478 l2_index=481
+EXP063 ssm name=conv_output_raw-6 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-6 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-6 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad0a0950 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-6 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-6 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.6.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea0fd60c00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=611 l2_index=614
+EXP063 ssm name=conv_output_raw-8 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-8 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-8 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad0ad290 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-8 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-8 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.8.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea19c0d800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=689 l2_index=692
+EXP063 ssm name=conv_output_raw-9 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-9 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-9 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad0b4cc0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-9 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-9 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.9.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea1ed07c00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=767 l2_index=770
+EXP063 ssm name=conv_output_raw-10 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-10 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-10 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad0bc6f0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-10 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-10 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.10.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea23e02000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=900 l2_index=903
+EXP063 ssm name=conv_output_raw-12 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-12 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-12 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad0c9030 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-12 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-12 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.12.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea2dcaec00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=978 l2_index=981
+EXP063 ssm name=conv_output_raw-13 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-13 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-13 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad0d0a60 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-13 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-13 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.13.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea32da9000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=1056 l2_index=1059
+EXP063 ssm name=conv_output_raw-14 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-14 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-14 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad0d8490 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-14 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-14 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.14.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea37ea3400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=1189 l2_index=1192
+EXP063 ssm name=conv_output_raw-16 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-16 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-16 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad0e4dd0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-16 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-16 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.16.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea41d50000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=1267 l2_index=1270
+EXP063 ssm name=conv_output_raw-17 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-17 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-17 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad0ec800 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-17 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-17 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.17.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea46e4a400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=1345 l2_index=1348
+EXP063 ssm name=conv_output_raw-18 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-18 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-18 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad0f4230 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-18 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-18 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.18.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea4bf44800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=1478 l2_index=1481
+EXP063 ssm name=conv_output_raw-20 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-20 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-20 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad100b70 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-20 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-20 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.20.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea55df1400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=1556 l2_index=1559
+EXP063 ssm name=conv_output_raw-21 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-21 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-21 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad1085a0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-21 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-21 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.21.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea5aeeb800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=1634 l2_index=1637
+EXP063 ssm name=conv_output_raw-22 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-22 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-22 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad10ffd0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-22 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-22 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.22.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea5ffe5c00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=1767 l2_index=1770
+EXP063 ssm name=conv_output_raw-24 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-24 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-24 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad11c910 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-24 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-24 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.24.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea69e92800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=1845 l2_index=1848
+EXP063 ssm name=conv_output_raw-25 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-25 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-25 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad124340 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-25 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-25 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.25.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea6ef8cc00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=1923 l2_index=1926
+EXP063 ssm name=conv_output_raw-26 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-26 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-26 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad12bd70 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-26 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-26 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.26.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea74087000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=2056 l2_index=2059
+EXP063 ssm name=conv_output_raw-28 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-28 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-28 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad1386b0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-28 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-28 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.28.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea7df33c00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=2134 l2_index=2137
+EXP063 ssm name=conv_output_raw-29 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-29 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-29 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad1400e0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-29 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-29 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.29.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea8302e000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=2212 l2_index=2215
+EXP063 ssm name=conv_output_raw-30 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-30 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-30 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad147b10 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-30 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-30 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.30.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea88128400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=2345 l2_index=2348
+EXP063 ssm name=conv_output_raw-32 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-32 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-32 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad154450 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-32 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-32 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.32.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea91fd5000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=2423 l2_index=2426
+EXP063 ssm name=conv_output_raw-33 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-33 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-33 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad15be80 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-33 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-33 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.33.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea970cf400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=2501 l2_index=2504
+EXP063 ssm name=conv_output_raw-34 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-34 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-34 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad1638b0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-34 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-34 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.34.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea9c1c9800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=2634 l2_index=2637
+EXP063 ssm name=conv_output_raw-36 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-36 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-36 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad1701f0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-36 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-36 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.36.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feaa6076400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=2712 l2_index=2715
+EXP063 ssm name=conv_output_raw-37 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-37 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-37 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad177c20 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-37 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-37 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.37.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feaab170800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=2790 l2_index=2793
+EXP063 ssm name=conv_output_raw-38 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-38 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-38 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad17f650 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-38 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-38 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.38.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feab026ac00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=2923 l2_index=2926
+EXP063 ssm name=conv_output_raw-40 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-40 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-40 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad18bf90 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-40 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-40 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.40.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feaba117800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=3001 l2_index=3004
+EXP063 ssm name=conv_output_raw-41 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-41 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-41 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad1939c0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-41 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-41 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.41.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feabf211c00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=3079 l2_index=3082
+EXP063 ssm name=conv_output_raw-42 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-42 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-42 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad19b3f0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-42 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-42 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.42.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feac430c000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=3212 l2_index=3215
+EXP063 ssm name=conv_output_raw-44 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-44 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-44 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad1a7d30 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-44 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-44 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.44.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feace1b8c00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=3290 l2_index=3293
+EXP063 ssm name=conv_output_raw-45 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-45 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-45 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad1af760 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-45 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-45 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.45.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fead32b3000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=3368 l2_index=3371
+EXP063 ssm name=conv_output_raw-46 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-46 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-46 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad1b7190 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-46 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-46 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.46.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fead83ad400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=3501 l2_index=3504
+EXP063 ssm name=conv_output_raw-48 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-48 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-48 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad1c3ad0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-48 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-48 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.48.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feae225a000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=3579 l2_index=3582
+EXP063 ssm name=conv_output_raw-49 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-49 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-49 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad1cb500 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-49 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-49 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.49.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feae7354400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=3657 l2_index=3660
+EXP063 ssm name=conv_output_raw-50 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-50 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-50 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad1d2f30 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-50 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-50 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.50.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feaec44e800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=3790 l2_index=3793
+EXP063 ssm name=conv_output_raw-52 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-52 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-52 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad1df870 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-52 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-52 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.52.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feaf62fb400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=3868 l2_index=3871
+EXP063 ssm name=conv_output_raw-53 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-53 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-53 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad1e72a0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-53 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-53 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.53.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feafb3f5800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=3946 l2_index=3949
+EXP063 ssm name=conv_output_raw-54 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-54 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-54 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad1eecd0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-54 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-54 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.54.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feb004efc00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=4079 l2_index=4082
+EXP063 ssm name=conv_output_raw-56 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-56 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-56 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad1fb610 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-56 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-56 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.56.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feb0a39c800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=4157 l2_index=4160
+EXP063 ssm name=conv_output_raw-57 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-57 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-57 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad203040 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-57 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-57 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.57.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feb0f496c00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=4235 l2_index=4238
+EXP063 ssm name=conv_output_raw-58 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-58 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-58 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad20aa70 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-58 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-58 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.58.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feb14591000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=4368 l2_index=4371
+EXP063 ssm name=conv_output_raw-60 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-60 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-60 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad2173b0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-60 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-60 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.60.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feb1e43dc00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=4446 l2_index=4449
+EXP063 ssm name=conv_output_raw-61 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-61 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-61 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad21ede0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-61 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-61 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.61.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feb23538000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=4524 l2_index=4527
+EXP063 ssm name=conv_output_raw-62 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-62 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-62 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad226810 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-62 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-62 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.62.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feb28632400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=33 l2_index=36
+EXP063 ssm name=conv_output_raw-0 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-0 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-0 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec448e2880 view_src=0x7fecad075750 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-0 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-0 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.0.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fe9f1acb000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=111 l2_index=114
+EXP063 ssm name=conv_output_raw-1 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-1 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-1 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec456c4880 view_src=0x7fecad07d180 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-1 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-1 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.1.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fe9f6bc5400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=189 l2_index=192
+EXP063 ssm name=conv_output_raw-2 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-2 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-2 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec448e2880 view_src=0x7fecad084bb0 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-2 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-2 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.2.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fe9fbcbf800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=322 l2_index=325
+EXP063 ssm name=conv_output_raw-4 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-4 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-4 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec456c4880 view_src=0x7fecad0914f0 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-4 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-4 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.4.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea05b6c400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=400 l2_index=403
+EXP063 ssm name=conv_output_raw-5 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-5 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-5 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec448e2880 view_src=0x7fecad098f20 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-5 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-5 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.5.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea0ac66800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=478 l2_index=481
+EXP063 ssm name=conv_output_raw-6 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-6 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-6 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec456c4880 view_src=0x7fecad0a0950 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-6 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-6 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.6.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea0fd60c00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=611 l2_index=614
+EXP063 ssm name=conv_output_raw-8 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-8 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-8 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec448e2880 view_src=0x7fecad0ad290 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-8 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-8 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.8.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea19c0d800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=689 l2_index=692
+EXP063 ssm name=conv_output_raw-9 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-9 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-9 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec456c4880 view_src=0x7fecad0b4cc0 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-9 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-9 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.9.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea1ed07c00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=767 l2_index=770
+EXP063 ssm name=conv_output_raw-10 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-10 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-10 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec448e2880 view_src=0x7fecad0bc6f0 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-10 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-10 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.10.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea23e02000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=900 l2_index=903
+EXP063 ssm name=conv_output_raw-12 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-12 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-12 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec456c4880 view_src=0x7fecad0c9030 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-12 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-12 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.12.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea2dcaec00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=978 l2_index=981
+EXP063 ssm name=conv_output_raw-13 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-13 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-13 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec448e2880 view_src=0x7fecad0d0a60 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-13 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-13 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.13.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea32da9000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=1056 l2_index=1059
+EXP063 ssm name=conv_output_raw-14 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-14 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-14 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec456c4880 view_src=0x7fecad0d8490 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-14 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-14 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.14.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea37ea3400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=1189 l2_index=1192
+EXP063 ssm name=conv_output_raw-16 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-16 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-16 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec448e2880 view_src=0x7fecad0e4dd0 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-16 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-16 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.16.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea41d50000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=1267 l2_index=1270
+EXP063 ssm name=conv_output_raw-17 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-17 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-17 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec456c4880 view_src=0x7fecad0ec800 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-17 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-17 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.17.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea46e4a400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=1345 l2_index=1348
+EXP063 ssm name=conv_output_raw-18 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-18 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-18 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec448e2880 view_src=0x7fecad0f4230 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-18 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-18 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.18.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea4bf44800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=1478 l2_index=1481
+EXP063 ssm name=conv_output_raw-20 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-20 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-20 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec456c4880 view_src=0x7fecad100b70 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-20 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-20 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.20.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea55df1400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=1556 l2_index=1559
+EXP063 ssm name=conv_output_raw-21 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-21 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-21 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec448e2880 view_src=0x7fecad1085a0 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-21 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-21 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.21.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea5aeeb800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=1634 l2_index=1637
+EXP063 ssm name=conv_output_raw-22 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-22 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-22 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec456c4880 view_src=0x7fecad10ffd0 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-22 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-22 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.22.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea5ffe5c00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=1767 l2_index=1770
+EXP063 ssm name=conv_output_raw-24 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-24 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-24 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec448e2880 view_src=0x7fecad11c910 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-24 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-24 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.24.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea69e92800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=1845 l2_index=1848
+EXP063 ssm name=conv_output_raw-25 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-25 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-25 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec456c4880 view_src=0x7fecad124340 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-25 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-25 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.25.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea6ef8cc00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=1923 l2_index=1926
+EXP063 ssm name=conv_output_raw-26 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-26 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-26 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec448e2880 view_src=0x7fecad12bd70 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-26 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-26 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.26.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea74087000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=2056 l2_index=2059
+EXP063 ssm name=conv_output_raw-28 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-28 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-28 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec456c4880 view_src=0x7fecad1386b0 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-28 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-28 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.28.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea7df33c00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=2134 l2_index=2137
+EXP063 ssm name=conv_output_raw-29 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-29 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-29 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec448e2880 view_src=0x7fecad1400e0 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-29 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-29 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.29.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea8302e000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=2212 l2_index=2215
+EXP063 ssm name=conv_output_raw-30 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-30 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-30 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec456c4880 view_src=0x7fecad147b10 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-30 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-30 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.30.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea88128400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=2345 l2_index=2348
+EXP063 ssm name=conv_output_raw-32 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-32 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-32 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec448e2880 view_src=0x7fecad154450 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-32 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-32 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.32.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea91fd5000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=2423 l2_index=2426
+EXP063 ssm name=conv_output_raw-33 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-33 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-33 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec456c4880 view_src=0x7fecad15be80 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-33 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-33 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.33.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea970cf400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=2501 l2_index=2504
+EXP063 ssm name=conv_output_raw-34 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-34 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-34 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec448e2880 view_src=0x7fecad1638b0 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-34 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-34 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.34.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea9c1c9800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=2634 l2_index=2637
+EXP063 ssm name=conv_output_raw-36 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-36 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-36 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec456c4880 view_src=0x7fecad1701f0 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-36 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-36 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.36.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feaa6076400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=2712 l2_index=2715
+EXP063 ssm name=conv_output_raw-37 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-37 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-37 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec448e2880 view_src=0x7fecad177c20 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-37 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-37 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.37.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feaab170800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=2790 l2_index=2793
+EXP063 ssm name=conv_output_raw-38 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-38 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-38 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec456c4880 view_src=0x7fecad17f650 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-38 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-38 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.38.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feab026ac00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=2923 l2_index=2926
+EXP063 ssm name=conv_output_raw-40 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-40 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-40 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec448e2880 view_src=0x7fecad18bf90 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-40 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-40 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.40.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feaba117800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=3001 l2_index=3004
+EXP063 ssm name=conv_output_raw-41 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-41 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-41 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec456c4880 view_src=0x7fecad1939c0 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-41 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-41 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.41.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feabf211c00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=3079 l2_index=3082
+EXP063 ssm name=conv_output_raw-42 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-42 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-42 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec448e2880 view_src=0x7fecad19b3f0 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-42 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-42 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.42.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feac430c000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=3212 l2_index=3215
+EXP063 ssm name=conv_output_raw-44 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-44 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-44 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec456c4880 view_src=0x7fecad1a7d30 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-44 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-44 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.44.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feace1b8c00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=3290 l2_index=3293
+EXP063 ssm name=conv_output_raw-45 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-45 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-45 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec448e2880 view_src=0x7fecad1af760 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-45 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-45 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.45.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fead32b3000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=3368 l2_index=3371
+EXP063 ssm name=conv_output_raw-46 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-46 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-46 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec456c4880 view_src=0x7fecad1b7190 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-46 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-46 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.46.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fead83ad400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=3501 l2_index=3504
+EXP063 ssm name=conv_output_raw-48 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-48 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-48 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec448e2880 view_src=0x7fecad1c3ad0 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-48 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-48 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.48.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feae225a000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=3579 l2_index=3582
+EXP063 ssm name=conv_output_raw-49 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-49 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-49 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec456c4880 view_src=0x7fecad1cb500 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-49 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-49 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.49.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feae7354400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=3657 l2_index=3660
+EXP063 ssm name=conv_output_raw-50 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-50 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-50 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec448e2880 view_src=0x7fecad1d2f30 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-50 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-50 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.50.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feaec44e800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=3790 l2_index=3793
+EXP063 ssm name=conv_output_raw-52 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-52 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-52 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec456c4880 view_src=0x7fecad1df870 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-52 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-52 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.52.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feaf62fb400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=3868 l2_index=3871
+EXP063 ssm name=conv_output_raw-53 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-53 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-53 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec448e2880 view_src=0x7fecad1e72a0 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-53 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-53 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.53.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feafb3f5800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=3946 l2_index=3949
+EXP063 ssm name=conv_output_raw-54 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-54 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-54 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec456c4880 view_src=0x7fecad1eecd0 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-54 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-54 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.54.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feb004efc00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=4079 l2_index=4082
+EXP063 ssm name=conv_output_raw-56 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-56 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-56 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec448e2880 view_src=0x7fecad1fb610 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-56 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-56 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.56.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feb0a39c800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=4157 l2_index=4160
+EXP063 ssm name=conv_output_raw-57 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-57 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-57 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec456c4880 view_src=0x7fecad203040 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-57 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-57 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.57.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feb0f496c00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=4235 l2_index=4238
+EXP063 ssm name=conv_output_raw-58 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-58 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-58 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec448e2880 view_src=0x7fecad20aa70 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-58 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-58 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.58.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feb14591000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=4368 l2_index=4371
+EXP063 ssm name=conv_output_raw-60 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-60 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-60 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec456c4880 view_src=0x7fecad2173b0 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-60 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-60 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.60.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feb1e43dc00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=4446 l2_index=4449
+EXP063 ssm name=conv_output_raw-61 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-61 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-61 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec448e2880 view_src=0x7fecad21ede0 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-61 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-61 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.61.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feb23538000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=4524 l2_index=4527
+EXP063 ssm name=conv_output_raw-62 op=SSM_CONV type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=20971520
+EXP063 silu name=conv_output_silu-62 op=UNARY type=f32 ne=10240,512,1,1 nb=4,40960,20971520,20971520 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=20971520
+EXP063 qk_view name=conv_output_silu-62 (view) op=VIEW type=f32 ne=128,32,512,1 nb=4,512,40960,20971520 data=0x7fec456c4880 view_src=0x7fecad226810 view_offs=0 uses=1 flags=16 nbytes=20946944
+EXP063 l2 name=qk_conv_l2-62 op=L2_NORM type=f32 ne=128,32,512,1 nb=4,512,16384,8388608 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=8388608
+EXP063 ssm_src0 name=conv_input-62 op=CONCAT type=f32 ne=515,10240,1,1 nb=4,2060,21094400,21094400 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=21094400
+EXP063 ssm_src1 name=blk.62.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feb28632400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=33 l2_index=36
+EXP063 ssm name=conv_output_raw-0 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-0 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-0 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad075750 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-0 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-0 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.0.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fe9f1acb000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=111 l2_index=114
+EXP063 ssm name=conv_output_raw-1 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-1 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-1 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad07d180 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-1 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-1 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.1.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fe9f6bc5400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=189 l2_index=192
+EXP063 ssm name=conv_output_raw-2 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-2 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-2 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad084bb0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-2 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-2 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.2.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fe9fbcbf800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=322 l2_index=325
+EXP063 ssm name=conv_output_raw-4 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-4 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-4 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad0914f0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-4 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-4 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.4.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea05b6c400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=400 l2_index=403
+EXP063 ssm name=conv_output_raw-5 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-5 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-5 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad098f20 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-5 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-5 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.5.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea0ac66800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=478 l2_index=481
+EXP063 ssm name=conv_output_raw-6 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-6 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-6 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad0a0950 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-6 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-6 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.6.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea0fd60c00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=611 l2_index=614
+EXP063 ssm name=conv_output_raw-8 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-8 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-8 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad0ad290 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-8 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-8 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.8.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea19c0d800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=689 l2_index=692
+EXP063 ssm name=conv_output_raw-9 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-9 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-9 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad0b4cc0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-9 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-9 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.9.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea1ed07c00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=767 l2_index=770
+EXP063 ssm name=conv_output_raw-10 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-10 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-10 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad0bc6f0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-10 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-10 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.10.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea23e02000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=900 l2_index=903
+EXP063 ssm name=conv_output_raw-12 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-12 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-12 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad0c9030 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-12 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-12 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.12.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea2dcaec00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=978 l2_index=981
+EXP063 ssm name=conv_output_raw-13 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-13 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-13 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad0d0a60 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-13 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-13 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.13.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea32da9000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=1056 l2_index=1059
+EXP063 ssm name=conv_output_raw-14 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-14 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-14 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad0d8490 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-14 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-14 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.14.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea37ea3400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=1189 l2_index=1192
+EXP063 ssm name=conv_output_raw-16 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-16 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-16 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad0e4dd0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-16 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-16 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.16.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea41d50000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=1267 l2_index=1270
+EXP063 ssm name=conv_output_raw-17 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-17 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-17 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad0ec800 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-17 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-17 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.17.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea46e4a400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=1345 l2_index=1348
+EXP063 ssm name=conv_output_raw-18 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-18 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-18 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad0f4230 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-18 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-18 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.18.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea4bf44800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=1478 l2_index=1481
+EXP063 ssm name=conv_output_raw-20 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-20 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-20 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad100b70 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-20 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-20 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.20.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea55df1400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=1556 l2_index=1559
+EXP063 ssm name=conv_output_raw-21 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-21 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-21 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad1085a0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-21 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-21 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.21.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea5aeeb800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=1634 l2_index=1637
+EXP063 ssm name=conv_output_raw-22 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-22 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-22 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad10ffd0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-22 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-22 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.22.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea5ffe5c00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=1767 l2_index=1770
+EXP063 ssm name=conv_output_raw-24 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-24 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-24 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad11c910 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-24 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-24 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.24.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea69e92800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=1845 l2_index=1848
+EXP063 ssm name=conv_output_raw-25 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-25 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-25 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad124340 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-25 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-25 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.25.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea6ef8cc00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=1923 l2_index=1926
+EXP063 ssm name=conv_output_raw-26 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-26 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-26 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad12bd70 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-26 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-26 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.26.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea74087000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=2056 l2_index=2059
+EXP063 ssm name=conv_output_raw-28 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-28 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-28 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad1386b0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-28 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-28 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.28.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea7df33c00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=2134 l2_index=2137
+EXP063 ssm name=conv_output_raw-29 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-29 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-29 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad1400e0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-29 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-29 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.29.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea8302e000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=2212 l2_index=2215
+EXP063 ssm name=conv_output_raw-30 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-30 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-30 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad147b10 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-30 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-30 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.30.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea88128400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=2345 l2_index=2348
+EXP063 ssm name=conv_output_raw-32 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-32 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-32 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad154450 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-32 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-32 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.32.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea91fd5000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=2423 l2_index=2426
+EXP063 ssm name=conv_output_raw-33 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-33 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-33 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad15be80 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-33 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-33 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.33.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea970cf400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=2501 l2_index=2504
+EXP063 ssm name=conv_output_raw-34 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-34 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-34 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad1638b0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-34 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-34 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.34.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fea9c1c9800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=2634 l2_index=2637
+EXP063 ssm name=conv_output_raw-36 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-36 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-36 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad1701f0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-36 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-36 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.36.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feaa6076400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=2712 l2_index=2715
+EXP063 ssm name=conv_output_raw-37 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-37 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-37 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad177c20 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-37 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-37 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.37.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feaab170800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=2790 l2_index=2793
+EXP063 ssm name=conv_output_raw-38 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-38 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-38 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad17f650 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-38 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-38 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.38.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feab026ac00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=2923 l2_index=2926
+EXP063 ssm name=conv_output_raw-40 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-40 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-40 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad18bf90 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-40 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-40 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.40.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feaba117800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=3001 l2_index=3004
+EXP063 ssm name=conv_output_raw-41 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-41 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-41 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad1939c0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-41 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-41 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.41.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feabf211c00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=3079 l2_index=3082
+EXP063 ssm name=conv_output_raw-42 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-42 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-42 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad19b3f0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-42 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-42 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.42.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feac430c000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=3212 l2_index=3215
+EXP063 ssm name=conv_output_raw-44 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-44 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-44 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad1a7d30 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-44 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-44 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.44.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feace1b8c00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=3290 l2_index=3293
+EXP063 ssm name=conv_output_raw-45 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-45 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-45 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad1af760 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-45 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-45 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.45.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fead32b3000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=3368 l2_index=3371
+EXP063 ssm name=conv_output_raw-46 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-46 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-46 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad1b7190 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-46 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-46 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.46.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fead83ad400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=3501 l2_index=3504
+EXP063 ssm name=conv_output_raw-48 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-48 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-48 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad1c3ad0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-48 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-48 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.48.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feae225a000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=3579 l2_index=3582
+EXP063 ssm name=conv_output_raw-49 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-49 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-49 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad1cb500 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-49 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-49 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.49.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feae7354400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=3657 l2_index=3660
+EXP063 ssm name=conv_output_raw-50 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-50 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-50 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad1d2f30 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-50 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-50 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.50.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feaec44e800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=3790 l2_index=3793
+EXP063 ssm name=conv_output_raw-52 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-52 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-52 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad1df870 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-52 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-52 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.52.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feaf62fb400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=3868 l2_index=3871
+EXP063 ssm name=conv_output_raw-53 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-53 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-53 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad1e72a0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-53 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-53 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.53.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feafb3f5800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=3946 l2_index=3949
+EXP063 ssm name=conv_output_raw-54 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-54 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-54 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad1eecd0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-54 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-54 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.54.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feb004efc00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=4079 l2_index=4082
+EXP063 ssm name=conv_output_raw-56 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-56 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-56 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad1fb610 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-56 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-56 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.56.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feb0a39c800 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=4157 l2_index=4160
+EXP063 ssm name=conv_output_raw-57 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-57 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-57 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad203040 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-57 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-57 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.57.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feb0f496c00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=4235 l2_index=4238
+EXP063 ssm name=conv_output_raw-58 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-58 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-58 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad20aa70 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-58 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-58 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.58.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feb14591000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=4368 l2_index=4371
+EXP063 ssm name=conv_output_raw-60 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-60 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-60 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad2173b0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-60 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-60 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.60.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feb1e43dc00 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=4446 l2_index=4449
+EXP063 ssm name=conv_output_raw-61 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-61 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec448e2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-61 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec448e2880 view_src=0x7fecad21ede0 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-61 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-61 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec45ce2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.61.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feb23538000 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840
+EXP063 pair index=4524 l2_index=4527
+EXP063 ssm name=conv_output_raw-62 op=SSM_CONV type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=1 flags=16 nbytes=40960
+EXP063 silu name=conv_output_silu-62 op=UNARY type=f32 ne=10240,1,1,1 nb=4,40960,40960,40960 data=0x7fec456c4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=40960
+EXP063 qk_view name=conv_output_silu-62 (view) op=VIEW type=f32 ne=128,32,1,1 nb=4,512,40960,40960 data=0x7fec456c4880 view_src=0x7fecad226810 view_offs=0 uses=1 flags=16 nbytes=16384
+EXP063 l2 name=qk_conv_l2-62 op=L2_NORM type=f32 ne=128,32,1,1 nb=4,512,16384,16384 data=0x7fec43ee2880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=16384
+EXP063 ssm_src0 name=conv_input-62 op=CONCAT type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7fec46ac4880 view_src=(nil) view_offs=0 uses=2 flags=16 nbytes=163840
+EXP063 ssm_src1 name=blk.62.ssm_conv1d.weight op=NONE type=f32 ne=4,10240,1,1 nb=4,16,163840,163840 data=0x7feb28632400 view_src=(nil) view_offs=0 uses=-1 flags=0 nbytes=163840

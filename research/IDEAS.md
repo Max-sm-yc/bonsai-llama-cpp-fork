@@ -6,7 +6,7 @@ Ranked against the current ROWS=1 implementation. Controlled batch-1 model decod
 
 ## Open candidates
 
-1. **Other recurrent SSM/L2 view patterns.** Exp062 matched 24 of 48 adjacent SSM/L2 pairs because the matched QK input is a zero-offset `[128,32]` view of the full SiLU output. Inspect the remaining 24 runtime views and estimate savings before writing a separate narrow matcher; do not broaden the current guard without exact shape/stride/use evidence.
+1. **Alias-safe recurrent SSM/L2 fusion.** Exp063 showed the other 24 sites have the same zero-offset QK view but their L2 output aliases the first 16 KiB of SSM input. Test a cooperative grid barrier under CUDA Graph capture and verify all blocks can be resident; keep the current alias guard unless a race-free ordering is proven. See `experiments/063-remaining-ssm-l2-views/REPORT.md`.
 2. **PTQ1_0 GEMV:** still dominates at 74–76% of steady decode kernel time, but decoder, layout, cache, prefetch, staging, geometry, scheduling, and paired K/V CTA mappings have been extensively tested. Reopen only with a genuinely new dataflow/codegen premise.
 3. **Long-context FlashAttention:** Exp053's valid 64/64 single-stage Ampere tile regressed focused time by 17.2% at context 512 and 11.3% at 4096; 96/96 failed a compile invariant. Reopen only with a design that reduces Stream-K fixup cost. See `experiments/053-flash-attention-longctx/REPORT.md`.
 
@@ -39,3 +39,5 @@ Experiments 001/002's `mmvq.cu` prefetch toggle does not reach the dedicated one
 Experiment 029's `.cg` packed-weight candidate emitted `LDG.E.STRONG.GPU` for the six active `qs` word loads, while activation vectors remained `LDG.E.128.CONSTANT`; the single candidate trace has no control and is not performance evidence. Its interrupted full rebuild also showed that build output deletion is possible, so cache-policy candidates should be linked in isolated paths from a preserved source-default library.
 
 Experiment 021 confirmed graph gather fusion is active: the 16-token trace had 864 GDN calls and no GET_ROWS; disabling fusion added exactly 864 GET_ROWS calls. Do not repeat the column-per-warp sweep without a new kernel design. Experiments 019–020 exhausted the current per-branch RMSNorm→FWHT/Q8_1 fusion and FWHT CTA-width sweeps. Experiment 022 showed a global switch to 256-thread fused-weight RMSNorm regresses decode about 3.3%; do not retry without measured shape-specific evidence.
+
+Exp063 closed the alternate-view hypothesis: all 48 SSM/L2 sites have the same `[128,32]` QK view, and exactly 24 are blocked by output/input storage aliasing. A possible distinct design is an sm_86 cooperative grid barrier after SSM reads complete and before normalized stores; evaluate graph capture and occupancy before implementing.

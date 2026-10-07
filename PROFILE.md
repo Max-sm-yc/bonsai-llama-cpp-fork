@@ -174,3 +174,8 @@ Exp062 matched 24 of 48 adjacent recurrent SSM+SiLU→L2 pairs. The guarded path
 | 4096 | 12.102607 ms | 12.072064 ms | −0.030543 ms (−0.252%) |
 
 Four reversed-order, seven-repetition PTQ1_0 A/B pairs measured +0.037% decode at context 512 (within variation) and +0.231% at 4096. Peak VRAM was 6,579/6,803 MiB. Active GEMV remains dominant at 9.014/9.022 ms per token, about 77.1%/74.7% of the Exp062 graph kernel total. The integrated model/fallback exact-output CTest passed, selected CTests passed 5/5, CUDA-vs-CPU operation checks passed 96/96, and fixed-seed model completion matched with fusion enabled/disabled. Nsight Compute counters remain unavailable, so the underlying GEMV bandwidth-versus-instruction limit is still unknown. See `experiments/062-repeated-smallop-fusion/REPORT.md` and `results/exp062/`.
+
+
+## Exp063 SSM/L2 alias classification
+
+Runtime scheduler captures at contexts 512 and 4096 classified all 48 repeated SSM/L2 sites. All have the same `[128,32]` zero-offset QK view, `[10240]` SSM/SiLU output, and `[128,32]` L2 output. The 24 Exp062-compatible sites have disjoint L2 destination and SSM-input ranges. For the other 24, the L2 destination exactly aliases bytes `[0,16384)` of the 160 KiB SSM input. A fused normalization store can race with CTAs still reading the aliased source. Exp062's alias-range guard is therefore necessary; Exp063 made no performance claim and changed no code. Context metadata, all site records, and raw scheduler dumps are in `results/exp063/`. A grid-wide ordering design would need a separate graph-capture and sm_86 residency screen.

@@ -1,0 +1,7284 @@
+{
+  "source": "results/exp063/raw/metadata_capture_ctx4096.stderr (deduplicated by model layer across repeated graph builds)",
+  "model": "Ternary-Bonsai-2-27B-PTQ1_0.gguf",
+  "context": 4096,
+  "unique_ssm_l2_sites": 48,
+  "classification_counts": {
+    "blocked_by_l2_destination_alias_with_ssm_input0": 24,
+    "baseline_exp062_match_layout_and_alias_safe": 24
+  },
+  "sites": [
+    {
+      "ssm": {
+        "name": "conv_output_raw-0",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-0",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-0",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "0x7fef22454750",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-0",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-0",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.0.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fec6facb000",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 0,
+      "scheduler_pair": "EXP063 pair index=33 l2_index=36",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "overlap",
+        "l2_destination_range_relative_to_ssm_input0": [
+          0,
+          16384
+        ],
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "blocked_by_l2_destination_alias_with_ssm_input0"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-1",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-1",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-1",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "0x7fef2245c180",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-1",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb4262880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-1",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6e44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.1.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fec74bc5400",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 1,
+      "scheduler_pair": "EXP063 pair index=111 l2_index=114",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "disjoint",
+        "l2_destination_range_relative_to_ssm_input0": null,
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "baseline_exp062_match_layout_and_alias_safe"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-2",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-2",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-2",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "0x7fef22463bb0",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-2",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-2",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.2.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fec79cbf800",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 2,
+      "scheduler_pair": "EXP063 pair index=189 l2_index=192",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "overlap",
+        "l2_destination_range_relative_to_ssm_input0": [
+          0,
+          16384
+        ],
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "blocked_by_l2_destination_alias_with_ssm_input0"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-4",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-4",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-4",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "0x7fef224704f0",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-4",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb4262880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-4",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6e44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.4.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fec83b6c400",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 4,
+      "scheduler_pair": "EXP063 pair index=322 l2_index=325",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "disjoint",
+        "l2_destination_range_relative_to_ssm_input0": null,
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "baseline_exp062_match_layout_and_alias_safe"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-5",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-5",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-5",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "0x7fef22477f20",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-5",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-5",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.5.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fec88c66800",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 5,
+      "scheduler_pair": "EXP063 pair index=400 l2_index=403",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "overlap",
+        "l2_destination_range_relative_to_ssm_input0": [
+          0,
+          16384
+        ],
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "blocked_by_l2_destination_alias_with_ssm_input0"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-6",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-6",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-6",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "0x7fef2247f950",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-6",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb4262880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-6",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6e44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.6.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fec8dd60c00",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 6,
+      "scheduler_pair": "EXP063 pair index=478 l2_index=481",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "disjoint",
+        "l2_destination_range_relative_to_ssm_input0": null,
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "baseline_exp062_match_layout_and_alias_safe"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-8",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-8",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-8",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "0x7fef2248c290",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-8",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-8",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.8.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fec97c0d800",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 8,
+      "scheduler_pair": "EXP063 pair index=611 l2_index=614",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "overlap",
+        "l2_destination_range_relative_to_ssm_input0": [
+          0,
+          16384
+        ],
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "blocked_by_l2_destination_alias_with_ssm_input0"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-9",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-9",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-9",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "0x7fef22493cc0",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-9",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb4262880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-9",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6e44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.9.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fec9cd07c00",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 9,
+      "scheduler_pair": "EXP063 pair index=689 l2_index=692",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "disjoint",
+        "l2_destination_range_relative_to_ssm_input0": null,
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "baseline_exp062_match_layout_and_alias_safe"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-10",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-10",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-10",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "0x7fef2249b6f0",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-10",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-10",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.10.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feca1e02000",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 10,
+      "scheduler_pair": "EXP063 pair index=767 l2_index=770",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "overlap",
+        "l2_destination_range_relative_to_ssm_input0": [
+          0,
+          16384
+        ],
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "blocked_by_l2_destination_alias_with_ssm_input0"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-12",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-12",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-12",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "0x7fef224a8030",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-12",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb4262880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-12",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6e44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.12.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fecabcaec00",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 12,
+      "scheduler_pair": "EXP063 pair index=900 l2_index=903",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "disjoint",
+        "l2_destination_range_relative_to_ssm_input0": null,
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "baseline_exp062_match_layout_and_alias_safe"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-13",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-13",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-13",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "0x7fef224afa60",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-13",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-13",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.13.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fecb0da9000",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 13,
+      "scheduler_pair": "EXP063 pair index=978 l2_index=981",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "overlap",
+        "l2_destination_range_relative_to_ssm_input0": [
+          0,
+          16384
+        ],
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "blocked_by_l2_destination_alias_with_ssm_input0"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-14",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-14",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-14",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "0x7fef224b7490",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-14",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb4262880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-14",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6e44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.14.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fecb5ea3400",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 14,
+      "scheduler_pair": "EXP063 pair index=1056 l2_index=1059",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "disjoint",
+        "l2_destination_range_relative_to_ssm_input0": null,
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "baseline_exp062_match_layout_and_alias_safe"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-16",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-16",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-16",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "0x7fef224c3dd0",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-16",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-16",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.16.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fecbfd50000",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 16,
+      "scheduler_pair": "EXP063 pair index=1189 l2_index=1192",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "overlap",
+        "l2_destination_range_relative_to_ssm_input0": [
+          0,
+          16384
+        ],
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "blocked_by_l2_destination_alias_with_ssm_input0"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-17",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-17",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-17",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "0x7fef224cb800",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-17",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb4262880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-17",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6e44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.17.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fecc4e4a400",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 17,
+      "scheduler_pair": "EXP063 pair index=1267 l2_index=1270",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "disjoint",
+        "l2_destination_range_relative_to_ssm_input0": null,
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "baseline_exp062_match_layout_and_alias_safe"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-18",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-18",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-18",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "0x7fef224d3230",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-18",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-18",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.18.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fecc9f44800",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 18,
+      "scheduler_pair": "EXP063 pair index=1345 l2_index=1348",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "overlap",
+        "l2_destination_range_relative_to_ssm_input0": [
+          0,
+          16384
+        ],
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "blocked_by_l2_destination_alias_with_ssm_input0"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-20",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-20",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-20",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "0x7fef224dfb70",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-20",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb4262880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-20",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6e44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.20.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fecd3df1400",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 20,
+      "scheduler_pair": "EXP063 pair index=1478 l2_index=1481",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "disjoint",
+        "l2_destination_range_relative_to_ssm_input0": null,
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "baseline_exp062_match_layout_and_alias_safe"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-21",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-21",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-21",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "0x7fef224e75a0",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-21",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-21",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.21.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fecd8eeb800",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 21,
+      "scheduler_pair": "EXP063 pair index=1556 l2_index=1559",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "overlap",
+        "l2_destination_range_relative_to_ssm_input0": [
+          0,
+          16384
+        ],
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "blocked_by_l2_destination_alias_with_ssm_input0"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-22",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-22",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-22",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "0x7fef224eefd0",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-22",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb4262880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-22",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6e44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.22.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fecddfe5c00",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 22,
+      "scheduler_pair": "EXP063 pair index=1634 l2_index=1637",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "disjoint",
+        "l2_destination_range_relative_to_ssm_input0": null,
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "baseline_exp062_match_layout_and_alias_safe"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-24",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-24",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-24",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "0x7fef224fb910",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-24",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-24",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.24.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fece7e92800",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 24,
+      "scheduler_pair": "EXP063 pair index=1767 l2_index=1770",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "overlap",
+        "l2_destination_range_relative_to_ssm_input0": [
+          0,
+          16384
+        ],
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "blocked_by_l2_destination_alias_with_ssm_input0"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-25",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-25",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-25",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "0x7fef22503340",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-25",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb4262880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-25",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6e44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.25.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fececf8cc00",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 25,
+      "scheduler_pair": "EXP063 pair index=1845 l2_index=1848",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "disjoint",
+        "l2_destination_range_relative_to_ssm_input0": null,
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "baseline_exp062_match_layout_and_alias_safe"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-26",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-26",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-26",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "0x7fef2250ad70",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-26",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-26",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.26.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fecf2087000",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 26,
+      "scheduler_pair": "EXP063 pair index=1923 l2_index=1926",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "overlap",
+        "l2_destination_range_relative_to_ssm_input0": [
+          0,
+          16384
+        ],
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "blocked_by_l2_destination_alias_with_ssm_input0"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-28",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-28",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-28",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "0x7fef225176b0",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-28",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb4262880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-28",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6e44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.28.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fecfbf33c00",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 28,
+      "scheduler_pair": "EXP063 pair index=2056 l2_index=2059",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "disjoint",
+        "l2_destination_range_relative_to_ssm_input0": null,
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "baseline_exp062_match_layout_and_alias_safe"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-29",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-29",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-29",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "0x7fef2251f0e0",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-29",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-29",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.29.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fed0102e000",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 29,
+      "scheduler_pair": "EXP063 pair index=2134 l2_index=2137",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "overlap",
+        "l2_destination_range_relative_to_ssm_input0": [
+          0,
+          16384
+        ],
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "blocked_by_l2_destination_alias_with_ssm_input0"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-30",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-30",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-30",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "0x7fef22526b10",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-30",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb4262880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-30",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6e44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.30.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fed06128400",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 30,
+      "scheduler_pair": "EXP063 pair index=2212 l2_index=2215",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "disjoint",
+        "l2_destination_range_relative_to_ssm_input0": null,
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "baseline_exp062_match_layout_and_alias_safe"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-32",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-32",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-32",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "0x7fef22533450",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-32",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-32",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.32.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fed0ffd5000",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 32,
+      "scheduler_pair": "EXP063 pair index=2345 l2_index=2348",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "overlap",
+        "l2_destination_range_relative_to_ssm_input0": [
+          0,
+          16384
+        ],
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "blocked_by_l2_destination_alias_with_ssm_input0"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-33",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-33",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-33",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "0x7fef2253ae80",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-33",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb4262880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-33",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6e44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.33.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fed150cf400",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 33,
+      "scheduler_pair": "EXP063 pair index=2423 l2_index=2426",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "disjoint",
+        "l2_destination_range_relative_to_ssm_input0": null,
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "baseline_exp062_match_layout_and_alias_safe"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-34",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-34",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-34",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "0x7fef225428b0",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-34",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-34",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.34.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fed1a1c9800",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 34,
+      "scheduler_pair": "EXP063 pair index=2501 l2_index=2504",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "overlap",
+        "l2_destination_range_relative_to_ssm_input0": [
+          0,
+          16384
+        ],
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "blocked_by_l2_destination_alias_with_ssm_input0"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-36",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-36",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-36",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "0x7fef2254f1f0",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-36",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb4262880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-36",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6e44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.36.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fed24076400",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 36,
+      "scheduler_pair": "EXP063 pair index=2634 l2_index=2637",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "disjoint",
+        "l2_destination_range_relative_to_ssm_input0": null,
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "baseline_exp062_match_layout_and_alias_safe"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-37",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-37",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-37",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "0x7fef22556c20",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-37",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-37",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.37.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fed29170800",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 37,
+      "scheduler_pair": "EXP063 pair index=2712 l2_index=2715",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "overlap",
+        "l2_destination_range_relative_to_ssm_input0": [
+          0,
+          16384
+        ],
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "blocked_by_l2_destination_alias_with_ssm_input0"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-38",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-38",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-38",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "0x7fef2255e650",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-38",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb4262880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-38",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6e44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.38.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fed2e26ac00",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 38,
+      "scheduler_pair": "EXP063 pair index=2790 l2_index=2793",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "disjoint",
+        "l2_destination_range_relative_to_ssm_input0": null,
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "baseline_exp062_match_layout_and_alias_safe"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-40",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-40",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-40",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "0x7fef2256af90",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-40",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-40",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.40.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fed38117800",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 40,
+      "scheduler_pair": "EXP063 pair index=2923 l2_index=2926",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "overlap",
+        "l2_destination_range_relative_to_ssm_input0": [
+          0,
+          16384
+        ],
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "blocked_by_l2_destination_alias_with_ssm_input0"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-41",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-41",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-41",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "0x7fef225729c0",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-41",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb4262880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-41",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6e44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.41.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fed3d211c00",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 41,
+      "scheduler_pair": "EXP063 pair index=3001 l2_index=3004",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "disjoint",
+        "l2_destination_range_relative_to_ssm_input0": null,
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "baseline_exp062_match_layout_and_alias_safe"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-42",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-42",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-42",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "0x7fef2257a3f0",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-42",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-42",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.42.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fed4230c000",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 42,
+      "scheduler_pair": "EXP063 pair index=3079 l2_index=3082",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "overlap",
+        "l2_destination_range_relative_to_ssm_input0": [
+          0,
+          16384
+        ],
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "blocked_by_l2_destination_alias_with_ssm_input0"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-44",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-44",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-44",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "0x7fef22586d30",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-44",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb4262880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-44",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6e44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.44.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fed4c1b8c00",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 44,
+      "scheduler_pair": "EXP063 pair index=3212 l2_index=3215",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "disjoint",
+        "l2_destination_range_relative_to_ssm_input0": null,
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "baseline_exp062_match_layout_and_alias_safe"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-45",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-45",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-45",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "0x7fef2258e760",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-45",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-45",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.45.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fed512b3000",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 45,
+      "scheduler_pair": "EXP063 pair index=3290 l2_index=3293",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "overlap",
+        "l2_destination_range_relative_to_ssm_input0": [
+          0,
+          16384
+        ],
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "blocked_by_l2_destination_alias_with_ssm_input0"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-46",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-46",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-46",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "0x7fef22596190",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-46",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb4262880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-46",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6e44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.46.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fed563ad400",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 46,
+      "scheduler_pair": "EXP063 pair index=3368 l2_index=3371",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "disjoint",
+        "l2_destination_range_relative_to_ssm_input0": null,
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "baseline_exp062_match_layout_and_alias_safe"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-48",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-48",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-48",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "0x7fef225a2ad0",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-48",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-48",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.48.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fed6025a000",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 48,
+      "scheduler_pair": "EXP063 pair index=3501 l2_index=3504",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "overlap",
+        "l2_destination_range_relative_to_ssm_input0": [
+          0,
+          16384
+        ],
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "blocked_by_l2_destination_alias_with_ssm_input0"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-49",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-49",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-49",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "0x7fef225aa500",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-49",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb4262880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-49",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6e44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.49.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fed65354400",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 49,
+      "scheduler_pair": "EXP063 pair index=3579 l2_index=3582",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "disjoint",
+        "l2_destination_range_relative_to_ssm_input0": null,
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "baseline_exp062_match_layout_and_alias_safe"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-50",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-50",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-50",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "0x7fef225b1f30",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-50",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-50",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.50.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fed6a44e800",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 50,
+      "scheduler_pair": "EXP063 pair index=3657 l2_index=3660",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "overlap",
+        "l2_destination_range_relative_to_ssm_input0": [
+          0,
+          16384
+        ],
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "blocked_by_l2_destination_alias_with_ssm_input0"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-52",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-52",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-52",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "0x7fef225be870",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-52",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb4262880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-52",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6e44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.52.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fed742fb400",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 52,
+      "scheduler_pair": "EXP063 pair index=3790 l2_index=3793",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "disjoint",
+        "l2_destination_range_relative_to_ssm_input0": null,
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "baseline_exp062_match_layout_and_alias_safe"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-53",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-53",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-53",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "0x7fef225c62a0",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-53",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-53",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.53.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fed793f5800",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 53,
+      "scheduler_pair": "EXP063 pair index=3868 l2_index=3871",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "overlap",
+        "l2_destination_range_relative_to_ssm_input0": [
+          0,
+          16384
+        ],
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "blocked_by_l2_destination_alias_with_ssm_input0"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-54",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-54",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-54",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "0x7fef225cdcd0",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-54",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb4262880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-54",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6e44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.54.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fed7e4efc00",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 54,
+      "scheduler_pair": "EXP063 pair index=3946 l2_index=3949",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "disjoint",
+        "l2_destination_range_relative_to_ssm_input0": null,
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "baseline_exp062_match_layout_and_alias_safe"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-56",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-56",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-56",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "0x7fef225da610",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-56",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-56",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.56.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fed8839c800",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 56,
+      "scheduler_pair": "EXP063 pair index=4079 l2_index=4082",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "overlap",
+        "l2_destination_range_relative_to_ssm_input0": [
+          0,
+          16384
+        ],
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "blocked_by_l2_destination_alias_with_ssm_input0"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-57",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-57",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-57",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "0x7fef225e2040",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-57",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb4262880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-57",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6e44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.57.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fed8d496c00",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 57,
+      "scheduler_pair": "EXP063 pair index=4157 l2_index=4160",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "disjoint",
+        "l2_destination_range_relative_to_ssm_input0": null,
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "baseline_exp062_match_layout_and_alias_safe"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-58",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-58",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-58",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "0x7fef225e9a70",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-58",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-58",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.58.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fed92591000",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 58,
+      "scheduler_pair": "EXP063 pair index=4235 l2_index=4238",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "overlap",
+        "l2_destination_range_relative_to_ssm_input0": [
+          0,
+          16384
+        ],
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "blocked_by_l2_destination_alias_with_ssm_input0"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-60",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-60",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-60",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "0x7fef225f63b0",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-60",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb4262880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-60",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6e44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.60.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7fed9c43dc00",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 60,
+      "scheduler_pair": "EXP063 pair index=4368 l2_index=4371",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "disjoint",
+        "l2_destination_range_relative_to_ssm_input0": null,
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "baseline_exp062_match_layout_and_alias_safe"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-61",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-61",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-61",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb4c62880",
+        "view_src": "0x7fef225fdde0",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-61",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-61",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6062880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.61.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feda1538000",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 61,
+      "scheduler_pair": "EXP063 pair index=4446 l2_index=4449",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "overlap",
+        "l2_destination_range_relative_to_ssm_input0": [
+          0,
+          16384
+        ],
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "blocked_by_l2_destination_alias_with_ssm_input0"
+    },
+    {
+      "ssm": {
+        "name": "conv_output_raw-62",
+        "op": "SSM_CONV",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "silu": {
+        "name": "conv_output_silu-62",
+        "op": "UNARY",
+        "type": "f32",
+        "ne": [
+          10240,
+          1,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          40960,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 40960
+      },
+      "qk_view": {
+        "name": "conv_output_silu-62",
+        "op": "VIEW",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          40960,
+          40960
+        ],
+        "data": "0x7feeb5a44880",
+        "view_src": "0x7fef22605810",
+        "view_offs": 0,
+        "uses": 1,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "l2": {
+        "name": "qk_conv_l2-62",
+        "op": "L2_NORM",
+        "type": "f32",
+        "ne": [
+          128,
+          32,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          512,
+          16384,
+          16384
+        ],
+        "data": "0x7feeb4262880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 16384
+      },
+      "ssm_src0": {
+        "name": "conv_input-62",
+        "op": "CONCAT",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feeb6e44880",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": 2,
+        "flags": 16,
+        "nbytes": 163840
+      },
+      "ssm_src1": {
+        "name": "blk.62.ssm_conv1d.weight",
+        "op": "NONE",
+        "type": "f32",
+        "ne": [
+          4,
+          10240,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          16,
+          163840,
+          163840
+        ],
+        "data": "0x7feda6632400",
+        "view_src": "(nil)",
+        "view_offs": 0,
+        "uses": -1,
+        "flags": 0,
+        "nbytes": 163840
+      },
+      "layer": 62,
+      "scheduler_pair": "EXP063 pair index=4524 l2_index=4527",
+      "alias": {
+        "l2_destination_vs_ssm_input0": "disjoint",
+        "l2_destination_range_relative_to_ssm_input0": null,
+        "l2_destination_vs_ssm_input1": "disjoint",
+        "qk_view_data_equals_silu_data": true,
+        "qk_view_view_offset": 0
+      },
+      "classification": "baseline_exp062_match_layout_and_alias_safe"
+    }
+  ]
+}

@@ -1,0 +1,442 @@
+{
+  "512": {
+    "replays": 31,
+    "nodes_per_replay": 1384,
+    "ssm_l2_adjacent_count": [
+      {
+        "pair": [
+          "ssm_conv_f32<",
+          "l2_norm_f32<"
+        ],
+        "count_total": 1488,
+        "per_replay": [
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48
+        ]
+      }
+    ],
+    "repeated_pair_counts_top20": [
+      {
+        "a": "fwht_quantize_q8_1<",
+        "b": "mul_mat_vec_ptq1_0_pt<",
+        "total": 3038,
+        "per_replay_min": 98,
+        "per_replay_max": 98
+      },
+      {
+        "a": "mul_mat_vec_ptq1_0_pt<",
+        "b": "rms_norm_f32<",
+        "total": 2480,
+        "per_replay_min": 80,
+        "per_replay_max": 80
+      },
+      {
+        "a": "fwht_quantize_q8_1<",
+        "b": "mul_mat_vec_ptq1_0_pt<",
+        "total": 2449,
+        "per_replay_min": 79,
+        "per_replay_max": 79
+      },
+      {
+        "a": "*>",
+        "b": "fwht_rms_quantize_q8_1<",
+        "total": 1519,
+        "per_replay_min": 49,
+        "per_replay_max": 49
+      },
+      {
+        "a": "rms_norm_f32<",
+        "b": "float>",
+        "total": 1488,
+        "per_replay_min": 48,
+        "per_replay_max": 48
+      },
+      {
+        "a": "float>",
+        "b": "fwht_quantize_q8_1<",
+        "total": 1488,
+        "per_replay_min": 48,
+        "per_replay_max": 48
+      },
+      {
+        "a": "mul_mat_vec_ptq1_0_pt<",
+        "b": "concat_cache_f32",
+        "total": 1488,
+        "per_replay_min": 48,
+        "per_replay_max": 48
+      },
+      {
+        "a": "concat_cache_f32",
+        "b": "ssm_conv_f32<",
+        "total": 1488,
+        "per_replay_min": 48,
+        "per_replay_max": 48
+      },
+      {
+        "a": "ssm_conv_f32<",
+        "b": "l2_norm_f32<",
+        "total": 1488,
+        "per_replay_min": 48,
+        "per_replay_max": 48
+      },
+      {
+        "a": "l2_norm_f32<",
+        "b": "float,",
+        "total": 1488,
+        "per_replay_min": 48,
+        "per_replay_max": 48
+      },
+      {
+        "a": "float,",
+        "b": "float,",
+        "total": 1488,
+        "per_replay_min": 48,
+        "per_replay_max": 48
+      },
+      {
+        "a": "float,",
+        "b": "gated_delta_net_cuda<",
+        "total": 1488,
+        "per_replay_min": 48,
+        "per_replay_max": 48
+      },
+      {
+        "a": "gated_delta_net_cuda<",
+        "b": "mul_mat_vec_ptq1_0_pt<",
+        "total": 1488,
+        "per_replay_min": 48,
+        "per_replay_max": 48
+      },
+      {
+        "a": "rms_norm_f32<",
+        "b": "float>",
+        "total": 1488,
+        "per_replay_min": 48,
+        "per_replay_max": 48
+      },
+      {
+        "a": "float>",
+        "b": "float>>",
+        "total": 1488,
+        "per_replay_min": 48,
+        "per_replay_max": 48
+      },
+      {
+        "a": "float>>",
+        "b": "fwht_quantize_q8_1<",
+        "total": 1488,
+        "per_replay_min": 48,
+        "per_replay_max": 48
+      },
+      {
+        "a": "mul_mat_vec_ptq1_0_pt<",
+        "b": "*>",
+        "total": 1488,
+        "per_replay_min": 48,
+        "per_replay_max": 48
+      },
+      {
+        "a": "mul_mat_vec_ptq1_0_pt<",
+        "b": "rms_norm_f32<",
+        "total": 1488,
+        "per_replay_min": 48,
+        "per_replay_max": 48
+      },
+      {
+        "a": "fwht_rms_quantize_q8_1<",
+        "b": "mul_mat_vec_ptq1_0_pt<",
+        "total": 1240,
+        "per_replay_min": 40,
+        "per_replay_max": 40
+      },
+      {
+        "a": "mul_mat_vec_ptq1_0_pt<",
+        "b": "fwht_quantize_q8_1<",
+        "total": 1240,
+        "per_replay_min": 40,
+        "per_replay_max": 40
+      }
+    ],
+    "timings": {
+      "concat_cache_f32(const float *, const float *, float *, float *)": {
+        "count_per_replay": 48,
+        "mean_us_per_replay": 81.19612903225806
+      },
+      "void l2_norm_f32<(int)32>(const float *, float *, int, long, long, long, float)": {
+        "count_per_replay": 48,
+        "mean_us_per_replay": 70.90941935483872
+      },
+      "void ssm_conv_f32<(bool)1, (unsigned long)128, (unsigned long)4>(const float *, const float *, const float *, int, int, int, int, float *, int, int, int, long)": {
+        "count_per_replay": 48,
+        "mean_us_per_replay": 74.38532258064517
+      }
+    },
+    "kernel_block_geometry": {
+      "void ssm_conv_f32<(bool)1, (unsigned long)128, (unsigned long)4>(const float *, const float *, const float *, int, int, int, int, float *, int, int, int, long)": [
+        1,
+        80,
+        1,
+        128,
+        1,
+        1
+      ],
+      "void l2_norm_f32<(int)32>(const float *, float *, int, long, long, long, float)": [
+        32,
+        1,
+        1,
+        32,
+        1,
+        1
+      ]
+    }
+  },
+  "4096": {
+    "replays": 31,
+    "nodes_per_replay": 1384,
+    "ssm_l2_adjacent_count": [
+      {
+        "pair": [
+          "ssm_conv_f32<",
+          "l2_norm_f32<"
+        ],
+        "count_total": 1488,
+        "per_replay": [
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48,
+          48
+        ]
+      }
+    ],
+    "repeated_pair_counts_top20": [
+      {
+        "a": "fwht_quantize_q8_1<",
+        "b": "mul_mat_vec_ptq1_0_pt<",
+        "total": 3038,
+        "per_replay_min": 98,
+        "per_replay_max": 98
+      },
+      {
+        "a": "mul_mat_vec_ptq1_0_pt<",
+        "b": "rms_norm_f32<",
+        "total": 2480,
+        "per_replay_min": 80,
+        "per_replay_max": 80
+      },
+      {
+        "a": "fwht_quantize_q8_1<",
+        "b": "mul_mat_vec_ptq1_0_pt<",
+        "total": 2449,
+        "per_replay_min": 79,
+        "per_replay_max": 79
+      },
+      {
+        "a": "*>",
+        "b": "fwht_rms_quantize_q8_1<",
+        "total": 1519,
+        "per_replay_min": 49,
+        "per_replay_max": 49
+      },
+      {
+        "a": "rms_norm_f32<",
+        "b": "float>",
+        "total": 1488,
+        "per_replay_min": 48,
+        "per_replay_max": 48
+      },
+      {
+        "a": "float>",
+        "b": "fwht_quantize_q8_1<",
+        "total": 1488,
+        "per_replay_min": 48,
+        "per_replay_max": 48
+      },
+      {
+        "a": "mul_mat_vec_ptq1_0_pt<",
+        "b": "concat_cache_f32",
+        "total": 1488,
+        "per_replay_min": 48,
+        "per_replay_max": 48
+      },
+      {
+        "a": "concat_cache_f32",
+        "b": "ssm_conv_f32<",
+        "total": 1488,
+        "per_replay_min": 48,
+        "per_replay_max": 48
+      },
+      {
+        "a": "ssm_conv_f32<",
+        "b": "l2_norm_f32<",
+        "total": 1488,
+        "per_replay_min": 48,
+        "per_replay_max": 48
+      },
+      {
+        "a": "l2_norm_f32<",
+        "b": "float,",
+        "total": 1488,
+        "per_replay_min": 48,
+        "per_replay_max": 48
+      },
+      {
+        "a": "float,",
+        "b": "float,",
+        "total": 1488,
+        "per_replay_min": 48,
+        "per_replay_max": 48
+      },
+      {
+        "a": "float,",
+        "b": "gated_delta_net_cuda<",
+        "total": 1488,
+        "per_replay_min": 48,
+        "per_replay_max": 48
+      },
+      {
+        "a": "gated_delta_net_cuda<",
+        "b": "mul_mat_vec_ptq1_0_pt<",
+        "total": 1488,
+        "per_replay_min": 48,
+        "per_replay_max": 48
+      },
+      {
+        "a": "rms_norm_f32<",
+        "b": "float>",
+        "total": 1488,
+        "per_replay_min": 48,
+        "per_replay_max": 48
+      },
+      {
+        "a": "float>",
+        "b": "float>>",
+        "total": 1488,
+        "per_replay_min": 48,
+        "per_replay_max": 48
+      },
+      {
+        "a": "float>>",
+        "b": "fwht_quantize_q8_1<",
+        "total": 1488,
+        "per_replay_min": 48,
+        "per_replay_max": 48
+      },
+      {
+        "a": "mul_mat_vec_ptq1_0_pt<",
+        "b": "*>",
+        "total": 1488,
+        "per_replay_min": 48,
+        "per_replay_max": 48
+      },
+      {
+        "a": "mul_mat_vec_ptq1_0_pt<",
+        "b": "rms_norm_f32<",
+        "total": 1488,
+        "per_replay_min": 48,
+        "per_replay_max": 48
+      },
+      {
+        "a": "fwht_rms_quantize_q8_1<",
+        "b": "mul_mat_vec_ptq1_0_pt<",
+        "total": 1240,
+        "per_replay_min": 40,
+        "per_replay_max": 40
+      },
+      {
+        "a": "mul_mat_vec_ptq1_0_pt<",
+        "b": "fwht_quantize_q8_1<",
+        "total": 1240,
+        "per_replay_min": 40,
+        "per_replay_max": 40
+      }
+    ],
+    "timings": {
+      "concat_cache_f32(const float *, const float *, float *, float *)": {
+        "count_per_replay": 48,
+        "mean_us_per_replay": 81.05490322580646
+      },
+      "void l2_norm_f32<(int)32>(const float *, float *, int, long, long, long, float)": {
+        "count_per_replay": 48,
+        "mean_us_per_replay": 70.85251612903227
+      },
+      "void ssm_conv_f32<(bool)1, (unsigned long)128, (unsigned long)4>(const float *, const float *, const float *, int, int, int, int, float *, int, int, int, long)": {
+        "count_per_replay": 48,
+        "mean_us_per_replay": 74.33261290322581
+      }
+    },
+    "kernel_block_geometry": {
+      "void ssm_conv_f32<(bool)1, (unsigned long)128, (unsigned long)4>(const float *, const float *, const float *, int, int, int, int, float *, int, int, int, long)": [
+        1,
+        80,
+        1,
+        128,
+        1,
+        1
+      ],
+      "void l2_norm_f32<(int)32>(const float *, float *, int, long, long, long, float)": [
+        32,
+        1,
+        1,
+        32,
+        1,
+        1
+      ]
+    }
+  }
+}

@@ -1124,5 +1124,16 @@
       "results/exp062/"
     ],
     "timestamp_utc": "2026-10-07T12:50:36.609483+00:00"
+  },
+  "latest_research_audit": {
+    "id": "063",
+    "description": "Runtime alias classification of the 24 remaining adjacent recurrent SSM/L2 sites.",
+    "result": "At contexts 512 and 4096, all 48 sites had the same zero-offset [128,32] QK view. Exactly 24 disjoint destinations remain eligible for Exp062; the other 24 L2 outputs overlap bytes [0,16384) of SSM input0 and require a global read-before-write ordering design.",
+    "decision": "No code or performance change; retain the Exp062 alias guard.",
+    "artifacts": [
+      "experiments/063-remaining-ssm-l2-views/REPORT.md",
+      "results/exp063/raw/"
+    ],
+    "verified_by_manager": true
   }
 }
