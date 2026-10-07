@@ -1,0 +1,34 @@
+Exp073 design audit — sm_86 PTQ1_0 batch-1 GEMV
+Date: 2026-10-07
+Base: b74746760ea0fefd9ca11a866695bca99f7bb15a
+GPU observed: NVIDIA GeForce RTX 3080, compute capability 8.6, 10,240 MiB total
+Production source SHA256:
+  ggml/src/ggml-cuda/mmvq-ptq1_0.cuh
+    f398417accddf1948fbf12155b4180fd362a3dfea88366ef3980161700d56496
+  ggml/src/ggml-cuda/mmvq.cu
+    e889b1543656cd2e5c0c6151f11bfdd7f641e88af441449d92064ac902b9483d
+
+Active design facts confirmed from ptq1_0_pt_block_dot:
+- Each packed PTQ1_0 word is advanced by a five-step base-3 recurrence. Digits remain raw 0/1/2 bytes in registers and are consumed directly by ggml_cuda_dp4a_us.
+- For every 32-activation subgroup, the exact signed result is qdot - isum, followed by the original d8 FP32 fold. No signed-byte weight vector is materialized.
+- The current 128-thread path dispatches independent (output row,K block) work, ROWS=1, minimum CTA bound 4. Its work-items keep K blocks parallel, including K=40 (5120-wide) and K=136 (17408-wide) rows.
+- The fused gate path shares activation loads and ptxas already interleaves the independent main/gate DP4A chains (Exp043 SASS artifact).
+- Baseline steady decode GEMV total is 9.014 ms/token at context 512 and 9.022 ms/token at 4096, 74–77% of the graph kernel time (research/STATE.md).
+
+Concrete Tensor Core formulation considered:
+1. Gather a tile of 16 output rows and a K segment whose boundaries align with a 32-element Q8 subgroup.
+2. Decode each PTQ ternary weight exactly to signed int8 {-1,0,+1}; stage those bytes in shared memory in MMA operand order.
+3. Replicate the one activation vector into all eight N columns and use signed-int8 `mma.sync.aligned.m16n8k16.row.col.s32.s8.s8.s32` (or an equivalent legal Ampere integer MMA shape).
+4. Keep subgroup integer sums separate, apply each Q8 subgroup's d8 scale in the same four-step order, then write the row partials for a deterministic K reduction.
+
+Exactness is algebraically possible: MMA's int32 products/sums over each subgroup are exact, and signed ternary weights need no correction term. This does not itself establish bitwise equivalence of the resulting FP32 K reduction; a candidate would need direct checks against the production path and independent reference at K=40/136 and model K shapes.
+
+Cost screen (one 128-element PTQ block, 16 rows):
+- Current arithmetic performs 16 * 128 useful products through DP4A (512 DP4A instructions total if counted as one instruction per four products per row), while holding packed digits in registers.
+- MMA m16n8k16 performs 16*8*16 = 2,048 products per instruction, but only 16*1*16 = 256 are useful for GEMV when seven replicated columns are discarded. A 32-element quant subgroup therefore needs two MMA instructions and computes 4,096 products for 512 useful products (12.5% useful lanes/columns). Across 128 elements this is 8 MMA instructions, 16,384 products, of which 2,048 are useful.
+- The candidate must expand and stage 2,048 signed weight bytes per 16-row/128-K tile, versus the production path's packed 2-bit-ish PTQ storage and no expanded-weight staging. It adds shared writes/reads and synchronization; activation replication adds operand preparation. For K=40 and K=136, the K-block partial/fold and output-row tile scheduling must also coexist with enough CTAs to occupy the device.
+- The nominal MMA instruction count is smaller, but the arithmetic work is not: after the required 8-column shape, aggregate multiply count is 8x the useful products. The theoretical arithmetic advantage is therefore contingent on Tensor Core throughput overcoming weight expansion, shared-memory traffic/sync, redundant columns, subgroup-wise MMA issue, and loss of the current row/K-block independent work grid. Nsight Compute counters are unavailable (`ERR_NVGPUCTRPERM`), so no measured Tensor-Core-versus-DP4A throughput premise supports that trade.
+
+Alternative algebraic mapping screened: positive/negative bit masks plus activation reductions. PTQ1_0 is base-3 packed, not two independent binary masks; obtaining masks requires decoding the same digits, then two masked reductions/packing operations. Unlike binary activations, Q8 values are arbitrary signed int8, so XOR/popcount does not replace the weighted sum. It adds decode and selection work on top of DP4A and has no exact lower-work path.
+
+Audit inputs: research/STATE.md, research/IDEAS.md, research/EXPERIMENTS.md; active kernel source; Exp039, Exp043, Exp046, Exp066, Exp068 reports and retained Exp043 SASS excerpt. Existing reports establish that LUT/pairwise/floor-difference decoding, alternate CTA/warp schedules, shared staging, activation tiling, async copy, and code-level interleave variants already lost or were exhausted.

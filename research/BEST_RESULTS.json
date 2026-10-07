@@ -316,59 +316,25 @@
     ]
   },
   "latest_experiment": {
-    "id": "072",
-    "hypothesis": "Determine whether Exp071 MTP output divergence is caused by verification/sampler behavior or target batch-shape-sensitive logits.",
-    "decision": "REJECT MTP candidate; exact target-only greedy parity fails in the focused ctx512 Qwen case. No current-best change.",
+    "id": "073",
+    "hypothesis": "Challenge the active sm_86 PTQ1_0 batch-1 GEMV with signed-int8 Tensor Core or bit-sliced alternatives.",
+    "decision": "NO CANDIDATE; current-best implementation and measurements unchanged.",
     "hardware": "NVIDIA GeForce RTX 3080, sm_86",
-    "configuration": {
-      "format": "PQ2_0 target bundle with optional MTP-Q8_0 head",
-      "prompt_family": "fixed Exp071 natural Qwen source prompt, index 1",
-      "context_tokens": 512,
-      "generated_tokens": 128,
-      "temperature": 0,
-      "top_k": 1,
-      "seed": 42,
-      "server_context": 4608,
-      "target_batch_positions": {
-        "target_only": 1,
-        "mtp_verification": 3
-      }
+    "evaluation": "Source and cost feasibility audit only; no implementation, build, correctness test, microbenchmark, or E2E result.",
+    "findings": {
+      "active_kernel": "Packed PTQ1_0 digits are decoded in registers and fed directly to DP4A; isum implements signed digit-1.",
+      "int8_mma": "m16n8k16 requires expanded/staged signed-byte weights and computes 8 output columns for batch-1 GEMV, yielding 8x aggregate products versus useful products.",
+      "bit_sliced": "Arbitrary signed-int8 activations do not permit replacing the weighted sum with simple popcount; mask extraction still needs base-3 decode."
     },
-    "first_divergence": {
-      "generated_position_zero_based": 66,
-      "target_only_token": 1167,
-      "mtp_draft_token": 18912,
-      "mtp_verdict": "reject",
-      "mtp_target_token_and_emission": 6195,
-      "target_only_sampler_matches_server_emissions": "128/128",
-      "mtp_sampler_matches_server_emissions": "128/128",
-      "post_bias_logits": {
-        "target_only": {
-          "token_1167": 8.84235477,
-          "token_6195": 8.55384827,
-          "winner_margin": 0.2885065
-        },
-        "mtp_batched_target": {
-          "token_6195": 8.84262085,
-          "token_1167": 8.83678246,
-          "winner_margin": 0.00583839
-        },
-        "relative_gap_shift_token_6195_minus_1167": 0.29434489
-      }
-    },
-    "correctness": "Verifier emits its selected target token after rejecting the draft. Same-prefix target logits differ between target-only single-token and MTP three-position target evaluation; exact greedy parity fails. Lower-level cause and other divergent family/context cells remain unlocalized.",
-    "performance_context": "Exp071 MTP pooled server decode was +9.9% at context 512 and -0.9% at 4096 versus PTQ1_0; no rerun in this diagnostic.",
     "production_code_changed": false,
     "current_best_unchanged": true,
     "artifacts": [
-      "experiments/072-mtp-token-correctness/REPORT.md",
-      "results/exp072/raw/aligned_logits_ctx512_qwen.csv",
-      "results/exp072/raw/natural_r5_bundle_target_ctx512_trace.server.log",
-      "results/exp072/raw/natural_r5_pq2_0_mtp_ctx512_trace.server.log"
+      "experiments/073-sm86-gemv-alternative/REPORT.md",
+      "results/exp073/design_audit.txt"
     ],
-    "timestamp_utc": "2026-10-07T18:37:10Z"
+    "timestamp_utc": "2026-10-07T19:28:49Z"
   },
-  "updated_timestamp_utc": "2026-10-07T19:17:45Z",
+  "updated_timestamp_utc": "2026-10-07T19:28:49Z",
   "project_commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
   "current_best": {
     "commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
@@ -1286,5 +1252,60 @@
       "comparison": "PTQ1_0 medians are +0.40%/+0.35% versus the earlier four-pair Exp062 medians at contexts 512/4096. This is a one-arm rebuild validation screen, not a paired A/B or an optimization claim.",
       "timestamp_utc": "2026-10-07T19:17:45Z"
     }
-  }
+  },
+  "experiment_history": [
+    {
+      "id": "072",
+      "hypothesis": "Determine whether Exp071 MTP output divergence is caused by verification/sampler behavior or target batch-shape-sensitive logits.",
+      "decision": "REJECT MTP candidate; exact target-only greedy parity fails in the focused ctx512 Qwen case. No current-best change.",
+      "hardware": "NVIDIA GeForce RTX 3080, sm_86",
+      "configuration": {
+        "format": "PQ2_0 target bundle with optional MTP-Q8_0 head",
+        "prompt_family": "fixed Exp071 natural Qwen source prompt, index 1",
+        "context_tokens": 512,
+        "generated_tokens": 128,
+        "temperature": 0,
+        "top_k": 1,
+        "seed": 42,
+        "server_context": 4608,
+        "target_batch_positions": {
+          "target_only": 1,
+          "mtp_verification": 3
+        }
+      },
+      "first_divergence": {
+        "generated_position_zero_based": 66,
+        "target_only_token": 1167,
+        "mtp_draft_token": 18912,
+        "mtp_verdict": "reject",
+        "mtp_target_token_and_emission": 6195,
+        "target_only_sampler_matches_server_emissions": "128/128",
+        "mtp_sampler_matches_server_emissions": "128/128",
+        "post_bias_logits": {
+          "target_only": {
+            "token_1167": 8.84235477,
+            "token_6195": 8.55384827,
+            "winner_margin": 0.2885065
+          },
+          "mtp_batched_target": {
+            "token_6195": 8.84262085,
+            "token_1167": 8.83678246,
+            "winner_margin": 0.00583839
+          },
+          "relative_gap_shift_token_6195_minus_1167": 0.29434489
+        }
+      },
+      "correctness": "Verifier emits its selected target token after rejecting the draft. Same-prefix target logits differ between target-only single-token and MTP three-position target evaluation; exact greedy parity fails. Lower-level cause and other divergent family/context cells remain unlocalized.",
+      "performance_context": "Exp071 MTP pooled server decode was +9.9% at context 512 and -0.9% at 4096 versus PTQ1_0; no rerun in this diagnostic.",
+      "production_code_changed": false,
+      "current_best_unchanged": true,
+      "artifacts": [
+        "experiments/072-mtp-token-correctness/REPORT.md",
+        "results/exp072/raw/aligned_logits_ctx512_qwen.csv",
+        "results/exp072/raw/natural_r5_bundle_target_ctx512_trace.server.log",
+        "results/exp072/raw/natural_r5_pq2_0_mtp_ctx512_trace.server.log"
+      ],
+      "timestamp_utc": "2026-10-07T18:37:10Z"
+    }
+  ]
 }

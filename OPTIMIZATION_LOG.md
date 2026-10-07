@@ -371,3 +371,9 @@
 - Screened PTQ1_0 with logical batch fixed at 2048 and global `ub=128/256/512/1024/2048`, three samples each at prompts 128/512/2048/4096. Peaks ranged from 6,403 to 8,363 MiB.
 - Larger ubatches improved 2048/4096 prompts slightly (+1.85%/+1.79% at ub=2048) but reduced 128/512 performance (-1.33%/-1.49%). Smaller values lost more at long prompts. Fixed-seed 32-token output text matched ub=512; only performance diagnostics differed.
 - **REVERT / keep `ub=512`.** No global setting consistently improved all prompt lengths, so no seven-repetition confirmation, decode A/B, or PQ2 finalist was warranted. No source or model math changed. See `experiments/067-prefill-ubatch-sweep/REPORT.md` and `results/exp067/`.
+
+## Experiment 073: fresh sm_86 PTQ1_0 GEMV design challenge
+
+- A source and cost audit screened a signed-int8 `m16n8k16` Tensor Core mapping and positive/negative bit-sliced masks. The current active kernel already decodes packed PTQ1_0 digits in registers and feeds raw digits to DP4A, with `isum` implementing the signed `digit-1` correction.
+- The batch-1 MMA candidate would expand and stage a 16x128 signed-byte weight tile and compute eight output columns for one useful column. Arbitrary signed-int8 activations also prevent replacing the dot with a simple popcount. No candidate survived feasibility; there was no build, correctness claim, microbenchmark, or E2E measurement.
+- **NO CANDIDATE; current best unchanged.** Future GEMV work should first quantify the memory/throughput ceiling empirically because Nsight Compute counters remain unavailable. See `experiments/073-sm86-gemv-alternative/REPORT.md` and `results/exp073/design_audit.txt`.
