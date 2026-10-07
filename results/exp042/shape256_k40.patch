@@ -1,0 +1,46 @@
+--- a/ggml/src/ggml-cuda/mmvq-ptq1_0.cuh
++++ b/ggml/src/ggml-cuda/mmvq-ptq1_0.cuh
+@@ -33,0 +34 @@
++#ifndef PTQ1_0_PT_THREADS
+@@ -34,0 +36 @@
++#endif
+@@ -253 +255 @@
+-static __host__ int ptq1_0_pt_rows_per_cta(const int blocks_per_row, const int ncols_dst, const int nrows_x, const int rows_per_item) {
++static __host__ int ptq1_0_pt_rows_per_cta(const int blocks_per_row, const int ncols_dst, const int nrows_x, const int rows_per_item, const int pt_threads) {
+@@ -261,2 +263,2 @@
+-        const int iters = (items + PTQ1_0_PT_THREADS - 1) / PTQ1_0_PT_THREADS;
+-        const double util = (double) items / (double) (iters * PTQ1_0_PT_THREADS);
++        const int iters = (items + pt_threads - 1) / pt_threads;
++        const double util = (double) items / (double) (iters * pt_threads);
+@@ -295 +297 @@
+-    const int rows_per_cta = ptq1_0_pt_rows_per_cta(blocks_per_row, ncols_dst, nrows_x, ptq1_0_pt_rows_per_item(ncols_dst));
++    const int rows_per_cta = ptq1_0_pt_rows_per_cta(blocks_per_row, ncols_dst, nrows_x, ptq1_0_pt_rows_per_item(ncols_dst), PTQ1_0_PT_THREADS);
+@@ -299,2 +301,2 @@
+-template <int ncols, int ROWS, bool has_fusion, bool has_gate>
+-__launch_bounds__(PTQ1_0_PT_THREADS, (ncols <= 2 ? 4 : (ncols <= 4 ? PTQ1_0_PT_MINB_34 : 2)))
++template <int ncols, int ROWS, bool has_fusion, bool has_gate, int PT_THREADS>
++__launch_bounds__(PT_THREADS, (ncols <= 2 ? 4 : (ncols <= 4 ? PTQ1_0_PT_MINB_34 : 2)))
+@@ -334 +336 @@
+-    for (int idx = tid; idx < n_items; idx += PTQ1_0_PT_THREADS) {
++    for (int idx = tid; idx < n_items; idx += PT_THREADS) {
+@@ -381 +383 @@
+-        for (int w = warp; w < rows_per_cta*ncols; w += PTQ1_0_PT_THREADS / WARP_SIZE) {
++        for (int w = warp; w < rows_per_cta*ncols; w += PT_THREADS / WARP_SIZE) {
+@@ -435 +437 @@
+-    for (int p = tid; p < rows_per_cta*ncols; p += PTQ1_0_PT_THREADS) {
++    for (int p = tid; p < rows_per_cta*ncols; p += PT_THREADS) {
+@@ -492 +494 @@
+-template <int ncols>
++template <int ncols, int PT_THREADS = PTQ1_0_PT_THREADS>
+@@ -502 +504 @@
+-    const int rows_per_cta = ptq1_0_pt_rows_per_cta(bpr, ncols, nrows_x, ROWS);
++    const int rows_per_cta = ptq1_0_pt_rows_per_cta(bpr, ncols, nrows_x, ROWS, PT_THREADS);
+@@ -506 +508 @@
+-    const dim3 block_dims(PTQ1_0_PT_THREADS, 1, 1);
++    const dim3 block_dims(PT_THREADS, 1, 1);
+@@ -512 +514 @@
+-    ggml_cuda_kernel_launch(mul_mat_vec_ptq1_0_pt<ncols, ROWS, FUS, GATE>, lp,                                           \
++    ggml_cuda_kernel_launch(mul_mat_vec_ptq1_0_pt<ncols, ROWS, FUS, GATE, PT_THREADS>, lp,                                           \
+@@ -544 +546 @@
+-        case 1: mul_mat_vec_ptq1_0_pt_launch<1>(vx, vy, fusion, dst, ncols_x, nrows_x, stride_row_x, stride_col_y, stride_col_dst, stream); break;
++        case 1: if (ncols_x / QK_PTQ1_0 == 40) { mul_mat_vec_ptq1_0_pt_launch<1, 256>(vx, vy, fusion, dst, ncols_x, nrows_x, stride_row_x, stride_col_y, stride_col_dst, stream); } else { mul_mat_vec_ptq1_0_pt_launch<1, 128>(vx, vy, fusion, dst, ncols_x, nrows_x, stride_row_x, stride_col_y, stride_col_dst, stream); } break;

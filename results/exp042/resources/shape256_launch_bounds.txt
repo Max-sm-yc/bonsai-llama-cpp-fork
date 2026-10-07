@@ -1,0 +1,2 @@
+.maxntid 128, 1, 1
+.maxntid 256, 1, 1

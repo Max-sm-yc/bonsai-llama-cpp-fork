@@ -185,3 +185,17 @@ AGENTS.local.md
 # commit compact benchmark, correctness, source, and report files instead.
 /results/exp025/libs/
 /results/exp025/*_resources.txt
+
+# Experiment 042: keep copied runtime builds and full SASS/resource dumps local;
+# commit compact summaries, raw benchmark JSON, screens, and source artifacts.
+/results/exp042/control/
+/results/exp042/shape256_k40/
+/results/exp042/width64/
+/results/exp042/width128/
+/results/exp042/width256/
+/results/exp042/width512/
+/results/exp042/cta_width_screen
+/results/exp042/raw/
+/results/exp042/resources/width*.txt
+/results/exp042/resources/shape256_k40.txt
+/results/exp042/sass/

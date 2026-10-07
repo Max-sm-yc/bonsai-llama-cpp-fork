@@ -813,23 +813,35 @@
     ]
   },
   "latest_research_measurement": {
-    "id": "041",
-    "description": "Matched, reversed-order frozen-reference/current-best comparison across decode, prefill, and combined workloads.",
-    "decision": "Current best retained; measurement only.",
-    "decode_improvement_percent": {
-      "512": 6.819693455636955,
-      "4096": 5.757561114137744
+    "id": "042",
+    "description": "Swept active planar PTQ1_0 GEMV CTA widths 64/128/256/512 with matched row-tile selection; exact work-plus-fold screens and a K=40-only 256-thread runtime dispatch.",
+    "decision": "REVERT; keep the fixed 128-thread production implementation. Shape-specific candidate regressed paired decode medians.",
+    "focused_work_fold_change_percent_vs_128": {
+      "K40": {
+        "64": 0.22,
+        "128": -0.04,
+        "256": -1.16,
+        "512": 3.65
+      },
+      "K136": {
+        "64": 2.04,
+        "128": 0.0,
+        "256": 1.53,
+        "512": 1.91
+      }
     },
-    "prefill_improvement_percent": {
-      "128": -0.08662059791413323,
-      "512": -0.00036300275882972244,
-      "2048": 0.01660173543476251,
-      "4096": 0.011260331354034925
+    "shape_specific_e2e_decode_change_percent": {
+      "512": -0.5954868491166221,
+      "4096": -0.6759215898659576
     },
-    "combined_improvement_percent": {
-      "512": 5.669884197517927,
-      "4096": 1.9558114494852896
-    },
-    "timestamp_utc": "2026-10-07T05:25:54+00:00"
+    "artifacts": [
+      "experiments/042-cta-width-sweep/REPORT.md",
+      "results/exp042/README.md",
+      "results/exp042/control_forward.json",
+      "results/exp042/candidate_forward.json",
+      "results/exp042/candidate_reverse.json",
+      "results/exp042/control_reverse.json"
+    ],
+    "timestamp_utc": "2026-10-07T05:52:34+00:00"
   }
 }
