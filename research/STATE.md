@@ -32,6 +32,10 @@
 - CUDA Graphs are active (127 graph launches in the context-512 trace). Focus on device work and measured fusion. Q/K/V share memoized activation transforms; keep Exp036 guards. Nsight timings include setup and decode, not decode-only attribution.
 - Repeated context-4096 decode samples have slow tails in both arms. Preserve all repetitions/ranges and use medians. Verify candidate library paths with `ldd`/`LD_DEBUG`; earlier absolute RUNPATHs caused false A/Bs.
 
+## Latest research result
+
+- Exp046 challenged the active PTQ1_0 batch-1 GEMV mapping and found no distinct candidate outside already-screened decoder, lane-mapping, staging, and scheduling families. No implementation or new performance/correctness measurements were produced; decision: NO CANDIDATE / REVERT. Current best and production path are unchanged. See `experiments/046-ptq1-dataflow-challenge/REPORT.md`.
+
 ## Next candidates
 
-1. Fresh design challenge of active PTQ1_0 batch-1 GEMV (Exp046): seek a materially different sm_86 dataflow that reduces ternary decode/integer work while preserving the compressed weight path. Existing LUT, recurrence, warp split, strip-mining, side encodings, staging, and geometry/launch-bound variants are exhausted; require a new exact focused candidate before E2E. If none survives, re-profile other decode bottlenecks.
+1. Re-profile other decode bottlenecks or wait for a genuinely new PTQ1_0 codegen/representation premise. Any new proposal must first pass exact active-layout focused screens at K=40 and K=136.
