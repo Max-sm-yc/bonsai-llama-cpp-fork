@@ -49,7 +49,7 @@
 
 ## Experiment status
 
-- Exp077–079 completed with no production change. Exp077 did not qualify MTP/global arithmetic promotion; Exp078 rejected signed bit planes (+14.3% weight storage); Exp079 found a cold single-matrix L2-policy microgain but no model benefit (max reservation −0.85–0.89%; exact-size −0.16%/flat). Current best remains unchanged.
+- Exp077–079 completed with no production change. Exp077 did not qualify MTP/global arithmetic promotion; Exp078 rejected signed bit planes (+14.3% weight storage); Exp079 found a cold single-matrix L2-policy microgain but no model benefit (max reservation −0.85–0.89%; exact-size −0.16%/flat). Exp080 is active on a fresh PTQ1_0 GEMV dataflow challenge; current best remains unchanged.
 
 ## Latest research result
 
@@ -106,6 +106,6 @@
 
 ## Next candidates
 
-1. **Challenge the active PTQ1_0 batch-1 GEMV dataflow.** It remains 74–77% of steady decode graph time. Seek an exact, codegen-grounded mapping that changes the current row-group/K-block work decomposition or removes its partial/reduction overhead; test real 40- and 136-block shapes, and reject ideas that repeat decoder, side-encoding, CTA-width, cache, prefetch, staging, or warp-reduction screens already indexed in `EXPERIMENTS.md`.
+1. **Active Exp080: challenge the PTQ1_0 batch-1 GEMV dataflow.** It remains 74–77% of steady decode graph time. Seek an exact, codegen-grounded mapping that changes the current row-group/K-block work decomposition or removes its partial/reduction overhead; test real 40- and 136-block shapes, and reject ideas that repeat decoder, side-encoding, CTA-width, cache, prefetch, staging, or warp-reduction screens already indexed in `EXPERIMENTS.md`.
 2. Revisit PTQ1_0 prompt-side MMQ only with a concrete exact dataflow/decoder derivation; Exp065/066 closed geometry-only and ungrounded source screens.
 3. Revisit long-context attention only with a concrete parallel reduction or synchronization design; Exp069/053 closed tile-only and barrier-only directions.

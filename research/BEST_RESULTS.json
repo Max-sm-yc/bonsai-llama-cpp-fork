@@ -400,7 +400,7 @@
     ],
     "timestamp_utc": "2026-10-07T22:11:06Z"
   },
-  "updated_timestamp_utc": "2026-10-07T22:11:06Z",
+  "updated_timestamp_utc": "2026-10-07T22:14:12Z",
   "project_commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
   "current_best": {
     "commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
@@ -1658,5 +1658,14 @@
     ],
     "timestamp_utc": "2026-10-07T22:11:06Z"
   },
-  "active_experiment": null
+  "active_experiment": {
+    "id": "080",
+    "hypothesis": "Find and measure a new exact sm_86 PTQ1_0 GEMV work decomposition or partial-reduction dataflow.",
+    "status": "in_progress",
+    "base_project_commit": "f4c8740d3307648626ad708671221c93ecab2083",
+    "production_source_commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
+    "worktree": "/home/maxsun/autonomous_projects/bonsai2-rtx3080/.worktrees/exp080-ptq1-gemv-dataflow",
+    "assigned_model": "gpt-6-luna",
+    "current_best_unchanged": true
+  }
 }
