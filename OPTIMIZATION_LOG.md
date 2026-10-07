@@ -1,5 +1,10 @@
 # Optimization log
 
+## Experiment 071: PQ2_0 plus MTP-Q8_0 feasibility and RTX 3080 decode screen
+
+- The community model bundle loaded fully on CUDA sm_86 and peaked at 8,485 MiB. In a matched three-family server harness it reached 86.86 vs 79.02 tok/s pooled at context 512 (+9.9%), but 65.26 vs 65.84 at context 4096 (-0.9%); the short-context gain was driven by high acceptance on one prompt family. These server rates are not directly comparable to the current `llama-bench` best.
+- Target-only bundle completions matched original PQ2_0 on all 42 paired requests. MTP completions differed from target-only greedy output in 3/6 family/context cases; the first differing token and target/draft logits were not captured, so tie behavior or verifier correctness is unresolved. A repetitive continuation was observed. **REVERT model-only candidate; no production source changed.** Follow with a focused token/logit audit before considering further performance work. See `experiments/071-bonsai-mtp-sm86/REPORT.md` and `results/exp071/`.
+
 ## Experiment 070: prompt-length-aware ubatch policy
 
 - A one-shot example's tokenized prompt length provided a generic threshold for requesting ub=2048 at 1536 tokens and above. Matched prompt+128-generation screens gained 1.66% at 2048 and 2.20% at 4096, with an 8,371 MiB whole-GPU peak, but seven-repetition decode comparisons at context 4096 were about 1.8% slower in both arm orders. Fixed-seed short/long completion text matched. Because ubatch stays fixed through decode, the policy failed the decode gate; temporary source changes were reverted. See `experiments/070-adaptive-ubatch/REPORT.md` and `results/exp070/`.

@@ -1,6 +1,6 @@
 # Exp071: Ternary Bonsai 2 PQ2_0 + MTP-Q8_0 on RTX 3080 sm_86
 
-**Decision: REVERT (model-only candidate).** The candidate loaded and ran on CUDA within the 10 GiB device, and speculative decoding gave a clear average speedup on this three-family natural-context set. It did not beat PTQ1_0 consistently across prompt families, and speculative completions differed materially from target-only greedy completions in four of six family/context cases, including a repetitive `corrupted` continuation. Target verification is present in the runtime, but the observed text differences were not traced to harmless floating-point ties. The evidence is not sufficient to promote it as the production best.
+**Decision: REVERT (model-only candidate).** The candidate loaded and ran on CUDA within the 10 GiB device, and speculative decoding gave a clear average speedup on this three-family natural-context set. It did not beat PTQ1_0 consistently across prompt families, and speculative completions differed materially from target-only greedy completions in three of six family/context cases, including a repetitive `corrupted` continuation. Target verification is present in the runtime, but the observed text differences were not traced to harmless floating-point ties. The evidence is not sufficient to promote it as the production best.
 
 ## Hypothesis and setup
 
@@ -66,7 +66,7 @@ The family spread is substantial. The very high short-context reports acceptance
 
 Target-only outputs from the candidate bundle matched original PQ2_0 exactly for all three fixed prompts at both contexts. This supports target-weight compatibility with the original PQ2 model on this sample set.
 
-MTP outputs were stable across the seven repetitions within each prompt, but differed from candidate target-only greedy text for four of six family/context combinations:
+MTP outputs were stable across the seven repetitions within each prompt, but differed from candidate target-only greedy text for three of six family/context combinations:
 
 | Context | Reports | Qwen graph C++ | Speculative C++ |
 |---|---|---|---|

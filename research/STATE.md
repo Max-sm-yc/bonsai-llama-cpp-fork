@@ -42,9 +42,11 @@
 
 ## Active experiment
 
-- Exp071: feasibility and RTX 3080 decode trial of the community PQ2_0+MTP-Q8_0 model bundle. Candidate must beat the current PTQ1_0 best under a matched server benchmark, pass greedy/correctness checks, and fit within 10 GiB. No candidate result yet.
+- None. Exp071's MTP candidate is not promoted: it reached 8,485 MiB, pooled +9.9% at ctx512 / -0.9% at ctx4096 in the server harness, and differed from target-only greedy outputs in 3/6 family/context cases. A focused token/logit correctness audit is next; production remains the verified PTQ1_0 build.
 
 ## Latest research result
+
+- Exp071 screened the community PQ2_0+MTP bundle on CUDA sm_86. It fit under 10 GiB, but its short-context pooled server gain was prompt-family dependent, long-context aggregate was slightly below PTQ1_0, and three of six family/context outputs diverged without a proven tie explanation. The model-only candidate is rejected pending token-level verification evidence; no source or best-result change. See `experiments/071-bonsai-mtp-sm86/REPORT.md` and `results/exp071/`.
 
 - Exp070 found that a one-shot caller can tokenize before context creation, while llama-cli's server creates its shared context before arbitrary requests. A 1536-token threshold for ub=2048 screened positively for long prefill; matched combined 2048/4096 prompt+128-gen medians improved 1.66%/2.20%, and fixed-seed completion text matched. However, ub=2048 decode at context 4096 measured ~1.8% slower in both seven-repetition arm orders, so the task's no-decode-slow gate failed and the temporary example implementation was reverted. Peak whole-GPU memory was 8371 MiB in combined mode and 7973 MiB in the long one-shot smoke. See `experiments/070-adaptive-ubatch/REPORT.md` and `results/exp070/`.
 
