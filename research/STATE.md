@@ -42,7 +42,7 @@
 
 ## Active experiment
 
-- None. Exp072 resolved the focused ctx512 Qwen verifier boundary: MTP rejected draft 18912 and emitted its target choice, but the three-position target batch chose 6195 where target-only chose 1167 at the same prefix. MTP remains unpromoted; production remains the verified PTQ1_0 build.
+- Exp073 is assigned to one explicitly GPT-6 Luna experimenter: fresh sm_86 challenge to the active PTQ1_0 batch-1 GEMV using a materially different integer/Tensor Core or bit-sliced formulation. Isolated worktree only; no main-source changes. Exp072's focused ctx512 Qwen audit resolved the verifier boundary but found batch-shape-sensitive target logits; MTP remains unpromoted and production remains PTQ1_0.
 
 ## Latest research result
 
