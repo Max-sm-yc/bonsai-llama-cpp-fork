@@ -1,0 +1,6 @@
+ggml_cuda_init: found 1 CUDA devices (Total VRAM: 9867 MiB):
+  Device 0: NVIDIA GeForce RTX 3080, compute capability 8.6, VMM: yes, VRAM: 9867 MiB
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+Exp060 concat/cache fused and fallback cases passed exact output/cache checks

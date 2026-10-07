@@ -1,0 +1,43 @@
+GPU ready at 51 C and 0% utilization after 0s
+[PTQ1_0] cooldown gate sample: {'memory_used_mib': 173.0, 'utilization_percent': 0.0, 'temperature_c': 51.0, 'power_w': 26.83, 'sm_clock_mhz': 210.0}
+[PTQ1_0] decode: contexts=[512], repetitions=7
+wrote /home/maxsun/autonomous_projects/.worktrees/exp060-concat-cache-fusion/results/exp060/pair1_base_ctx512.json
+GPU ready at 59 C and 0% utilization after 0s
+[PTQ1_0] cooldown gate sample: {'memory_used_mib': 173.0, 'utilization_percent': 0.0, 'temperature_c': 59.0, 'power_w': 242.82, 'sm_clock_mhz': 1995.0}
+[PTQ1_0] decode: contexts=[512], repetitions=7
+wrote /home/maxsun/autonomous_projects/.worktrees/exp060-concat-cache-fusion/results/exp060/pair1_cand_ctx512.json
+waiting for GPU cooldown: 62 C, utilization 0%
+GPU ready at 59 C and 0% utilization after 5s
+[PTQ1_0] cooldown gate sample: {'memory_used_mib': 173.0, 'utilization_percent': 0.0, 'temperature_c': 59.0, 'power_w': 46.94, 'sm_clock_mhz': 210.0}
+[PTQ1_0] decode: contexts=[4096], repetitions=7
+wrote /home/maxsun/autonomous_projects/.worktrees/exp060-concat-cache-fusion/results/exp060/pair1_base_ctx4096.json
+waiting for GPU cooldown: 66 C, utilization 6%
+GPU ready at 60 C and 0% utilization after 15s
+[PTQ1_0] cooldown gate sample: {'memory_used_mib': 173.0, 'utilization_percent': 0.0, 'temperature_c': 60.0, 'power_w': 29.27, 'sm_clock_mhz': 210.0}
+[PTQ1_0] decode: contexts=[4096], repetitions=7
+wrote /home/maxsun/autonomous_projects/.worktrees/exp060-concat-cache-fusion/results/exp060/pair1_cand_ctx4096.json
+waiting for GPU cooldown: 68 C, utilization 0%
+waiting for GPU cooldown: 61 C, utilization 0%
+GPU ready at 60 C and 0% utilization after 45s
+[PTQ1_0] cooldown gate sample: {'memory_used_mib': 173.0, 'utilization_percent': 0.0, 'temperature_c': 60.0, 'power_w': 28.95, 'sm_clock_mhz': 210.0}
+[PTQ1_0] decode: contexts=[512], repetitions=7
+wrote /home/maxsun/autonomous_projects/.worktrees/exp060-concat-cache-fusion/results/exp060/pair2_cand_ctx512.json
+waiting for GPU cooldown: 68 C, utilization 6%
+waiting for GPU cooldown: 61 C, utilization 0%
+GPU ready at 60 C and 0% utilization after 45s
+[PTQ1_0] cooldown gate sample: {'memory_used_mib': 173.0, 'utilization_percent': 0.0, 'temperature_c': 60.0, 'power_w': 29.17, 'sm_clock_mhz': 210.0}
+[PTQ1_0] decode: contexts=[512], repetitions=7
+wrote /home/maxsun/autonomous_projects/.worktrees/exp060-concat-cache-fusion/results/exp060/pair2_base_ctx512.json
+waiting for GPU cooldown: 68 C, utilization 0%
+waiting for GPU cooldown: 62 C, utilization 0%
+GPU ready at 60 C and 0% utilization after 55s
+[PTQ1_0] cooldown gate sample: {'memory_used_mib': 173.0, 'utilization_percent': 0.0, 'temperature_c': 60.0, 'power_w': 29.18, 'sm_clock_mhz': 210.0}
+[PTQ1_0] decode: contexts=[4096], repetitions=7
+wrote /home/maxsun/autonomous_projects/.worktrees/exp060-concat-cache-fusion/results/exp060/pair2_cand_ctx4096.json
+waiting for GPU cooldown: 69 C, utilization 0%
+waiting for GPU cooldown: 62 C, utilization 0%
+waiting for GPU cooldown: 61 C, utilization 0%
+GPU ready at 60 C and 0% utilization after 65s
+[PTQ1_0] cooldown gate sample: {'memory_used_mib': 173.0, 'utilization_percent': 0.0, 'temperature_c': 60.0, 'power_w': 29.47, 'sm_clock_mhz': 210.0}
+[PTQ1_0] decode: contexts=[4096], repetitions=7
+wrote /home/maxsun/autonomous_projects/.worktrees/exp060-concat-cache-fusion/results/exp060/pair2_base_ctx4096.json
