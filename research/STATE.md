@@ -40,6 +40,10 @@
 - Exp052 compared the formats under the same runtime: each replay has 361 GEMV nodes in both formats, but PQ2_0 uses `mul_mat_vec_q<type 142>` and averages 10.71 ms versus PTQ1_0's dedicated planar `mul_mat_vec_ptq1_0_pt` at 9.02 ms. PQ2_0 also has 441 extra nodes/replay and ~0.59 ms more activation-prep plus standalone RMSNorm time. The PTQ1_0 model payload is 17.5% smaller. Systems timing cannot distinguish weight traffic from decoder/instruction/occupancy effects; Nsight Compute counters remain unavailable. See [Exp052](../experiments/052-pq2-steady-profile/REPORT.md).
 - Repeated context-4096 decode samples have slow tails in both arms. Preserve all repetitions/ranges and use medians. Verify candidate library paths with `ldd`/`LD_DEBUG`; earlier absolute RUNPATHs caused false A/Bs.
 
+## Active experiment
+
+- Exp067 screens one global PTQ1_0 prefill `ubatch_size` while holding `-b 2048` fixed. Compare the same setting across prompts 128/512/2048/4096; keep model math unchanged and measure VRAM plus batch-1 decode controls. This follows the no-candidate Exp066 MMQ source audit.
+
 ## Latest research result
 
 - Exp066 confirmed type-143 MMQ PTX still emits the dependent multiply-by-three digit expansion and shared stores. Source review did not identify a feasible local replacement; no candidate or timing result. Current best is unchanged. See `experiments/066-ptq1-mmq-dataflow/REPORT.md`.
