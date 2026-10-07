@@ -6,7 +6,7 @@ Ranked against the current ROWS=1 implementation. Controlled batch-1 model decod
 
 ## Open candidates
 
-1. **PTQ1_0 prefill MMQ.** Profile the actual `-p 128/512/2048/4096 -n 0` path on RTX 3080, identify dominant `mul_mat_q` shapes, and screen existing MMQ tile/warp choices. Prefill remains near 1.3k tokens/s and no focused MMQ tuning is indexed; preserve decode performance and model correctness.
+1. **PTQ1_0 prefill MMQ, different dataflow premise.** Exp065 directly profiled the `-p 4096 -n 0` path: type-143 MMQ is 65.5% of captured kernel time. Its 128-thread/I=64 tile schedule lost by 3.3–15.6% across profiled prompts. Reopen with a materially different mapping, unpack/compute strategy, or compiler-level premise; do not repeat the I=64 schedule screen. Any candidate must pass correctness and focused replay before same-session prefill E2E comparison, while confirming decode stays unchanged.
 2. **PTQ1_0 batch-1 GEMV:** still dominates at 74–76% of steady decode kernel time, but decoder, layout, cache, prefetch, staging, geometry, scheduling, and paired K/V CTA mappings have been extensively tested. Reopen only with a genuinely new dataflow/codegen premise.
 3. **Long-context FlashAttention:** Exp053's valid 64/64 single-stage Ampere tile regressed focused time by 17.2% at context 512 and 11.3% at 4096; 96/96 failed a compile invariant. Reopen only with a design that reduces Stream-K fixup cost. See `experiments/053-flash-attention-longctx/REPORT.md`.
 

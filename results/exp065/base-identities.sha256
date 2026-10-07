@@ -1,0 +1,7 @@
+85693517f0c078c4801e0836c1fe281577b4fdcdd5cca5b303e6ed070d04495b  build-exp065/bin/llama-bench
+1898e7cc90e2fc6193511a55eb2ce7c8e6ce0b2583d258138dfce3784ff723ad  build-exp065/bin/libggml-cuda.so.0.21.0
+af008202442146c3e4553fa42b251d09c13967f799ddb2ed4d373697b04fae89  ggml/src/ggml-cuda/mmq.cu
+71886535bbb3b7fc0c39575abfb2219ba226fe9e8bfc040248c2e165a483cd31  ggml/src/ggml-cuda/mmq.cuh
+6631e4c06c0538774822e850414dc5846c1a0486ea5a5c9dab541e9b0b8b07e0  ggml/src/ggml-cuda/mmq-config-ampere.cuh
+4312755ddfc498f23c9be34f1771bb929c9c474fd8089451c41234968e6400ba  ggml/src/ggml-cuda/mmq-load-tiles.cuh
+071639b9d69f97d1bd28819b5cb2b21a814e17514dd74da1f3d4196151497720  ggml/src/ggml-cuda/mmq-vec-dot.cuh

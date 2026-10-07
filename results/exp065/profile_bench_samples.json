@@ -1,0 +1,21 @@
+{
+  "note": "All llama-bench rates below are Nsight Systems-instrumented diagnostic samples; not unprofiled end-to-end claims.",
+  "settings": {
+    "n_gpu_layers": 99,
+    "flash_attention": true,
+    "batch_size": 2048,
+    "ubatch_size": 512,
+    "kv": "f16/f16",
+    "cpu_threads": 8,
+    "repetitions": 2,
+    "warmup": "llama-bench default"
+  },
+  "observations": [
+    {"prompt_tokens":128,"arm":"base","average_tok_s":1167.749342,"stddev_tok_s":143.939242,"samples_tok_s":[1065.97,1269.53]},
+    {"prompt_tokens":128,"arm":"candidate","average_tok_s":1060.808513,"stddev_tok_s":121.296217,"samples_tok_s":[975.039,1146.58]},
+    {"prompt_tokens":512,"arm":"base","average_tok_s":1346.626970,"stddev_tok_s":44.021220,"samples_tok_s":[1315.5,1377.75]},
+    {"prompt_tokens":512,"arm":"candidate","average_tok_s":1324.493354,"stddev_tok_s":43.259462,"samples_tok_s":[1293.9,1355.08]},
+    {"prompt_tokens":4096,"arm":"base","average_tok_s":1352.157479,"stddev_tok_s":1.609510,"samples_tok_s":[1353.3,1351.02]},
+    {"prompt_tokens":4096,"arm":"candidate","average_tok_s":1331.723950,"stddev_tok_s":0.808534,"samples_tok_s":[1332.3,1331.15]}
+  ]
+}

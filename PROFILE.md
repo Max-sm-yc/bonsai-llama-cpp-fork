@@ -183,3 +183,9 @@ Runtime scheduler captures at contexts 512 and 4096 classified all 48 repeated S
 ## Exp064 cooperative alias-fusion screen
 
 The cooperative variant established that CUDA Graph capture and replay work for `this_grid().sync()` on this RTX 3080: the 80-CTA production grid fit under the measured 816-CTA residency bound (12 CTAs/SM × 68 SMs). The focused capture changed the local SSM+L2 path from two nodes to one, but mean graph replay rose from 3.168 to 3.408 µs/site (+7.6%). The matched model pairs were flat at both contexts (−0.016% at 512, +0.030% at 4096), so the candidate was rejected. It did not change the production bottleneck ranking; keep the Exp062 disjoint alias guard. Manager-verified traces, occupancy output, sanitizer logs, and raw A/B samples are in `results/exp064/`.
+
+## Exp065 direct PTQ1_0 prefill profile
+
+The dedicated 4,096-token prompt run (`-p 4096 -n 0`) puts type-143 `mul_mat_q` at 65.5% of captured GPU kernel time: 5.882 s over 9,528 launches, 617.3 µs mean and 667.5 µs median. It selected J=128 with 256-thread CTAs, 254 registers/thread, and 57,856 B dynamic shared memory. This confirms MMQ as the leading prefill-only kernel family; steady batch-1 decode remains GEMV-bound.
+
+The 128-thread/I=64 candidate lowered shared memory to 38,400 B and could fit two CTAs by resource arithmetic, but its type-143 family was slower in the matched Nsight captures: +15.6% at prompt 128, +3.8% at 512, and +3.3% at 4096. The experiment did not collect Nsight Compute achieved-occupancy counters or an unprofiled candidate A/B. Do not treat resource capacity as measured occupancy. Report and all raw captures/CSV exports are in `experiments/065-ptq1-prefill-mmq/REPORT.md` and `results/exp065/`.

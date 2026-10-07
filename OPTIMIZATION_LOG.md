@@ -330,3 +330,9 @@
 - The alias test matched the generic path byte-for-byte, including the overwritten input range. Compute Sanitizer reported zero racecheck hazards, synccheck errors, and memcheck errors. The broader correctness script could not complete because a full NVCC rebuild exceeded the shared `/tmp` quota; focused tests did execute against the candidate library.
 - Focused graph replay was 3.408 µs cooperative versus 3.168 µs generic combined (+7.6%). Two reversed seven-repetition model A/B pairs were flat: −0.016% at context 512 and +0.030% at 4096. Peak VRAM was unchanged (6,579/6,803 MiB).
 - **REVERT.** Keep the Exp062 disjoint-site fusion and alias guard. The report and raw capture, sanitizer, and benchmark evidence are in `experiments/064-cooperative-ssm-l2-alias/REPORT.md` and `results/exp064/`.
+
+## Experiment 065: PTQ1_0 prefill MMQ schedule
+
+- A dedicated 4,096-token prompt capture measured type-143 `mul_mat_q` at 5.882 s / 9,528 launches (65.5% of captured kernel time). Baseline prefill medians were 1,315.80/1,400.21/1,383.66/1,359.56 tok/s at prompt lengths 128/512/2048/4096, with 6,793 MiB peak GPU use.
+- The tested 128-thread/I=64 tile lowered dynamic shared memory from 57,856 to 38,400 B. Despite a two-CTA resource budget, focused type-143 time regressed +15.6%/3.8%/3.3% at prompts 128/512/4096. These are profiler-instrumented comparisons; there was no unprofiled candidate A/B and no candidate correctness claim.
+- **REVERT.** Source and build-local CUDA library were hash-verified at baseline; the candidate library and raw Nsight Systems artifacts are retained. See `experiments/065-ptq1-prefill-mmq/REPORT.md` and `results/exp065/`.

@@ -1126,46 +1126,61 @@
     "timestamp_utc": "2026-10-07T12:50:36.609483+00:00"
   },
   "latest_research_audit": {
-    "id": "064",
-    "description": "Cooperative-grid fusion for the 24 aliased recurrent SSM/L2 sites.",
-    "result": "Production cooperative launch fit the measured RTX 3080 residency bound (80 CTAs requested; 816 capacity) and captured/replayed as one CUDA Graph node. Exact alias outputs and sanitizer checks passed. Focused graph replay was 3.408 us vs 3.168 us generic combined (+7.6%). Two reversed model A/B pairs were flat: -0.016% at context 512 and +0.030% at 4096; peak VRAM unchanged at 6,579/6,803 MiB.",
-    "decision": "REVERT; retain Exp062 as current best and keep its disjoint-range alias guard.",
+    "id": "065",
+    "description": "PTQ1_0 prefill type-143 MMQ schedule screen on sm_86.",
+    "result": "A direct 4096-token prefill capture measured type-143 MMQ at 5.882 s across 9,528 launches (65.5% of kernel time). The 128-thread/I=64 candidate had 38,400 B shared memory versus 57,856 B for baseline, but focused type-143 time regressed +15.6% at prompt 128, +3.8% at 512, and +3.3% at 4096. All three comparisons were Nsight-instrumented.",
+    "decision": "REVERT; keep the existing MMQ schedule and Exp062 as current best. No candidate correctness or unprofiled E2E claim.",
     "verified_by_manager": true,
-    "focused_replay_us": {
-      "generic": 3.168,
-      "cooperative": 3.408,
-      "cooperative_delta_percent": 7.6
-    },
-    "results": {
+    "focused_profile_ms": {
+      "128": {
+        "baseline": 183.845169,
+        "candidate": 212.588941,
+        "candidate_delta_percent": 15.63,
+        "launches_each": 1191
+      },
       "512": {
-        "generic_run_averages_tokens_per_second": [
-          84.695460,
-          84.303927
-        ],
-        "candidate_run_averages_tokens_per_second": [
-          84.571649,
-          84.400652
-        ],
-        "median_change_percent": -0.0160273,
-        "peak_gpu_memory_mib": 6579
+        "baseline": 723.672017,
+        "candidate": 751.420951,
+        "candidate_delta_percent": 3.84,
+        "launches_each": 1191
       },
       "4096": {
-        "generic_run_averages_tokens_per_second": [
-          81.788599,
-          81.734575
-        ],
-        "candidate_run_averages_tokens_per_second": [
-          81.783652,
-          81.789330
-        ],
-        "median_change_percent": 0.0304593,
-        "peak_gpu_memory_mib": 6803
+        "baseline": 5881.83774,
+        "candidate": 6078.349553,
+        "candidate_delta_percent": 3.34,
+        "launches_each": 9528
       }
     },
-    "correctness": "Exact focused alias/model/fallback checks; racecheck, synccheck, and memcheck clean. Full correctness script did not run because the shared /tmp quota prevented a full NVCC rebuild.",
+    "profiled_benchmark_tok_s": {
+      "128": {
+        "baseline": 1167.75,
+        "candidate": 1060.81
+      },
+      "512": {
+        "baseline": 1346.63,
+        "candidate": 1324.49
+      },
+      "4096": {
+        "baseline": 1352.16,
+        "candidate": 1331.72
+      },
+      "note": "Nsight-instrumented diagnostic only; profiler overhead included."
+    },
+    "baseline_unprofiled_prefill_median_tok_s": {
+      "128": 1315.8,
+      "512": 1400.21,
+      "2048": 1383.66,
+      "4096": 1359.56
+    },
+    "baseline_peak_gpu_memory_mib": 6793,
+    "correctness": "Candidate profiling runs completed, but a separate candidate correctness suite was not run because the focused timing gate lost. No candidate correctness claim. Production baseline source/library hashes were restored and manager-verified.",
+    "baseline_source_sha256": "6631e4c06c0538774822e850414dc5846c1a0486ea5a5c9dab541e9b0b8b07e0",
+    "baseline_cuda_library_sha256": "1898e7cc90e2fc6193511a55eb2ce7c8e6ce0b2583d258138dfce3784ff723ad",
+    "candidate_cuda_library_sha256": "e2f331904174e389b754555fa19aa7e24bb3fdf56a6e31aca97d61b5c9ef5830",
     "artifacts": [
-      "experiments/064-cooperative-ssm-l2-alias/REPORT.md",
-      "results/exp064/"
-    ]
+      "experiments/065-ptq1-prefill-mmq/REPORT.md",
+      "results/exp065/"
+    ],
+    "timestamp_utc": "2026-10-07T14:19:55.660411+00:00"
   }
 }

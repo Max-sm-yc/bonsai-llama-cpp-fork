@@ -1,0 +1,4 @@
+326fa65e66555186579b308f9f2d6018573d55714fd7c915491555c5b36478d8  ggml/src/ggml-cuda/mmq-config-ampere.cuh (candidate source, before revert)
+e2f331904174e389b754555fa19aa7e24bb3fdf56a6e31aca97d61b5c9ef5830  candidate-runtime/libggml-cuda.so.0.21.0
+85693517f0c078c4801e0836c1fe281577b4fdcdd5cca5b303e6ed070d04495b  build-exp065/bin/llama-bench (same binary as base)
+53107f530aa52eb00912263ab1ee29bd199261c87cd7b4ad4ca1318c1fe33ee3  PTQ1_0 model
