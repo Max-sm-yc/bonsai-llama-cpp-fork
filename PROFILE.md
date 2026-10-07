@@ -140,3 +140,14 @@ The tested 64/64 single-stage Ampere tile reduced shared K/V storage from 67,584
 ## Frequent small decode signatures
 
 The baseline context-512 and 4096 node-level captures also expose several repeated kernels inside the ~1.0 ms/token “Other” family. At context 512 their totals are `cpy_scalar<&cpy_1_scalar<float,float>>` 0.209 ms (112 calls), `concat_cont<unsigned int>` 0.100 ms (48), `unary_gated_op_kernel<&op_silu,float>` 0.096 ms (72), `k_get_rows_float<float,float>` 0.093 ms (50), and `k_bin_bcast<&op_add,float,float,float,...>` 0.086 ms (49). Context-4096 totals are within about 1% of these values. Together these signatures account for roughly 0.584 ms/token, a ceiling before accounting for dependencies or fusion costs—not an expected gain. Raw per-signature timing is in `results/exp053/raw/base_ctx512.profile.json` and `base_ctx4096.profile.json`. Map them to actual graph operations and consumers before selecting one fusion to test.
+
+## Recurrent concat/cache fusion profile (Exp060)
+
+The one-token Qwen3.5 graph has 48 recurrent sites where the full F32 `[4,10240]` concat feeds SSM_CONV and a strided tail view is copied into the cache. A guarded CUDA kernel now writes both outputs in one launch while leaving recurrent-state updates and SSM_CONV untouched. Node-level captures contained 31 complete token replays per context:
+
+| Context | Nodes/replay | Concat/fused calls | CPY calls | Summed kernel time/replay |
+|---:|---:|---:|---:|---:|
+| 512 baseline → fused | 1,432 → 1,384 | 48 / 0.099598 ms → 48 / 0.080944 ms | 112 / 0.208986 ms → 64 / 0.111674 ms | 11.844936 → 11.726621 ms |
+| 4096 baseline → fused | 1,432 → 1,384 | 48 / 0.099511 ms → 48 / 0.080699 ms | 112 / 0.208968 ms → 64 / 0.111408 ms | 12.196336 → 12.079838 ms |
+
+This removes one cache CPY per recurrent block and reduces summed device-kernel replay time about 1%. Matched non-profiled model A/B pairs gained 0.95% at context 512 and 0.90% at context 4096; an independent manager pair also favored the fused build (+0.57% / +0.95%). Peak VRAM was unchanged at 6,579 / 6,803 MiB. PTQ1_0 GEMV remains the dominant bottleneck; use `experiments/060-concat-cache-fusion/REPORT.md` and `results/exp060/` for the complete graph, test, and benchmark evidence.

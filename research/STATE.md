@@ -2,9 +2,9 @@
 
 ## Current best
 
-- PTQ1_0 on RTX 3080/sm_86: ROWS=1 planar batch-1 GEMV plus Exp036 coordinated QKV RMS/FWHT/Q8 prep. Production code commit `c6cdaa5fa62787c97db58d1d2e1db666a4aeddb5`; reference runtime `6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17`.
-- Same-binary, two reversed-order pairs of seven decode runs: 83.35 tok/s at context 512 and 80.35 at 4096; Exp036 disabled control 81.99/79.13 (+1.65%/+1.55%). Direct Exp041 reference/current A/B: +6.82%/+5.76% decode at contexts 512/4096, with 6,803 MiB versus 6,805 MiB peak GPU memory. Prefill measured 1,291.9/1,377.4/1,355.5/1,332.3 tok/s at contexts 128/512/2048/4096 and matches the frozen reference within 0.09%.
-- Correctness: `tests/run_correctness.sh` passed selected CTests 5/5, backend CUDA-vs-CPU cases 96/96, and fixed-seed 32-token PTQ1_0/PQ2_0 smokes. Current main CUDA library SHA-256 `bad70d76b19fdd1b21f61e5c9eb4900b5334c638ff75cdec11f3a4d3b2b28642`.
+- PTQ1_0 on RTX 3080/sm_86: ROWS=1 planar batch-1 GEMV, Exp036 coordinated QKV RMS/FWHT/Q8 prep, and Exp060 recurrent CONCAT/cache-CPY fusion. Verified code commit `4cb2072d8534c45d0aed0da7472dfe6587e9c3ee`; reference runtime `6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17`.
+- Exp060's two reversed-order 7-repetition A/B pairs measured 84.265 tok/s at context 512 and 81.687 at 4096 (median of run medians), +0.95%/+0.90% over matched controls. The integrated main build independently measured 84.594/81.932 tok/s (single 7-sample run per context); manager matched reruns gained +0.54%/+0.93%. Peak VRAM remained 6,579/6,803 MiB. Exp036's earlier matched best was 83.35/80.35 tok/s (+1.65%/+1.55% over its disabled control). Prefill remains from Exp041: 1,291.9/1,377.4/1,355.5/1,332.3 tok/s at contexts 128/512/2048/4096, within 0.09% of the frozen reference; not remeasured for Exp060.
+- Correctness: Exp060 candidate `tests/run_correctness.sh` passed selected CTests 5/5, backend CUDA-vs-CPU cases 96/96, and fixed-seed PTQ1_0/PQ2_0 smokes; the integrated main build passed `test-exp060-concat-cache` 1/1. Current main CUDA library SHA-256 `8e54b08629aafaae0e835a4c630367fe8126e85f9df64199f34f0db2e2798c94`.
 
 ## Bottlenecks
 
@@ -17,6 +17,7 @@
 
 - Exp010: ROWS=1 lowered active specialization registers from 108 to 76/thread (no spills); matched decode improved +5.42%/+5.34% at contexts 512/4096 versus ROWS=4. ROWS=2 was 0.65–0.73% slower.
 - Exp036: shape/use-count-guarded coordinated RMS→weight/sign→FWHT/Q8 prep reduced combined norm/prep trace time by 30.4 ms and improved same-binary decode +1.65%/+1.55%. Default on; `GGML_CUDA_RMS_FWHT_Q8=0` disables it.
+- Exp060: guarded recurrent CONCAT/cache-tail CPY fusion removed 48 CUDA graph nodes per token and reduced summed replay kernel time ~1%. Two reversed PTQ1_0 A/B pairs improved +0.95%/+0.90%; the integrated build passed exact CUDA testing and independent decode checks.
 
 ## Failed or exhausted approaches
 
@@ -34,6 +35,8 @@
 - Repeated context-4096 decode samples have slow tails in both arms. Preserve all repetitions/ranges and use medians. Verify candidate library paths with `ldd`/`LD_DEBUG`; earlier absolute RUNPATHs caused false A/Bs.
 
 ## Latest research result
+
+- Exp060 fused the standard recurrent CONCAT and cache-tail CPY while keeping the complete concat for SSM_CONV. The guarded kernel passed exact repeated model-shape/cache-byte tests and fallback; Nsight captures showed 1,432→1,384 nodes/replay and 0.118/0.116 ms lower summed time at contexts 512/4096. Reversed pairs gained +0.95%/+0.90%; manager reruns gained +0.54%/+0.93%; final main-build runs reached 84.594/81.932 tok/s. Integrated as code commit `4cb2072`; see report and raw artifacts.
 
 - Exp052 measured matched PTQ1_0/PQ2_0 decode in two reversed-order pairs: +19.0% at context 512 and +34.7% at 4096 by median of run medians; long-context samples have slow tails. Node-level captures had 31 full replays per format/context. PTQ1_0's GEMV family costs 9.02–9.03 ms/token versus PQ2_0 at 10.71 ms with identical per-signature launch counts; PTQ1_0 also avoids 441 graph nodes and ~0.59 ms/token of separate Q8/RMS work. No production source changed. Nsight Compute did not provide counters; no bandwidth or integer-pipe conclusion is claimed. See `experiments/052-pq2-steady-profile/REPORT.md` and `results/exp052/`.
 
@@ -59,7 +62,6 @@
 
 **Format profile:** Use Exp052's paired graph signatures as the baseline for any format-specific decoder work. The measurements show both a per-call GEMV difference and fewer PTQ1_0 activation-prep nodes, but do not identify the GEMV hardware bottleneck; collect permitted hardware counters before making a traffic-versus-integer-throughput claim.
 
-1. **Recurrent concat/cache pair:** test a specialized `CONCAT + CPY` kernel at the local graph site, preserving the materialized concat for SSM_CONV while also writing the exact cache view. Exp059 provides shape, view, use, and runtime range evidence; guard single-token `n_rs_seq==0`, skip only the intervening view nodes and CPY, and compare both concat output and cache bytes before timing.
 2. **Final-layer gather/residual:** measure exact adjacency and dimensions for the two `GET_ROWS` operations followed by hidden-width `ADD`. This path reaches only the narrow last-layer output mode, so expected E2E value is limited.
 3. Revisit PTQ1_0 GEMV only when a genuinely new dataflow or codegen premise appears; Exp046 and prior screens close the obvious decoder, staging, geometry, scheduling, and paired K/V CTA mappings.
 4. Revisit GDN only if profiling/codegen exposes redundant state traffic, a removable launch, or synchronization-free gate sharing; Exp049 found none in the current kernel.

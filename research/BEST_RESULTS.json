@@ -1,6 +1,6 @@
 {
   "status": "optimization_campaign_active",
-  "implementation_commit": "6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17",
+  "implementation_commit": "4cb2072d8534c45d0aed0da7472dfe6587e9c3ee",
   "timestamp_utc": "2026-10-06T11:00:24.981932+00:00",
   "hardware": {
     "gpu": "NVIDIA GeForce RTX 3080",
@@ -248,10 +248,10 @@
   },
   "source_results": "results/baseline.json",
   "latest_experiment": {
-    "id": "036",
-    "hypothesis": "Coordinate the shared Q/K/V RMSNorm, learned weight/sign application, FWHT, and PTQ1_0 Q8_1 preparation to avoid separate intermediate work.",
-    "decision": "KEEP; promoted default-on in code commit c6cdaa5fa62787c97db58d1d2e1db666a4aeddb5",
-    "performance_effect": "Same-binary, two order-reversed 7-repetition pairs; median-of-run-medians improved +1.65% at context 512 and +1.55% at 4096. The four earlier isolated-binary pairs also favored the candidate in aggregate, with noisy 4096 tails.",
+    "id": "060",
+    "hypothesis": "Fuse the model-shaped recurrent CONCAT and cache-tail CPY while preserving the full concat input to SSM_CONV.",
+    "decision": "KEEP; integrated as a verified current-best optimization.",
+    "performance_effect": "Two reversed-order seven-repetition PTQ1_0 pairs improved +0.954% at context 512 and +0.897% at 4096; independent manager reruns improved +0.542%/+0.928% by median.",
     "benchmark_configuration": {
       "gpu": "NVIDIA GeForce RTX 3080",
       "compute_capability": "8.6",
@@ -261,7 +261,7 @@
         4096
       ],
       "decode_tokens": 128,
-      "repetitions_per_arm": 7,
+      "repetitions_per_run": 7,
       "order_reversed_pairs": 2,
       "n_gpu_layers": 99,
       "flash_attention": "on",
@@ -269,62 +269,100 @@
       "ubatch_size": 512,
       "kv_type": "f16",
       "cpu_threads": 8,
-      "measurement": "same main llama-bench binary; GGML_CUDA_RMS_FWHT_Q8 unset vs 0; median of paired run medians"
+      "cooldown_temperature_c": 60.0,
+      "utilization_gate_percent": 5
     },
     "results": {
       "512": {
-        "enabled_median_tokens_per_second": 83.34575,
-        "disabled_median_tokens_per_second": 81.9939,
-        "improvement_percent": 1.64872,
-        "enabled_run_medians": [
-          83.377,
-          83.3145
+        "baseline_run_medians_tokens_per_second": [
+          83.6922,
+          83.245
         ],
-        "disabled_run_medians": [
-          82.1918,
-          81.796
+        "candidate_run_medians_tokens_per_second": [
+          84.356,
+          84.1744
         ],
-        "peak_memory_mib_enabled": 6803,
-        "peak_memory_mib_disabled": 6805
+        "baseline_median_tokens_per_second": 83.4686,
+        "median_tokens_per_second": 84.2652,
+        "improvement_percent": 0.9543708652,
+        "baseline_median_sample_latency_ms": 1533.521,
+        "median_sample_latency_ms": 1519.016,
+        "peak_gpu_memory_used_mib": 6579.0,
+        "manager_verification": {
+          "baseline_mean_tokens_per_second": 83.103856,
+          "baseline_median_tokens_per_second": 83.2259,
+          "candidate_mean_tokens_per_second": 83.576636,
+          "candidate_median_tokens_per_second": 83.677,
+          "improvement_percent_by_median": 0.5420187706,
+          "peak_gpu_memory_used_mib": 6579.0
+        },
+        "final_main_build_verification": {
+          "mean_tokens_per_second": 84.428341,
+          "median_tokens_per_second": 84.5944,
+          "sample_stddev_tokens_per_second": 0.35398,
+          "mean_latency_ms": 1516.1016,
+          "peak_gpu_memory_used_mib": 6579.0
+        }
       },
       "4096": {
-        "enabled_median_tokens_per_second": 80.35215,
-        "disabled_median_tokens_per_second": 79.1268,
-        "improvement_percent": 1.54859,
-        "enabled_run_medians": [
-          80.7197,
-          79.9846
+        "baseline_run_medians_tokens_per_second": [
+          80.9863,
+          80.936
         ],
-        "disabled_run_medians": [
-          79.7605,
-          78.4931
+        "candidate_run_medians_tokens_per_second": [
+          81.6728,
+          81.7019
         ],
-        "peak_memory_mib_enabled": 6803,
-        "peak_memory_mib_disabled": 6805
+        "baseline_median_tokens_per_second": 80.9612,
+        "median_tokens_per_second": 81.6874,
+        "improvement_percent": 0.896972871,
+        "baseline_median_sample_latency_ms": 1581.005,
+        "median_sample_latency_ms": 1566.951,
+        "peak_gpu_memory_used_mib": 6803.0,
+        "manager_verification": {
+          "baseline_mean_tokens_per_second": 80.756578,
+          "baseline_median_tokens_per_second": 80.8924,
+          "candidate_mean_tokens_per_second": 81.524016,
+          "candidate_median_tokens_per_second": 81.6427,
+          "improvement_percent_by_median": 0.9275284205,
+          "peak_gpu_memory_used_mib": 6803.0
+        },
+        "final_main_build_verification": {
+          "mean_tokens_per_second": 81.816798,
+          "median_tokens_per_second": 81.9324,
+          "sample_stddev_tokens_per_second": 0.322725,
+          "mean_latency_ms": 1564.491932,
+          "peak_gpu_memory_used_mib": 6803.0
+        }
       }
     },
-    "correctness": "Main-tree tests/run_correctness.sh passed: selected CTests 5/5 including the direct fused-kernel GPU numerical test (one and three rows, max error 0.539778/0.542589 Q8 scales, exact block sums); CUDA-vs-CPU backend operations 96/96; fixed-seed PTQ1_0/PQ2_0 model smokes; normalized PTQ1_0 completion matched exactly.",
-    "profile": "Post-change Nsight Systems mixed context-512 trace: active GEMV 1.166 s / 61.22%; RMSNorm plus activation-preparation family 155.4 ms versus 185.7 ms pre-change; see PROFILE.md.",
+    "correctness": "pass: Exp060 candidate tests/run_correctness.sh (selected CTests 5/5, CUDA-vs-CPU backend 96/96, PTQ1_0/PQ2_0 fixed-seed model smokes); integrated main-tree Release build and test-exp060-concat-cache CTest passed 1/1; final integrated-build decode runs succeeded at contexts 512 and 4096.",
+    "profile": {
+      "nodes_per_replay": "1432 baseline -> 1384 candidate",
+      "summed_kernel_ms_per_replay": {
+        "512": {
+          "baseline": 11.844936,
+          "candidate": 11.726621
+        },
+        "4096": {
+          "baseline": 12.196336,
+          "candidate": 12.079838
+        }
+      },
+      "cuda_test": "exact concat and cache bytes, repeated model-shaped updates plus fallback; integrated CTest passed 1/1"
+    },
     "artifacts": [
-      "experiments/036-coordinated-qkv-prep/REPORT.md",
-      "experiments/036-coordinated-qkv-prep/main_tree_verification.md",
-      "results/exp036/main_default_off.json",
-      "results/exp036/main_default_on.json",
-      "results/exp036/main_default_on_reverse.json",
-      "results/exp036/main_default_off_reverse.json",
-      "results/profile/ptq1_decode512_rmsfwht.nsys-rep",
-      "results/exp036/direct_cuda_correctness.log",
-      "results/exp036/fused_quantizer_reference.log",
-      "results/exp036/full_correctness.log"
+      "experiments/060-concat-cache-fusion/REPORT.md",
+      "results/exp060/"
     ],
-    "code_commit": "c6cdaa5fa62787c97db58d1d2e1db666a4aeddb5",
-    "cuda_library_sha256": "bad70d76b19fdd1b21f61e5c9eb4900b5334c638ff75cdec11f3a4d3b2b28642",
-    "timestamp_utc": "2026-10-07T03:25:11+00:00"
+    "code_commit": "4cb2072d8534c45d0aed0da7472dfe6587e9c3ee",
+    "cuda_library_sha256": "8e54b08629aafaae0e835a4c630367fe8126e85f9df64199f34f0db2e2798c94",
+    "timestamp_utc": "2026-10-07T11:06:47+00:00"
   },
-  "updated_timestamp_utc": "2026-10-07T06:36:26+00:00",
-  "project_commit": "c6cdaa5fa62787c97db58d1d2e1db666a4aeddb5",
+  "updated_timestamp_utc": "2026-10-07T11:06:47+00:00",
+  "project_commit": "4cb2072d8534c45d0aed0da7472dfe6587e9c3ee",
   "current_best": {
-    "commit": "c6cdaa5fa62787c97db58d1d2e1db666a4aeddb5",
+    "commit": "4cb2072d8534c45d0aed0da7472dfe6587e9c3ee",
     "reference_runtime_commit": "6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17",
     "quantization": "PTQ1_0",
     "decode_benchmark": {
@@ -335,55 +373,97 @@
         4096
       ],
       "repetitions_per_run": 7,
-      "same_binary_order_reversed_pairs": 2,
-      "comparison": "median of the two run medians per arm; controlled by GGML_CUDA_RMS_FWHT_Q8=0",
+      "order_reversed_pairs": 2,
+      "comparison": "Two order-reversed baseline/candidate pairs; median of two run medians per arm. Independent manager pair and final integrated-build runs are also attached.",
       "flash_attention": "on",
       "kv_type": "f16",
       "n_gpu_layers": 99,
       "cpu_threads": 8,
+      "batch_size_arg": 2048,
+      "ubatch_size": 512,
+      "cooldown_gate": "<=60 C and <=5% GPU utilization before each run",
       "peak_gpu_memory_used_mib": 6803.0,
-      "disabled_peak_gpu_memory_used_mib": 6805.0,
-      "artifacts": [
-        "results/exp036/main_default_off.json",
-        "results/exp036/main_default_on.json",
-        "results/exp036/main_default_on_reverse.json",
-        "results/exp036/main_default_off_reverse.json"
-      ],
       "results": {
         "512": {
-          "median_tokens_per_second": 83.34575,
-          "enabled_run_medians": [
-            83.377,
-            83.3145
+          "baseline_run_medians_tokens_per_second": [
+            83.6922,
+            83.245
           ],
-          "disabled_reference_median_tokens_per_second": 81.9939,
-          "median_improvement_percent": 1.64872,
-          "median_total_decode_latency_ms_derived": 1535.7711700956559,
-          "sample_range_tokens_per_second": [
-            82.4469,
-            83.4223
-          ]
+          "candidate_run_medians_tokens_per_second": [
+            84.356,
+            84.1744
+          ],
+          "baseline_median_tokens_per_second": 83.4686,
+          "median_tokens_per_second": 84.2652,
+          "improvement_percent": 0.9543708652,
+          "baseline_median_sample_latency_ms": 1533.521,
+          "median_sample_latency_ms": 1519.016,
+          "peak_gpu_memory_used_mib": 6579.0,
+          "manager_verification": {
+            "baseline_mean_tokens_per_second": 83.103856,
+            "baseline_median_tokens_per_second": 83.2259,
+            "candidate_mean_tokens_per_second": 83.576636,
+            "candidate_median_tokens_per_second": 83.677,
+            "improvement_percent_by_median": 0.5420187706,
+            "peak_gpu_memory_used_mib": 6579.0
+          },
+          "final_main_build_verification": {
+            "mean_tokens_per_second": 84.428341,
+            "median_tokens_per_second": 84.5944,
+            "sample_stddev_tokens_per_second": 0.35398,
+            "mean_latency_ms": 1516.1016,
+            "peak_gpu_memory_used_mib": 6579.0
+          }
         },
         "4096": {
-          "median_tokens_per_second": 80.35215,
-          "enabled_run_medians": [
-            80.7197,
-            79.9846
+          "baseline_run_medians_tokens_per_second": [
+            80.9863,
+            80.936
           ],
-          "disabled_reference_median_tokens_per_second": 79.1268,
-          "median_improvement_percent": 1.54859,
-          "median_total_decode_latency_ms_derived": 1592.9878665349963,
-          "sample_range_tokens_per_second": [
-            58.7221,
-            80.8511
+          "candidate_run_medians_tokens_per_second": [
+            81.6728,
+            81.7019
           ],
-          "note": "One enabled and one disabled run had slow tails; see the full seven-sample arrays in results/exp036."
+          "baseline_median_tokens_per_second": 80.9612,
+          "median_tokens_per_second": 81.6874,
+          "improvement_percent": 0.896972871,
+          "baseline_median_sample_latency_ms": 1581.005,
+          "median_sample_latency_ms": 1566.951,
+          "peak_gpu_memory_used_mib": 6803.0,
+          "manager_verification": {
+            "baseline_mean_tokens_per_second": 80.756578,
+            "baseline_median_tokens_per_second": 80.8924,
+            "candidate_mean_tokens_per_second": 81.524016,
+            "candidate_median_tokens_per_second": 81.6427,
+            "improvement_percent_by_median": 0.9275284205,
+            "peak_gpu_memory_used_mib": 6803.0
+          },
+          "final_main_build_verification": {
+            "mean_tokens_per_second": 81.816798,
+            "median_tokens_per_second": 81.9324,
+            "sample_stddev_tokens_per_second": 0.322725,
+            "mean_latency_ms": 1564.491932,
+            "peak_gpu_memory_used_mib": 6803.0
+          }
         }
-      }
+      },
+      "artifacts": [
+        "results/exp060/pair1_base_ctx512.json",
+        "results/exp060/pair1_cand_ctx512.json",
+        "results/exp060/pair2_base_ctx512.json",
+        "results/exp060/pair2_cand_ctx512.json",
+        "results/exp060/pair1_base_ctx4096.json",
+        "results/exp060/pair1_cand_ctx4096.json",
+        "results/exp060/pair2_base_ctx4096.json",
+        "results/exp060/pair2_cand_ctx4096.json",
+        "results/exp060/manager-verify/",
+        "results/exp060/main-final_ctx512.json",
+        "results/exp060/main-final_ctx4096.json"
+      ]
     },
-    "correctness": "pass: main-tree tests/run_correctness.sh; selected CTest 5/5 including direct fused RMS/FWHT/Q8 GPU reference test; CUDA-vs-CPU backend ops 96/96; fixed-seed PTQ1_0 and PQ2_0 32-token smokes; PTQ1_0 normalized completion exactly matched reference",
-    "cuda_library_sha256": "bad70d76b19fdd1b21f61e5c9eb4900b5334c638ff75cdec11f3a4d3b2b28642",
-    "timestamp_utc": "2026-10-07T03:25:11+00:00",
+    "correctness": "pass: Exp060 candidate tests/run_correctness.sh (selected CTests 5/5, CUDA-vs-CPU backend 96/96, PTQ1_0/PQ2_0 fixed-seed model smokes); integrated main-tree Release build and test-exp060-concat-cache CTest passed 1/1; final integrated-build decode runs succeeded at contexts 512 and 4096.",
+    "cuda_library_sha256": "8e54b08629aafaae0e835a4c630367fe8126e85f9df64199f34f0db2e2798c94",
+    "timestamp_utc": "2026-10-07T11:06:47+00:00",
     "reference_comparison": {
       "measurement_id": "041",
       "baseline_project_commit": "2a6ac568b69a61db0ee151b24c9b2cdb7a4f8a7c",
@@ -639,7 +719,24 @@
         "experiments/041-reference-current-ab/REPORT.md",
         "results/reference_ab/README.md",
         "results/reference_ab/summary.json"
-      ]
+      ],
+      "note": "Historical Exp041 reference comparison for the prior Exp036 implementation commit c6cdaa5fa62787c97db58d1d2e1db666a4aeddb5; Exp060 decode effect is measured separately in current_best.decode_benchmark."
+    },
+    "prefill_benchmark": {
+      "source": "Exp041 current-build A/B, before Exp060; not remeasured for this decode-only change",
+      "median_tokens_per_second": {
+        "128": 1291.875,
+        "512": 1377.395,
+        "2048": 1355.505,
+        "4096": 1332.26
+      },
+      "reference_comparison_percent": {
+        "128": -0.08662059791413323,
+        "512": -0.00036300275882972244,
+        "2048": 0.01660173543476251,
+        "4096": 0.011260331354034925
+      },
+      "peak_gpu_memory_used_mib": 6793.0
     }
   },
   "latest_experiment_screen": {
@@ -813,82 +910,31 @@
     ]
   },
   "latest_research_measurement": {
-    "id": "045",
-    "description": "Swept the active 128-thread ROWS=1 planar PTQ1_0 GEMV minimum resident CTA bound at ncols==1, isolating register pressure from CTA geometry.",
-    "decision": "REVERT; the 6/7/8-CTA candidates lowered active registers with no spills but lost short order-reversed decode screens. Current-best values remain unchanged.",
+    "id": "060",
+    "description": "Guarded fused materialization of the recurrent concat plus cache-tail copy on the standard one-token model graph.",
+    "decision": "KEEP; merged build, exact CUDA test, paired model benchmarks, and manager verification passed.",
     "resources": {
-      "minimum_ctas_per_sm": [
-        4,
-        6,
-        7,
-        8
-      ],
-      "plain_registers_per_thread": [
-        76,
-        72,
-        68,
-        60
-      ],
-      "fused_no_gate_registers_per_thread": [
-        74,
-        72,
-        68,
-        60
-      ],
-      "fused_gate_registers_per_thread": [
-        98,
-        77,
-        72,
-        63
-      ],
-      "active_rows1_stack_bytes": 0,
-      "active_rows1_spill_bytes": 0,
-      "geometry": "128 threads/block, ROWS=1"
-    },
-    "short_decode_screens": {
-      "configuration": "RTX 3080 sm_86; PTQ1_0; contexts 512 and 4096; 128 tokens; 3 repetitions per arm/run; two order-reversed pairs; <=60 C / <=5% utilization gate before every arm.",
-      "paired_median_delta_percent": {
-        "minimum_ctas_6": {
-          "512": -2.5659,
-          "4096": -2.4498
-        },
-        "minimum_ctas_7": {
-          "512": -4.1573,
-          "4096": -4.1227
-        },
-        "minimum_ctas_8": {
-          "512": -5.0681,
-          "4096": -5.06
-        }
+      "nodes_removed_per_token": 48,
+      "summed_replay_kernel_reduction_ms": {
+        "512": 0.118315,
+        "4096": 0.116498
       }
     },
-    "correctness": "Not run; every candidate regressed in both short reversed decode screens, so no candidate advanced to correctness or full E2E.",
+    "short_decode_screens": {
+      "paired_median_delta_percent": {
+        "512": 0.9543708652,
+        "4096": 0.896972871
+      },
+      "manager_median_delta_percent": {
+        "512": 0.5420187706,
+        "4096": 0.9275284205
+      }
+    },
+    "correctness": "Exact outputs/cache bytes, selected CTests 5/5, backend tests 96/96, both format smokes, and integrated focused CTest pass.",
     "artifacts": [
-      "experiments/045-ptq1-register-occupancy/REPORT.md",
-      "results/exp045/launch_bounds.patch",
-      "results/exp045/min8/active_ptxas_summary.txt",
-      "results/exp045/min8/active_ptx_excerpt.txt",
-      "results/exp045/min8/sass_excerpt.txt",
-      "results/exp045/min6_screen_candidate.json",
-      "results/exp045/min6_screen_control.json",
-      "results/exp045/min6_screen_control_reverse.json",
-      "results/exp045/min6_screen_candidate_reverse.json",
-      "results/exp045/min7_screen_candidate.json",
-      "results/exp045/min7_screen_control.json",
-      "results/exp045/min7_screen_control_reverse.json",
-      "results/exp045/min7_screen_candidate_reverse.json",
-      "results/exp045/min8_screen_candidate.json",
-      "results/exp045/min8_screen_control.json",
-      "results/exp045/min8_screen_control_reverse.json",
-      "results/exp045/min8_screen_candidate_reverse.json",
-      "results/exp045/min6/mmvq_ptxas.txt.gz",
-      "results/exp045/min6/quantize_ptxas.txt.gz",
-      "results/exp045/min7/mmvq_ptxas.txt.gz",
-      "results/exp045/min7/quantize_ptxas.txt.gz",
-      "results/exp045/raw/min6_candidate_first_raw.json",
-      "results/exp045/raw/min7_candidate_first_raw.json",
-      "results/exp045/raw/min8_candidate_first_raw.json"
+      "experiments/060-concat-cache-fusion/REPORT.md",
+      "results/exp060/"
     ],
-    "timestamp_utc": "2026-10-07T06:36:26+00:00"
+    "timestamp_utc": "2026-10-07T11:06:47+00:00"
   }
 }

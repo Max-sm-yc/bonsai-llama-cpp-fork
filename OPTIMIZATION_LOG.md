@@ -1,5 +1,10 @@
 # Optimization log
 
+## Experiment 060: recurrent concat/cache-tail fusion
+
+- Added a shape, stride, use-count, graph-output, and alias-range guarded sm_86 CUDA path that materializes the complete recurrent concat and writes its exact cache-tail bytes in one launch. Exact repeated-update tests passed for the model shape and a fallback shape; selected CTests (5/5), CUDA backend comparisons (96/96), and PTQ1_0/PQ2_0 model smokes passed.
+- Nsight Systems saw the fused site 48 times per token: graph nodes fell 1,432→1,384 and summed replay kernel duration fell 1.00%/0.96% at contexts 512/4096. Two reversed-order seven-repetition PTQ1_0 pairs improved +0.95%/+0.90%; independent manager-side seven-repetition checks also improved +0.57%/+0.95%. Peak VRAM remained 6,579/6,803 MiB. The current primary bottleneck remains PTQ1_0 GEMV. See `experiments/060-concat-cache-fusion/REPORT.md`, `results/exp060/`, and the updated `PROFILE.md`.
+
 ## Experiment 059: recurrent graph metadata and fusion feasibility
 
 - Runtime instrumentation captured the actual one-token graph. `conv_input` is F32 `[4,10240]`, use=2; `conv_state_last` starts 4 bytes into it with strided rows; the CPY targets a disjoint 120 KiB cache view at offset 0 with no output pin. Unrelated recurrent-state nodes separate that CPY from SSM_CONV, so the current contiguous matcher cannot fuse the four-op chain safely. No candidate or timing was run. Follow up by screening only the local CONCAT+CPY site. See `experiments/059-recurrent-graph-fusion/REPORT.md` and `results/exp059/`.

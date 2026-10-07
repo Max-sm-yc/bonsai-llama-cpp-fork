@@ -4,12 +4,13 @@ Exp052 now supplies a matched format-level decode profile: PTQ1_0's dedicated pl
 
 Ranked against the current ROWS=1 implementation. Controlled batch-1 model decode is the decision metric; isolated kernel gains are screening evidence only.
 
-## Open candidate
+## Open candidates
 
-1. **Fuse the recurrent concat and cache copy.** Exp059 established the one-token graph site and disjoint ranges: the materialized concat feeds SSM_CONV and a cache-tail CPY. A guarded CUDA kernel can potentially write the full concat output and copy its last three time rows into the 120 KiB cache view, replacing only the adjacent view/CPY nodes. First require cache-byte correctness and active node removal; the full four-op fusion is blocked by unrelated recurrent-state graph nodes between CPY and SSM_CONV.
-2. **Final-layer gather/residual.** Exp057 mapped a narrow last-layer `GET_ROWS(attention) + GET_ROWS(residual) + ADD` sequence. Confirm exact adjacency and shapes; its single-layer reach limits expected end-to-end gain.
-3. **PTQ1_0 GEMV:** still dominates at 74–76% of steady decode kernel time, but decoder, layout, cache, prefetch, staging, geometry, scheduling, and paired K/V CTA mappings have been extensively tested. Reopen only with a genuinely new dataflow/codegen premise.
-4. **Long-context FlashAttention:** Exp053's valid 64/64 single-stage Ampere tile regressed focused time by 17.2% at context 512 and 11.3% at 4096; 96/96 failed a compile invariant. Reopen only with a design that reduces Stream-K fixup cost. See `experiments/053-flash-attention-longctx/REPORT.md`.
+1. **Final-layer gather/residual.** Exp057 mapped a narrow last-layer `GET_ROWS(attention) + GET_ROWS(residual) + ADD` sequence. Confirm exact adjacency and shapes; its single-layer reach limits expected end-to-end gain.
+2. **PTQ1_0 GEMV:** still dominates at 74–76% of steady decode kernel time, but decoder, layout, cache, prefetch, staging, geometry, scheduling, and paired K/V CTA mappings have been extensively tested. Reopen only with a genuinely new dataflow/codegen premise.
+3. **Long-context FlashAttention:** Exp053's valid 64/64 single-stage Ampere tile regressed focused time by 17.2% at context 512 and 11.3% at 4096; 96/96 failed a compile invariant. Reopen only with a design that reduces Stream-K fixup cost. See `experiments/053-flash-attention-longctx/REPORT.md`.
+
+Exp060 implemented and integrated the recurrent concat/cache pair fusion. It preserved the full concat, wrote cache-tail bytes exactly, removed 48 graph nodes/replay, and gained +0.95%/+0.90% decode at contexts 512/4096 in two reversed-order pairs. Independent manager reruns also improved; do not repeat this candidate absent a correctness or merged-build issue. See `experiments/060-concat-cache-fusion/REPORT.md`.
 
 ## Previously tested directions
 
