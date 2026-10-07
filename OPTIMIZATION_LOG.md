@@ -1,5 +1,9 @@
 # Optimization log
 
+## Experiment 070: prompt-length-aware ubatch policy
+
+- A one-shot example's tokenized prompt length provided a generic threshold for requesting ub=2048 at 1536 tokens and above. Matched prompt+128-generation screens gained 1.66% at 2048 and 2.20% at 4096, with an 8,371 MiB whole-GPU peak, but seven-repetition decode comparisons at context 4096 were about 1.8% slower in both arm orders. Fixed-seed short/long completion text matched. Because ubatch stays fixed through decode, the policy failed the decode gate; temporary source changes were reverted. See `experiments/070-adaptive-ubatch/REPORT.md` and `results/exp070/`.
+
 ## Experiment 069: FlashAttention Stream-K reduction audit
 
 - Fresh CUDA Graph captures of the current retained graph measured 16 main FlashAttention calls plus 16 uniform fixups: 0.1958+0.0343 ms/token at context 512 and 0.5451+0.0359 ms at 4096. Grid audit found 4 output tiles with 4/17 partial states per tile. Removing the merge leaves four x-grid CTAs scanning full K/V; cooperative fusion requires an unproven grid barrier. No candidate was implemented, correctness/E2E was not run, and production is unchanged. The manager recomputed the per-replay profile summaries and verified the loaded CUDA library hash. See `experiments/069-flash-attention-reduction/REPORT.md` and `results/exp069/`.
