@@ -1,5 +1,10 @@
 # Optimization log
 
+## Experiment 072: MTP shared-prefix token/logit correctness audit
+
+- On a fixed 512-token Qwen prompt, target-only and MTP output matched through generated position 65. At position 66, MTP rejected draft 18912 and emitted its target batch sample 6195; target-only emitted 1167 at the same prefix. Each arm's sampler selections matched all 128 server emissions.
+- After the shared logit bias, target-only scored 1167/6195 at 8.84235477/8.55384827; the MTP three-position target batch scored 6195/1167 at 8.84262085/8.83678246. The top-one difference is narrow in MTP, but relative score gap shifts ~0.294; exact greedy parity fails and this is not explained as a harmless tie. Underlying graph/kernel source of batch-shape sensitivity remains unlocalized. No performance or production change. MTP stays rejected given Exp071's -0.9% ctx4096 screen. See `experiments/072-mtp-token-correctness/REPORT.md` and `results/exp072/raw/`.
+
 ## Experiment 071: PQ2_0 plus MTP-Q8_0 feasibility and RTX 3080 decode screen
 
 - The community model bundle loaded fully on CUDA sm_86 and peaked at 8,485 MiB. In a matched three-family server harness it reached 86.86 vs 79.02 tok/s pooled at context 512 (+9.9%), but 65.26 vs 65.84 at context 4096 (-0.9%); the short-context gain was driven by high acceptance on one prompt family. These server rates are not directly comparable to the current `llama-bench` best.

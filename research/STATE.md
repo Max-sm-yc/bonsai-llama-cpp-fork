@@ -42,11 +42,13 @@
 
 ## Active experiment
 
-- None. Exp071's MTP candidate is not promoted: it reached 8,485 MiB, pooled +9.9% at ctx512 / -0.9% at ctx4096 in the server harness, and differed from target-only greedy outputs in 3/6 family/context cases. A focused token/logit correctness audit is next; production remains the verified PTQ1_0 build.
+- None. Exp072 resolved the focused ctx512 Qwen verifier boundary: MTP rejected draft 18912 and emitted its target choice, but the three-position target batch chose 6195 where target-only chose 1167 at the same prefix. MTP remains unpromoted; production remains the verified PTQ1_0 build.
 
 ## Latest research result
 
-- Exp071 screened the community PQ2_0+MTP bundle on CUDA sm_86. It fit under 10 GiB, but its short-context pooled server gain was prompt-family dependent, long-context aggregate was slightly below PTQ1_0, and three of six family/context outputs diverged without a proven tie explanation. The model-only candidate is rejected pending token-level verification evidence; no source or best-result change. See `experiments/071-bonsai-mtp-sm86/REPORT.md` and `results/exp071/`.
+- Exp072 aligned target-only and MTP traces at the first differing token in the ctx512 Qwen case. Both samplers' 128 selected tokens match their server emissions; MTP rejects draft 18912 and emits target token 6195, while target-only emits 1167. The target score ordering reverses across one-token versus three-position decode at the same prefix (relative 6195–1167 gap shifts by ~0.294). Batch-shape sensitivity is established at this boundary; its layer/kernel cause and other divergent cells remain unlocalized. MTP remains rejected; no production change. See `experiments/072-mtp-token-correctness/REPORT.md` and `results/exp072/raw/`.
+
+- Exp071 screened the community PQ2_0+MTP bundle on CUDA sm_86. It fit under 10 GiB, gained 9.9% pooled server decode at ctx512 but lost 0.9% at ctx4096, and differed from target-only greedy output in 3/6 family/context cells. The focused Exp072 trace explains the verifier boundary for one ctx512 Qwen case; it does not localize the underlying batch-shape sensitivity or explain every divergent cell. No source or best-result change. See `experiments/071-bonsai-mtp-sm86/REPORT.md` and `results/exp071/`.
 
 - Exp070 found that a one-shot caller can tokenize before context creation, while llama-cli's server creates its shared context before arbitrary requests. A 1536-token threshold for ub=2048 screened positively for long prefill; matched combined 2048/4096 prompt+128-gen medians improved 1.66%/2.20%, and fixed-seed completion text matched. However, ub=2048 decode at context 4096 measured ~1.8% slower in both seven-repetition arm orders, so the task's no-decode-slow gate failed and the temporary example implementation was reverted. Peak whole-GPU memory was 8371 MiB in combined mode and 7973 MiB in the long one-shot smoke. See `experiments/070-adaptive-ubatch/REPORT.md` and `results/exp070/`.
 
@@ -90,6 +92,6 @@
 
 ## Next candidates
 
-1. Audit Exp071 MTP's first differing token with draft/target IDs and logits; compare single-token and batched target verification at an identical prefix. No candidate promotion until the divergence is explained.
-2. Revisit dominant PTQ1_0 batch-1 GEMV only with a genuinely new primitive, code-generation, or representation premise; Exp046/068 and earlier screens close current direct-dot and obvious decoder variants.
-3. Revisit PTQ1_0 prompt-side MMQ only with a concrete exact dataflow/decoder derivation; Exp065/066 closed geometry-only and ungrounded source screens.
+1. Challenge the dominant PTQ1_0 batch-1 GEMV with a fundamentally different sm_86 algorithm or compiler/code-generation premise; prior direct-dot, decoder, layout, staging, and scheduling variants are exhausted.
+2. Revisit PTQ1_0 prompt-side MMQ only with a concrete exact dataflow/decoder derivation; Exp065/066 closed geometry-only and ungrounded source screens.
+3. Revisit long-context attention only with a concrete parallel reduction or synchronization design; Exp069/053 closed tile-only and barrier-only directions.

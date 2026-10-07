@@ -1,0 +1,71 @@
+{
+  "arm": "BUNDLE_TARGET",
+  "prompt_set": "natural",
+  "model": "/home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PQ2_0-MTP-Q8_0.gguf",
+  "context_tokens": 512,
+  "server_context": 4608,
+  "repetitions_per_prompt": 1,
+  "prompt_source_files": [
+    [
+      "experiments/052-pq2-steady-profile/REPORT.md",
+      "experiments/070-adaptive-ubatch/REPORT.md",
+      "research/STATE.md"
+    ],
+    [
+      "src/models/qwen35.cpp"
+    ],
+    [
+      "common/speculative.cpp"
+    ]
+  ],
+  "start_gate": {
+    "temperature_c": 50.0,
+    "gpu_utilization_pct": 0.0
+  },
+  "command": [
+    "/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/llama-server",
+    "-m",
+    "/home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PQ2_0-MTP-Q8_0.gguf",
+    "-ngl",
+    "99",
+    "-fa",
+    "on",
+    "-b",
+    "2048",
+    "-ub",
+    "512",
+    "-ctk",
+    "f16",
+    "-ctv",
+    "f16",
+    "-t",
+    "8",
+    "-c",
+    "4608",
+    "-np",
+    "1",
+    "--host",
+    "127.0.0.1",
+    "--port",
+    "8082",
+    "--no-webui",
+    "-lv",
+    "4"
+  ],
+  "rows": [
+    {
+      "prompt_index": 1,
+      "repetition": 0,
+      "prompt_n": 512,
+      "prompt_ms": 465.679,
+      "prompt_per_second": 1099.4698064546608,
+      "predicted_n": 128,
+      "predicted_ms": 2016.874,
+      "predicted_per_second": 62.96873280135497,
+      "draft_n": 0,
+      "draft_n_accepted": 0,
+      "wall_seconds": 2.4873720000032336,
+      "content": " = LLAMA_MODEL_TYPE_QWEN35_24B;\n        case 2 main_layer: type = LLAMA_MODEL_TYPE_QWresidual stream\n        case 24: type = LLAMA_MODEL_TYPE_QWEN35_24B;\n        case 24: type = QWEN35_24B;\n        switch (hparams.n_layer()) {\n            case 24: type = LLAMA_MODEL_TYPE_QWEN35_2 decode\n            case 24: type = GGML_TYPE_F32;\n        }\n       "
+    }
+  ]
+}

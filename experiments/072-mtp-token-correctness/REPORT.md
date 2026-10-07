@@ -2,48 +2,49 @@
 
 ## HYPOTHESIS
 
-Exp071's MTP run diverged from target-only greedy output in three of six family/context cases. Candidate causes were an incorrect verification decision, different target logits from batched versus single-token decode, sampler state/position/seed behavior, or ordinary continuation after a prior divergence. The required discriminator is token IDs and logits at a shared prefix. This audit did not reach that discriminator because the instrumented runtime could not be built within the available user disk quota.
+Exp071's PQ2_0+MTP candidate diverged from target-only greedy output in 3/6 family/context cases. The audit tested whether the first mismatch came from incorrect speculative verification, sampler state, or target logits that depend on verification batch shape.
 
-## IMPLEMENTATION/DIAGNOSTIC
+## IMPLEMENTATION
 
-- Verified starting `HEAD` was `32aaee6ee8f9eafb788f9c9f815140b23f1bd600`; the working branch is `exp072-mtp-token-correctness` in an isolated worktree.
-- Inspected `tools/server/server-context.cpp` around speculative verification, `common/speculative.cpp` draft generation, `common/sampling.cpp` sampling/accept logic, and `src/models/qwen35.cpp` MTP graph construction.
-- Added opt-in `LLAMA_MTP_TOKEN_TRACE` instrumentation in `common/sampling.cpp`. It records the chosen token, raw target-logit top five and top-1/top-2 margin per sampler call, and each MTP draft-versus-target accept/reject decision. No production-best code or main worktree files were changed.
-- Configured a fresh CUDA sm_86 build. Compilation failed with `Disk quota exceeded` in compiler temporary output; `quota -s` showed the user's 12,795 MiB quota at its limit. Removed the incomplete build directory. No diagnostic server run or token/logit trace was produced.
-- Cached model artifact was found at `models/Ternary-Bonsai-2-27B-PQ2_0-MTP-Q8_0.gguf` in the main checkout; its identity is recorded in Exp071.
+- Starting main commit: `32aaee6ee8f9eafb788f9c9f815140b23f1bd600`. The fresh Luna experimenter inspected the verifier, sampler, draft generation, and Qwen3.5 MTP graph, then added opt-in token/logit tracing in `common/sampling.cpp` and `tools/server/server-context.cpp` in its isolated worktree.
+- Its first fresh build stopped at the user's `/tmp` quota. The manager removed stale CUDA compiler scratch under `/tmp`, moved compiler temporaries to the project build directory, and applied the trace-only patch locally. An incomplete Ninja database then forced a full 398-step rebuild; that clean-source rebuild is being verified separately before this report is finalized.
+- The diagnostic used the cached `Ternary-Bonsai-2-27B-PQ2_0-MTP-Q8_0.gguf` bundle, fixed Exp071 natural prompt token IDs, Qwen source prompt (index 1), 512 prompt tokens, 128 generated tokens, seed 42, temperature 0/top-k 1, `-ngl 99 -fa on -b 2048 -ub 512 -ctk f16 -ctv f16 -t 8 -c 4608 -np 1`. Target-only and MTP traces use the same bundle target weights; MTP adds `--spec-type draft-mtp --spec-draft-n-max 2`.
+- Trace rounds 2–4 exposed logger omissions and are retained as development diagnostics. Round 5 captures both sampler branches, verification decisions, and final server emissions. `results/exp072/raw/server_bench.py` and `prompt-seeds-natural.json` reproduce the focused request; `audit_trace.py` checks sampler-to-emission equality and recomputes the shared-prefix score margins from the raw logs. Raw logs and aligned top-logit data are in the same directory.
 
 ## RESULT
 
-The audit is incomplete. The reproducible Exp071 ctx512 Qwen graph C++ case remains the best target for a trace: 512 fixed prompt tokens, seed 42, 128 generated tokens, greedy temperature 0/top-k 1, and the first reported text difference at character 178. Exp071's focused MTP trace reports 36/62 proposals accepted and 2/2 at the approximate round suggested by character position, but that character alignment does not identify the first differing token. Existing raw data is under `results/exp071/raw/`.
+The two outputs match through generated position 65. At position 66, target-only emits token **1167**, while MTP's target verifier emits **6195**. MTP's draft token at that row is **18912**; it is rejected, and the verifier emits 6195. Across the 128-token diagnostic request, target-only's 128 sampler selections match all 128 server emissions, and MTP's target-context selections also match all 128 emissions.
+
+At this identical prefix, after the configured logit bias and sampler transforms, target-only scores token 1167 at 8.84235477 and 6195 at 8.55384827, a 0.28850650 margin for 1167. The MTP batched target scores 6195 at 8.84262085 and 1167 at 8.83678246, a 0.00583839 margin for 6195. The relative score gap shifts by about 0.294345. The complete top candidates and trace lines are recorded in `results/exp072/raw/aligned_logits_ctx512_qwen.csv` and the round-5 server logs.
 
 ## CORRECTNESS
 
-No direct token-level correctness conclusion is supported. The source verifier calls `common_sampler_sample` for each target verification row, accepts draft token `i` only when the target sampler returns the same ID, and stops at the first mismatch. The sampler then emits its target-selected token. This establishes the intended verification semantics at source level, not the exact runtime behavior at the divergent prefix.
+The verifier's reject-and-emit behavior is correct relative to its own batched target sample in this case. Exact greedy parity against target-only sequential decode **fails** at position 66. The evidence establishes batch-shape-sensitive target logits as the immediate divergence boundary; it does not isolate the underlying model graph, recurrent-state, or CUDA-kernel cause. Do not treat the score movement as harmless tie noise: the candidate ordering reverses and the relative gap moves by ~0.294.
 
-The unanswered comparison is whether single-token and MTP batched target logits at identical prefixes choose the same token, including the max/relative logit deltas and top-1/top-2 margins. No claim of harmless ties is made.
+## MICROBENCHMARK
 
-## END-TO-END RELEVANCE
+Not applicable: this is a correctness diagnostic, not a kernel candidate. No isolated kernel timing was collected.
 
-Exp071 found MTP output divergence in 3/6 family/context cells, including ctx512 Qwen graph C++ and ctx4096 reports and Qwen graph C++. Speculative C++ matched both contexts. The MTP candidate reached 8,485 MiB peak device memory and was already rejected: pooled server decode was +9.9% at ctx512 and -0.9% at ctx4096 versus PTQ1_0, with family-dependent results. This audit makes no performance recommendation and does not alter the production path.
+## END-TO-END IMPACT
+
+No performance rerun was needed for the correctness decision. Exp071 remains the only performance screen: pooled server decode was +9.9% at context 512 and -0.9% at 4096 versus PTQ1_0, with 8,485 MiB peak VRAM. Since exact greedy equivalence fails and long-context throughput regressed, the MTP model bundle is not promoted. Production PTQ1_0 is unchanged.
 
 ## ANALYSIS
 
-Sampler source shows token-by-token exact-ID acceptance against the target sampler, including its evolving sampler state. Therefore, a rejected draft by itself should emit the target sample for that same verification row. Divergence could still arise if batched target logits differ from sequential logits, if target sampler behavior differs across the run paths, or if a later token diverges after an earlier matching token. Exp071's text alignment and aggregate acceptance counts cannot distinguish those explanations.
-
-The attempted build failure is an environmental limit, not evidence about model correctness. The opt-in trace code is committed for a rerun after quota space is available; it logs top-five logits and decision IDs but does not capture a complete logits vector. A future run should compare target-only and MTP logs from the same seed/prefix and supplement the trace with a focused batched-versus-single-token replay if they differ.
+The verifier does not blindly accept the proposal: at the first divergence it samples the target batch row, rejects draft 18912, and emits target token 6195. The same target weights on the same prefix in the one-token path instead rank 1167 above 6195 by 0.2885. The first cause is therefore upstream of the verification decision and is sensitive to target decode shape. The sampler's final output plumbing is consistent in both runs. More instrumentation is required to localize the numerical change within batched target evaluation; no specific kernel mechanism is established.
 
 ## DECISION
 
-INCONCLUSIVE; correctness gate remains failed. Keep Exp071 rejected and keep the PTQ1_0 production best unchanged. Do not describe the observed divergences as ties or harmless precision effects.
+**REVERT candidate; correctness parity fails.** Diagnostic question resolved at the verifier-versus-batched-logit boundary. The community MTP bundle remains rejected for production; the verified PTQ1_0 best is unchanged.
 
 ## FOLLOW-UPS
 
-1. Free enough user quota for a CUDA build, then run the ctx512 Qwen family with `LLAMA_MTP_TOKEN_TRACE=1` for both target-only and MTP arms.
-2. Align traces by generated token IDs and report the first mismatch, draft ID, target sample ID, verifier verdict, top logits and margins.
-3. If the first mismatch involves different target choices at the same prefix, replay that prefix with target decode once per token and in a verification batch. Extend to ctx4096 reports/Qwen only if the first case does not locate the cause.
+1. Close MTP performance promotion for this bundle: it lacks target-only greedy parity and has no context-4096 gain.
+2. If a later model/runtime change creates a compelling performance case, replay the recorded prefix with row-by-row intermediate logits and recurrent/KV state checks to locate the batch-shape-sensitive target change before reconsidering correctness.
+3. Resume inference optimization on the measured PTQ1_0 batch-1 GEMV bottleneck using a genuinely new design premise; prior decoder, layout, staging, and scheduling results are indexed in `research/EXPERIMENTS.md`.
 
 ## IMPORTANT DISCOVERIES
 
-- The inspected verifier checks draft tokens in order and breaks on the first unequal target sample; accepted drafts are not simply trusted without target sampling.
-- Raw Exp071 acceptance totals and character offsets are insufficient to find the first differing token.
-- The isolated audit branch started from the exact specified main commit; no shared/main worktree change was made.
+- A rejected draft emits the target verifier's sampled token exactly in the captured path; MTP output divergence is not caused by accepting draft 18912.
+- At the first divergent shared prefix, one-token target decode chooses 1167 while three-position MTP target verification chooses 6195. The winner margin in the MTP batch is narrow, but the underlying relative logit gap changes by ~0.294, so this cannot be dismissed as a tie.
+- The exact source of target batch-shape sensitivity remains unlocalized. No MTP correctness or performance change is retained in production.

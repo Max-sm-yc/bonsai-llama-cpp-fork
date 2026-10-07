@@ -1,2 +1,3 @@
-Diagnostic not executed: CUDA build stopped on user quota exhaustion.
+Diagnostic complete. Round 5 captured the shared-prefix target-only/MTP mismatch and verifier decision; see experiments/072-mtp-token-correctness/REPORT.md.
+Trace-only instrumentation has been removed from source. A clean-source full llama-server rebuild is running after the existing Ninja database recovered from a premature EOF; verify it completes before considering the runtime baseline restored.
 Starting HEAD: 32aaee6ee8f9eafb788f9c9f815140b23f1bd600

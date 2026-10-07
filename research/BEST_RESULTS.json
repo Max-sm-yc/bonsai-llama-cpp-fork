@@ -247,7 +247,7 @@
     }
   },
   "source_results": "results/baseline.json",
-  "latest_experiment": {
+  "latest_performance_experiment": {
     "id": "071",
     "hypothesis": "A community PQ2_0+MTP-Q8_0 bundle can amortize target decode on RTX 3080 sm_86.",
     "decision": "REVERT model-only candidate; correctness unresolved; current PTQ1_0 best unchanged.",
@@ -315,7 +315,60 @@
       "results/exp071/"
     ]
   },
-  "updated_timestamp_utc": "2026-10-07T15:09:56Z",
+  "latest_experiment": {
+    "id": "072",
+    "hypothesis": "Determine whether Exp071 MTP output divergence is caused by verification/sampler behavior or target batch-shape-sensitive logits.",
+    "decision": "REJECT MTP candidate; exact target-only greedy parity fails in the focused ctx512 Qwen case. No current-best change.",
+    "hardware": "NVIDIA GeForce RTX 3080, sm_86",
+    "configuration": {
+      "format": "PQ2_0 target bundle with optional MTP-Q8_0 head",
+      "prompt_family": "fixed Exp071 natural Qwen source prompt, index 1",
+      "context_tokens": 512,
+      "generated_tokens": 128,
+      "temperature": 0,
+      "top_k": 1,
+      "seed": 42,
+      "server_context": 4608,
+      "target_batch_positions": {
+        "target_only": 1,
+        "mtp_verification": 3
+      }
+    },
+    "first_divergence": {
+      "generated_position_zero_based": 66,
+      "target_only_token": 1167,
+      "mtp_draft_token": 18912,
+      "mtp_verdict": "reject",
+      "mtp_target_token_and_emission": 6195,
+      "target_only_sampler_matches_server_emissions": "128/128",
+      "mtp_sampler_matches_server_emissions": "128/128",
+      "post_bias_logits": {
+        "target_only": {
+          "token_1167": 8.84235477,
+          "token_6195": 8.55384827,
+          "winner_margin": 0.2885065
+        },
+        "mtp_batched_target": {
+          "token_6195": 8.84262085,
+          "token_1167": 8.83678246,
+          "winner_margin": 0.00583839
+        },
+        "relative_gap_shift_token_6195_minus_1167": 0.29434489
+      }
+    },
+    "correctness": "Verifier emits its selected target token after rejecting the draft. Same-prefix target logits differ between target-only single-token and MTP three-position target evaluation; exact greedy parity fails. Lower-level cause and other divergent family/context cells remain unlocalized.",
+    "performance_context": "Exp071 MTP pooled server decode was +9.9% at context 512 and -0.9% at 4096 versus PTQ1_0; no rerun in this diagnostic.",
+    "production_code_changed": false,
+    "current_best_unchanged": true,
+    "artifacts": [
+      "experiments/072-mtp-token-correctness/REPORT.md",
+      "results/exp072/raw/aligned_logits_ctx512_qwen.csv",
+      "results/exp072/raw/natural_r5_bundle_target_ctx512_trace.server.log",
+      "results/exp072/raw/natural_r5_pq2_0_mtp_ctx512_trace.server.log"
+    ],
+    "timestamp_utc": "2026-10-07T18:37:10Z"
+  },
+  "updated_timestamp_utc": "2026-10-07T18:37:10Z",
   "project_commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
   "current_best": {
     "commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
@@ -1081,7 +1134,7 @@
     ],
     "timestamp_utc": "2026-10-07T12:50:36.609483+00:00"
   },
-  "latest_research_audit": {
+  "previous_research_audit": {
     "id": "069",
     "description": "Fresh profile and launch-grid audit of the active sm_86 FlashAttention Stream-K path after retained Exp060/062 changes.",
     "decision": "NO CANDIDATE; retain current reduction. One CTA per output tile exposes only four x-grid CTAs, and cooperative fusion would add a grid barrier with no grounded cost advantage.",
