@@ -34,4 +34,4 @@
 
 ## Next candidates
 
-1. No launch-bound or CTA-width sweep remains open for the active ROWS=1 PTQ1_0 kernel. Exp045 lowered register counts with minimum-CTA bounds 6/7/8 but short decode screens regressed at both contexts; Exp042 geometry variants also failed matched decode. Keep the current 128-thread, four-CTA-bound implementation unless a new scheduling premise changes the active code path.
+1. Fresh design challenge of active PTQ1_0 batch-1 GEMV (Exp046): seek a materially different sm_86 dataflow that reduces ternary decode/integer work while preserving the compressed weight path. Existing LUT, recurrence, warp split, strip-mining, side encodings, staging, and geometry/launch-bound variants are exhausted; require a new exact focused candidate before E2E. If none survives, re-profile other decode bottlenecks.
