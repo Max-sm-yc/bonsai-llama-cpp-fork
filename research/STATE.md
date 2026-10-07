@@ -4,7 +4,7 @@
 
 - PTQ1_0 on RTX 3080/sm_86: ROWS=1 planar batch-1 GEMV, Exp036 coordinated QKV RMS/FWHT/Q8 prep, Exp060 recurrent CONCAT/cache-CPY fusion, and Exp062 recurrent SSM+SiLU/L2 fusion. Code commit `ffb0ef37690b902829ea1158b02b14517ed93c2b`; reference runtime `6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17`.
 - Four reversed-order 7-repetition A/B pairs against the Exp060 control measured 84.407 tok/s at context 512 (+0.037%, flat) and 81.885 at 4096 (+0.231%; all four pairs favored the candidate at 4096). Peak VRAM remained 6,579/6,803 MiB. Exp060's earlier two pairs gained +0.95%/+0.90%. Prefill remains from Exp041: 1,291.9/1,377.4/1,355.5/1,332.3 tok/s at contexts 128/512/2048/4096, within 0.09% of the frozen reference; Exp062's matcher is limited to one-token decode and does not run during prefill.
-- Correctness: Exp062 exact model/fallback comparisons and integrated CTest passed; selected CTests 5/5, CUDA-vs-CPU cases 96/96, and fixed-seed model completion match after removing the timing diagnostic. Final CUDA library SHA-256 `860fcca9977ed5ba9f9d81ce7d310481db9e9cefbe14ac30987ceb2867b30f3e`.
+- Correctness: Exp062 exact model/fallback comparisons and integrated CTest passed; selected CTests 5/5 and CUDA-vs-CPU cases 96/96. Clean-source rebuild `950c7cc` has CUDA library SHA `7b0c851c…`; PTQ1_0/PQ2_0 32-token smokes exactly match prior baseline text after stripping build/timing lines. Its separate 7-repetition decode refresh measured PTQ1_0 84.741/82.170 tok/s and PQ2_0 70.978/68.824 at ctx512/4096. The current-best result remains the earlier four-pair Exp062 measurement; refresh is not paired evidence of a speed change.
 
 ## Bottlenecks
 

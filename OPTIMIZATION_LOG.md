@@ -4,6 +4,7 @@
 
 - On a fixed 512-token Qwen prompt, target-only and MTP output matched through generated position 65. At position 66, MTP rejected draft 18912 and emitted its target batch sample 6195; target-only emitted 1167 at the same prefix. Each arm's sampler selections matched all 128 server emissions.
 - After the shared logit bias, target-only scored 1167/6195 at 8.84235477/8.55384827; the MTP three-position target batch scored 6195/1167 at 8.84262085/8.83678246. The top-one difference is narrow in MTP, but relative score gap shifts ~0.294; exact greedy parity fails and this is not explained as a harmless tie. Underlying graph/kernel source of batch-shape sensitivity remains unlocalized. No performance or production change. MTP stays rejected given Exp071's -0.9% ctx4096 screen. See `experiments/072-mtp-token-correctness/REPORT.md` and `results/exp072/raw/`.
+- A clean-source 397-step Release CUDA sm_86 rebuild completed without trace instrumentation, and the rebuilt server resolved project-local libraries. PTQ1_0 and PQ2_0 fixed-seed smoke completions matched baseline text after removing only build/timing lines. Seven-sample decode refresh medians were PTQ1_0 84.7407/82.1701 tok/s and PQ2_0 70.9778/68.8237 at contexts 512/4096. This one-arm build validation is not a paired performance comparison; retain Exp062's four-pair current-best results. Full telemetry is in `results/exp072/raw/clean_rebuild_decode.json`.
 
 ## Experiment 071: PQ2_0 plus MTP-Q8_0 feasibility and RTX 3080 decode screen
 

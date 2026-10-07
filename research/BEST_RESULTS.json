@@ -368,7 +368,7 @@
     ],
     "timestamp_utc": "2026-10-07T18:37:10Z"
   },
-  "updated_timestamp_utc": "2026-10-07T18:37:10Z",
+  "updated_timestamp_utc": "2026-10-07T19:17:45Z",
   "project_commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
   "current_best": {
     "commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
@@ -1188,5 +1188,103 @@
       "results/exp069/raw/"
     ],
     "timestamp_utc": "2026-10-07T15:09:56Z"
+  },
+  "runtime_verification": {
+    "build_commit": "950c7ccf9a0ae145c2c397dcf9a2b25fd69b6737",
+    "build_type": "Release",
+    "cuda_architecture": "sm_86",
+    "cuda_host_compiler": "GNU 15.3.1",
+    "target": "llama-server",
+    "result": "Clean-source full target build succeeded at 397 Ninja steps. ldd resolves project-local ggml/llama libraries. Rebuilt common/server libraries contain no temporary MTPTRACE instrumentation.",
+    "library_sha256": {
+      "libggml-cuda.so.0.21.0": "7b0c851cd4c1ff7800dfe88aaf1e102922a5712274f7f70bc320532452b991a1",
+      "libllama-common.so.0.2.0": "65e9496f48fe0ed768e1bda5c4cce9a4a2a98d4c6c984b48cb86cf1c92c3879e",
+      "libllama-server-impl.so": "f2128c2292a6f7b8e356d9a377c79942215a2d5d4a9c3001258aebc444eb8c0f"
+    },
+    "model_smoke": {
+      "command": "python3 tests/model_smoke.py --output results/exp072/raw/clean_rebuild_smoke.json --tokens 32",
+      "formats": [
+        "PTQ1_0",
+        "PQ2_0"
+      ],
+      "result": "Both generated non-empty completions; normalized text exactly matches results/baseline_smoke.json after removing only the build banner and timing line.",
+      "artifacts": [
+        "results/exp072/raw/clean_rebuild_smoke.json"
+      ]
+    },
+    "performance_rerun": "One-arm 7-sample decode refresh for PTQ1_0 and PQ2_0 is recorded in decode_refresh; it is not a paired performance comparison and does not replace the current-best four-pair result, whose measured CUDA library hash remains in current_best.",
+    "timestamp_utc": "2026-10-07T19:13:17Z",
+    "decode_refresh": {
+      "artifact": "results/exp072/raw/clean_rebuild_decode.json",
+      "configuration": {
+        "formats": [
+          "PTQ1_0",
+          "PQ2_0"
+        ],
+        "contexts": [
+          512,
+          4096
+        ],
+        "decode_tokens": 128,
+        "repetitions_per_format_context": 7,
+        "cooldown_gate_celsius": 60,
+        "batch_size": 2048,
+        "ubatch_size": 512,
+        "kv_type": "f16",
+        "n_gpu_layers": 99,
+        "flash_attention": "on",
+        "cpu_threads": 8
+      },
+      "results": {
+        "PTQ1_0": {
+          "peak_gpu_memory_mib": 6803,
+          "512": {
+            "median_tokens_per_second": 84.7407,
+            "mean_tokens_per_second": 84.577587,
+            "sample_stddev_tokens_per_second": 0.539915,
+            "sample_range_tokens_per_second": [
+              83.3593,
+              84.8421
+            ],
+            "mean_latency_ms": 1513.456797
+          },
+          "4096": {
+            "median_tokens_per_second": 82.1701,
+            "mean_tokens_per_second": 82.042134,
+            "sample_stddev_tokens_per_second": 0.362841,
+            "sample_range_tokens_per_second": [
+              81.2207,
+              82.2264
+            ],
+            "mean_latency_ms": 1560.200326
+          }
+        },
+        "PQ2_0": {
+          "peak_gpu_memory_mib": 7949,
+          "512": {
+            "median_tokens_per_second": 70.9778,
+            "mean_tokens_per_second": 70.940688,
+            "sample_stddev_tokens_per_second": 0.147631,
+            "sample_range_tokens_per_second": [
+              70.6184,
+              71.0716
+            ],
+            "mean_latency_ms": 1804.330926
+          },
+          "4096": {
+            "median_tokens_per_second": 68.8237,
+            "mean_tokens_per_second": 66.749823,
+            "sample_stddev_tokens_per_second": 3.331772,
+            "sample_range_tokens_per_second": [
+              60.5179,
+              69.0714
+            ],
+            "mean_latency_ms": 1921.933344
+          }
+        }
+      },
+      "comparison": "PTQ1_0 medians are +0.40%/+0.35% versus the earlier four-pair Exp062 medians at contexts 512/4096. This is a one-arm rebuild validation screen, not a paired A/B or an optimization claim.",
+      "timestamp_utc": "2026-10-07T19:17:45Z"
+    }
   }
 }

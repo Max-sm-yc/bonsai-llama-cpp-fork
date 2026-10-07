@@ -7,7 +7,7 @@ Exp071's PQ2_0+MTP candidate diverged from target-only greedy output in 3/6 fami
 ## IMPLEMENTATION
 
 - Starting main commit: `32aaee6ee8f9eafb788f9c9f815140b23f1bd600`. The fresh Luna experimenter inspected the verifier, sampler, draft generation, and Qwen3.5 MTP graph, then added opt-in token/logit tracing in `common/sampling.cpp` and `tools/server/server-context.cpp` in its isolated worktree.
-- Its first fresh build stopped at the user's `/tmp` quota. The manager removed stale CUDA compiler scratch under `/tmp`, moved compiler temporaries to the project build directory, and applied the trace-only patch locally. An incomplete Ninja database then forced a full 398-step rebuild; that clean-source rebuild is being verified separately before this report is finalized.
+- Its first fresh build stopped at the user's `/tmp` quota. The manager removed stale CUDA compiler scratch under `/tmp`, moved compiler temporaries to the project build directory, and applied the trace-only patch locally. After restoring both source files, a clean Release CUDA sm_86 `llama-server` rebuild completed successfully (397 Ninja steps) at project commit `950c7cc`. `ldd` resolves project-local libraries and `MTPTRACE` strings are absent from the rebuilt common/server libraries. The new CUDA-library SHA-256 is `7b0c851cd4c1ff7800dfe88aaf1e102922a5712274f7f70bc320532452b991a1`; relevant runtime source files are identical to best code commit `ffb0ef3`.
 - The diagnostic used the cached `Ternary-Bonsai-2-27B-PQ2_0-MTP-Q8_0.gguf` bundle, fixed Exp071 natural prompt token IDs, Qwen source prompt (index 1), 512 prompt tokens, 128 generated tokens, seed 42, temperature 0/top-k 1, `-ngl 99 -fa on -b 2048 -ub 512 -ctk f16 -ctv f16 -t 8 -c 4608 -np 1`. Target-only and MTP traces use the same bundle target weights; MTP adds `--spec-type draft-mtp --spec-draft-n-max 2`.
 - Trace rounds 2–4 exposed logger omissions and are retained as development diagnostics. Round 5 captures both sampler branches, verification decisions, and final server emissions. `results/exp072/raw/server_bench.py` and `prompt-seeds-natural.json` reproduce the focused request; `audit_trace.py` checks sampler-to-emission equality and recomputes the shared-prefix score margins from the raw logs. Raw logs and aligned top-logit data are in the same directory.
 
@@ -16,6 +16,10 @@ Exp071's PQ2_0+MTP candidate diverged from target-only greedy output in 3/6 fami
 The two outputs match through generated position 65. At position 66, target-only emits token **1167**, while MTP's target verifier emits **6195**. MTP's draft token at that row is **18912**; it is rejected, and the verifier emits 6195. Across the 128-token diagnostic request, target-only's 128 sampler selections match all 128 server emissions, and MTP's target-context selections also match all 128 emissions.
 
 At this identical prefix, after the configured logit bias and sampler transforms, target-only scores token 1167 at 8.84235477 and 6195 at 8.55384827, a 0.28850650 margin for 1167. The MTP batched target scores 6195 at 8.84262085 and 1167 at 8.83678246, a 0.00583839 margin for 6195. The relative score gap shifts by about 0.294345. The complete top candidates and trace lines are recorded in `results/exp072/raw/aligned_logits_ctx512_qwen.csv` and the round-5 server logs.
+
+After the clean rebuild, the fixed-seed 32-token CUDA smoke passed for PTQ1_0 and PQ2_0. Both completions exactly match `results/baseline_smoke.json` after removing only the build-banner line and timing line; the captured results are in `results/exp072/raw/clean_rebuild_smoke.json`.
+
+**Clean-build decode refresh:** the standard harness then ran seven samples per format at contexts 512 and 4096, with 128 generated tokens and the usual `-ngl 99 -fa on -b 2048 -ub 512 -ctk/-ctv f16 -t 8` settings. PTQ1_0 medians were 84.7407 and 82.1701 tok/s (peaks 6,803 MiB); PQ2_0 medians were 70.9778 and 68.8237 tok/s (peak 7,949 MiB). PTQ1_0's 512/4096 medians are 0.40%/0.35% above the prior paired-current medians, which is consistent with a rebuild smoke but is not a paired performance comparison or an optimization claim. Per-sample ranges and full command/hardware telemetry are in `results/exp072/raw/clean_rebuild_decode.json`.
 
 ## CORRECTNESS
 
@@ -27,7 +31,7 @@ Not applicable: this is a correctness diagnostic, not a kernel candidate. No iso
 
 ## END-TO-END IMPACT
 
-No performance rerun was needed for the correctness decision. Exp071 remains the only performance screen: pooled server decode was +9.9% at context 512 and -0.9% at 4096 versus PTQ1_0, with 8,485 MiB peak VRAM. Since exact greedy equivalence fails and long-context throughput regressed, the MTP model bundle is not promoted. Production PTQ1_0 is unchanged.
+The token-level diagnostic itself is not a performance screen. Exp071's MTP comparison remains +9.9% pooled at context 512 and -0.9% at 4096 versus PTQ1_0, with 8,485 MiB peak VRAM. The clean-source rebuild refresh produced the PTQ1_0/PQ2_0 medians above, with no paired baseline comparison and no production source change. Since exact MTP greedy equivalence fails and long-context MTP throughput regressed, the MTP model bundle is not promoted. Production PTQ1_0 remains unchanged.
 
 ## ANALYSIS
 
