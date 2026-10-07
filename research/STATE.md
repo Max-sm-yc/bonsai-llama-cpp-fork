@@ -90,6 +90,6 @@
 
 ## Next candidates
 
-1. Measure the community PQ2_0+MTP-Q8_0 bundle on sm_86; it may raise decode throughput if its draft path is correct and fits 10 GiB. The measured PTQ1_0 implementation remains the overall baseline to beat.
-2. Revisit the dominant PTQ1_0 batch-1 GEMV only with a genuinely new primitive, code-generation, or representation premise; Exp046/068 and earlier screens close current direct-dot and obvious decoder variants.
+1. Audit Exp071 MTP's first differing token with draft/target IDs and logits; compare single-token and batched target verification at an identical prefix. No candidate promotion until the divergence is explained.
+2. Revisit dominant PTQ1_0 batch-1 GEMV only with a genuinely new primitive, code-generation, or representation premise; Exp046/068 and earlier screens close current direct-dot and obvious decoder variants.
 3. Revisit PTQ1_0 prompt-side MMQ only with a concrete exact dataflow/decoder derivation; Exp065/066 closed geometry-only and ungrounded source screens.
