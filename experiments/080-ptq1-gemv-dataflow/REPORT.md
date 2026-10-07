@@ -49,7 +49,7 @@ Not measured because no candidate qualified for integration. The current-best st
 
 ## ANALYSIS
 
-For the baseline, the one-column host selector maps each work item to one row and one 128-weight PTQ block. The CTA uses three rows at K=40 (120 independent block dots) and sixteen rows at K=136 (2,176 block dots over 17 full CTA waves). Every dot writes one FP32 partial to dynamic shared memory. After a CTA barrier, each row's epilogue accumulates indices `k mod 4` sequentially and folds `(s0+s1)+(s2+s3)`.
+For the baseline, the one-column host selector maps each work item to one row and one 128-weight PTQ block. The CTA uses sixteen rows at both K=40 and K=136: 640 independent block dots over five full 128-thread CTA waves at K=40, and 2,176 block dots over 17 full waves at K=136. Every dot writes one FP32 partial to dynamic shared memory. After a CTA barrier, each row's epilogue accumulates indices `k mod 4` sequentially and folds `(s0+s1)+(s2+s3)`.
 
 A four-owner-per-row design would preserve the four accumulation sequences only by making each owner process 10 or 34 block dots serially. That cuts the per-row dot parallelism substantially. Parallelizing those same sequence terms changes the FP32 operation association and is not an exact-output candidate without new evidence. Mapping one row per CTA or changing warp/CTA reduction geometry repeats prior row/CTA/reduction families; prior screens also rejected shared staging, async prefetch, activation reuse, alternate decoder formats, and cache policy. Exp078 already rejected persistent bit planes on payload growth and arbitrary-Q8 selection cost. Nsight Compute remains unavailable (`ERR_NVGPUCTRPERM`); permissions were not changed or retried.
 
@@ -66,5 +66,5 @@ Reopen only with an sm_86 primitive or compact weight representation that change
 - The actual one-column model path reaches the dedicated PTQ1_0 planar kernel only for the guarded plain 2D, no-ids, one-channel/one-sample shape; batch-1 selects `<1,1,...>`.
 - Baseline generated code directly decodes compact trits into DP4A and has no spills; the reduction uses dynamic shared memory and one CTA barrier.
 - Exact output order creates four sequential per-row streams. Reducing their owners to eliminate partials also eliminates most independent K-block work per row; distributing each stream changes FP32 association.
-- The current 128-thread mapping already fills CTA work at K=136 and reaches 94% work-item coverage at K=40 with three rows/CTA. Obvious geometry alternatives are prior measured families.
+- The current host selector chooses 16 rows/CTA at both K=40 and K=136, filling five and seventeen 128-thread waves respectively. Obvious geometry alternatives are prior measured families.
 - No source, correctness, microbenchmark, or E2E candidate change was produced; current best is unchanged.
