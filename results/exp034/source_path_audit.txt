@@ -1,0 +1,14 @@
+Experiment 034 source-path audit
+Baseline code worktree: /tmp/bonsai-exp034
+Checkout: 9fa97200e68fd798ef027470c8e420172a0ac719
+
+Inspected:
+- ggml/src/ggml-cuda/mmvq.cu:1201 onward: dedicated PTQ1_0 PT switch is called with vx, dimensions, and strides; no ggml_tensor or owning CUDA buffer context is passed.
+- ggml/src/ggml-cuda/mmvq.cu:1660-1715: ggml_cuda_mul_mat_vec_q has src0 metadata, but the PTQ1 switch call is further down the generic type switch.
+- ggml/src/ggml-cuda/mmvq-ptq1_0.cuh:493-560: dedicated switch accepts pointer and integer shape/strides only; batch and sample eligibility are numeric.
+- ggml/src/ggml-cuda/ggml-cuda.cu:731-749: CUDA allocations are owned by ggml_backend_cuda_buffer_context and released by its destructor/free_buffer callback.
+- ggml/src/ggml-cuda/ggml-cuda.cu:789-815: generic full, partial, and 2D set/get callbacks treat tensor storage as raw bytes.
+
+No source edits were made. A persistent sidecar cache local to mmvq would not have a safe cleanup notification from the CUDA buffer destructor and could retain a stale key after allocation reuse. Conversion into a per-call temporary would incur repeated full-tensor repacking and an approximately 19 MiB temporary per selected matrix invocation; doing this for all rows in the active GEMV would add conversion work to every decode token. A safe persistent implementation requires passing the owner buffer context/registration through the op dispatch and attaching sidecar ownership to that context so free_buffer releases it. This was not prototyped because it crosses CUDA buffer lifetime and operation dispatch, beyond a GEMV-local experiment.
+
+Expected exact selector if pursued: GGML_TYPE_PTQ1_0, K=17,408 (ncols_x), row count 5,120, contiguous canonical row stride 136 PTQ1 blocks, one channel/sample, one output column, no ids, plain non-fusion. The supplied GGUF inventory confirms exactly 64 tensors with this exact shape and type; see selective_soa_bytes.txt. The runtime hook itself receives neither tensor name nor buffer owner.
