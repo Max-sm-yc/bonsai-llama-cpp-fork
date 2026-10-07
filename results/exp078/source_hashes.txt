@@ -1,0 +1,8 @@
+Base commit: 8e9229e4f8e61cf86e2905854f80cf86977c78e2
+Active GEMV source (worktree):
+ggml/src/ggml-cuda/mmvq-ptq1_0.cuh  f398417accddf1948fbf12155b4180fd362a3dfea88366ef3980161700d56496
+ggml/src/ggml-cuda/mmvq.cu  e889b1543656cd2e5c0c6151f11bfdd7f641e88af441449d92064ac902b9483d
+results/exp043/sass_schedule_excerpt.txt  0fc7873bcf295b492f21c25be8318b7f677a26a749e181110a827a145fd84b65
+results/exp073/design_audit.txt  631943e9115d51705e525a60c939f20a848b273eecfdac659eb9efdd12d302d4
+results/exp074/raw/ptq1_tensor_manifest.json  0582735d5f6523e2f4df62e7f375e808169b29b7f38bed0c689dc714af3d6d96
+No candidate source/build/binary hash: no candidate was justified or created.

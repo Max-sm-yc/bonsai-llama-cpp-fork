@@ -402,3 +402,9 @@
 - In one Release sm_86 build, `GGML_CUDA_BATCH_INVARIANT=1` made the PQ2_0+MTP bundle's generated token IDs exactly match target-only in all 42 tested streams (three fixed prompts, contexts 512/4096, seven repetitions). With the mode off, 3/6 cells diverged, including the Exp072 ctx512 Qwen boundary.
 - Enabling the global mode changed target-only token IDs in 21/42 streams, at ctx512 speculative C++ (index 104) and ctx4096 reports/Qwen (indices 17/94). Those changed outputs have no quality validation. Pooled MTP/target rates within the invariant mode were 85.57/63.78 tok/s at ctx512 and 58.61/45.78 at ctx4096; reports MTP was 15.2% slower at ctx4096. Peak VRAM was 8,485 MiB.
 - **REJECT GLOBAL MODE PROMOTION; production/current best unchanged.** Cross-build Exp071 output-text matches only 3/6 cells, an unlocalized historical difference; see `experiments/077-mtp-batch-invariant/REPORT.md` and `results/exp077/`.
+
+## Experiment 078: fresh PTQ1_0 GEMV architecture challenge
+
+- Source audit confirmed the active kernel already consumes packed ternary digits directly through DP4A, with exact subgroup activation-sum correction. A persistent positive/negative bit-plane encoding would use 32 rather than 28 bytes per 128 weights (+14.3%, about +0.800 GB over the active payload) and still needs selection/reduction for arbitrary signed Q8 values.
+- No candidate passed the cost screen, so no source, build, correctness suite, or performance benchmark was changed or claimed. The report preserves the negative result and source audit.
+- **NO CANDIDATE; production/current best unchanged.** See `experiments/078-ptq1-architecture-challenge/REPORT.md` and `results/exp078/`.

@@ -49,10 +49,11 @@
 
 ## Experiment status
 
-- Exp077 is complete with no production change: `GGML_CUDA_BATCH_INVARIANT=1` made MTP match target-only IDs in all 42 sampled streams, but changed target-only IDs versus default mode in 21/42. Its within-mode pooled PQ2_0 MTP gain was +34.2%/+28.0% at ctx512/4096, though reports at ctx4096 lost 15.2%; no quality validation supports promotion. Exp078 has one explicitly GPT-6 Luna experimenter in an isolated worktree, independently challenging the active PTQ1_0 GEMV dataflow. Current best remains unchanged.
+- Exp077 and Exp078 completed with no production change. Exp077 restored MTP-vs-target IDs in 42/42 samples only under a global arithmetic mode that itself changed target-only IDs in 21/42; no quality validation supports promotion. Exp078's fresh PTQ1_0 architecture challenge rejected persistent signed bit planes (+14.3% weight storage with arbitrary-Q8 selection/reduction still required); no candidate or benchmark. Current best remains unchanged.
 
 ## Latest research result
 
+- Exp078 source-audited the active PTQ1_0 GEMV and screened a persistent positive/negative bit-plane representation. It would require 32 versus 28 bytes per 128 weights, adding 799,948,800 bytes to the 5,599,641,600-byte active payload, while still selecting/reducing arbitrary signed Q8 values. No credible net-work advantage; no code, build, timing, or correctness claim. Five source hashes and byte math were manager-verified. Production unchanged; see `experiments/078-ptq1-architecture-challenge/REPORT.md`.
 - Exp077 compared the same isolated sm_86 binary with batch-invariant mode off/on across three fixed prompt families, contexts 512/4096, seven repetitions, and 128 greedy tokens. On-mode MTP matched target-only IDs in 42/42 streams; target-only IDs changed across modes in 21/42 streams (ctx512 speculative C++ at index 104; ctx4096 reports at 17 and Qwen at 94). Pooled MTP/target throughput was 85.57/63.78 tok/s at ctx512 and 58.61/45.78 at ctx4096; reports MTP lost 15.2% paired at 4096. Peak VRAM was 8,485 MiB. No output-quality check or production change; reject promotion. See `experiments/077-mtp-batch-invariant/REPORT.md`.
 - Exp076 independently confirmed NVIDIA MMQ dispatches PTQ1_0 to `ggml_cuda_mmq_load_tiles_ptq1_0` plus the signed-int8 MMA consumer. The focused sm_86 cubin contains `IMMA.16832.S8.S8` instructions and the active K loop uses `m16n8k32`; 1,792 instances count across emitted template variants, not runtime calls. No candidate or E2E measurement was made. See `experiments/076-ptq1-mmq-tensor-core/REPORT.md` and `results/exp076/`.
 - Exp075 counted 32 of 401 active PTQ GEMV tensors at or below 5 MiB L2; all are 1.14688 MB K/V tensors (36,700,160 B total). Each is separated from its next-token use by about 5.598 GB of PTQ weight payload. No exact-kernel cache timing was feasible without engine instrumentation, so no cache-hit, DRAM, or performance attribution is claimed. See `experiments/075-l2-cache-reuse/REPORT.md` and `results/exp075/raw/`.
@@ -104,7 +105,7 @@
 
 ## Next candidates
 
-1. **Active Exp078:** fresh architectural challenge of the active PTQ1_0 batch-1 GEMV, grounded in its measured 74–77% steady decode share. Require a genuinely distinct dataflow/cost model, exact kernel checks, and model A/B before keeping any candidate; consult the exhausted decoder/layout/scheduling work first.
-2. Build an exact production-kernel cold/warm replay harness for a representative PTQ1_0 GEMV shape and vary working sets around/beyond 5 MiB L2. Keep event timing, weight bytes, and graph replay separate; Exp075 established reuse distance only, not cache behavior.
+1. Build an exact production-kernel cold/warm replay harness for a representative PTQ1_0 GEMV shape and vary working sets around/beyond 5 MiB L2. Keep event timing, weight bytes, and graph replay separate; Exp075 established reuse distance only, not cache behavior.
+2. Re-open the active PTQ1_0 batch-1 GEMV dataflow only with a new primitive, encoding, or measured counter evidence that changes the cost model. Exp078 rejected persistent signed bit planes; retain the 74–77% decode share as the priority without repeating audited mappings.
 3. Revisit PTQ1_0 prompt-side MMQ only with a concrete exact dataflow/decoder derivation; Exp065/066 closed geometry-only and ungrounded source screens.
 4. Revisit long-context attention only with a concrete parallel reduction or synchronization design; Exp069/053 closed tile-only and barrier-only directions.
