@@ -49,7 +49,7 @@
 
 ## Experiment status
 
-- Exp076 is complete: the proposed int8 Tensor Core prefill path already exists. Its exact PTQ1_0 sm_86 translation unit compiled and SASS confirmed signed-int8 MMA; no new path or benchmark comparison was made. Production and current best are unchanged. Next correctness candidate: test MTP with the existing `GGML_CUDA_BATCH_INVARIANT=1` mode, explicitly intended to make 1–8 column outputs bit-identical.
+- Exp076 is complete: the proposed int8 Tensor Core prefill path already exists. Its exact PTQ1_0 sm_86 translation unit compiled and SASS confirmed signed-int8 MMA; no new path or benchmark comparison was made. Production and current best are unchanged. Exp077 is active with one explicitly GPT-6 Luna experimenter in an isolated worktree, testing whether `GGML_CUDA_BATCH_INVARIANT=1` restores MTP greedy parity without erasing its throughput advantage.
 
 ## Latest research result
 

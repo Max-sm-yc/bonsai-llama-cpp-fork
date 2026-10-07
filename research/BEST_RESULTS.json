@@ -348,7 +348,7 @@
     ],
     "timestamp_utc": "2026-10-07T20:13:59Z"
   },
-  "updated_timestamp_utc": "2026-10-07T20:13:59Z",
+  "updated_timestamp_utc": "2026-10-07T20:15:03Z",
   "project_commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
   "current_best": {
     "commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
@@ -1445,5 +1445,15 @@
       "results/exp076/extracted/mmq-instance-ptq1_0.cu.1.sm_86.cubin"
     ],
     "timestamp_utc": "2026-10-07T20:13:59Z"
+  },
+  "active_experiment": {
+    "id": "077",
+    "hypothesis": "Test whether GGML_CUDA_BATCH_INVARIANT=1 restores MTP target-only greedy parity while preserving useful decode speed.",
+    "status": "in_progress",
+    "base_project_commit": "56b1e3f",
+    "production_source_commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
+    "worktree": "/home/maxsun/autonomous_projects/.worktrees/exp077-mtp-batch-invariant",
+    "assigned_model": "gpt-6-luna",
+    "current_best_unchanged": true
   }
 }
