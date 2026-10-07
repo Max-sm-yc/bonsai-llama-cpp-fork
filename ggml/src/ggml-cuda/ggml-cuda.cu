@@ -2764,6 +2764,8 @@ static int ggml_cuda_try_fwht_q8(ggml_backend_cuda_context & ctx, const ggml_cgr
     if (disabled) {
         return 0;
     }
+    static const bool rms_fwht_enabled = getenv("GGML_CUDA_RMS_FWHT_Q8") == nullptr ||
+                                         atoi(getenv("GGML_CUDA_RMS_FWHT_Q8")) != 0;
     const int cc = ggml_cuda_info().devices[ctx.device].cc;
     if (!GGML_CUDA_CC_IS_NVIDIA(cc) || cc < GGML_CUDA_CC_TURING) {
         return 0; // the PTQ1_0 mmvq predicate below is only meaningful there
@@ -2771,11 +2773,50 @@ static int ggml_cuda_try_fwht_q8(ggml_backend_cuda_context & ctx, const ggml_cgr
 
     const ggml_tensor * x     = nullptr;
     const ggml_tensor * signs = nullptr;
+    const ggml_tensor * rms_weight = nullptr;
+    const ggml_tensor * rms_input = nullptr;
+    float rms_eps = 0.0f;
     ggml_tensor *       mm    = nullptr;
     int consumed = 0;
     int i_mm     = -1;
+    bool fuse_rms = false;
 
-    if (ggml_can_fuse_subgraph(cgraph, node_idx, { GGML_OP_MUL, GGML_OP_RESHAPE, GGML_OP_MUL_MAT }, { node_idx + 2 })) {
+    if (rms_fwht_enabled && node_idx + 4 < cgraph->n_nodes &&
+            cgraph->nodes[node_idx]->op == GGML_OP_RMS_NORM &&
+            ggml_can_fuse_subgraph(cgraph, node_idx,
+                { GGML_OP_RMS_NORM, GGML_OP_MUL, GGML_OP_MUL, GGML_OP_RESHAPE, GGML_OP_MUL_MAT },
+                { node_idx + 4 })) {
+        const ggml_tensor * rms = cgraph->nodes[node_idx];
+        const ggml_tensor * weighted = cgraph->nodes[node_idx + 1];
+        const ggml_tensor * mul_sign = cgraph->nodes[node_idx + 2];
+        const ggml_tensor * reshape = cgraph->nodes[node_idx + 3];
+        mm = cgraph->nodes[node_idx + 4];
+        rms_weight = weighted->src[weighted->src[0] == rms ? 1 : 0];
+        signs = mul_sign->src[mul_sign->src[0] == weighted ? 1 : 0];
+        x = rms->src[0];
+        rms_input = x;
+        rms_eps = ggml_get_op_params_f32(rms, 0);
+        const bool pattern_ok = x && rms->type == GGML_TYPE_F32 && x->type == GGML_TYPE_F32 &&
+            weighted->op == GGML_OP_MUL && weighted->type == GGML_TYPE_F32 &&
+            (weighted->src[0] == rms || weighted->src[1] == rms) &&
+            ggml_are_same_shape(rms, weighted) && rms_weight && rms_weight->type == GGML_TYPE_F32 &&
+            ggml_nrows(rms_weight) == 1 && rms_weight->ne[0] == x->ne[0] &&
+            mul_sign->op == GGML_OP_MUL && mul_sign->type == GGML_TYPE_F32 && signs && signs->type == GGML_TYPE_F32 &&
+            (mul_sign->src[0] == weighted || mul_sign->src[1] == weighted) &&
+            ggml_is_contiguous(x) && ggml_is_contiguous(rms_weight) && ggml_is_contiguous(signs) &&
+            signs->ne[1] == 1 && signs->ne[2] == 1 && signs->ne[3] == 1 && signs->ne[0] == x->ne[0] &&
+            ggml_are_same_shape(rms, mul_sign) && reshape->src[0] == mul_sign &&
+            mm->src[1] == reshape && ggml_get_op_params_i32(mm, 1) == GGML_HINT_SRC0_IS_HADAMARD &&
+            ggml_node_get_use_count(cgraph, node_idx) == 1 &&
+            ggml_node_get_use_count(cgraph, node_idx + 1) == 1 &&
+            ggml_node_get_use_count(cgraph, node_idx + 2) == 1;
+        if (!pattern_ok) {
+            return 0;
+        }
+        consumed = 5;
+        i_mm = node_idx + 4;
+        fuse_rms = true;
+    } else if (ggml_can_fuse_subgraph(cgraph, node_idx, { GGML_OP_MUL, GGML_OP_RESHAPE, GGML_OP_MUL_MAT }, { node_idx + 2 })) {
         const ggml_tensor * mul     = cgraph->nodes[node_idx];
         const ggml_tensor * reshape = cgraph->nodes[node_idx + 1];
         mm    = cgraph->nodes[node_idx + 2];
@@ -2825,7 +2866,8 @@ static int ggml_cuda_try_fwht_q8(ggml_backend_cuda_context & ctx, const ggml_cgr
         const char * b1 = b0 + ggml_nbytes(b);
         return a0 < b1 && b0 < a1;
     };
-    const bool out_aliases_in = overlaps(x, mm) || (signs && overlaps(signs, mm));
+    const bool out_aliases_in = overlaps(x, mm) || (signs && overlaps(signs, mm)) ||
+        (rms_weight && overlaps(rms_weight, mm));
 
     // every use of the transform output (directly or through a reshape view of the whole tensor)
     // must be src1 of a PTQ1_0 MUL_MAT that ggml_cuda_mul_mat routes to ggml_cuda_mul_mat_vec_q.
@@ -2893,6 +2935,9 @@ static int ggml_cuda_try_fwht_q8(ggml_backend_cuda_context & ctx, const ggml_cgr
 
     // same (type, ncols, ids) -> layout and padding as ggml_cuda_mul_mat_vec_q
     layout     = ggml_cuda_q8_1_layout_host(GGML_TYPE_PTQ1_0, (int) ncols, false);
+    if (fuse_rms && (K != 5120 || !fwht_rms_quantize_q8_1_supported(n, K, layout))) {
+        return 0;
+    }
     ne0_padded = GGML_PAD(K, MATRIX_ROW_PADDING);
     if (layout == GGML_CUDA_Q8_1_SOA_ISUM) {
         ne0_padded = GGML_PAD(ne0_padded, GGML_CUDA_PTQ1_K_PAD);
@@ -2910,8 +2955,13 @@ static int ggml_cuda_try_fwht_q8(ggml_backend_cuda_context & ctx, const ggml_cgr
         return 0; // the quantized rows must fit in the F32 output allocation
     }
 
-    fwht_quantize_row_q8_1_cuda(x->data, x->type, signs ? (const float *) signs->data : nullptr, n,
-                                out, layout, K, ne0_padded, ncols, ctx.stream());
+    if (fuse_rms) {
+        fwht_rms_quantize_q8_1_cuda((const float *) rms_input->data, (const float *) rms_weight->data,
+            (const float *) signs->data, rms_eps, n, out, layout, K, ne0_padded, ncols, ctx.stream());
+    } else {
+        fwht_quantize_row_q8_1_cuda(x->data, x->type, signs ? (const float *) signs->data : nullptr, n,
+                                    out, layout, K, ne0_padded, ncols, ctx.stream());
+    }
 
     ggml_cuda_fwht_q8 e;
     e.layout = layout;
@@ -4584,7 +4634,8 @@ static void ggml_cuda_graph_evaluate_and_capture(ggml_backend_cuda_context * cud
                 }
 
                 // Hadamard rotation that quantizes its own output; its PTQ1_0 mat-vecs skip quantize
-                if ((node->op == GGML_OP_MUL || node->op == GGML_OP_MUL_MAT) && !is_concurrent_event_active) {
+                if ((node->op == GGML_OP_RMS_NORM || node->op == GGML_OP_MUL || node->op == GGML_OP_MUL_MAT) &&
+                        !is_concurrent_event_active) {
                     const int consumed = ggml_cuda_try_fwht_q8(*cuda_ctx, cgraph, i);
                     if (consumed > 0) {
                         i += consumed - 1;

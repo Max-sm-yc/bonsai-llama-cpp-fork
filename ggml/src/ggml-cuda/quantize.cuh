@@ -31,6 +31,12 @@ void fwht_quantize_row_q8_1_cuda(
         const void * x, ggml_type x_type, const float * signs, int n, void * vy,
         ggml_cuda_q8_1_layout layout, int64_t ne00, int64_t ne0, int64_t ncols, cudaStream_t stream);
 
+// Experiment 036: weighted RMSNorm + signed 1024-wide FWHT + PT Q8_1 output.
+bool fwht_rms_quantize_q8_1_supported(int n, int64_t ne00, ggml_cuda_q8_1_layout layout);
+void fwht_rms_quantize_q8_1_cuda(
+        const float * x, const float * weight, const float * signs, float eps, int n, void * vy,
+        ggml_cuda_q8_1_layout layout, int64_t ne00, int64_t ne0, int64_t ncols, cudaStream_t stream);
+
 void quantize_mmq_q8_1_cuda(
         const float * x, const int32_t * ids, void * vy,
         ggml_type type_src0, int64_t ne00, int64_t s01, int64_t s02, int64_t s03,

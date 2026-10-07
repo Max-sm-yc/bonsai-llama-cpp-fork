@@ -156,6 +156,63 @@ static __global__ void quantize_q8_1(
 // and stores as quantize_q8_1<layout> above. Element i*NT + tid of the transform sits in reg[i], so
 // each 32-block kb = i*(NT/32) + tid/32 lies in one warp and is reduced with 32-wide warp reductions.
 // Rows of x are contiguous (ne00 elements); row index = ((i3*ne2 + i2)*ne1 + i1) like a contiguous src1.
+// Coordinated RMSNorm and activation preparation for the Bonsai 2 attention branches.
+// Each transform CTA computes the full-row RMS reduction, then transforms one 1024-value tile.
+// This retains the five independent transform CTAs for K=5120 at the cost of repeated RMS reads.
+template <int N, int NT, ggml_cuda_q8_1_layout layout>
+__launch_bounds__(NT, 1)
+static __global__ void fwht_rms_quantize_q8_1(
+        const float * x_ptr, const float * weight, const float * signs, void * vy_ptr,
+        const int64_t ne00, const int64_t ne0, const uint32_t ne1, const float eps) {
+    static_assert(N == 1024 && NT == 1024, "Exp036 kernel is specific to 1024-wide FWHT tiles");
+    constexpr int warp_size = ggml_cuda_get_physical_warp_size();
+    __shared__ float s_reduce[NT / warp_size];
+    __shared__ float s_fwht[N];
+
+    const int64_t row = blockIdx.y;
+    const int64_t base = (int64_t) blockIdx.x * N;
+    const int tid = threadIdx.x;
+    const int lane = tid % warp_size;
+
+    const float * x = x_ptr + row * ne00;
+    float sum = 0.0f;
+    ggml_cuda_pdl_sync();
+    for (int col = tid; col < ne00; col += NT) {
+        const float xi = x[col];
+        sum += xi * xi;
+    }
+    sum = block_reduce<block_reduce_method::SUM, NT>(sum, s_reduce);
+    const float rms_scale = rsqrtf(sum / (float) ne00 + eps);
+    ggml_cuda_pdl_lc();
+
+    const int64_t i0 = base + tid;
+    float xi = x[i0] * rms_scale;
+    xi *= weight[i0];
+    xi *= signs[i0];
+    float reg[1] = { xi * (1.0f / sqrtf((float) N)) };
+    ggml_cuda_fwht_block_butterfly<N, NT>(reg, s_fwht, tid, lane);
+
+    const int64_t row_stride = ne0 * 9 / 8;
+    char * ycol = (char *) vy_ptr + row * row_stride;
+    const int64_t nblk = ne0 / QK_PTQ1_0;
+    const int64_t out_i0 = base + tid;
+    const int64_t kb = out_i0 / QK_PTQ1_0;
+    const int e = out_i0 % QK_PTQ1_0;
+    const float transformed = reg[0];
+    float amax = warp_reduce_max<QK8_1>(fabsf(transformed));
+    const float d = amax / 127.0f;
+    const int8_t q = amax == 0.0f ? 0 : (int8_t) roundf(transformed / d);
+    ycol[((e / 16) * nblk + kb) * 16 + (e % 16)] = q;
+
+    int isum = q;
+    isum = warp_reduce_sum<QK8_1>(isum);
+    if ((lane % QK8_1) == 0) {
+        half2 * ds = (half2 *) (ycol + 8 * nblk * 16) + kb * 4 + e / QK8_1;
+        *ds = make_half2(__float2half(d), __short_as_half((short) isum));
+    }
+    GGML_UNUSED(ne1);
+}
+
 template <int N, int NT, ggml_cuda_q8_1_layout layout, typename T, bool has_signs>
 __launch_bounds__(NT, 1)
 static __global__ void fwht_quantize_q8_1(
@@ -319,6 +376,25 @@ void fwht_quantize_row_q8_1_cuda(
         GGML_ASSERT(x_type == GGML_TYPE_F32);
         fwht_quantize_launch<float>((const float *) x, signs, vy, layout, n, ne00, ne0, ncols, 1, 1, scale, stream);
     }
+}
+
+bool fwht_rms_quantize_q8_1_supported(
+        const int n, const int64_t ne00, const ggml_cuda_q8_1_layout layout) {
+    return n == 1024 && ne00 > 0 && ne00 % n == 0 && ne00 % QK_PTQ1_0 == 0 &&
+        layout == GGML_CUDA_Q8_1_PT;
+}
+
+void fwht_rms_quantize_q8_1_cuda(
+        const float * x, const float * weight, const float * signs, const float eps, const int n, void * vy,
+        const ggml_cuda_q8_1_layout layout, const int64_t ne00, const int64_t ne0,
+        const int64_t ncols, cudaStream_t stream) {
+    GGML_ASSERT(fwht_rms_quantize_q8_1_supported(n, ne00, layout));
+    GGML_ASSERT(weight && signs && ne0 == ne00 && ncols > 0);
+    const dim3 grid((unsigned) (ne0 / n), (unsigned) ncols, 1);
+    const dim3 block(n, 1, 1);
+    const ggml_cuda_kernel_launch_params lp = ggml_cuda_kernel_launch_params(grid, block, 0, stream);
+    ggml_cuda_kernel_launch(fwht_rms_quantize_q8_1<1024, 1024, GGML_CUDA_Q8_1_PT>, lp,
+        x, weight, signs, vy, ne00, ne0, (uint32_t) ncols, eps);
 }
 
 __device__ __forceinline__ uint8_t compute_e8m0_scale(float amax) {
