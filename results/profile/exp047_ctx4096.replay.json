@@ -1,0 +1,85 @@
+{
+  "context": 4096,
+  "graph_replays": 255,
+  "graph_launch_api_calls": 255,
+  "kernel_instances_per_replay": [
+    1432
+  ],
+  "unique_graph_nodes_per_replay": [
+    1432
+  ],
+  "replay_gpu_span_ms": {
+    "mean": 12.239181847058823,
+    "median": 12.240353,
+    "stdev": 0.006220964319074217,
+    "min": 12.204865,
+    "max": 12.247745
+  },
+  "families": {
+    "PTQ1_0 GEMV": {
+      "mean_ms_per_token": 9.022212207843138,
+      "median_ms_per_token": 9.022524,
+      "stdev_ms_per_token": 0.003269563226617863,
+      "min_ms_per_token": 9.008512,
+      "max_ms_per_token": 9.030783,
+      "share_of_kernel_time_pct": 73.78676943606953
+    },
+    "Quantized GEMM": {
+      "mean_ms_per_token": 0.0,
+      "median_ms_per_token": 0.0,
+      "stdev_ms_per_token": 0.0,
+      "min_ms_per_token": 0.0,
+      "max_ms_per_token": 0.0,
+      "share_of_kernel_time_pct": 0.0
+    },
+    "QKV activation prep": {
+      "mean_ms_per_token": 0.7527983960784314,
+      "median_ms_per_token": 0.752969,
+      "stdev_ms_per_token": 0.0010966439552341002,
+      "min_ms_per_token": 0.746758,
+      "max_ms_per_token": 0.754218,
+      "share_of_kernel_time_pct": 6.156645443896205
+    },
+    "GDN": {
+      "mean_ms_per_token": 0.5002557568627451,
+      "median_ms_per_token": 0.500357,
+      "stdev_ms_per_token": 0.0013128715640919125,
+      "min_ms_per_token": 0.495109,
+      "max_ms_per_token": 0.503492,
+      "share_of_kernel_time_pct": 4.0912644637874385
+    },
+    "RMSNorm": {
+      "mean_ms_per_token": 0.36436360392156864,
+      "median_ms_per_token": 0.364452,
+      "stdev_ms_per_token": 0.0007020016684483346,
+      "min_ms_per_token": 0.360932,
+      "max_ms_per_token": 0.365666,
+      "share_of_kernel_time_pct": 2.9798914738543223
+    },
+    "Attention": {
+      "mean_ms_per_token": 0.5882573098039215,
+      "median_ms_per_token": 0.588296,
+      "stdev_ms_per_token": 0.0009130732403407382,
+      "min_ms_per_token": 0.585798,
+      "max_ms_per_token": 0.591046,
+      "share_of_kernel_time_pct": 4.810971576333726
+    },
+    "Other": {
+      "mean_ms_per_token": 0.9995246,
+      "median_ms_per_token": 0.999945,
+      "stdev_ms_per_token": 0.001698265149066963,
+      "min_ms_per_token": 0.991917,
+      "max_ms_per_token": 1.001582,
+      "share_of_kernel_time_pct": 8.17445760605877
+    }
+  },
+  "definitions": {
+    "PTQ1_0 GEMV": "All mul_mat_vec_ptq1_0_pt specializations.",
+    "Quantized GEMM": "mul_mat_q kernels.",
+    "QKV activation prep": "fwht_quantize_q8_1 and fwht_rms_quantize_q8_1 kernels.",
+    "GDN": "gated_delta_net_cuda plus ssm_conv_f32 and l2_norm_f32 kernels.",
+    "RMSNorm": "rms_norm_f32 kernels; RMS fused inside fwht_rms_quantize_q8_1 is counted as activation prep.",
+    "Attention": "flash_attn kernels including stream-fixup names.",
+    "Other": "All remaining kernels, including non-PTQ1 GEMV and graph pointwise/copy operations."
+  }
+}

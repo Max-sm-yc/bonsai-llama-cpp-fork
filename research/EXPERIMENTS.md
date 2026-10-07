@@ -2,6 +2,7 @@
 
 | ID | Hypothesis | Result | E2E delta | Decision | Report |
 |---|---|---|---:|---|---|
+| 047 | Isolate steady-state PTQ1_0 batch-1 decode kernel-family time from CUDA graph replay | On RTX 3080, each of 255 one-token graph replays had 1,432 nodes. PTQ1_0 GEMV costs 9.01/9.02 ms per token at contexts 512/4096 (75.9%/73.8% of summed graph kernel time); QKV prep is 0.752 ms, GDN 0.500 ms. | Measurement only | KEEP GEMV primary; activation prep next secondary | [Report](../experiments/047-steady-decode-profile/REPORT.md) |
 | 046 | Freshly challenge active PTQ1_0 batch-1 GEMV dataflow | Audit found no distinct candidate beyond previously screened decode, lane-mapping, staging, and scheduling families; no implementation or new measurements | Not measured | NO CANDIDATE / REVERT | [Report](../experiments/046-ptq1-dataflow-challenge/REPORT.md) |
 | BASE | Establish matched PTQ1_0/PQ2_0 baseline on RTX 3080 | PTQ1_0 decode leads 32–54%; prefill is nearly tied | baseline | VERIFIED | [BASELINE.md](../BASELINE.md) |
 | 001 | Disable PTQ1_0 sm_86 batch-1 GEMV L2 prefetch | Later dispatch audit: edited generic loop is bypassed by the active dedicated batch-1 planar kernel | No-op for target decode | NO-OP / REVERT | [Report](../experiments/001-ptq1-sm86-gemv/REPORT.md) |

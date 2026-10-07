@@ -8,10 +8,10 @@
 
 ## Bottlenecks
 
-1. Active PTQ1_0 batch-1 `mul_mat_vec_ptq1_0_pt`: 61.2%, 1.166 s of the mixed context-512 post-Exp036 trace; still the highest-value target.
-2. PTQ1_0 GEMM: 12.7%, 242.6 ms.
-3. Activation prep: 5.2%, 98.6 ms; GDN: 4.6%, 88.2 ms; remaining RMSNorm: 3.0%, 56.8 ms.
-4. These are mixed setup/decode Nsight Systems totals. Nsight Compute counters fail with `ERR_NVGPUCTRPERM`; do not alter system-wide permissions.
+1. Active PTQ1_0 batch-1 GEMV (`mul_mat_vec_ptq1_0_pt`): 9.014 ms/token at context 512 and 9.022 ms/token at 4096, 75.9%/73.8% of summed steady-state graph kernel duration. Its plain, fused-gate, and fused non-gate specializations cost ~4.57, ~2.31, and ~2.14 ms/token.
+2. QKV activation preparation: 0.752 ms/token (6.2–6.3%); GDN: 0.500 ms/token (4.1–4.2%); remaining standalone RMSNorm: 0.364 ms/token (~3%). Attention rises from 0.236 ms/token at context 512 to 0.588 ms at 4096.
+3. The earlier context-512 post-Exp036 trace's 1.166 s / 61.2% GEMV share is a mixed setup/decode denominator. Exp047 directly grouped 255 graph replays with 1,432 nodes/replay; it contains no quantized GEMM graph nodes.
+4. Nsight Compute counters fail with `ERR_NVGPUCTRPERM`; do not alter system-wide permissions. See [Exp047](../experiments/047-steady-decode-profile/REPORT.md) for filters, reproducibility, and variability.
 
 ## Successful optimizations
 
@@ -28,14 +28,16 @@
 ## Important architectural discoveries
 
 - RTX 3080 batch-1 PTQ1_0 uses planar-transposed Q8_1 and dedicated `mul_mat_vec_ptq1_0_pt`; generic `mmvq.cu` tunings do not apply. It processes flattened `(row group,K block)` work items with per-thread stride 128 and 128-thread CTAs.
-- PTQ1_0 reference decode was 32–54% faster than PQ2_0 in the initial format comparison; prefill was nearly tied. Both files fit in VRAM. Current versus frozen-reference total A/B is still needed; original matrix is not apples-to-apples.
-- CUDA Graphs are active (127 graph launches in the context-512 trace). Focus on device work and measured fusion. Q/K/V share memoized activation transforms; keep Exp036 guards. Nsight timings include setup and decode, not decode-only attribution.
+- PTQ1_0 reference decode was 32–54% faster than PQ2_0 in the initial format comparison; prefill was nearly tied. Exp041 later measured current versus frozen-reference decode directly (+6.82%/+5.76% at contexts 512/4096) and prefill within 0.09%. Do not use the original matrix as a speedup denominator.
+- CUDA Graphs are active; the old context-512 trace had 127 graph launches but mixed setup/decode. Exp047 groups 255 direct `-p 0` token replays at 1,432 nodes each, with no prompt-side quantized GEMM nodes. Q/K/V share memoized activation transforms; keep Exp036 guards.
 - Repeated context-4096 decode samples have slow tails in both arms. Preserve all repetitions/ranges and use medians. Verify candidate library paths with `ldd`/`LD_DEBUG`; earlier absolute RUNPATHs caused false A/Bs.
 
 ## Latest research result
+
+- Exp047 separated direct one-token CUDA graph replay from non-graph setup on the actual RTX 3080. PTQ1_0 GEMV remains decisively first at 9.01/9.02 ms/token for contexts 512/4096. The largest named secondary family is coordinated QKV activation preparation at 0.752 ms/token, followed by GDN at 0.500 ms. The prior 61.2% mixed trace share is qualified, not decode-only. See `experiments/047-steady-decode-profile/REPORT.md`.
 
 - Exp046 challenged the active PTQ1_0 batch-1 GEMV mapping and found no distinct candidate outside already-screened decoder, lane-mapping, staging, and scheduling families. No implementation or new performance/correctness measurements were produced; decision: NO CANDIDATE / REVERT. Current best and production path are unchanged. See `experiments/046-ptq1-dataflow-challenge/REPORT.md`.
 
 ## Next candidates
 
-1. Exp047: use an actual RTX 3080 CUDA-graph-node timeline from batch-1 `-p 0` decode to separate steady-state per-token kernel-family cost from warmup/setup, then re-rank PTQ1_0 GEMV, recurrent attention, RMSNorm, and activation preparation. Use the measured decode budget to select the next implementation experiment.
+1. Profile-driven follow-up after Exp047: when a materially new GEMV premise appears, evaluate it against the measured 9.01/9.02 ms/token decode cost. With no new GEMV mapping from Exp046, first isolate coordinated QKV activation preparation (0.752 ms/token) and test a specific way to reduce its device work or launches; GDN is next at 0.500 ms/token. Avoid implementation without a concrete premise.

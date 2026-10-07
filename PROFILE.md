@@ -93,4 +93,34 @@ After promoting Exp036 commit `c6cdaa5fa62787c97db58d1d2e1db666a4aeddb5`, I repe
 
 The measured activation-preparation kernels (`fwht_quantize_q8_1` plus `fwht_rms_quantize_q8_1`) total 98.6 ms in the post-Exp036 mixed trace, versus 85.1 ms for the old fused-FWHT row alone; the new candidate kernel is a separate signature, so comparing only that old row would be misleading. Together, RMSNorm plus activation preparation fall from 185.7 to 155.4 ms (-30.4 ms) across these comparable traces. Overall summed kernel time fell from 1.933 s to 1.904 s; the GEMV absolute total stayed flat. Nsight Compute remains blocked by `ERR_NVGPUCTRPERM`.
 
-The next experiment should therefore challenge the active `mul_mat_vec_ptq1_0_pt` implementation with a materially different sm_86 dataflow. Do not repeat the already screened row geometry, recurrence, naive strip mining, cache policies, next-item prefetch, or padded 32-byte block layout without a new codegen or traffic premise.
+At the time, the next experiment was a fresh challenge to the active `mul_mat_vec_ptq1_0_pt` dataflow; Exp046 later found no new mapping beyond screened families. The steady-state follow-up and current secondary-family ranking are in Exp047 below.
+
+## Steady-state graph replay profile (Exp047)
+
+On 2026-10-07, profiled the current production PTQ1_0 build on the actual RTX 3080 at contexts 512 and 4096. Driver 580.178.04 reports CUDA compatibility 13.0; the installed CUDA toolkit is 13.2.86 (`nvcc`). The binary SHA-256 was `81187ab3fc4aeda74f92b08ca21ad774d74d1418fb2467d278b41dfe8dcdab13`; `build/bin/libggml-cuda.so.0` was `bad70d76b19fdd1b21f61e5c9eb4900b5334c638ff75cdec11f3a4d3b2b28642`. `ldd build/bin/llama-bench` resolved that CUDA library from the current build directory. The GPU start gates were 50°C/0% utilization (512) and 52°C/0% (4096).
+
+Exact context-512 command (use prefix `results/profile/exp047_ctx4096` and `-d 4096` for context 4096):
+
+```bash
+nsys profile --trace=cuda,nvtx,osrt --sample=none --cuda-graph-trace=node \
+  --cuda-memory-usage=true --force-overwrite=true \
+  --output results/profile/exp047_ctx512 \
+  build/bin/llama-bench -m models/Ternary-Bonsai-2-27B-PTQ1_0.gguf \
+  -ngl 99 -fa on -b 2048 -ub 512 -ctk f16 -ctv f16 -t 8 \
+  -r 2 -o json -p 0 -n 128 -d 512
+```
+
+For each report, exported standard summaries with `nsys stats --report cuda_gpu_kern_sum,cuda_api_sum --format csv --force-overwrite=true --output results/profile/exp047_ctx512.stats.csv results/profile/exp047_ctx512.nsys-rep`. Exported SQLite to a temporary file with `nsys export --type sqlite --output /tmp/exp047_ctx512.sqlite results/profile/exp047_ctx512.nsys-rep`, then ran `experiments/047-steady-decode-profile/analyze_profile.py /tmp/exp047_ctx512.sqlite --prefix results/profile/exp047_ctx512 --context 512`. The context-4096 invocation substitutes its matching prefix and context. The parser groups `CUPTI_ACTIVITY_KIND_KERNEL` rows by `correlationId` matching the `cudaGraphLaunch` runtime call; it filters to non-null graph ID/node records. Every one of 255 graph launch calls has a matching replay of 1,432 kernels and 1,432 unique nodes. This gives 255 directly observed one-token replays from `-n 128 -r 2`; non-graph initialization, model load, graph creation/capture, and host setup are excluded from per-token kernel-family sums. The report does not identify a replay as warm-up versus a measured repetition, so the summary includes all replays and reports per-replay variability. Quantized GEMM has zero graph-node instances, consistent with `-p 0` decode.
+
+| Kernel family | Context 512 | Context 4096 |
+|---|---:|---:|
+| PTQ1_0 GEMV (all three specializations) | 9.014 ms/token (75.94%) | 9.022 ms/token (73.79%) |
+| Other kernels | 1.004 ms/token (8.46%) | 1.000 ms/token (8.17%) |
+| QKV activation preparation | 0.752 ms/token (6.34%) | 0.753 ms/token (6.16%) |
+| GDN | 0.500 ms/token (4.21%) | 0.500 ms/token (4.09%) |
+| RMSNorm not fused into preparation | 0.364 ms/token (3.06%) | 0.364 ms/token (2.98%) |
+| Attention | 0.236 ms/token (1.99%) | 0.588 ms/token (4.81%) |
+
+These are sums of individual CUDA kernel durations per replay and shares of that summed device-kernel time, not whole-process time. Replay GPU span averages 11.886 ms at context 512 and 12.239 ms at 4096. Per-replay family timing standard deviation is 0.0007–0.0045 ms for the named families; see `results/profile/exp047_ctx512.replay.json` and `exp047_ctx4096.replay.json` for ranges, exact definitions, and timing detail. Raw Nsight reports and stats CSVs use the `exp047_ctx{512,4096}` prefix under `results/profile/`.
+
+This resolves the earlier mixed trace: the post-Exp036 1.166 s / 61.2% GEMV result included setup/decode and is not a steady-state share. Direct graph replay puts GEMV at about 74–76% of decode kernel time. GEMV remains the primary optimization target if a new implementation premise exists. Exp046 found no distinct mapping; the next measurable secondary opportunity is QKV activation preparation at 0.752 ms/token, then GDN at 0.500 ms/token. Nsight Compute remains unavailable (`ERR_NVGPUCTRPERM`), so this ranking does not establish memory bandwidth or instruction throughput limits. Nsight-instrumented throughput is not comparable to the best non-profiled decode result.
