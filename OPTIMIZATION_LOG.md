@@ -1,5 +1,9 @@
 # Optimization log
 
+## Experiment 058: recurrent convolution/cache fusion feasibility
+
+- Source audit derived the one-token `n_rs_seq==0` CPY source view and cache destination offset, and identified rollback as a separate multi-CPY path. The retained Exp057 profile lacks per-node view, alias-range, use-count, and output-pin details, so the experiment stopped before instrumentation, build, or correctness testing. No candidate or timing was produced; treat as inconclusive, not rejected. Next collect runtime graph metadata with scheduler debug and targeted instrumentation. See `experiments/058-recurrent-conv-state-fusion/REPORT.md`.
+
 ## Experiment 057: recurrent decode small-op fusion screen
 
 - Mapped frequent graph signatures and screened a direct concat-to-SSM_CONV-plus-SiLU path. The focused CUDA case passed, but actual Qwen graph order is `CONCAT → CPY(cache update) → SSM_CONV → SiLU`; captures retained 48 concat nodes and 1,432 nodes/replay, so the matcher was a no-op. No end-to-end comparison was warranted. Source restored. A future attempt must fuse and verify the required cache write along with convolution. See `experiments/057-decode-smallop-fusion/REPORT.md` and `results/exp057/`.
