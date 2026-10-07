@@ -1,0 +1,45 @@
+{
+  "timestamp_utc": "2026-10-07T09:02:59.108530+00:00",
+  "hardware": "NVIDIA GeForce RTX 3080, sm_86",
+  "configuration": {
+    "context": 512,
+    "tokens": 32,
+    "seed": 42,
+    "temperature": 0.0
+  },
+  "results": [
+    {
+      "format": "PTQ1_0",
+      "model": "/home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PTQ1_0.gguf",
+      "command": [
+        "/home/maxsun/autonomous_projects/.worktrees/exp053-flash-attention/build/bin/llama-cli",
+        "-m",
+        "/home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PTQ1_0.gguf",
+        "-ngl",
+        "99",
+        "-fa",
+        "on",
+        "-c",
+        "512",
+        "-t",
+        "8",
+        "-p",
+        "The RTX 3080 is a graphics card that",
+        "-n",
+        "32",
+        "--seed",
+        "42",
+        "--temp",
+        "0",
+        "--ignore-eos",
+        "--no-display-prompt",
+        "--simple-io",
+        "--single-turn"
+      ],
+      "exit_code": 0,
+      "completion": "Loading model... \n\n\u2584\u2584 \u2584\u2584\n\u2588\u2588 \u2588\u2588\n\u2588\u2588 \u2588\u2588  \u2580\u2580\u2588\u2584 \u2588\u2588\u2588\u2584\u2588\u2588\u2588\u2584  \u2580\u2580\u2588\u2584    \u2584\u2588\u2588\u2588\u2588 \u2588\u2588\u2588\u2588\u2584 \u2588\u2588\u2588\u2588\u2584\n\u2588\u2588 \u2588\u2588 \u2584\u2588\u2580\u2588\u2588 \u2588\u2588 \u2588\u2588 \u2588\u2588 \u2584\u2588\u2580\u2588\u2588    \u2588\u2588    \u2588\u2588 \u2588\u2588 \u2588\u2588 \u2588\u2588\n\u2588\u2588 \u2588\u2588 \u2580\u2588\u2584\u2588\u2588 \u2588\u2588 \u2588\u2588 \u2588\u2588 \u2580\u2588\u2584\u2588\u2588 \u2588\u2588 \u2580\u2588\u2588\u2588\u2588 \u2588\u2588\u2588\u2588\u2580 \u2588\u2588\u2588\u2588\u2580\n                                    \u2588\u2588    \u2588\u2588\n                                    \u2580\u2580    \u2580\u2580\n\nbuild      : b69-c817389\nmodel      : /home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PTQ1_0.gguf\nftype      : PTQ1_0 - 1.75 bpw ternary (group 128)\nmodalities : text\n\navailable commands:\n  /exit or Ctrl+C     stop or exit\n  /regen              regenerate the last response\n  /clear              clear the chat history\n  /read <file>        add a text file\n  /glob <pattern>     add text files using globbing pattern\n\n\n\n> The RTX 3080 is a graphics card that\n\n[Start thinking]\n\nWe need to respond to user: \"The RTX 3080 is a graphics card that\". Likely they want completion? Maybe a fill-in? Need\n\n[ Prompt: 259.7 t/s | Generation: 77.4 t/s ]\n\n\nExiting...",
+      "stdout_path": "results/raw/20261007T090259Z_PTQ1_0_smoke.stdout.txt",
+      "stderr_path": "results/raw/20261007T090259Z_PTQ1_0_smoke.stderr.log"
+    }
+  ]
+}

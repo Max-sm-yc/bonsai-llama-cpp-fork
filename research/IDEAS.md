@@ -6,7 +6,8 @@ Ranked against the current ROWS=1 implementation. Controlled batch-1 model decod
 
 ## Open candidate
 
-1. **Long-context FlashAttention decode:** Exp052 measured the active `flash_attn_ext_f16` call at 0.553 ms/token plus 0.036 ms fixup at context 4096, versus 0.202 + 0.035 ms at 512. Investigate the active sm_86 tile/scheduling path and keep a variant only if full decode improves at 4096 without regressing 512.
+1. **Group same-input PTQ1_0 attention projections.** `qwen35.cpp` builds Q+gate, K, and V projections from the same normalized `cur`; each currently reaches the matrix path separately. Investigate whether a shape-aware grouped GEMV can combine K/V or QG/K/V into fewer launches while preserving all output layouts and CUDA Graph behavior. The potential is limited to standard-attention layers, so require matched full-model decode evidence. Exp036 already shares Q/K/V activation preparation; this hypothesis concerns projection execution only.
+2. **Long-context FlashAttention:** Exp053 tested the active sm_86 Ampere tile path: the valid 64/64 single-stage tile regressed focused timing by 17.2% at context 512 and 11.3% at 4096, and the 96/96 tile failed a compile-time loop invariant. Reopen only with a design that directly reduces Stream-K fixup cost. See `experiments/053-flash-attention-longctx/REPORT.md`.
 
 ## Previously tested directions
 

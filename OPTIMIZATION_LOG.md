@@ -1,5 +1,9 @@
 # Optimization log
 
+## Experiment 053: active long-context FlashAttention tile screen
+
+- Corrected dispatch audit: sm_86 `Q->ne[0]==256`, GQA-8 decode selects the Ampere `(ncols1,ncols2)=(1,8)` path; earlier Turing-helper captures were no-op controls and are excluded. A valid Ampere 64/64 single-stage tile passed selected CTests (5/5), CUDA-vs-CPU backend cases (96/96), and an exact fixed-seed PTQ1_0 32-token smoke, but focused attention time regressed 17.2% at context 512 and 11.3% at 4096. At 4096, Stream-K fixup increased from 0.0359 to 0.0920 ms/token. The 96/96 tile failed a compile-time loop-size invariant. No full model A/B was run; source restored and rebuilt. Reopen only with a premise reducing Stream-K fixup cost. Data and full ranges: `experiments/053-flash-attention-longctx/REPORT.md`, `results/exp053/`.
+
 ## Baseline establishment
 
 - Built the unchanged PrismML runtime for sm_86, verified both model files and smoke runs, and passed upstream numerical tests plus 96 CUDA-vs-CPU ternary matmul cases.
