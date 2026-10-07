@@ -40,4 +40,4 @@
 
 ## Next candidates
 
-1. Profile-driven follow-up after Exp047: when a materially new GEMV premise appears, evaluate it against the measured 9.01/9.02 ms/token decode cost. With no new GEMV mapping from Exp046, first isolate coordinated QKV activation preparation (0.752 ms/token) and test a specific way to reduce its device work or launches; GDN is next at 0.500 ms/token. Avoid implementation without a concrete premise.
+1. Exp048: challenge the Exp036 fused `fwht_rms_quantize_q8_1` decomposition. Each of five transform-tile CTAs recomputes the 5120-wide RMS; test whether sharing that reduction can cut the measured QKV-prep family (0.752 ms/token) without losing useful parallelism or adding more launch cost. Require exact output and a focused kernel-time win before model A/B. If no candidate survives, GDN (0.500 ms/token) is the next measured secondary.
