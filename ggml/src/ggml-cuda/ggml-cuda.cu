@@ -3596,6 +3596,54 @@ static int ggml_cuda_try_fuse(ggml_backend_cuda_context * cuda_ctx, ggml_cgraph 
 
     ggml_tensor * node = cgraph->nodes[i];
 
+    // Qwen3.5 one-token recurrent site: materialize the full [4,10240] concat
+    // and write the exact strided tail view into the cache in the same launch.
+    if (node->op == GGML_OP_CONCAT && i + 3 < cgraph->n_nodes && node->type == GGML_TYPE_F32 &&
+            node->ne[0] == 4 && node->ne[1] == 10240 && node->ne[2] == 1 && node->ne[3] == 1 &&
+            node->src[0] && node->src[1] && node->src[0]->type == GGML_TYPE_F32 && node->src[1]->type == GGML_TYPE_F32 &&
+            ggml_is_contiguous(node->src[0]) && ggml_is_contiguous(node->src[1]) &&
+            node->src[0]->ne[0] == 3 && node->src[1]->ne[0] == 1 &&
+            node->src[0]->ne[1] == 10240 && node->src[1]->ne[1] == 10240 &&
+            node->src[0]->ne[2] == 1 && node->src[0]->ne[3] == 1 && node->src[1]->ne[2] == 1 && node->src[1]->ne[3] == 1 &&
+            ggml_get_op_params_i32(node, 0) == 0 && ggml_node_get_use_count(cgraph, i) == 2 &&
+            !(node->flags & GGML_TENSOR_FLAG_OUTPUT)) {
+        ggml_tensor * source_view = cgraph->nodes[i + 1];
+        ggml_tensor * dest_view   = cgraph->nodes[i + 2];
+        ggml_tensor * cpy         = cgraph->nodes[i + 3];
+        const size_t concat_bytes = 4 * 10240 * sizeof(float);
+        if (source_view->op == GGML_OP_VIEW && source_view->view_src == node && source_view->view_offs == sizeof(float) &&
+                source_view->ne[0] == 3 && source_view->ne[1] == 10240 && source_view->ne[2] == 1 && source_view->ne[3] == 1 &&
+                source_view->nb[0] == sizeof(float) && source_view->nb[1] == 4 * sizeof(float) &&
+                source_view->nb[2] == concat_bytes && source_view->nb[3] == concat_bytes &&
+                dest_view->op == GGML_OP_VIEW && dest_view->view_offs == 0 && cpy->op == GGML_OP_CPY && cpy->type == GGML_TYPE_F32 && cpy->src[0] == source_view && cpy->src[1] == dest_view &&
+                source_view->type == GGML_TYPE_F32 && dest_view->type == GGML_TYPE_F32 &&
+                dest_view->ne[0] == 30720 && dest_view->ne[1] == 1 && dest_view->ne[2] == 1 && dest_view->ne[3] == 1 && ggml_is_contiguous(dest_view) &&
+                !(source_view->flags & GGML_TENSOR_FLAG_OUTPUT) && !(dest_view->flags & GGML_TENSOR_FLAG_OUTPUT) &&
+                !(cpy->flags & GGML_TENSOR_FLAG_OUTPUT) && node->data && dest_view->data &&
+                ggml_node_get_use_count(cgraph, i + 1) == 1 && ggml_node_get_use_count(cgraph, i + 2) == 1 &&
+                (uintptr_t) source_view->data == (uintptr_t) node->data + sizeof(float) &&
+                ((uintptr_t) node->data + concat_bytes <= (uintptr_t) dest_view->data ||
+                 (uintptr_t) dest_view->data + 30720 * sizeof(float) <= (uintptr_t) node->data)) {
+            const size_t src0_bytes = 3 * 10240 * sizeof(float);
+            const size_t src1_bytes = 10240 * sizeof(float);
+            auto disjoint = [](const void * a, size_t as, const void * b, size_t bs) {
+                const uintptr_t ab = (uintptr_t) a, ae = ab + as;
+                const uintptr_t bb = (uintptr_t) b, be = bb + bs;
+                return ae <= bb || be <= ab;
+            };
+            const void * cache_data = dest_view->data;
+            if (node->src[0]->data && node->src[1]->data &&
+                    disjoint(node->src[0]->data, src0_bytes, node->src[1]->data, src1_bytes) &&
+                    disjoint(node->src[0]->data, src0_bytes, node->data, concat_bytes) &&
+                    disjoint(node->src[1]->data, src1_bytes, node->data, concat_bytes) &&
+                    disjoint(cache_data, 30720 * sizeof(float), node->src[0]->data, src0_bytes) &&
+                    disjoint(cache_data, 30720 * sizeof(float), node->src[1]->data, src1_bytes)) {
+                ggml_cuda_op_concat_cache_f32(*cuda_ctx, node, dest_view);
+                return 3;
+            }
+        }
+    }
+
     // GB10 prefill: apply SWIGLU while quantizing the activation consumed by the
     // following low-bit down projection. This avoids materializing and rereading
     // the GLU output and removes one launch per transformer block.

@@ -2,6 +2,30 @@
 
 #include <stdint.h>
 
+static __global__ void concat_cache_f32(const float * x, const float * y, float * dst, float * cache) {
+    ggml_cuda_pdl_sync();
+    const int64_t i = (int64_t) blockIdx.x * blockDim.x + threadIdx.x;
+    const int64_t total = 4 * 10240;
+    if (i < total) {
+        const int64_t channel = i / 4;
+        const int64_t time = i % 4;
+        dst[i] = time < 3 ? x[channel * 3 + time] : y[channel];
+    }
+    const int64_t ci = i;
+    if (ci < 3 * 10240) {
+        const int64_t channel = ci / 3;
+        const int64_t time = ci % 3;
+        cache[ci] = time < 2 ? x[channel * 3 + time + 1] : y[channel];
+    }
+}
+
+void ggml_cuda_op_concat_cache_f32(ggml_backend_cuda_context & ctx, ggml_tensor * dst, ggml_tensor * cache) {
+    const int blocks = (4 * 10240 + 255) / 256;
+    const ggml_cuda_kernel_launch_params params = ggml_cuda_kernel_launch_params(blocks, 256, 0, ctx.stream());
+    ggml_cuda_kernel_launch(concat_cache_f32, params, (const float *) dst->src[0]->data,
+            (const float *) dst->src[1]->data, (float *) dst->data, (float *) cache->data);
+}
+
 // contiguous kernels
 template <typename T, int dim>
 static __global__ void __launch_bounds__(CUDA_CONCAT_BLOCK_SIZE) concat_cont(const T * x,
