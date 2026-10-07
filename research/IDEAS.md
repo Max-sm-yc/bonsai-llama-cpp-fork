@@ -2,9 +2,10 @@
 
 Ranked against the current ROWS=1 implementation. Controlled batch-1 model decode is the decision metric; isolated kernel gains are screening evidence only.
 
-1. Keep the active 128-thread, ROWS=1 PTQ1_0 GEMV. Exp044 tested full CTA-local activation tile reuse: exact at K=40/136, but work-plus-fold lost 2.08%/1.27% and shared use constrains long-K occupancy. Reopen only with a materially different staging mechanism that removes the copy/barrier overhead.
-2. Gate/up stream interleaving is closed for the current compiler output (Exp043): active fused SASS already interleaves the independent DP4A accumulator chains. Reopen only if a future active SASS audit shows a material serial dependency chain.
-3. CTA-width/row-tile sweep is closed by Exp042. 256 threads improves only the isolated K=40 screen; 64/256/512 lose or tie at K=136, and shape-gated 256-at-40 dispatch loses matched decode. Keep 128 threads unless a new scheduling premise improves both focused shapes and E2E behavior.
+1. Isolate register allocation from CTA geometry in the active 128-thread PTQ1_0 GEMV. The plain and fused-gate specializations use 76 and 98 registers/thread; sweep meaningful `__launch_bounds__` minimum-CTA constraints, first rejecting spills, then measure the same active mapping. Exp042 varied CTA width and register use together, so this tests a distinct occupancy premise.
+2. Full CTA-local activation tile reuse is closed by Exp044: exact at K=40/136, but work-plus-fold lost 2.08%/1.27% and shared use constrains long-K occupancy. Reopen only with a materially different staging mechanism that removes copy/barrier overhead.
+3. Gate/up stream interleaving is closed for the current compiler output (Exp043): active fused SASS already interleaves the independent DP4A accumulator chains. Reopen only if a future active SASS audit shows a material serial dependency chain.
+4. CTA-width/row-tile sweep is closed by Exp042. 256 threads improves only the isolated K=40 screen; 64/256/512 lose or tie at K=136, and shape-gated 256-at-40 dispatch loses matched decode. Keep 128 threads unless a new scheduling premise improves both focused shapes and E2E behavior.
 
 Preserve ROWS=1 and 128 threads. Avoid repeating CTA-width/row-tile variants from Exp042, warp-per-row splits, scalar/fixed-point and pairwise decoders, two-bit side encodings, the eight-lane production recurrence, 2/4-item source unrolling, cache modifiers, prefetch, 32-byte padded blocks, synchronous staging, register transpose, or per-thread `cp.async` without a materially new premise. Exp024's isolated 1.49x recurrence gain regressed model decode about 81.5%; Exp025's source strip mining lost 0.4–1.4% end-to-end; Exp037–040 also lost in active-path screens.
 

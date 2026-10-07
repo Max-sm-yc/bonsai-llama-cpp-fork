@@ -33,4 +33,4 @@
 
 ## Next candidates
 
-1. Keep the active 128-thread, ROWS=1 GEMV. Exp044 screened CTA-local planar activation reuse: exact, but shared staging lost work-plus-fold at K=40/136 (+2.08%/+1.27%). Reopen only with a materially different copy/communication design. Exp043 found gate/up DP4A streams already interleaved by ptxas.
+1. Sweep active 128-thread PTQ1_0 `__launch_bounds__` minimum-CTA constraints while holding ROWS=1 geometry fixed. The plain/gated kernels use 76/98 registers/thread, permitting about six/five 128-thread CTAs per SM by register capacity; Exp042 changed width and register use together. Test occupancy without spills, then exactness and matched E2E decode. Exp043/044 closed gate-stream and full activation-staging ideas; retain current production meanwhile.
