@@ -1,0 +1,2 @@
+rows=1 bytes=5760 differing_bytes=0
+rows=3 bytes=17280 differing_bytes=0

@@ -1,0 +1,8 @@
+nrows=1: pass; max abs error 0.013881683, max error/scale 0.539778, block sums exact
+nrows=1: actual-launch CUDA-event median 4.543 us (100 launches x 1 rows; range 4.542-4.547 us)
+nrows=1: captured CUDA Graph replay median 3.845 us (100 kernel nodes x 5 graph replays; range 3.844-3.848 us)
+nrows=1: cooperative CUDA Graph capture/replay pass
+nrows=3: pass; max abs error 0.016958237, max error/scale 0.542589, block sums exact
+nrows=3: actual-launch CUDA-event median 4.588 us (100 launches x 3 rows; range 4.586-4.588 us)
+nrows=3: captured CUDA Graph replay median 3.871 us (100 kernel nodes x 5 graph replays; range 3.869-3.873 us)
+nrows=3: cooperative CUDA Graph capture/replay pass

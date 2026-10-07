@@ -34,10 +34,12 @@
 
 ## Latest research result
 
+- Exp048 screened a cooperative one-launch RMS-sharing variant for the Exp036 fused QKV kernel. For one/three 5120-wide rows it produced byte-identical PT output, passed reference tolerance, graph capture/replay, and sanitizer checks. The two grid barriers plus cooperative launch made graph replay ~25% slower (3.845→4.798 μs for one row); candidate source was reverted before E2E tests. Current best remains unchanged; see `experiments/048-qkv-rms-sharing/REPORT.md`.
+
 - Exp047 separated direct one-token CUDA graph replay from non-graph setup on the actual RTX 3080. PTQ1_0 GEMV remains decisively first at 9.01/9.02 ms/token for contexts 512/4096. The largest named secondary family is coordinated QKV activation preparation at 0.752 ms/token, followed by GDN at 0.500 ms. The prior 61.2% mixed trace share is qualified, not decode-only. See `experiments/047-steady-decode-profile/REPORT.md`.
 
 - Exp046 challenged the active PTQ1_0 batch-1 GEMV mapping and found no distinct candidate outside already-screened decoder, lane-mapping, staging, and scheduling families. No implementation or new performance/correctness measurements were produced; decision: NO CANDIDATE / REVERT. Current best and production path are unchanged. See `experiments/046-ptq1-dataflow-challenge/REPORT.md`.
 
 ## Next candidates
 
-1. Exp048: challenge the Exp036 fused `fwht_rms_quantize_q8_1` decomposition. Each of five transform-tile CTAs recomputes the 5120-wide RMS; test whether sharing that reduction can cut the measured QKV-prep family (0.752 ms/token) without losing useful parallelism or adding more launch cost. Require exact output and a focused kernel-time win before model A/B. If no candidate survives, GDN (0.500 ms/token) is the next measured secondary.
+1. GDN (0.500 ms/token) is the next measured secondary after Exp048's cooperative RMS-sharing screen regressed focused graph replay.
