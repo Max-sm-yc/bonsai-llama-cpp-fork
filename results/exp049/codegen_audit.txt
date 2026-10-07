@@ -1,0 +1,14 @@
+Active symbol: gated_delta_net_cuda<128,false,false,true,false> (sm_86 cubin)
+Baseline library: /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libggml-cuda.so.0
+SHA-256: bad70d76b19fdd1b21f61e5c9eb4900b5334c638ff75cdec11f3a4d3b2b28642
+Disassembly extracted with cuobjdump --dump-sass from the unchanged baseline library.
+Function contains 784 emitted instruction records. Opcode counts:
+  MUFU.EX2: 3
+  MUFU.LG2: 1
+  SHFL.BFLY: 40
+  BAR.SYNC: 0
+  LDG.E: 33
+  STG.E: 20
+  FFMA.FTZ: 52
+
+Interpretation: 40 SHFL.BFLY = 8 independent five-step warp reductions (two reductions × four columns). No BAR.SYNC occurs in the active function, including its recurrence. Three MUFU.EX2 plus one MUFU.LG2 implement sigmoid/softplus/exponential gate math. State is loaded/stored in contiguous row-major-per-column accesses. No new scheduling or dataflow premise survived this inspection.

@@ -9,7 +9,7 @@
 ## Bottlenecks
 
 1. Active PTQ1_0 batch-1 GEMV (`mul_mat_vec_ptq1_0_pt`): 9.014 ms/token at context 512 and 9.022 ms/token at 4096, 75.9%/73.8% of summed steady-state graph kernel duration. Its plain, fused-gate, and fused non-gate specializations cost ~4.57, ~2.31, and ~2.14 ms/token.
-2. QKV activation preparation: 0.752 ms/token (6.2–6.3%); GDN: 0.500 ms/token (4.1–4.2%); remaining standalone RMSNorm: 0.364 ms/token (~3%). Attention rises from 0.236 ms/token at context 512 to 0.588 ms at 4096.
+2. QKV activation preparation: 0.752 ms/token (6.2–6.3%); GDN: 0.500 ms/token (4.1–4.2%, no distinct candidate after Exp049); BF16 `mul_mat_vec_f<__nv_bfloat16,float,1,256,false,false>`: ~0.311 ms/token (~2.6%). Remaining RMSNorm: 0.364 ms/token; attention rises from 0.236 ms/token at context 512 to 0.588 ms at 4096.
 3. The earlier context-512 post-Exp036 trace's 1.166 s / 61.2% GEMV share is a mixed setup/decode denominator. Exp047 directly grouped 255 graph replays with 1,432 nodes/replay; it contains no quantized GEMM graph nodes.
 4. Nsight Compute counters fail with `ERR_NVGPUCTRPERM`; do not alter system-wide permissions. See [Exp047](../experiments/047-steady-decode-profile/REPORT.md) for filters, reproducibility, and variability.
 
@@ -34,12 +34,12 @@
 
 ## Latest research result
 
-- Exp048 screened a cooperative one-launch RMS-sharing variant for the Exp036 fused QKV kernel. For one/three 5120-wide rows it produced byte-identical PT output, passed reference tolerance, graph capture/replay, and sanitizer checks. The two grid barriers plus cooperative launch made graph replay ~25% slower (3.845→4.798 μs for one row); candidate source was reverted before E2E tests. Current best remains unchanged; see `experiments/048-qkv-rms-sharing/REPORT.md`.
-
-- Exp047 separated direct one-token CUDA graph replay from non-graph setup on the actual RTX 3080. PTQ1_0 GEMV remains decisively first at 9.01/9.02 ms/token for contexts 512/4096. The largest named secondary family is coordinated QKV activation preparation at 0.752 ms/token, followed by GDN at 0.500 ms. The prior 61.2% mixed trace share is qualified, not decode-only. See `experiments/047-steady-decode-profile/REPORT.md`.
-
-- Exp046 challenged the active PTQ1_0 batch-1 GEMV mapping and found no distinct candidate outside already-screened decoder, lane-mapping, staging, and scheduling families. No implementation or new performance/correctness measurements were produced; decision: NO CANDIDATE / REVERT. Current best and production path are unchanged. See `experiments/046-ptq1-dataflow-challenge/REPORT.md`.
+- Exp049 audited active sm_86 GDN code/SASS and found no distinct safe candidate: q/k reuse, contiguous state access, required warp reductions, and adjacent graph fusions are already present. No code or measurements; see `experiments/049-gdn-design/REPORT.md`.
+- Exp048's cooperative one-launch QKV RMS-sharing variant was byte-exact and sanitizer-clean, but graph replay was ~25% slower; reverted before E2E. Current best unchanged; see `experiments/048-qkv-rms-sharing/REPORT.md`.
+- Exp047 directly measured one-token graph replay: PTQ1_0 GEMV is 9.01/9.02 ms/token (74–76%); QKV prep is 0.752 ms, GDN 0.500 ms, and the BF16 matvec specialization is ~0.311 ms/token at context 512. See `experiments/047-steady-decode-profile/REPORT.md`.
 
 ## Next candidates
 
-1. GDN (0.500 ms/token) is the next measured secondary after Exp048's cooperative RMS-sharing screen regressed focused graph replay.
+1. Exp050: investigate the frequently invoked BF16 `mul_mat_vec_f<__nv_bfloat16,float,1,256,false,false>` path (~0.311 ms/token at context 512), identify its actual graph shapes, and test distinct sm_86 dataflow/geometry variants with focused CUDA timing. It is a secondary target; only matched model decode can justify keeping a change.
+2. Revisit PTQ1_0 GEMV only when a genuinely new dataflow or codegen premise appears; Exp046 and prior screens close the obvious decoder, staging, geometry, and scheduling families.
+3. Revisit GDN only if profiling/codegen exposes redundant state traffic, a removable launch, or synchronization-free gate sharing; Exp049 found none in the current kernel.
