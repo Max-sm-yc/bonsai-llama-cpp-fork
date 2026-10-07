@@ -43,6 +43,8 @@
 
 - Exp055 confirmed K/V are adjacent same-activation graph matmuls but PTQ dispatch is below the scheduler and consumes a prepared planar Q8 activation; current second-dot fusion is a nonlinear gate, not a second output. No candidate was built. Next, screen a direct paired-output kernel against two launches on the same prepared Q8 input before graph integration. See `experiments/055-ptq1-kv-pair-gemv/REPORT.md`.
 
+- Exp056 implemented that direct pair: K/V outputs matched two production-kernel calls within 2.2e-7 max relative error. Stream launches appeared 2.5% faster, but corrected CUDA Graph replay was 10.623 vs 10.256 us (+3.69% slower). This paired CTA mapping is rejected; no scheduler/model A/B. Source restored. See `experiments/056-kv-pair-kernel-screen/REPORT.md`.
+
 - Exp050 audited the active BF16 matvec family: Exp047 reports 24,672 kernel instances over the capture (not CTAs), with 255 graph launches. Model-specific `ssm_alpha`/`ssm_beta` projections are 48x5120, giving 48 CTAs per applicable batch-1 kernel launch; compact replay artifacts do not resolve per-replay signature counts. Existing paired loads, FP32 accumulation, warp reduction and shared inter-warp fold leave no distinct low-cost sm_86 candidate; no implementation/build or E2E run. See [Exp050](../experiments/050-bf16-matvec/REPORT.md).
 
 - Exp049 audited active sm_86 GDN code/SASS and found no distinct safe candidate: q/k reuse, contiguous state access, required warp reductions, and adjacent graph fusions are already present. No code or measurements; see `experiments/049-gdn-design/REPORT.md`.
@@ -54,7 +56,7 @@
 
 **Format profile:** Use Exp052's paired graph signatures as the baseline for any format-specific decoder work. The measurements show both a per-call GEMV difference and fewer PTQ1_0 activation-prep nodes, but do not identify the GEMV hardware bottleneck; collect permitted hardware counters before making a traffic-versus-integer-throughput claim.
 
-1. Screen a dedicated paired-output PTQ1_0 GEMV using the existing prepared planar Q8 activation against two sequential active GEMVs. If the kernel screen wins, integrate graph fusion with separate K/V outputs and exact fallback, then run two reversed-order full-model decode pairs.
-2. Revisit PTQ1_0 GEMV only when a genuinely new dataflow or codegen premise appears; Exp046 and prior screens close the obvious decoder, staging, geometry, and scheduling families.
+1. Map the high-frequency small signatures from the steady profile to actual graph ops and adjacency: `cpy_scalar` 0.209 ms, `concat_cont` 0.100 ms, `silu` 0.096 ms, `get_rows` 0.093 ms, and `add` 0.086 ms/token at context 512. Together they are a 0.584 ms upper-bound opportunity, not a presumed fusion gain; test one source-supported fusion at a time and require end-to-end decode evidence.
+2. Revisit PTQ1_0 GEMV only when a genuinely new dataflow or codegen premise appears; Exp046 and prior screens close the obvious decoder, staging, geometry, scheduling, and paired K/V CTA mappings.
 3. Revisit GDN only if profiling/codegen exposes redundant state traffic, a removable launch, or synchronization-free gate sharing; Exp049 found none in the current kernel.
 4. Revisit BF16 matvec only if a future design can raise row-level CTA parallelism without an expensive cross-CTA K reduction; Exp050 found 48 CTAs per applicable 48-row launch and no surviving low-cost dataflow candidate. Per-replay family invocation counts remain unavailable in the compact profile artifacts.

@@ -1,8 +1,12 @@
 # Optimization log
 
+## Experiment 056: PTQ1_0 paired-output kernel screen
+
+- The direct K/V paired-output kernel matched two current single-kernel results within 2.2e-7 maximum relative error. Sequential stream launches looked 2.5% faster, but with correctly stream-ordered events the CUDA Graph comparison was 10.623 us paired versus 10.256 us for two nodes (+3.69% slower). Earlier graph timings omitted the nonblocking stream on event recording and are invalid; the corrected capture is retained. The pair kernel used 50 registers/thread and 1 KiB shared memory versus 98 registers in the active single kernel; that resource reduction did not save replay time. Source restored, no graph integration or E2E run. See `experiments/056-kv-pair-kernel-screen/REPORT.md` and `results/exp056/`.
+
 ## Experiment 055: paired K/V PTQ1_0 GEMV feasibility
 
-- K/V are adjacent, same-activation 2048-row graph matmuls, but active PTQ dispatch is below the scheduler and consumes a prepared planar Q8 activation. The current kernel writes one output; its optional second matrix is reduced through a GLU gate and cannot preserve V. A safe one-launch pair needs shared PT-layout Q8 preparation and two outputs plus exact graph guards/fallback. No candidate was built or benchmarked; see `experiments/055-ptq1-kv-pair-gemv/REPORT.md`. A direct paired-kernel screen is the next step before scheduler integration.
+- K/V are adjacent, same-activation 2048-row graph matmuls, but active PTQ dispatch is below the scheduler and consumes a prepared planar Q8 activation. The current kernel writes one output; its optional second matrix is reduced through a GLU gate and cannot preserve V. Exp056 screened a direct pair and found the CUDA Graph replay 3.69% slower than two nodes; do not integrate this mapping. See `experiments/055-ptq1-kv-pair-gemv/REPORT.md` and `experiments/056-kv-pair-kernel-screen/REPORT.md`.
 
 ## Experiment 054: grouped standard-attention projections audit
 

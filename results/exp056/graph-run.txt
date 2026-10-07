@@ -1,0 +1,16 @@
+correctness rows=2048 K=5120 K_abs=0.00012207031 K_rel=2.1492259e-07 V_abs=0.00012207031 V_rel=2.0508114e-07
+rep=0 first=pair pair_us=1.662 two_us=10.524 ratio=0.1580
+rep=1 first=two pair_us=10.178 two_us=10.191 ratio=0.9987
+rep=2 first=pair pair_us=10.522 two_us=10.524 ratio=0.9998
+rep=3 first=two pair_us=10.233 two_us=10.190 ratio=1.0042
+rep=4 first=pair pair_us=10.642 two_us=10.651 ratio=0.9992
+rep=5 first=two pair_us=10.266 two_us=10.278 ratio=0.9989
+rep=6 first=pair pair_us=10.643 two_us=10.652 ratio=0.9992
+rep=7 first=two pair_us=10.271 two_us=10.278 ratio=0.9993
+rep=8 first=pair pair_us=10.643 two_us=10.635 ratio=1.0008
+rep=9 first=two pair_us=10.244 two_us=10.252 ratio=0.9992
+rep=10 first=pair pair_us=10.623 two_us=10.631 ratio=0.9992
+rep=11 first=two pair_us=9.531 two_us=9.904 ratio=0.9624
+rep=12 first=pair pair_us=9.837 two_us=9.824 ratio=1.0014
+rep=13 first=two pair_us=9.499 two_us=9.505 ratio=0.9994
+rep=14 first=pair pair_us=9.780 two_us=9.757 ratio=1.0024

@@ -1,0 +1,92 @@
+diff --git a/ggml/src/ggml-cuda/mmvq-ptq1_0.cuh b/ggml/src/ggml-cuda/mmvq-ptq1_0.cuh
+index a1f932a..fcc16ed 100644
+--- a/ggml/src/ggml-cuda/mmvq-ptq1_0.cuh
++++ b/ggml/src/ggml-cuda/mmvq-ptq1_0.cuh
+@@ -489,6 +489,53 @@ static __global__ void mul_mat_vec_ptq1_0_pt(
+     }
+ }
+ 
++// Experiment-only paired-output screen: one CTA owns a row from each matrix.
++// Both dots use the same planar activation and write independent destinations.
++static __global__ void mul_mat_vec_ptq1_0_pt_pair_screen(
++        const block_ptq1_0 * k_weights, const block_ptq1_0 * v_weights, const char * y,
++        float * k_dst, float * v_dst, const int k, const int rows) {
++    const int row = blockIdx.x;
++    if (row >= rows) return;
++    const int bpr = k / QK_PTQ1_0;
++    const int nblk = ptq1_0_pt_nblk(k);
++    const char * ycol[1] = { y };
++    float ksum = 0.0f;
++    float vsum = 0.0f;
++    for (int kb = threadIdx.x; kb < bpr; kb += blockDim.x) {
++        const block_ptq1_0 * kr[1] = { k_weights + (int64_t) row*bpr + kb };
++        const block_ptq1_0 * vr[1] = { v_weights + (int64_t) row*bpr + kb };
++        float kd[1][1], vd[1][1];
++        ptq1_0_pt_block_dot<1, 1>(kr, ycol, kb, nblk, kd);
++        ptq1_0_pt_block_dot<1, 1>(vr, ycol, kb, nblk, vd);
++        ksum += kd[0][0];
++        vsum += vd[0][0];
++    }
++    __shared__ float ks[PTQ1_0_PT_THREADS];
++    __shared__ float vs[PTQ1_0_PT_THREADS];
++    ks[threadIdx.x] = ksum;
++    vs[threadIdx.x] = vsum;
++    __syncthreads();
++    for (int offset = blockDim.x / 2; offset > 0; offset >>= 1) {
++        if (threadIdx.x < offset) {
++            ks[threadIdx.x] += ks[threadIdx.x + offset];
++            vs[threadIdx.x] += vs[threadIdx.x + offset];
++        }
++        __syncthreads();
++    }
++    if (threadIdx.x == 0) {
++        k_dst[row] = ks[0];
++        v_dst[row] = vs[0];
++    }
++}
++
++static void mul_mat_vec_ptq1_0_pt_pair_screen_launch(
++        const void * k_weights, const void * v_weights, const char * y,
++        float * k_dst, float * v_dst, const int k, const int rows, cudaStream_t stream) {
++    GGML_ASSERT(k % QK_PTQ1_0 == 0 && rows > 0);
++    mul_mat_vec_ptq1_0_pt_pair_screen<<<rows, PTQ1_0_PT_THREADS, 0, stream>>>(
++        (const block_ptq1_0 *) k_weights, (const block_ptq1_0 *) v_weights, y, k_dst, v_dst, k, rows);
++}
++
+ template <int ncols>
+ static void mul_mat_vec_ptq1_0_pt_launch(
+         const void * vx, const void * vy, const ggml_cuda_mm_fusion_args_device & fusion, float * dst,
+diff --git a/ggml/src/ggml-cuda/mmvq.cu b/ggml/src/ggml-cuda/mmvq.cu
+index 0008fde..3a9ef64 100644
+--- a/ggml/src/ggml-cuda/mmvq.cu
++++ b/ggml/src/ggml-cuda/mmvq.cu
+@@ -7,6 +7,29 @@
+ #include <cstdint>
+ #include <type_traits>
+ 
++// Exp056 focused microbenchmark entrypoints. Kept out of the public API; the
++// experiment harness links these from the CUDA backend shared library.
++extern "C" void ggml_cuda_exp056_pair(
++        const void * k, const void * v, const char * y, float * kd, float * vd,
++        int n, int rows, cudaStream_t stream) {
++    mul_mat_vec_ptq1_0_pt_pair_screen_launch(k, v, y, kd, vd, n, rows, stream);
++}
++
++extern "C" void ggml_cuda_exp056_single(
++        const void * w, const char * y, float * d, int n, int rows, cudaStream_t stream) {
++    ggml_cuda_mm_fusion_args_device fusion{};
++    const int bpr = n / QK_PTQ1_0;
++    const int rpc = ptq1_0_pt_rows_per_cta(bpr, 1, rows, 1);
++    const dim3 grid((rows + rpc - 1) / rpc, 1, 1), block(PTQ1_0_PT_THREADS, 1, 1);
++    const uint3 bpr_fd = init_fastdiv_values((uint32_t) bpr);
++    const uint3 rpc_fd = init_fastdiv_values((uint32_t) rpc);
++    const size_t smem = ptq1_0_pt_smem_bytes(bpr, 1, rows, false);
++    // Same kernel specialization and geometry as the production launcher, but
++    // a raw launch so the benchmark can capture ordinary CUDA Graph nodes.
++    mul_mat_vec_ptq1_0_pt<1, 1, false, false><<<grid, block, smem, stream>>>(
++        w, y, fusion, d, n, rows, bpr, 0, rows, rpc, bpr_fd, rpc_fd, ggml_cuda_batch_invariant());
++}
++
+ typedef float (*vec_dot_q_cuda_t)(const void * __restrict__ vbq, const block_q8_1 * __restrict__ bq8_1, const int & kbx, const int & iqs);
+ 
+ static constexpr __device__ vec_dot_q_cuda_t get_vec_dot_q_cuda(ggml_type type) {
