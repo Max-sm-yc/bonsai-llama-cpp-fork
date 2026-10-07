@@ -50,7 +50,7 @@
 
 ## Experiment status
 
-- Exp077–080 completed with no production change. Exp077 did not qualify MTP/global arithmetic promotion; Exp078 rejected signed bit planes; Exp079 rejected L2 persistence after no E2E gain; Exp080 found no exact new partial-reduction mapping. Current best remains unchanged.
+- Exp077–080 completed with no production change. Exp077 did not qualify MTP/global arithmetic promotion; Exp078 rejected signed bit planes; Exp079 rejected L2 persistence after no E2E gain; Exp080 found no exact new partial-reduction mapping. Exp081 is active: retest direct two-bit trits in the production planar GEMV path, a concrete follow-up left open by Exp007. Current best remains unchanged.
 
 ## Latest research result
 
