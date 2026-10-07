@@ -44,7 +44,7 @@
 
 ## Active experiment
 
-- None. Exp073 completed a source/cost feasibility screen with no candidate; production remains the verified PTQ1_0 build. Exp072 resolved the focused ctx512 Qwen verifier boundary but found batch-shape-sensitive target logits; MTP remains unpromoted.
+- Exp074 is assigned to one explicitly GPT-6 Luna experimenter: quantify the PTQ1_0 GEMV payload and RTX 3080 read-throughput ceiling without Nsight Compute counters. Isolated worktree; no production-kernel changes. Exp073 found no candidate and current production remains the verified PTQ1_0 build. Exp072 resolved the focused ctx512 Qwen verifier boundary but found batch-shape-sensitive target logits; MTP remains unpromoted.
 
 ## Latest research result
 
