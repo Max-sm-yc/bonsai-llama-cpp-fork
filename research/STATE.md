@@ -49,7 +49,7 @@
 
 ## Experiment status
 
-- Exp077 and Exp078 completed with no production change. Exp077 restored MTP-vs-target IDs in 42/42 samples only under a global arithmetic mode that itself changed target-only IDs in 21/42; no quality validation supports promotion. Exp078's fresh PTQ1_0 architecture challenge rejected persistent signed bit planes (+14.3% weight storage with arbitrary-Q8 selection/reduction still required); no candidate or benchmark. Current best remains unchanged.
+- Exp077 and Exp078 completed with no production change. Exp077 restored MTP-vs-target IDs in 42/42 samples only under a global arithmetic mode that itself changed target-only IDs in 21/42; no quality validation supports promotion. Exp078's fresh PTQ1_0 architecture challenge rejected persistent signed bit planes (+14.3% weight storage with arbitrary-Q8 selection/reduction still required); no candidate or benchmark. Exp079 now measures exact-kernel cold/warm L2 behavior and selective persistence. Current best remains unchanged.
 
 ## Latest research result
 
@@ -105,7 +105,7 @@
 
 ## Next candidates
 
-1. Build an exact production-kernel cold/warm replay harness for a representative PTQ1_0 GEMV shape and vary working sets around/beyond 5 MiB L2. Keep event timing, weight bytes, and graph replay separate; Exp075 established reuse distance only, not cache behavior.
+1. **Active Exp079:** build an exact production-kernel cold/warm replay for representative PTQ1_0 GEMV weights, then test a small selected L2 persisting set only if the real-kernel measurements support it. Keep event timing, weight bytes, and graph replay separate; Exp075 established reuse distance only, not cache behavior.
 2. Re-open the active PTQ1_0 batch-1 GEMV dataflow only with a new primitive, encoding, or measured counter evidence that changes the cost model. Exp078 rejected persistent signed bit planes; retain the 74–77% decode share as the priority without repeating audited mappings.
 3. Revisit PTQ1_0 prompt-side MMQ only with a concrete exact dataflow/decoder derivation; Exp065/066 closed geometry-only and ungrounded source screens.
 4. Revisit long-context attention only with a concrete parallel reduction or synchronization design; Exp069/053 closed tile-only and barrier-only directions.
