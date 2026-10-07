@@ -38,4 +38,4 @@
 
 ## Next candidates
 
-1. Re-profile other decode bottlenecks or wait for a genuinely new PTQ1_0 codegen/representation premise. Any new proposal must first pass exact active-layout focused screens at K=40 and K=136.
+1. Exp047: use an actual RTX 3080 CUDA-graph-node timeline from batch-1 `-p 0` decode to separate steady-state per-token kernel-family cost from warmup/setup, then re-rank PTQ1_0 GEMV, recurrent attention, RMSNorm, and activation preparation. Use the measured decode budget to select the next implementation experiment.
