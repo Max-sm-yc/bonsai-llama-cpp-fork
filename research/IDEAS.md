@@ -2,7 +2,7 @@
 
 Ranked against the current ROWS=1 implementation. Controlled batch-1 model decode is the decision metric; isolated kernel gains are screening evidence only.
 
-1. Pipeline the active PTQ1_0 GEMV's per-thread work list with `cp.async`, overlapping the next K-block's global-to-shared copies with current-block decode/dot. This is distinct from Exp037's synchronous CTA-local transpose: the hypothesis is latency hiding, not coalescing. K=136 gives each thread multiple items; K=40 is a shorter-row control. First inspect generated async instructions and occupancy, then use an exact active-planar work screen and matched E2E A/B. Reject if staging/synchronization cost outweighs overlap.
+1. `cp.async` next-work-item pipeline in the active PTQ1_0 GEMV: tested in Exp040. It emitted seven `LDGSTS.E` copies and passed exactness, but lost 10.40%/23.16% at 40/136 blocks. Reject per-thread AoS staging; revisit latency hiding only with a materially different dataflow that amortizes copies and synchronization.
 2. Reconsider a paired fused-gate/plain GEMV schedule only if static code or a focused trace exposes redundant non-load work; the current gated SASS already shares the nine 128-bit Q8_1 activation loads with the ungated dot.
 
 Preserve ROWS=1. Avoid repeating row-tile geometry, warp-per-row splits, the scalar decoder, two-bit side encodings, pairwise trit decode, the eight-lane production recurrence, 2/4-item source unrolling, cache modifiers, prefetch, or 32-byte padded PTQ1 blocks without a materially new premise. Experiment 024's isolated 1.49x recurrence gain regressed model decode about 81.5%; experiment 025's source strip mining did not change static resources and lost about 0.4–1.4% end-to-end.

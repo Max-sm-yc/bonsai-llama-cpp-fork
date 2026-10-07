@@ -1,0 +1,51 @@
+results/exp040/async_screen.cu(118): warning #177-D: variable "bad" was declared but never referenced
+  B *dx;uint32_t*ds;int*dy;float*dp,*doa,*dos,*dst,*dwr;uint8_t*dc;ck(cudaMalloc(&dx,h.size()*sizeof(B)));ck(cudaMalloc(&ds,hs.size()*4));ck(cudaMalloc(&dy,hy.size()*4));ck(cudaMalloc(&dp,(size_t)nb*nr*4));ck(cudaMalloc(&dc,(size_t)nr*nb*128));ck(cudaMalloc(&doa,(size_t)nr*4));ck(cudaMalloc(&dos,(size_t)nr*4));ck(cudaMalloc(&dst,(size_t)nr*4));ck(cudaMalloc(&dwr,(size_t)nr*4));ck(cudaMemcpy(dx,h.data(),h.size()*sizeof(B),cudaMemcpyHostToDevice));ck(cudaMemcpy(ds,hs.data(),hs.size()*4,cudaMemcpyHostToDevice));ck(cudaMemcpy(dy,hy.data(),hy.size()*4,cudaMemcpyHostToDevice));dim3 bl(128),gr(nr/16),fg((nr+127)/128);emit_codes<<<(nb*nr+127)/128,bl>>>(dx,dc,nb,nr);work_aos<<<gr,bl>>>(dx,dy,dp,nb,nr);fold<<<fg,bl>>>(dp,doa,nb,nr);work_async_pipeline<<<gr,bl>>>(dx,dy,dp,nb,nr);fold<<<fg,bl>>>(dp,dwr,nb,nr);ck(cudaDeviceSynchronize());std::vector<float>a(nr),s(nr),staged(nr);ck(cudaMemcpy(a.data(),doa,nr*4,cudaMemcpyDeviceToHost));std::vector<float> wr(nr);ck(cudaMemcpy(wr.data(),dwr,nr*4,cudaMemcpyDeviceToHost));int bad=0,stagebad=0,wrbad=0,refbad=0;double maxerr=0;std::vector<uint8_t>devcodes((size_t)nr*nb*128);ck(cudaMemcpy(devcodes.data(),dc,devcodes.size(),cudaMemcpyDeviceToHost));for(int r=0;r<nr;r++){wrbad+=a[r]!=wr[r];float accs[4]={};for(int b=0;b<nb;b++){float ba=0;for(int k=0;k<4;k++){int isum=0,qsum=0;for(int e=k*32;e<(k+1)*32;e++){int w=e>>2;int z=hy[((w>>2)*nb+b)*4+(w&3)];int av=(int8_t)((uint32_t)z>>(8*(e&3)));isum+=av;qsum+=code(h[(size_t)r*nb+b],e)*av;}uint32_t z=hy[(8*nb+b)*4+k];float sc=__half2float(__ushort_as_half((uint16_t)z));ba=fmaf(sc,(float)(qsum-(int16_t)(z>>16)),ba);}ba*=__half2float(h[(size_t)r*nb+b].d);switch(b&3){case 0:accs[0]+=ba;break;case 1:accs[1]+=ba;break;case 2:accs[2]+=ba;break;case 3:accs[3]+=ba;break;}}float ref=(accs[0]+accs[1])+(accs[2]+accs[3]);maxerr=fmax(maxerr,fabs((double)ref-a[r]));maxerr=fmax(maxerr,fabs((double)ref-wr[r]));refbad+=(fabs(ref-a[r])>1e-5*fmax(1.0,fabs(ref)))||(fabs(ref-wr[r])>1e-5*fmax(1.0,fabs(ref)));}long nc=(long)nr*nb*128;long invalid=0;for(int r=0;r<nr;r++)for(int b=0;b<nb;b++)for(int e=0;e<128;e++)invalid+=(code(h[(size_t)r*nb+b],e)>2)||(devcodes[((size_t)r*nb+b)*128+e]!=code(h[(size_t)r*nb+b],e));printf("CORRECT rows=%d blocks_per_row=%d verified_device_codes=%ld code_mismatches=%ld pipeline_mismatches=%d independent_host_output_mismatches=%d max_error=%g\n",nr,nb,nc,invalid,wrbad,refbad,maxerr);if(wrbad||refbad||invalid)return 5;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+results/exp040/async_screen.cu(118): warning #177-D: variable "stagebad" was declared but never referenced
+  B *dx;uint32_t*ds;int*dy;float*dp,*doa,*dos,*dst,*dwr;uint8_t*dc;ck(cudaMalloc(&dx,h.size()*sizeof(B)));ck(cudaMalloc(&ds,hs.size()*4));ck(cudaMalloc(&dy,hy.size()*4));ck(cudaMalloc(&dp,(size_t)nb*nr*4));ck(cudaMalloc(&dc,(size_t)nr*nb*128));ck(cudaMalloc(&doa,(size_t)nr*4));ck(cudaMalloc(&dos,(size_t)nr*4));ck(cudaMalloc(&dst,(size_t)nr*4));ck(cudaMalloc(&dwr,(size_t)nr*4));ck(cudaMemcpy(dx,h.data(),h.size()*sizeof(B),cudaMemcpyHostToDevice));ck(cudaMemcpy(ds,hs.data(),hs.size()*4,cudaMemcpyHostToDevice));ck(cudaMemcpy(dy,hy.data(),hy.size()*4,cudaMemcpyHostToDevice));dim3 bl(128),gr(nr/16),fg((nr+127)/128);emit_codes<<<(nb*nr+127)/128,bl>>>(dx,dc,nb,nr);work_aos<<<gr,bl>>>(dx,dy,dp,nb,nr);fold<<<fg,bl>>>(dp,doa,nb,nr);work_async_pipeline<<<gr,bl>>>(dx,dy,dp,nb,nr);fold<<<fg,bl>>>(dp,dwr,nb,nr);ck(cudaDeviceSynchronize());std::vector<float>a(nr),s(nr),staged(nr);ck(cudaMemcpy(a.data(),doa,nr*4,cudaMemcpyDeviceToHost));std::vector<float> wr(nr);ck(cudaMemcpy(wr.data(),dwr,nr*4,cudaMemcpyDeviceToHost));int bad=0,stagebad=0,wrbad=0,refbad=0;double maxerr=0;std::vector<uint8_t>devcodes((size_t)nr*nb*128);ck(cudaMemcpy(devcodes.data(),dc,devcodes.size(),cudaMemcpyDeviceToHost));for(int r=0;r<nr;r++){wrbad+=a[r]!=wr[r];float accs[4]={};for(int b=0;b<nb;b++){float ba=0;for(int k=0;k<4;k++){int isum=0,qsum=0;for(int e=k*32;e<(k+1)*32;e++){int w=e>>2;int z=hy[((w>>2)*nb+b)*4+(w&3)];int av=(int8_t)((uint32_t)z>>(8*(e&3)));isum+=av;qsum+=code(h[(size_t)r*nb+b],e)*av;}uint32_t z=hy[(8*nb+b)*4+k];float sc=__half2float(__ushort_as_half((uint16_t)z));ba=fmaf(sc,(float)(qsum-(int16_t)(z>>16)),ba);}ba*=__half2float(h[(size_t)r*nb+b].d);switch(b&3){case 0:accs[0]+=ba;break;case 1:accs[1]+=ba;break;case 2:accs[2]+=ba;break;case 3:accs[3]+=ba;break;}}float ref=(accs[0]+accs[1])+(accs[2]+accs[3]);maxerr=fmax(maxerr,fabs((double)ref-a[r]));maxerr=fmax(maxerr,fabs((double)ref-wr[r]));refbad+=(fabs(ref-a[r])>1e-5*fmax(1.0,fabs(ref)))||(fabs(ref-wr[r])>1e-5*fmax(1.0,fabs(ref)));}long nc=(long)nr*nb*128;long invalid=0;for(int r=0;r<nr;r++)for(int b=0;b<nb;b++)for(int e=0;e<128;e++)invalid+=(code(h[(size_t)r*nb+b],e)>2)||(devcodes[((size_t)r*nb+b)*128+e]!=code(h[(size_t)r*nb+b],e));printf("CORRECT rows=%d blocks_per_row=%d verified_device_codes=%ld code_mismatches=%ld pipeline_mismatches=%d independent_host_output_mismatches=%d max_error=%g\n",nr,nb,nc,invalid,wrbad,refbad,maxerr);if(wrbad||refbad||invalid)return 5;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ^
+
+ptxas info    : 0 bytes gmem
+ptxas info    : Compiling entry function '_Z4foldPKfPfii' for 'sm_86'
+ptxas info    : Function properties for _Z4foldPKfPfii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 39 registers, used 0 barriers, 376 bytes cmem[0]
+ptxas info    : Compile time = 6.248 ms
+ptxas info    : Compiling entry function '_Z10emit_codesPK1BPhii' for 'sm_86'
+ptxas info    : Function properties for _Z10emit_codesPK1BPhii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 28 registers, used 0 barriers, 376 bytes cmem[0]
+ptxas info    : Compile time = 12.354 ms
+ptxas info    : Compiling entry function '_Z18work_warp_registerPK1BPKiPfii' for 'sm_86'
+ptxas info    : Function properties for _Z18work_warp_registerPK1BPKiPfii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 0 barriers, 384 bytes cmem[0]
+ptxas info    : Compile time = 8.261 ms
+ptxas info    : Compiling entry function '_Z11work_stagedPK1BPKiPfii' for 'sm_86'
+ptxas info    : Function properties for _Z11work_stagedPK1BPKiPfii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 1 barriers, 3584 bytes smem, 384 bytes cmem[0]
+ptxas info    : Compile time = 13.039 ms
+ptxas info    : Compiling entry function '_Z8work_soaPKjPKiPfii' for 'sm_86'
+ptxas info    : Function properties for _Z8work_soaPKjPKiPfii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 0 barriers, 384 bytes cmem[0]
+ptxas info    : Compile time = 7.123 ms
+ptxas info    : Compiling entry function '_Z13work_parallelPK1BPKiPfii' for 'sm_86'
+ptxas info    : Function properties for _Z13work_parallelPK1BPKiPfii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 0 barriers, 384 bytes cmem[0]
+ptxas info    : Compile time = 9.854 ms
+ptxas info    : Compiling entry function '_Z19work_async_pipelinePK1BPKiPfii' for 'sm_86'
+ptxas info    : Function properties for _Z19work_async_pipelinePK1BPKiPfii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 1 barriers, 3584 bytes smem, 384 bytes cmem[0]
+ptxas info    : Compile time = 10.414 ms
+ptxas info    : Compiling entry function '_Z8work_aosPK1BPKiPfii' for 'sm_86'
+ptxas info    : Function properties for _Z8work_aosPK1BPKiPfii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 0 barriers, 384 bytes cmem[0]
+ptxas info    : Compile time = 8.782 ms

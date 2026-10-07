@@ -321,7 +321,7 @@
     "cuda_library_sha256": "bad70d76b19fdd1b21f61e5c9eb4900b5334c638ff75cdec11f3a4d3b2b28642",
     "timestamp_utc": "2026-10-07T03:25:11+00:00"
   },
-  "updated_timestamp_utc": "2026-10-07T04:31:36+00:00",
+  "updated_timestamp_utc": "2026-10-07T04:39:04+00:00",
   "project_commit": "c6cdaa5fa62787c97db58d1d2e1db666a4aeddb5",
   "current_best": {
     "commit": "c6cdaa5fa62787c97db58d1d2e1db666a4aeddb5",
@@ -390,69 +390,67 @@
     "timestamp_utc": "2026-10-07T03:25:11+00:00"
   },
   "latest_experiment_screen": {
-    "id": "039",
-    "hypothesis": "Independent fixed-point floor-difference trit extraction may reduce the dependency chain in the active planar PTQ1_0 GEMV.",
+    "id": "040",
+    "hypothesis": "Overlap next PTQ1_0 K-block global-memory latency with current-item decode/dot using sm_86 cp.async.",
     "decision": "REVERT; no production code changed",
     "hardware": "NVIDIA GeForce RTX 3080, sm_86",
-    "method": "Active planar PT work-plus-fold CUDA-event screen; recurrence versus fixed-point decoder; 9 rotated-order samples per arm at 40 and 136 blocks per row",
+    "method": "Active-planar one-thread-per-work-item screen, 16 rows/CTA, work plus fold; nine rotated-order CUDA-event samples per arm at 40 and 136 K blocks/row",
     "results": {
       "40": {
         "rows": 4096,
         "repetitions_per_sample": 100,
         "samples_per_arm": 9,
-        "recurrence_median_ms_per_pair": 0.01268576,
-        "fixed_point_median_ms_per_pair": 0.01301856,
-        "fixed_point_delta_percent": 2.62341,
-        "recurrence_sample_range_ms": [
-          0.01267584,
-          0.01281024
+        "control_median_ms_per_pair": 0.01389472,
+        "cp_async_median_ms_per_pair": 0.01533952,
+        "candidate_delta_percent": 10.39819,
+        "control_sample_range_ms": [
+          0.01386496,
+          0.0140272
         ],
-        "fixed_point_sample_range_ms": [
-          0.0130048,
-          0.01319936
+        "candidate_sample_range_ms": [
+          0.01532832,
+          0.0154096
         ]
       },
       "136": {
         "rows": 2048,
         "repetitions_per_sample": 60,
         "samples_per_arm": 9,
-        "recurrence_median_ms_per_pair": 0.02512213,
-        "fixed_point_median_ms_per_pair": 0.02619733,
-        "fixed_point_delta_percent": 4.27989,
-        "recurrence_sample_range_ms": [
-          0.025088,
-          0.02522933
+        "control_median_ms_per_pair": 0.0278528,
+        "cp_async_median_ms_per_pair": 0.03430294,
+        "candidate_delta_percent": 23.15796,
+        "control_sample_range_ms": [
+          0.0278016,
+          0.02809173
         ],
-        "fixed_point_sample_range_ms": [
-          0.02613973,
-          0.02626453
+        "candidate_sample_range_ms": [
+          0.03425867,
+          0.0350224
         ]
       }
     },
-    "correctness": "Exhaustive byte/lane/digit and qh interleave tests had zero mismatches; full-row codes and outputs matched exactly at both shapes.",
+    "correctness": "Exact decoded codes and full row outputs against synchronous control and independent host reference at both sizes; zero mismatches and zero max error.",
     "microarchitecture": {
+      "async_copy_instructions": "7 LDGSTS.E 4-byte copies per next work item",
       "registers_per_thread": 40,
+      "shared_memory_bytes": 3584,
+      "barriers": 1,
       "spills": 0,
-      "shared_memory_bytes": 0,
-      "work_sass_instructions_recurrence": 338,
-      "work_sass_instructions_fixed_point": 490,
-      "imad_family_recurrence": 96,
-      "imad_family_fixed_point": 173,
-      "shf_recurrence": 8,
-      "shf_fixed_point": 68
+      "generated_code": "LDGSTS.E, LDGDEPBAR, DEPBAR, and CTA synchronization confirmed in sm_86 SASS"
     },
-    "end_to_end": "Not run; exact candidate lost at both focused shapes.",
+    "end_to_end": "Not run; focused path lost at both sizes.",
     "artifacts": [
-      "experiments/039-planar-parallel-trit-decode/REPORT.md",
-      "results/exp039/parallel_screen.cu",
-      "results/exp039/parallel_screen.sass",
-      "results/exp039/exhaustive_gate.cu",
-      "results/exp039/screen_40.txt",
-      "results/exp039/screen_136.txt",
-      "results/exp039/resources.txt"
+      "experiments/040-async-worklist-pipeline/REPORT.md",
+      "results/exp040/async_screen.cu",
+      "results/exp040/async_screen.sass",
+      "results/exp040/async_screen.cubin",
+      "results/exp040/resources.txt",
+      "results/exp040/screen_40.txt",
+      "results/exp040/screen_136.txt"
     ],
-    "source_sha256": "e4dcb0df2086abdd062694a0cf3e8324641a96ab1d0293981bd08b6f5f1c6140",
-    "binary_sha256": "31d33a65918d5977c9a612c3f13184ec6490867e0d628f608184c1432d228f31",
-    "manager_verification": "Recomputed medians and deltas from all 36 raw event samples; hashes match the report. Current-best implementation remains unchanged."
+    "source_sha256": "1cdfc7b6495e3b8c1707ea92c149e39063f4fcf94e6220011470e7a0aad59b74",
+    "executable_sha256": "a7f4a37083e259b5a6016d94dc6caab5d7c388dd82117ba787fc8c3c59a039c7",
+    "cubin_sha256": "7f8077a8cde532d03c2762a730d276c2dee80fc16bd0257c30cd8820872cf825",
+    "manager_verification": "Recomputed medians and deltas from all 36 raw event samples; reviewed correctness output and confirmed seven async-copy instructions in the candidate SASS. Current-best implementation remains unchanged."
   }
 }

@@ -1,6 +1,6 @@
 # Current results — research in progress
 
-This is the current verified snapshot, not the end of the campaign. The fastest correct implementation remains PTQ1_0 with ROWS=1 planar GEMV and the coordinated QKV RMS/FWHT/Q8 preparation path. Experiments 037–039 screened alternatives without changing production code.
+This is the current verified snapshot, not the end of the campaign. The fastest correct implementation remains PTQ1_0 with ROWS=1 planar GEMV and the coordinated QKV RMS/FWHT/Q8 preparation path. Experiments 037–040 screened alternatives without changing production code.
 
 ## Hardware and software
 
@@ -61,6 +61,7 @@ Current prefill has not been remeasured: use 1378.14 tok/s at prompt 512 and 133
 - Exp037 tested CTA-local shared-memory staging of contiguous 28-byte AoS blocks. It matched codes/outputs and passed memcheck, but the production-equivalent work-plus-fold screen lost 9.85% at 40 blocks and 12.86% at 136 blocks. It was rejected before model integration.
 - Exp038 tested a warp-register transpose with contiguous packed loads. It was exact, but the four-lane-per-warp dot mapping and seven shuffles lost 142%/175% at 40/136 blocks. It was rejected before model integration.
 - Exp039 tested fixed-point floor-difference trit extraction in the active planar work-plus-fold path. Exhaustive byte/qh and full-row checks were exact, but the candidate lost 2.62% at 40 blocks and 4.28% at 136 blocks; it emitted 490 SASS instructions versus 338 for recurrence work. It was rejected before model integration.
+- Exp040 tested `cp.async` copies of the next per-thread K-block while decoding the current item. SASS confirmed async copies and exactness passed, but work-plus-fold lost 10.40% at 40 blocks and 23.16% at 136. It was rejected before model integration.
 - Other important negative results: 2-bit side encodings, pairwise radix-3 decode, warp/multiwarp reductions, cooperative trit recurrence, strip mining, cache modifiers, next-item prefetch, padded 32-byte blocks, and the selective SoA sidecar did not improve the active decode path. The compact index and report links are in [research/EXPERIMENTS.md](research/EXPERIMENTS.md).
 - Architectural finding: active decode uses a dedicated planar Q8_1 / PTQ1_0 GEMV; generic `mmvq.cu` tuning does not reach it. CUDA Graphs are active, and the current PTQ1_0 GEMV remains the dominant measured family.
-- Next: test whether an asynchronous `cp.async` pipeline can hide next-item memory latency in the active GEMV, then quantify the current-versus-reference result with isolated end-to-end and prefill measurements.
+- Next: quantify the current-versus-reference result with isolated, matched end-to-end decode and prefill measurements, then choose a fresh optimization target from the resulting profile.

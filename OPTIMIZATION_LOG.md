@@ -252,3 +252,8 @@
 
 - Exhaustive GPU checks covered 256 byte values × 4 packed lanes × 5 digits and all 65,536 qh pairs × 8 interleaved outputs; full-row device codes and outputs matched at 40 and 136 blocks/row.
 - The fixed-point floor-difference decoder was slower than recurrence work-plus-fold by 2.62% at 40 blocks (12.6858→13.0186 µs) and 4.28% at 136 (25.1221→26.1973 µs), with non-overlapping nine-sample ranges. It emitted 490 SASS instructions versus 338 and used the same 40 registers/thread without spills. Reject before runtime integration. See `experiments/039-planar-parallel-trit-decode/REPORT.md` and `results/exp039/`.
+
+## Experiment 040: sm_86 PTQ1_0 async work-list pipeline
+
+- The active-planar work-plus-fold harness emitted seven `LDGSTS.E` copies for the next 28-byte weight block, then decoded/dotted the current item. Codes and row outputs matched exactly at K=40 and K=136. Ptxas used 40 registers/thread, 3,584 B shared memory, and one barrier for the candidate.
+- Nine rotated-order CUDA-event samples showed the async path slower by 10.40% at 40 blocks (13.8947→15.3395 µs) and 23.16% at 136 (27.8528→34.3029 µs), with no overlapping ranges. The async instructions were present, but seven 4-byte copies plus waits/barrier outweighed overlap. Reject before runtime integration. See `experiments/040-async-worklist-pipeline/REPORT.md` and `results/exp040/`.
