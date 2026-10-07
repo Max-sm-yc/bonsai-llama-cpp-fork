@@ -43,6 +43,7 @@
 - Experiment 028: per-thread next-item lookahead was address-safe and emitted active `CCTL.E.PF1/PF2`, but one trace per variant showed 2.3% (distance 1) and 7.4% (distance 2) more plain-kernel time. Reverted at the focused screen; no E2E claim.
 - Experiment 029: `.cg` reached the active plain GEMV's six packed-word loads and retained 74 registers/no spills, but only one candidate trace was captured (4,115 launches; 177.969 ms). No matched control, correctness comparison, or E2E A/B exists; classify as inconclusive. Source was restored and rebuilt; see report for the distinct binary-hash recovery note.
 - Experiment 031: padding PTQ1_0 blocks from 28 to 32 bytes enabled the intended two 128-bit loads and exact outputs, but lost 3.37% at 16K blocks and 21.39% at 65K; reject this layout and its +14.29% payload cost. No runtime integration.
+- Experiment 033: a full CUDA SoA conversion has no safe GEMV-only hook: multi-column/MMQ/vector-dot/utility readers and generic transfer callbacks assume AoS. A distinct selective sidecar for the 64 K=17,408 `ffn_down` tensors would cost 1,190 MiB and projects to 7,995 MiB total; not measured.
 
 ## Important discoveries
 
@@ -65,7 +66,7 @@
 
 ## Next candidates
 
-1. Determine whether the exact 28-byte/block SoA layout can serve every active PTQ1_0 consumer without a second GPU copy; if feasible, implement an isolated runtime candidate and compare full correctness, VRAM, and matched decode/prefill.
+1. Test a selective SoA sidecar only for the 64 `ffn_down` tensors with K=17,408, retaining AoS for every existing consumer. The projected 1,190 MiB sidecar fits nominal headroom; require actual peak VRAM, all correctness, loader-time, prefill, and matched decode measurements.
 2. Audit fused-gate non-load work or targeted PQ2_0 decode only after a concrete source/SASS premise; retain matched model conditions.
 
 - Experiment 030: matched default/`.cg`/`.cs` screen completed with three actual-kernel traces per arm (485 target launches each). `.cg` was +128.4% target-kernel time; `.cs` was -0.30% in the kernel screen but lost 0.9–1.1% end-to-end median throughput in the reversed-order 7-rep comparison at contexts 512/4096. Reverted; production source, active source-default library, and backup hashes are intact. No exact correctness comparison was completed, so no candidate was retained. See report 030 and `results/exp030/`.

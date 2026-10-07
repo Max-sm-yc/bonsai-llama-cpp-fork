@@ -1,0 +1,30 @@
+Experiment 033 bounded source audit
+Date: 2026-10-06
+Checkout: research/rtx3080
+HEAD: 1f4e6a84ae36e924accc9556d069e350ad7551a5
+Working tree before experiment: clean
+
+Commands:
+  rg -n 'GGML_TYPE_PTQ1_0|block_ptq1_0' ggml/src/ggml-cuda ...
+  rg -n 'PTQ1_0|GGML_TYPE_TQ1_0|tq1_0' ggml/src/ggml-cuda ggml/src/ggml-cpu ...
+  sed -n '2440,2485p' ggml/src/ggml-cuda/ggml-cuda.cu
+  sed -n '1000,1085p' ggml/src/ggml-cuda/common.cuh
+  sed -n '400,450p' ggml/src/ggml-cuda/mmvq.cu
+  sed -n '540,565p' ggml/src/ggml-cuda/mmvq.cu
+
+Relevant source locations:
+- ggml-cuda/ggml-cuda.cu:2446-2483: raw async set/get and 2D H2D/D2H transfers.
+- ggml-cuda/common.cuh:1021-1050: canonical PTQ1_0 trit extraction and CUDA type traits.
+- ggml-cuda/mmvq.cu, mmvq-ptq1_0.cuh: active GEMV, multi-column, and fused gate readers.
+- ggml-cuda/mmq.cu, mmq.cuh, mmq-load-tiles.cuh: matrix multiply and block tile readers.
+- ggml-cuda/vecdotq.cuh: PTQ1_0 vector dot readers.
+- ggml-cuda/convert.cu, dequantize.cuh: conversion/dequantization readers.
+- ggml-cuda/getrows.cu: row extraction/dequantization reader.
+- ggml-cpu/quants.c, ggml-cpu/arch/x86/quants.c: canonical CPU representation consumers.
+- ggml-common.h: canonical 28-byte block_ptq1_0 definition.
+
+Artifacts verified:
+  ggml/src/ggml-cuda/mmvq-ptq1_0.cuh SHA-256 f398417accddf1948fbf12155b4180fd362a3dfea88366ef3980161700d56496
+  build/bin/libggml-cuda.so SHA-256 c828135b126ec507ffbecb4dc11b6a7a9ac5cd0fe050553323d7f35c38fae6c7
+
+No code changes, build, correctness run, or benchmark were performed. GPU was idle at audit start except 173 MiB desktop allocation; nvidia-smi reported 10240 MiB total.
