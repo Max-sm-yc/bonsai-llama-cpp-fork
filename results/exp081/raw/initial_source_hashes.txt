@@ -1,0 +1,4 @@
+96539c9bd8e4544692bf242951180edaa2fd5775864fbc3e833f44111b96b934  ggml/src/ggml-common.h
+46dd353f30e7f1c42c7d82d88d91fad64dbe5d6e680b234de25355d9fb482d13  ggml/src/ggml-quants.c
+f398417accddf1948fbf12155b4180fd362a3dfea88366ef3980161700d56496  ggml/src/ggml-cuda/mmvq-ptq1_0.cuh
+e889b1543656cd2e5c0c6151f11bfdd7f641e88af441449d92064ac902b9483d  ggml/src/ggml-cuda/mmvq.cu

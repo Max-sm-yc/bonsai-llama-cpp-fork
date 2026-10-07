@@ -1,0 +1,21 @@
+ptxas info    : 0 bytes gmem
+ptxas info    : Compiling entry function '_Z11active_likeILb1EEvPKvPKaPfiii' for 'sm_86'
+ptxas info    : Function properties for _Z11active_likeILb1EEvPKvPKaPfiii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 1 barriers, 388 bytes cmem[0]
+ptxas info    : Compile time = 26.793 ms
+ptxas info    : Compiling entry function '_Z11active_likeILb0EEvPKvPKaPfiii' for 'sm_86'
+ptxas info    : Function properties for _Z11active_likeILb0EEvPKvPKaPfiii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 1 barriers, 388 bytes cmem[0]
+ptxas info    : Compile time = 23.864 ms
+ptxas info    : Compiling entry function '_Z17side_unpack_checkPK4SidePKhPii' for 'sm_86'
+ptxas info    : Function properties for _Z17side_unpack_checkPK4SidePKhPii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 10 registers, used 0 barriers, 380 bytes cmem[0]
+ptxas info    : Compile time = 1.206 ms
+ptxas info    : Compiling entry function '_Z9side_packPKhP4Sidei' for 'sm_86'
+ptxas info    : Function properties for _Z9side_packPKhP4Sidei
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 20 registers, used 0 barriers, 372 bytes cmem[0]
+ptxas info    : Compile time = 2.476 ms

@@ -316,52 +316,79 @@
     ]
   },
   "latest_experiment": {
-    "id": "080",
-    "hypothesis": "Find a new exact sm_86 PTQ1_0 GEMV work decomposition or partial-reduction dataflow.",
-    "decision": "NO CANDIDATE; exact four-stream FP32 order makes straightforward partial removal serialize 10/34 block dots per stream at K=40/136, while splitting a stream changes association. Current best unchanged.",
+    "id": "081",
+    "hypothesis": "Test direct 2-bit 0/1/2 PTQ1_0 codes in the active RTX 3080 planar-transposed GEMV path.",
+    "decision": "REVERT / NO CANDIDATE. The active-planar screen was slower in all six shapes; manager rerun reproduced the regression. No runtime library or E2E model A/B was built.",
     "hardware": "NVIDIA GeForce RTX 3080, sm_86, 10,240 MiB",
-    "source_commit": "f4c8740d3307648626ad708671221c93ecab2083",
-    "active_kernel": "mul_mat_vec_ptq1_0_pt<1,1,false,false> in ggml/src/ggml-cuda/mmvq-ptq1_0.cuh",
-    "build": {
-      "configuration": "Release; CMAKE_CUDA_ARCHITECTURES=86; GGML_CUDA=ON; GGML_CUDA_FA=ON; GGML_CUDA_GRAPHS=ON; GGML_CUDA_NCCL=OFF",
-      "target": "llama-bench; full 441-step build succeeded",
-      "llama_bench_sha256": "aadddd4d72d48a61c7c8953880d3b5036b0b53e1542cb0353d1f18ffe84ecfc3",
-      "cuda_library_sha256": "7b94bcc9fabf068ecb3e60ddf0c84591855a615164e58ff5171a8958de56834a",
-      "active_object_sha256": "328b17791c01a240bf569b8e4bf03ae26030ed064909d662abfb5f70d98c6431"
+    "base_project_commit": "74642770549fe3bb53ef876be77082a5214bc242",
+    "active_kernel": "Standalone active-like <ncols=1, ROWS=1> planar GEMV screen; production sources unchanged.",
+    "kernel_screen": {
+      "samples_per_arm_and_shape": 20,
+      "graph_replays_per_sample": 300,
+      "results": [
+        {
+          "k_blocks": 40,
+          "rows": 257,
+          "base_median_us": 5.560107,
+          "direct_median_us": 6.14624,
+          "direct_delta_percent": 10.542
+        },
+        {
+          "k_blocks": 40,
+          "rows": 1025,
+          "base_median_us": 6.532373,
+          "direct_median_us": 7.164587,
+          "direct_delta_percent": 9.678
+        },
+        {
+          "k_blocks": 40,
+          "rows": 4099,
+          "base_median_us": 8.584001,
+          "direct_median_us": 10.571094,
+          "direct_delta_percent": 23.149
+        },
+        {
+          "k_blocks": 136,
+          "rows": 257,
+          "base_median_us": 20.241066,
+          "direct_median_us": 26.309973,
+          "direct_delta_percent": 29.983
+        },
+        {
+          "k_blocks": 136,
+          "rows": 1025,
+          "base_median_us": 22.042238,
+          "direct_median_us": 27.957335,
+          "direct_delta_percent": 26.835
+        },
+        {
+          "k_blocks": 136,
+          "rows": 4099,
+          "base_median_us": 37.614933,
+          "direct_median_us": 73.481598,
+          "direct_delta_percent": 95.352
+        }
+      ],
+      "manager_rerun_slower_all_six": true,
+      "payload_bytes_base": 5599641600,
+      "payload_bytes_direct": 6799564800,
+      "payload_growth_percent": 21.4285714286
     },
-    "active_codegen": {
-      "registers_per_thread": 76,
-      "stack_bytes": 0,
-      "spills": 0,
-      "static_shared_bytes": 0,
-      "instruction_sites": {
-        "IDP.4A": 32,
-        "LDG.E.128.CONSTANT": 9,
-        "LDS": 217,
-        "STS": 1,
-        "BAR.SYNC": 1,
-        "FFMA": 4
-      },
-      "note": "Resource and instruction data are from the active sm_86 reference specialization; no candidate performance was measured."
+    "correctness": {
+      "baseline_direct_outputs": "bit-exact for all six shapes",
+      "cpu_reference": "matched",
+      "compute_sanitizer_errors": 0
     },
-    "verification": {
-      "production_source_hashes_match_best": true,
-      "dispatch_audit": "One-column plain 2D/no-ids path selects the dedicated planar kernel under its documented guards.",
-      "correctness_suite": "No candidate; not run.",
-      "microbenchmark": "No candidate; not run.",
-      "end_to_end": "No candidate; not run.",
-      "manager_verified_hashes_and_sass_count": true,
-      "current_best_unchanged": true
-    },
+    "end_to_end": "Not measured; no candidate qualified.",
+    "current_best_unchanged": true,
     "artifacts": [
-      "experiments/080-ptq1-gemv-dataflow/REPORT.md",
-      "results/exp080/README.md",
-      "results/exp080/manager-verification.md",
-      "results/exp080/raw/"
+      "experiments/081-ptq1-direct-2bit-planar/REPORT.md",
+      "results/exp081/manager-verification.md",
+      "results/exp081/"
     ],
-    "timestamp_utc": "2026-10-07T22:26:55Z"
+    "timestamp_utc": "2026-10-07T22:38:27Z"
   },
-  "updated_timestamp_utc": "2026-10-07T22:28:24Z",
+  "updated_timestamp_utc": "2026-10-07T22:38:27Z",
   "project_commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
   "current_best": {
     "commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
@@ -1130,7 +1157,7 @@
   "previous_research_audit": {
     "id": "079",
     "hypothesis": "Measure exact PTQ1_0 GEMV cold/warm L2 behavior and selective access-policy persistence.",
-    "decision": "REVERT BOTH: maximum reservation regressed E2E decode by 0.85–0.89%; exact-size reservation was −0.16% at ctx512 and flat at ctx4096. Current best unchanged.",
+    "decision": "REVERT BOTH: maximum reservation regressed E2E decode by 0.85\u20130.89%; exact-size reservation was \u22120.16% at ctx512 and flat at ctx4096. Current best unchanged.",
     "hardware": "NVIDIA GeForce RTX 3080, sm_86, 10,240 MiB",
     "source_commit": "44132a0 (isolated experiment base)",
     "active_kernel": "mul_mat_vec_ptq1_0_pt in ggml/src/ggml-cuda/mmvq-ptq1_0.cuh",
@@ -1484,7 +1511,7 @@
     {
       "id": "079",
       "hypothesis": "Measure exact PTQ1_0 GEMV cold/warm L2 behavior and selective access-policy persistence.",
-      "decision": "REVERT BOTH: maximum reservation regressed E2E decode by 0.85–0.89%; exact-size reservation was −0.16% at ctx512 and flat at ctx4096. Current best unchanged.",
+      "decision": "REVERT BOTH: maximum reservation regressed E2E decode by 0.85\u20130.89%; exact-size reservation was \u22120.16% at ctx512 and flat at ctx4096. Current best unchanged.",
       "hardware": "NVIDIA GeForce RTX 3080, sm_86, 10,240 MiB",
       "source_commit": "44132a0 (isolated experiment base)",
       "active_kernel": "mul_mat_vec_ptq1_0_pt in ggml/src/ggml-cuda/mmvq-ptq1_0.cuh",
@@ -1611,6 +1638,79 @@
         "results/exp080/raw/"
       ],
       "timestamp_utc": "2026-10-07T22:26:55Z"
+    },
+    {
+      "id": "081",
+      "hypothesis": "Test direct 2-bit 0/1/2 PTQ1_0 codes in the active RTX 3080 planar-transposed GEMV path.",
+      "decision": "REVERT / NO CANDIDATE. The active-planar screen was slower in all six shapes; manager rerun reproduced the regression. No runtime library or E2E model A/B was built.",
+      "hardware": "NVIDIA GeForce RTX 3080, sm_86, 10,240 MiB",
+      "base_project_commit": "74642770549fe3bb53ef876be77082a5214bc242",
+      "active_kernel": "Standalone active-like <ncols=1, ROWS=1> planar GEMV screen; production sources unchanged.",
+      "kernel_screen": {
+        "samples_per_arm_and_shape": 20,
+        "graph_replays_per_sample": 300,
+        "results": [
+          {
+            "k_blocks": 40,
+            "rows": 257,
+            "base_median_us": 5.560107,
+            "direct_median_us": 6.14624,
+            "direct_delta_percent": 10.542
+          },
+          {
+            "k_blocks": 40,
+            "rows": 1025,
+            "base_median_us": 6.532373,
+            "direct_median_us": 7.164587,
+            "direct_delta_percent": 9.678
+          },
+          {
+            "k_blocks": 40,
+            "rows": 4099,
+            "base_median_us": 8.584001,
+            "direct_median_us": 10.571094,
+            "direct_delta_percent": 23.149
+          },
+          {
+            "k_blocks": 136,
+            "rows": 257,
+            "base_median_us": 20.241066,
+            "direct_median_us": 26.309973,
+            "direct_delta_percent": 29.983
+          },
+          {
+            "k_blocks": 136,
+            "rows": 1025,
+            "base_median_us": 22.042238,
+            "direct_median_us": 27.957335,
+            "direct_delta_percent": 26.835
+          },
+          {
+            "k_blocks": 136,
+            "rows": 4099,
+            "base_median_us": 37.614933,
+            "direct_median_us": 73.481598,
+            "direct_delta_percent": 95.352
+          }
+        ],
+        "manager_rerun_slower_all_six": true,
+        "payload_bytes_base": 5599641600,
+        "payload_bytes_direct": 6799564800,
+        "payload_growth_percent": 21.4285714286
+      },
+      "correctness": {
+        "baseline_direct_outputs": "bit-exact for all six shapes",
+        "cpu_reference": "matched",
+        "compute_sanitizer_errors": 0
+      },
+      "end_to_end": "Not measured; no candidate qualified.",
+      "current_best_unchanged": true,
+      "artifacts": [
+        "experiments/081-ptq1-direct-2bit-planar/REPORT.md",
+        "results/exp081/manager-verification.md",
+        "results/exp081/"
+      ],
+      "timestamp_utc": "2026-10-07T22:38:27Z"
     }
   ],
   "latest_research_audit": {
@@ -1659,14 +1759,5 @@
     ],
     "timestamp_utc": "2026-10-07T22:26:55Z"
   },
-  "active_experiment": {
-    "id": "081",
-    "hypothesis": "Test whether direct 2-bit 0/1/2 trit packing beats base-3 PTQ1_0 decode in the active RTX 3080 planar-transposed GEMV path.",
-    "status": "in_progress",
-    "base_project_commit": "7464277",
-    "production_source_commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
-    "worktree": "/home/maxsun/autonomous_projects/.worktrees/exp081-ptq1-direct-2bit-planar",
-    "assigned_model": "gpt-6-luna",
-    "current_best_unchanged": true
-  }
+  "active_experiment": null
 }

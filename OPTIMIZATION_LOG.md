@@ -422,3 +422,9 @@
 - A fresh source/codegen audit followed the active one-column dispatch and compiled the clean Release sm_86 reference (441 build steps). The active <1,1,false,false> specialization uses 76 registers/thread, zero spills, 32 IDP.4A, nine 128-bit activation loads, one shared store site, and one CTA barrier. Manager independently recounted 217 LDS instructions and corrected the report from 214.
 - The current epilogue preserves four sequential FP32 streams per row in modulo-4 K-block order. Reducing shared partial owners while preserving the exact result order assigns 10 serial block dots/stream at K=40 or 34 at K=136; distributing a stream changes FP32 association. Prior geometry/reduction families are already measured.
 - **NO CANDIDATE.** No source change, correctness delta, microbenchmark, or E2E result was produced. The current best is unchanged. See experiments/080-ptq1-gemv-dataflow/REPORT.md and results/exp080/.
+
+## Experiment 081: direct 2-bit PTQ1_0 codes in active planar GEMV
+
+- The 34-byte direct-code representation was compared against the 28-byte PTQ1_0 block using an active-like planar CUDA Graph screen on RTX 3080, with 20 samples of 300 replays for K=40/136 and 257/1025/4099 rows. Median slowdown was +9.68%, +10.54%, +23.15%, +26.84%, +29.98%, and +95.35%, respectively; observed ranges were disjoint in all six cases.
+- Every direct output matched the base-3 device path and CPU reference bit-for-bit. Compute Sanitizer memcheck reported zero errors. A manager rerun reproduced the slower result in all six shapes. The candidate adds 1,199,923,200 bytes (+21.43%) across the active GEMV payload.
+- **REVERT / NO CANDIDATE.** No runtime model integration or E2E A/B was run. Current best and production sources remain unchanged. See experiments/081-ptq1-direct-2bit-planar/REPORT.md and results/exp081/.

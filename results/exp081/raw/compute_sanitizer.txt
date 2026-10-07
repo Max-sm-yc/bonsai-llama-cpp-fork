@@ -1,0 +1,9 @@
+========= COMPUTE-SANITIZER
+gpu=NVIDIA GeForce RTX 3080 cc=8.6 iters=1
+checked K=40 rows=257 device_unpack=exact baseline_direct=exact
+checked K=40 rows=1025 device_unpack=exact baseline_direct=exact
+checked K=40 rows=4099 device_unpack=exact baseline_direct=exact
+checked K=136 rows=257 device_unpack=exact baseline_direct=exact
+checked K=136 rows=1025 device_unpack=exact baseline_direct=exact
+checked K=136 rows=4099 device_unpack=exact baseline_direct=exact
+========= ERROR SUMMARY: 0 errors

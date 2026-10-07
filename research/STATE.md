@@ -50,10 +50,11 @@
 
 ## Experiment status
 
-- Exp077–080 completed with no production change. Exp077 did not qualify MTP/global arithmetic promotion; Exp078 rejected signed bit planes; Exp079 rejected L2 persistence after no E2E gain; Exp080 found no exact new partial-reduction mapping. Exp081 is active: retest direct two-bit trits in the production planar GEMV path, a concrete follow-up left open by Exp007. Current best remains unchanged.
+- Exp077–081 completed with no production change. Exp077 did not qualify MTP/global arithmetic promotion; Exp078 rejected signed bit planes; Exp079 rejected L2 persistence after no E2E gain; Exp080 found no exact new partial-reduction mapping; Exp081 found direct 2-bit trits 8.8–95.5% slower in the active planar screen. Current best remains unchanged.
 
 ## Latest research result
 
+- Exp081 retested direct 2-bit trit packing in the active planar GEMV dataflow at K=40/136 and row tails 257/1025/4099. A standalone CUDA Graph screen was 8.8–95.5% slower across all six cases; manager rerun reproduced all regressions, with exact outputs and a clean memcheck. The 34-byte block adds 21.4% to PTQ payload. No runtime integration or E2E candidate; representation rejected. See experiments/081-ptq1-direct-2bit-planar/REPORT.md and results/exp081/.
 - Exp080 source-audited the active sm_86 path and built a clean 441-step Release reference. Active <1,1,false,false> SASS has 76 registers/thread, no spills, 32 IDP.4A, 9 activation vector loads, 217 LDS, and one CTA barrier. Exact output order uses four sequential modulo-4 FP32 streams; removing partial owners would serialize 10/34 block dots per stream at K=40/136, while splitting a stream changes FP32 association. No candidate or new timing; manager verified hashes and corrected the SASS count. See experiments/080-ptq1-gemv-dataflow/REPORT.md.
 - Exp079 used exact production PTQ1_0 GEMV graph replay with real weights and valid planar activations. One matrix gained 1.728 µs only on forced-cold replay; warm timing was 0.352 µs slower. In two reversed 7-repetition model pairs, maximum L2 reservation lost 0.894%/0.852%; exact-size reservation lost 0.159% at ctx512 and was flat at ctx4096. Output parity passed; both policies were rejected. No source or best-result change; see `experiments/079-ptq1-l2-persistence/REPORT.md`.
 - Exp078 source-audited the active PTQ1_0 GEMV and screened a persistent positive/negative bit-plane representation. It would require 32 versus 28 bytes per 128 weights, adding 799,948,800 bytes to the 5,599,641,600-byte active payload, while still selecting/reducing arbitrary signed Q8 values. No credible net-work advantage; no code, build, timing, or correctness claim. Five source hashes and byte math were manager-verified. Production unchanged; see `experiments/078-ptq1-architecture-challenge/REPORT.md`.
@@ -108,6 +109,6 @@
 
 ## Next candidates
 
-1. **Reevaluate direct two-bit PTQ1_0 encoding in active planar GEMV.** Exp007 tested the exact 34-byte side block and found it 3.4–5.0% slower in SOA_ISUM; its manager audit explicitly says that does not cover the production planar-transposed activation/CTA path. Screen the direct 0/1/2 codes with the active mapping at K=40/136 before any runtime integration, and require model decode gain after the +21.4% encoded-block payload cost.
-2. Revisit PTQ1_0 prompt-side MMQ only with a concrete exact dataflow/decoder derivation; Exp065/066 closed geometry-only and ungrounded source screens.
-3. Revisit long-context attention only with a concrete parallel reduction or synchronization design; Exp069/053 closed tile-only and barrier-only directions.
+1. **Long-context FlashAttention split-count tradeoff.** The active path uses 17 K partitions and four output tiles at context 4096 (68 CTAs on 68 SMs), with 16 uniform fixups totaling about 0.036 ms/token. Test whether a higher partition count raises useful CTA parallelism enough to offset additional partial/fixup work. Keep exact-output tolerance and context-512/4096 checks; only run model A/B if focused main+fixup timing improves.
+2. **PTQ1_0 prompt-side MMQ** only with a concrete exact dataflow/decoder derivation; Exp065/066 closed geometry-only and ungrounded source screens.
+3. **Active GEMV representation/decode** only with a genuinely different packed-word load/decode that reduces the measured integer and global-load instruction work; Exp081 rejected direct 2-bit codes in the production planar mapping.

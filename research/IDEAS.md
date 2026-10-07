@@ -6,9 +6,9 @@ Ranked against the current ROWS=1 implementation. Controlled batch-1 model decod
 
 ## Open candidates
 
-1. **Reevaluate direct two-bit PTQ1_0 in the active planar GEMV:** Exp005 was invalid; Exp007 was exact but 3.4–5.0% slower in SOA_ISUM and its manager audit explicitly leaves the production planar-transposed path untested. A 128-trit block takes 34 bytes (32 packed 2-bit codes plus the existing scale) versus 28 bytes for PTQ1_0 (+21.43%). Unlike Exp078 bit planes, direct codes can expand to unsigned DP4A digits and retain arbitrary-Q8 products. Screen real active-layout graph replay at K=40/136 first, then only integrate and run matched model A/B if decode instruction savings offset extra weight traffic. Do not repeat the SOA harness; use the production planar CTA work mapping.
+1. **Long-context FlashAttention split-count tradeoff:** the current path costs 0.581 ms/token at context 4096, with 17 K partitions × four output tiles (68 CTAs on 68 SMs) and 16 uniform fixups totaling 0.0359 ms. Test a higher split count to improve CTA parallelism and measure the added partial/fixup cost. Exp053/069 closed tile-only and lower-partition/barrier concepts; this is specifically a split-count balance experiment.
 2. **PTQ1_0 prefill MMQ:** Exp076 confirmed signed-int8 Tensor Core MMA is already active on sm_86; Exp065's occupancy schedule lost by 3.3–15.6% and Exp066 found no replacement decoder. Reopen only with a measured fragment, scale-accumulation, or layout bottleneck that supports a distinct exact candidate.
-3. **Long-context FlashAttention:** the current path costs 0.581 ms/token at ctx4096, including 0.0359 ms in 16 Stream-K fixups. Exp053's 64/64 single-stage tile regressed by 17.2%/11.3%; Exp069 found no grounded alternate reduction. Reopen only with a concrete synchronization or partitioning design that preserves adequate parallelism.
+3. **Active GEMV decoder/layout:** Exp081 found the direct 2-bit side representation 8.8–95.5% slower in the planar mapping and +21.4% larger. Revisit only with a different packed-word load/decode that reduces the observed integer and global-load instruction work; do not repeat base-3 LUT/floor, direct 2-bit, bit planes, or padded-block approaches.
 
 ## Closed direction
 
