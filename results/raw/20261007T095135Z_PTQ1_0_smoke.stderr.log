@@ -1,0 +1,473 @@
+   1273088:	find library=libllama-cli-impl.so [0]; searching
+   1273088:	 search path=/usr/local/cuda/lib64/glibc-hwcaps/x86-64-v3:/usr/local/cuda/lib64/glibc-hwcaps/x86-64-v2:/usr/local/cuda/lib64		(LD_LIBRARY_PATH)
+   1273088:	  trying file=/usr/local/cuda/lib64/glibc-hwcaps/x86-64-v3/libllama-cli-impl.so
+   1273088:	  trying file=/usr/local/cuda/lib64/glibc-hwcaps/x86-64-v2/libllama-cli-impl.so
+   1273088:	  trying file=/usr/local/cuda/lib64/libllama-cli-impl.so
+   1273088:	 search path=glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=glibc-hwcaps/x86-64-v3/libllama-cli-impl.so
+   1273088:	  trying file=glibc-hwcaps/x86-64-v2/libllama-cli-impl.so
+   1273088:	  trying file=libllama-cli-impl.so
+   1273088:	 search path=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/glibc-hwcaps/x86-64-v3:/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/glibc-hwcaps/x86-64-v2:/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin:glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/glibc-hwcaps/x86-64-v3/libllama-cli-impl.so
+   1273088:	  trying file=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/glibc-hwcaps/x86-64-v2/libllama-cli-impl.so
+   1273088:	  trying file=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/libllama-cli-impl.so
+   1273088:	
+   1273088:	find library=libllama-server-impl.so [0]; searching
+   1273088:	 search path=/usr/local/cuda/lib64		(LD_LIBRARY_PATH)
+   1273088:	  trying file=/usr/local/cuda/lib64/libllama-server-impl.so
+   1273088:	 search path=glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=glibc-hwcaps/x86-64-v3/libllama-server-impl.so
+   1273088:	  trying file=glibc-hwcaps/x86-64-v2/libllama-server-impl.so
+   1273088:	  trying file=libllama-server-impl.so
+   1273088:	 search path=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin:glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/libllama-server-impl.so
+   1273088:	
+   1273088:	find library=libmtmd.so.0 [0]; searching
+   1273088:	 search path=/usr/local/cuda/lib64		(LD_LIBRARY_PATH)
+   1273088:	  trying file=/usr/local/cuda/lib64/libmtmd.so.0
+   1273088:	 search path=glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=glibc-hwcaps/x86-64-v3/libmtmd.so.0
+   1273088:	  trying file=glibc-hwcaps/x86-64-v2/libmtmd.so.0
+   1273088:	  trying file=libmtmd.so.0
+   1273088:	 search path=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin:glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/libmtmd.so.0
+   1273088:	
+   1273088:	find library=libssl.so.3 [0]; searching
+   1273088:	 search path=/usr/local/cuda/lib64		(LD_LIBRARY_PATH)
+   1273088:	  trying file=/usr/local/cuda/lib64/libssl.so.3
+   1273088:	 search path=glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=glibc-hwcaps/x86-64-v3/libssl.so.3
+   1273088:	  trying file=glibc-hwcaps/x86-64-v2/libssl.so.3
+   1273088:	  trying file=libssl.so.3
+   1273088:	 search path=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin:glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/libssl.so.3
+   1273088:	  trying file=glibc-hwcaps/x86-64-v3/libssl.so.3
+   1273088:	  trying file=glibc-hwcaps/x86-64-v2/libssl.so.3
+   1273088:	  trying file=libssl.so.3
+   1273088:	 search cache=/etc/ld.so.cache
+   1273088:	  trying file=/lib64/libssl.so.3
+   1273088:	
+   1273088:	find library=libcrypto.so.3 [0]; searching
+   1273088:	 search path=/usr/local/cuda/lib64		(LD_LIBRARY_PATH)
+   1273088:	  trying file=/usr/local/cuda/lib64/libcrypto.so.3
+   1273088:	 search path=glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=glibc-hwcaps/x86-64-v3/libcrypto.so.3
+   1273088:	  trying file=glibc-hwcaps/x86-64-v2/libcrypto.so.3
+   1273088:	  trying file=libcrypto.so.3
+   1273088:	 search path=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin:glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/libcrypto.so.3
+   1273088:	  trying file=glibc-hwcaps/x86-64-v3/libcrypto.so.3
+   1273088:	  trying file=glibc-hwcaps/x86-64-v2/libcrypto.so.3
+   1273088:	  trying file=libcrypto.so.3
+   1273088:	 search cache=/etc/ld.so.cache
+   1273088:	  trying file=/lib64/libcrypto.so.3
+   1273088:	
+   1273088:	find library=libllama-common.so.0 [0]; searching
+   1273088:	 search path=/usr/local/cuda/lib64		(LD_LIBRARY_PATH)
+   1273088:	  trying file=/usr/local/cuda/lib64/libllama-common.so.0
+   1273088:	 search path=glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=glibc-hwcaps/x86-64-v3/libllama-common.so.0
+   1273088:	  trying file=glibc-hwcaps/x86-64-v2/libllama-common.so.0
+   1273088:	  trying file=libllama-common.so.0
+   1273088:	 search path=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin:glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/libllama-common.so.0
+   1273088:	
+   1273088:	find library=libllama.so.0 [0]; searching
+   1273088:	 search path=/usr/local/cuda/lib64		(LD_LIBRARY_PATH)
+   1273088:	  trying file=/usr/local/cuda/lib64/libllama.so.0
+   1273088:	 search path=glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=glibc-hwcaps/x86-64-v3/libllama.so.0
+   1273088:	  trying file=glibc-hwcaps/x86-64-v2/libllama.so.0
+   1273088:	  trying file=libllama.so.0
+   1273088:	 search path=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin:glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/libllama.so.0
+   1273088:	
+   1273088:	find library=libggml.so.0 [0]; searching
+   1273088:	 search path=/usr/local/cuda/lib64		(LD_LIBRARY_PATH)
+   1273088:	  trying file=/usr/local/cuda/lib64/libggml.so.0
+   1273088:	 search path=glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=glibc-hwcaps/x86-64-v3/libggml.so.0
+   1273088:	  trying file=glibc-hwcaps/x86-64-v2/libggml.so.0
+   1273088:	  trying file=libggml.so.0
+   1273088:	 search path=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin:glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/libggml.so.0
+   1273088:	
+   1273088:	find library=libggml-cpu.so.0 [0]; searching
+   1273088:	 search path=/usr/local/cuda/lib64		(LD_LIBRARY_PATH)
+   1273088:	  trying file=/usr/local/cuda/lib64/libggml-cpu.so.0
+   1273088:	 search path=glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=glibc-hwcaps/x86-64-v3/libggml-cpu.so.0
+   1273088:	  trying file=glibc-hwcaps/x86-64-v2/libggml-cpu.so.0
+   1273088:	  trying file=libggml-cpu.so.0
+   1273088:	 search path=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin:glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/libggml-cpu.so.0
+   1273088:	
+   1273088:	find library=libggml-cuda.so.0 [0]; searching
+   1273088:	 search path=/usr/local/cuda/lib64		(LD_LIBRARY_PATH)
+   1273088:	  trying file=/usr/local/cuda/lib64/libggml-cuda.so.0
+   1273088:	 search path=glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=glibc-hwcaps/x86-64-v3/libggml-cuda.so.0
+   1273088:	  trying file=glibc-hwcaps/x86-64-v2/libggml-cuda.so.0
+   1273088:	  trying file=libggml-cuda.so.0
+   1273088:	 search path=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin:glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/libggml-cuda.so.0
+   1273088:	
+   1273088:	find library=libggml-base.so.0 [0]; searching
+   1273088:	 search path=/usr/local/cuda/lib64		(LD_LIBRARY_PATH)
+   1273088:	  trying file=/usr/local/cuda/lib64/libggml-base.so.0
+   1273088:	 search path=glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=glibc-hwcaps/x86-64-v3/libggml-base.so.0
+   1273088:	  trying file=glibc-hwcaps/x86-64-v2/libggml-base.so.0
+   1273088:	  trying file=libggml-base.so.0
+   1273088:	 search path=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin:glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/libggml-base.so.0
+   1273088:	
+   1273088:	find library=libcuda.so.1 [0]; searching
+   1273088:	 search path=/usr/local/cuda/lib64		(LD_LIBRARY_PATH)
+   1273088:	  trying file=/usr/local/cuda/lib64/libcuda.so.1
+   1273088:	 search path=glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=glibc-hwcaps/x86-64-v3/libcuda.so.1
+   1273088:	  trying file=glibc-hwcaps/x86-64-v2/libcuda.so.1
+   1273088:	  trying file=libcuda.so.1
+   1273088:	 search path=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin:glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/libcuda.so.1
+   1273088:	  trying file=glibc-hwcaps/x86-64-v3/libcuda.so.1
+   1273088:	  trying file=glibc-hwcaps/x86-64-v2/libcuda.so.1
+   1273088:	  trying file=libcuda.so.1
+   1273088:	 search cache=/etc/ld.so.cache
+   1273088:	  trying file=/lib64/libcuda.so.1
+   1273088:	
+   1273088:	find library=libstdc++.so.6 [0]; searching
+   1273088:	 search path=/usr/local/cuda/lib64		(LD_LIBRARY_PATH)
+   1273088:	  trying file=/usr/local/cuda/lib64/libstdc++.so.6
+   1273088:	 search path=glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=glibc-hwcaps/x86-64-v3/libstdc++.so.6
+   1273088:	  trying file=glibc-hwcaps/x86-64-v2/libstdc++.so.6
+   1273088:	  trying file=libstdc++.so.6
+   1273088:	 search path=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin:glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/libstdc++.so.6
+   1273088:	  trying file=glibc-hwcaps/x86-64-v3/libstdc++.so.6
+   1273088:	  trying file=glibc-hwcaps/x86-64-v2/libstdc++.so.6
+   1273088:	  trying file=libstdc++.so.6
+   1273088:	 search cache=/etc/ld.so.cache
+   1273088:	  trying file=/lib64/libstdc++.so.6
+   1273088:	
+   1273088:	find library=libm.so.6 [0]; searching
+   1273088:	 search path=/usr/local/cuda/lib64		(LD_LIBRARY_PATH)
+   1273088:	  trying file=/usr/local/cuda/lib64/libm.so.6
+   1273088:	 search path=glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=glibc-hwcaps/x86-64-v3/libm.so.6
+   1273088:	  trying file=glibc-hwcaps/x86-64-v2/libm.so.6
+   1273088:	  trying file=libm.so.6
+   1273088:	 search path=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin:glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/libm.so.6
+   1273088:	  trying file=glibc-hwcaps/x86-64-v3/libm.so.6
+   1273088:	  trying file=glibc-hwcaps/x86-64-v2/libm.so.6
+   1273088:	  trying file=libm.so.6
+   1273088:	 search cache=/etc/ld.so.cache
+   1273088:	  trying file=/lib64/libm.so.6
+   1273088:	
+   1273088:	find library=libgcc_s.so.1 [0]; searching
+   1273088:	 search path=/usr/local/cuda/lib64		(LD_LIBRARY_PATH)
+   1273088:	  trying file=/usr/local/cuda/lib64/libgcc_s.so.1
+   1273088:	 search path=glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=glibc-hwcaps/x86-64-v3/libgcc_s.so.1
+   1273088:	  trying file=glibc-hwcaps/x86-64-v2/libgcc_s.so.1
+   1273088:	  trying file=libgcc_s.so.1
+   1273088:	 search path=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin:glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/libgcc_s.so.1
+   1273088:	  trying file=glibc-hwcaps/x86-64-v3/libgcc_s.so.1
+   1273088:	  trying file=glibc-hwcaps/x86-64-v2/libgcc_s.so.1
+   1273088:	  trying file=libgcc_s.so.1
+   1273088:	 search cache=/etc/ld.so.cache
+   1273088:	  trying file=/lib64/libgcc_s.so.1
+   1273088:	
+   1273088:	find library=libc.so.6 [0]; searching
+   1273088:	 search path=/usr/local/cuda/lib64		(LD_LIBRARY_PATH)
+   1273088:	  trying file=/usr/local/cuda/lib64/libc.so.6
+   1273088:	 search path=glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=glibc-hwcaps/x86-64-v3/libc.so.6
+   1273088:	  trying file=glibc-hwcaps/x86-64-v2/libc.so.6
+   1273088:	  trying file=libc.so.6
+   1273088:	 search path=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin:glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/libc.so.6
+   1273088:	  trying file=glibc-hwcaps/x86-64-v3/libc.so.6
+   1273088:	  trying file=glibc-hwcaps/x86-64-v2/libc.so.6
+   1273088:	  trying file=libc.so.6
+   1273088:	 search cache=/etc/ld.so.cache
+   1273088:	  trying file=/lib64/libc.so.6
+   1273088:	
+   1273088:	find library=libz.so.1 [0]; searching
+   1273088:	 search path=/usr/local/cuda/lib64		(LD_LIBRARY_PATH)
+   1273088:	  trying file=/usr/local/cuda/lib64/libz.so.1
+   1273088:	 search path=glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=glibc-hwcaps/x86-64-v3/libz.so.1
+   1273088:	  trying file=glibc-hwcaps/x86-64-v2/libz.so.1
+   1273088:	  trying file=libz.so.1
+   1273088:	 search cache=/etc/ld.so.cache
+   1273088:	  trying file=/lib64/libz.so.1
+   1273088:	
+   1273088:	find library=libcudart.so.13 [0]; searching
+   1273088:	 search path=/usr/local/cuda/lib64		(LD_LIBRARY_PATH)
+   1273088:	  trying file=/usr/local/cuda/lib64/libcudart.so.13
+   1273088:	
+   1273088:	find library=libgomp.so.1 [0]; searching
+   1273088:	 search path=/usr/local/cuda/lib64		(LD_LIBRARY_PATH)
+   1273088:	  trying file=/usr/local/cuda/lib64/libgomp.so.1
+   1273088:	 search path=glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=glibc-hwcaps/x86-64-v3/libgomp.so.1
+   1273088:	  trying file=glibc-hwcaps/x86-64-v2/libgomp.so.1
+   1273088:	  trying file=libgomp.so.1
+   1273088:	 search path=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin:glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=/home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/libgomp.so.1
+   1273088:	  trying file=glibc-hwcaps/x86-64-v3/libgomp.so.1
+   1273088:	  trying file=glibc-hwcaps/x86-64-v2/libgomp.so.1
+   1273088:	  trying file=libgomp.so.1
+   1273088:	 search cache=/etc/ld.so.cache
+   1273088:	  trying file=/lib64/libgomp.so.1
+   1273088:	
+   1273088:	find library=libcublas.so.13 [0]; searching
+   1273088:	 search path=/usr/local/cuda/lib64		(LD_LIBRARY_PATH)
+   1273088:	  trying file=/usr/local/cuda/lib64/libcublas.so.13
+   1273088:	
+   1273088:	find library=libcublasLt.so.13 [0]; searching
+   1273088:	 search path=/usr/local/cuda/lib64		(LD_LIBRARY_PATH)
+   1273088:	  trying file=/usr/local/cuda/lib64/libcublasLt.so.13
+   1273088:	
+   1273088:	find library=libdl.so.2 [0]; searching
+   1273088:	 search path=/usr/local/cuda/lib64		(LD_LIBRARY_PATH)
+   1273088:	  trying file=/usr/local/cuda/lib64/libdl.so.2
+   1273088:	 search path=glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=glibc-hwcaps/x86-64-v3/libdl.so.2
+   1273088:	  trying file=glibc-hwcaps/x86-64-v2/libdl.so.2
+   1273088:	  trying file=libdl.so.2
+   1273088:	 search cache=/etc/ld.so.cache
+   1273088:	  trying file=/lib64/libdl.so.2
+   1273088:	
+   1273088:	find library=libpthread.so.0 [0]; searching
+   1273088:	 search path=/usr/local/cuda/lib64		(LD_LIBRARY_PATH)
+   1273088:	  trying file=/usr/local/cuda/lib64/libpthread.so.0
+   1273088:	 search path=glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=glibc-hwcaps/x86-64-v3/libpthread.so.0
+   1273088:	  trying file=glibc-hwcaps/x86-64-v2/libpthread.so.0
+   1273088:	  trying file=libpthread.so.0
+   1273088:	 search cache=/etc/ld.so.cache
+   1273088:	  trying file=/lib64/libpthread.so.0
+   1273088:	
+   1273088:	find library=librt.so.1 [0]; searching
+   1273088:	 search path=/usr/local/cuda/lib64		(LD_LIBRARY_PATH)
+   1273088:	  trying file=/usr/local/cuda/lib64/librt.so.1
+   1273088:	 search path=glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=glibc-hwcaps/x86-64-v3/librt.so.1
+   1273088:	  trying file=glibc-hwcaps/x86-64-v2/librt.so.1
+   1273088:	  trying file=librt.so.1
+   1273088:	 search cache=/etc/ld.so.cache
+   1273088:	  trying file=/lib64/librt.so.1
+   1273088:	
+   1273088:	
+   1273088:	calling init: /lib64/ld-linux-x86-64.so.2
+   1273088:	
+   1273088:	
+   1273088:	calling init: /lib64/libc.so.6
+   1273088:	
+   1273088:	
+   1273088:	calling init: /lib64/librt.so.1
+   1273088:	
+   1273088:	
+   1273088:	calling init: /lib64/libpthread.so.0
+   1273088:	
+   1273088:	
+   1273088:	calling init: /lib64/libdl.so.2
+   1273088:	
+   1273088:	
+   1273088:	calling init: /lib64/libm.so.6
+   1273088:	
+   1273088:	
+   1273088:	calling init: /lib64/libgcc_s.so.1
+   1273088:	
+   1273088:	
+   1273088:	calling init: /usr/local/cuda/lib64/libcublasLt.so.13
+   1273088:	
+   1273088:	
+   1273088:	calling init: /lib64/libcuda.so.1
+   1273088:	
+   1273088:	
+   1273088:	calling init: /usr/local/cuda/lib64/libcublas.so.13
+   1273088:	
+   1273088:	
+   1273088:	calling init: /lib64/libgomp.so.1
+   1273088:	
+   1273088:	
+   1273088:	calling init: /lib64/libstdc++.so.6
+   1273088:	
+   1273088:	
+   1273088:	calling init: /usr/local/cuda/lib64/libcudart.so.13
+   1273088:	
+   1273088:	
+   1273088:	calling init: /lib64/libz.so.1
+   1273088:	
+   1273088:	
+   1273088:	calling init: /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/libggml-base.so.0
+   1273088:	
+   1273088:	
+   1273088:	calling init: /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/libggml-cuda.so.0
+   1273088:	
+   1273088:	
+   1273088:	calling init: /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/libggml-cpu.so.0
+   1273088:	
+   1273088:	
+   1273088:	calling init: /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/libggml.so.0
+   1273088:	
+   1273088:	
+   1273088:	calling init: /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/libllama.so.0
+   1273088:	
+   1273088:	
+   1273088:	calling init: /lib64/libcrypto.so.3
+   1273088:	
+   1273088:	
+   1273088:	calling init: /lib64/libssl.so.3
+   1273088:	
+   1273088:	
+   1273088:	calling init: /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/libllama-common.so.0
+   1273088:	
+   1273088:	
+   1273088:	calling init: /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/libmtmd.so.0
+   1273088:	
+   1273088:	
+   1273088:	calling init: /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/libllama-server-impl.so
+   1273088:	
+   1273088:	
+   1273088:	calling init: /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/libllama-cli-impl.so
+   1273088:	
+   1273088:	
+   1273088:	initialize program: /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli
+   1273088:	
+   1273088:	
+   1273088:	transferring control: /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli
+   1273088:	
+   1273088:	find library=libnvidia-ptxjitcompiler.so.1 [0]; searching
+   1273088:	 search path=/usr/local/cuda/lib64		(LD_LIBRARY_PATH)
+   1273088:	  trying file=/usr/local/cuda/lib64/libnvidia-ptxjitcompiler.so.1
+   1273088:	 search path=glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=glibc-hwcaps/x86-64-v3/libnvidia-ptxjitcompiler.so.1
+   1273088:	  trying file=glibc-hwcaps/x86-64-v2/libnvidia-ptxjitcompiler.so.1
+   1273088:	  trying file=libnvidia-ptxjitcompiler.so.1
+   1273088:	 search cache=/etc/ld.so.cache
+   1273088:	  trying file=/lib64/libnvidia-ptxjitcompiler.so.1
+   1273088:	
+   1273088:	
+   1273088:	calling init: /lib64/libnvidia-ptxjitcompiler.so.1
+   1273088:	
+   1273088:	find library=libnvidia-nvvm70.so.4 [0]; searching
+   1273088:	 search path=/usr/local/cuda/lib64		(LD_LIBRARY_PATH)
+   1273088:	  trying file=/usr/local/cuda/lib64/libnvidia-nvvm70.so.4
+   1273088:	 search path=glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=glibc-hwcaps/x86-64-v3/libnvidia-nvvm70.so.4
+   1273088:	  trying file=glibc-hwcaps/x86-64-v2/libnvidia-nvvm70.so.4
+   1273088:	  trying file=libnvidia-nvvm70.so.4
+   1273088:	 search cache=/etc/ld.so.cache
+   1273088:	  trying file=/lib64/libnvidia-nvvm70.so.4
+   1273088:	
+   1273088:	
+   1273088:	calling init: /lib64/libnvidia-nvvm70.so.4
+   1273088:	
+   1273088:	find library=libnvidia-gpucomp.so.580.178.04 [0]; searching
+   1273088:	 search path=/usr/local/cuda/lib64		(LD_LIBRARY_PATH)
+   1273088:	  trying file=/usr/local/cuda/lib64/libnvidia-gpucomp.so.580.178.04
+   1273088:	 search path=glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/llama-cli)
+   1273088:	  trying file=glibc-hwcaps/x86-64-v3/libnvidia-gpucomp.so.580.178.04
+   1273088:	  trying file=glibc-hwcaps/x86-64-v2/libnvidia-gpucomp.so.580.178.04
+   1273088:	  trying file=libnvidia-gpucomp.so.580.178.04
+   1273088:	 search cache=/etc/ld.so.cache
+   1273088:	  trying file=/lib64/libnvidia-gpucomp.so.580.178.04
+   1273088:	
+   1273088:	
+   1273088:	calling init: /lib64/libnvidia-gpucomp.so.580.178.04
+   1273088:	
+   1273088:	
+   1273088:	calling fini:  [0]
+   1273088:	
+   1273088:	
+   1273088:	calling fini: /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/libllama-cli-impl.so [0]
+   1273088:	
+   1273088:	
+   1273088:	calling fini: /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/libllama-server-impl.so [0]
+   1273088:	
+   1273088:	
+   1273088:	calling fini: /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/libmtmd.so.0 [0]
+   1273088:	
+   1273088:	
+   1273088:	calling fini: /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/libllama-common.so.0 [0]
+   1273088:	
+   1273088:	
+   1273088:	calling fini: /lib64/libssl.so.3 [0]
+   1273088:	
+   1273088:	
+   1273088:	calling fini: /lib64/libcrypto.so.3 [0]
+   1273088:	
+   1273088:	
+   1273088:	calling fini: /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/libllama.so.0 [0]
+   1273088:	
+   1273088:	
+   1273088:	calling fini: /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/libggml.so.0 [0]
+   1273088:	
+   1273088:	
+   1273088:	calling fini: /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/libggml-cpu.so.0 [0]
+   1273088:	
+   1273088:	
+   1273088:	calling fini: /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/libggml-cuda.so.0 [0]
+   1273088:	
+   1273088:	
+   1273088:	calling fini: /home/maxsun/autonomous_projects/.worktrees/exp057-smallop-fusion/build/bin/libggml-base.so.0 [0]
+   1273088:	
+   1273088:	
+   1273088:	calling fini: /lib64/libcuda.so.1 [0]
+   1273088:	
+   1273088:	
+   1273088:	calling fini: /lib64/libz.so.1 [0]
+   1273088:	
+   1273088:	
+   1273088:	calling fini: /usr/local/cuda/lib64/libcudart.so.13 [0]
+   1273088:	
+   1273088:	
+   1273088:	calling fini: /lib64/libstdc++.so.6 [0]
+   1273088:	
+   1273088:	
+   1273088:	calling fini: /lib64/libgomp.so.1 [0]
+   1273088:	
+   1273088:	
+   1273088:	calling fini: /usr/local/cuda/lib64/libcublas.so.13 [0]
+   1273088:	
+   1273088:	
+   1273088:	calling fini: /usr/local/cuda/lib64/libcublasLt.so.13 [0]
+   1273088:	
+   1273088:	
+   1273088:	calling fini: /lib64/libgcc_s.so.1 [0]
+   1273088:	
+   1273088:	
+   1273088:	calling fini: /lib64/libnvidia-ptxjitcompiler.so.1 [0]
+   1273088:	
+   1273088:	
+   1273088:	calling fini: /lib64/libnvidia-nvvm70.so.4 [0]
+   1273088:	
+   1273088:	
+   1273088:	calling fini: /lib64/libnvidia-gpucomp.so.580.178.04 [0]
+   1273088:	
+   1273088:	
+   1273088:	calling fini: /lib64/libm.so.6 [0]
+   1273088:	
+   1273088:	
+   1273088:	calling fini: /lib64/libdl.so.2 [0]
+   1273088:	
+   1273088:	
+   1273088:	calling fini: /lib64/librt.so.1 [0]
+   1273088:	
+   1273088:	
+   1273088:	calling fini: /lib64/libpthread.so.0 [0]
+   1273088:	
+   1273088:	
+   1273088:	calling fini: /lib64/libc.so.6 [0]
+   1273088:	
+   1273088:	
+   1273088:	calling fini: /lib64/ld-linux-x86-64.so.2 [0]
+   1273088:	

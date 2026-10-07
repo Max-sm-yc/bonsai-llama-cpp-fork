@@ -1,5 +1,9 @@
 # Optimization log
 
+## Experiment 057: recurrent decode small-op fusion screen
+
+- Mapped frequent graph signatures and screened a direct concat-to-SSM_CONV-plus-SiLU path. The focused CUDA case passed, but actual Qwen graph order is `CONCAT → CPY(cache update) → SSM_CONV → SiLU`; captures retained 48 concat nodes and 1,432 nodes/replay, so the matcher was a no-op. No end-to-end comparison was warranted. Source restored. A future attempt must fuse and verify the required cache write along with convolution. See `experiments/057-decode-smallop-fusion/REPORT.md` and `results/exp057/`.
+
 ## Experiment 056: PTQ1_0 paired-output kernel screen
 
 - The direct K/V paired-output kernel matched two current single-kernel results within 2.2e-7 maximum relative error. Sequential stream launches looked 2.5% faster, but with correctly stream-ordered events the CUDA Graph comparison was 10.623 us paired versus 10.256 us for two nodes (+3.69% slower). Earlier graph timings omitted the nonblocking stream on event recording and are invalid; the corrected capture is retained. The pair kernel used 50 registers/thread and 1 KiB shared memory versus 98 registers in the active single kernel; that resource reduction did not save replay time. Source restored, no graph integration or E2E run. See `experiments/056-kv-pair-kernel-screen/REPORT.md` and `results/exp056/`.

@@ -1,0 +1,311 @@
+{
+  "file": "cand_ctx512.sqlite",
+  "graph_replays": 31,
+  "nodes_per_replay": [
+    1432
+  ],
+  "kernel_instances_per_replay": [
+    1432
+  ],
+  "gpu_span_ms": {
+    "mean": 11.859909483870968,
+    "median": 11.86,
+    "min": 11.85328,
+    "max": 11.873441
+  },
+  "summed_kernel_ms_per_replay": 11.844785258064515,
+  "families": {
+    "Activation prep": {
+      "count_per_replay": [
+        258
+      ],
+      "mean_ms_per_replay": 0.749751870967742,
+      "stdev_ms_per_replay": 0.00048257847319964044,
+      "min_ms_per_replay": 0.748485,
+      "max_ms_per_replay": 0.750724,
+      "share_pct": 6.329805518907772
+    },
+    "Attention": {
+      "count_per_replay": [
+        32
+      ],
+      "mean_ms_per_replay": 0.2347766129032258,
+      "stdev_ms_per_replay": 0.000518497680960377,
+      "min_ms_per_replay": 0.233889,
+      "max_ms_per_replay": 0.235682,
+      "share_pct": 1.9821094919671782
+    },
+    "GDN": {
+      "count_per_replay": [
+        144
+      ],
+      "mean_ms_per_replay": 0.49701232258064515,
+      "stdev_ms_per_replay": 0.0011386264060143354,
+      "min_ms_per_replay": 0.494915,
+      "max_ms_per_replay": 0.49898,
+      "share_pct": 4.196043336811485
+    },
+    "GEMV": {
+      "count_per_replay": [
+        361
+      ],
+      "mean_ms_per_replay": 9.004418193548387,
+      "stdev_ms_per_replay": 0.0033856542392804063,
+      "min_ms_per_replay": 8.998183,
+      "max_ms_per_replay": 9.017034,
+      "share_pct": 76.02010502822526
+    },
+    "Other": {
+      "count_per_replay": [
+        508
+      ],
+      "mean_ms_per_replay": 0.9970183548387097,
+      "stdev_ms_per_replay": 0.0009791590115463713,
+      "min_ms_per_replay": 0.995302,
+      "max_ms_per_replay": 0.999911,
+      "share_pct": 8.41736116878852
+    },
+    "RMSNorm": {
+      "count_per_replay": [
+        129
+      ],
+      "mean_ms_per_replay": 0.36180790322580647,
+      "stdev_ms_per_replay": 0.0004771657542083733,
+      "min_ms_per_replay": 0.360802,
+      "max_ms_per_replay": 0.362658,
+      "share_pct": 3.054575455299789
+    }
+  },
+  "signatures": {
+    "void concat_cont<unsigned int, (int)0>(const T1 *, const T1 *, T1 *, long, long, long, long, long, long)": {
+      "count_per_replay": [
+        48
+      ],
+      "mean_ms_per_replay": 0.09968887096774194,
+      "stdev_ms_per_replay": 0.0002752104336606792,
+      "min_ms_per_replay": 0.099169,
+      "max_ms_per_replay": 0.100321,
+      "share_pct": 0.841626663513117
+    },
+    "void cpy_scalar<&cpy_1_scalar<float, float>>(const char *, char *, long, long, long, long, long, long, long, long, long, long, long, long, long, long, long)": {
+      "count_per_replay": [
+        112
+      ],
+      "mean_ms_per_replay": 0.209031,
+      "stdev_ms_per_replay": 0.00032302373493806096,
+      "min_ms_per_replay": 0.20829,
+      "max_ms_per_replay": 0.209762,
+      "share_pct": 1.7647512846016464
+    },
+    "void flash_attn_ext_f16<(int)256, (int)256, (int)1, (int)8, (bool)0, (bool)0, (ggml_type)1>(const char *, const char *, const char *, const char *, const char *, const int *, float *, float2 *, float, float, float, float, unsigned int, float, int, uint3, int, int, int, int, int, int, int, int, int, int, int, long, int, int, long, int, int, int, int, int, long)": {
+      "count_per_replay": [
+        16
+      ],
+      "mean_ms_per_replay": 0.20041645161290322,
+      "stdev_ms_per_replay": 0.000515558909579993,
+      "min_ms_per_replay": 0.199554,
+      "max_ms_per_replay": 0.201346,
+      "share_pct": 1.692022668595446
+    },
+    "void flash_attn_stream_k_fixup_uniform<(int)256, (int)1, (int)8>(float *, const float2 *, int, int, int, int, int, int, uint3, uint3, uint3)": {
+      "count_per_replay": [
+        16
+      ],
+      "mean_ms_per_replay": 0.03436016129032258,
+      "stdev_ms_per_replay": 5.0224892084963475e-05,
+      "min_ms_per_replay": 0.034272,
+      "max_ms_per_replay": 0.034465,
+      "share_pct": 0.29008682337173214
+    },
+    "void fwht_cuda_block<(int)1024, (int)256, float, (bool)0>(const T3 *, float *, long, float, const float *, int)": {
+      "count_per_replay": [
+        1
+      ],
+      "mean_ms_per_replay": 0.0019210322580645162,
+      "stdev_ms_per_replay": 3.739472678597677e-05,
+      "min_ms_per_replay": 0.00176,
+      "max_ms_per_replay": 0.001952,
+      "share_pct": 0.01621837978663718
+    },
+    "void fwht_quantize_q8_1<(int)1024, (int)256, (ggml_cuda_q8_1_layout)2, float, (bool)1>(const T4 *, const float *, void *, long, long, unsigned int, uint3, float)": {
+      "count_per_replay": [
+        177
+      ],
+      "mean_ms_per_replay": 0.45008877419354837,
+      "stdev_ms_per_replay": 0.0004140280755115869,
+      "min_ms_per_replay": 0.449029,
+      "max_ms_per_replay": 0.450818,
+      "share_pct": 3.799889693121331
+    },
+    "void fwht_rms_quantize_q8_1<(int)1024, (int)1024, (ggml_cuda_q8_1_layout)2>(const float *, const float *, const float *, void *, long, long, unsigned int, float)": {
+      "count_per_replay": [
+        80
+      ],
+      "mean_ms_per_replay": 0.29774206451612906,
+      "stdev_ms_per_replay": 0.0002789073843272293,
+      "min_ms_per_replay": 0.297251,
+      "max_ms_per_replay": 0.298498,
+      "share_pct": 2.513697445999804
+    },
+    "void gated_delta_net_cuda<(int)128, (bool)0, (bool)0, (bool)1, (bool)0>(const float *, const float *, const float *, const float *, const float *, const float *, const float *, const float *, float *, float *, long, long, long, long, long, long, long, long, long, long, long, long, uint3, uint3, float, long, int, const int *, long)": {
+      "count_per_replay": [
+        48
+      ],
+      "mean_ms_per_replay": 0.3534964516129032,
+      "stdev_ms_per_replay": 0.001089055732847184,
+      "min_ms_per_replay": 0.351107,
+      "max_ms_per_replay": 0.355556,
+      "share_pct": 2.9844057440570766
+    },
+    "void k_bin_bcast<&op_add, float, float, float, const float *>(const T2 *, const T3 *, T4 *, unsigned int, unsigned int, unsigned int, uint3, uint3, uint3, uint3, uint3, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, T5...)": {
+      "count_per_replay": [
+        49
+      ],
+      "mean_ms_per_replay": 0.08584003225806451,
+      "stdev_ms_per_replay": 0.00019720082553427041,
+      "min_ms_per_replay": 0.085472,
+      "max_ms_per_replay": 0.086304,
+      "share_pct": 0.724707374493095
+    },
+    "void k_bin_bcast<&op_mul, float, float, float, const float *>(const T2 *, const T3 *, T4 *, unsigned int, unsigned int, unsigned int, uint3, uint3, uint3, uint3, uint3, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, T5...)": {
+      "count_per_replay": [
+        1
+      ],
+      "mean_ms_per_replay": 0.002241032258064516,
+      "stdev_ms_per_replay": 7.77206467081379e-05,
+      "min_ms_per_replay": 0.001856,
+      "max_ms_per_replay": 0.002336,
+      "share_pct": 0.018919990605475185
+    },
+    "void k_get_rows_float<float, float>(const T1 *, const int *, T2 *, long, long, uint3, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long)": {
+      "count_per_replay": [
+        50
+      ],
+      "mean_ms_per_replay": 0.09352132258064516,
+      "stdev_ms_per_replay": 0.00037897048144473235,
+      "min_ms_per_replay": 0.092352,
+      "max_ms_per_replay": 0.094145,
+      "share_pct": 0.7895569277372185
+    },
+    "void k_set_rows<float, long, __half>(const T1 *, const T2 *, T3 *, long, long, long, long, long, long, long, long, long, long, long, long, long, long, uint3, uint3, uint3, uint3, uint3)": {
+      "count_per_replay": [
+        32
+      ],
+      "mean_ms_per_replay": 0.041891387096774195,
+      "stdev_ms_per_replay": 0.00010360523713254252,
+      "min_ms_per_replay": 0.041728,
+      "max_ms_per_replay": 0.04208,
+      "share_pct": 0.3536694518649248
+    },
+    "void l2_norm_f32<(int)32>(const float *, float *, int, long, long, long, float)": {
+      "count_per_replay": [
+        48
+      ],
+      "mean_ms_per_replay": 0.0697511935483871,
+      "stdev_ms_per_replay": 0.00013573882258583896,
+      "min_ms_per_replay": 0.069376,
+      "max_ms_per_replay": 0.069986,
+      "share_pct": 0.5888768097412068
+    },
+    "void mul_mat_vec_f<__nv_bfloat16, float, (int)1, (int)256, (bool)0, (bool)0>(const T1 *, const float *, const int *, ggml_cuda_mm_fusion_args_device, float *, int, uint3, int, int, int, uint3, int, int, int, uint3, int, int, int, int)": {
+      "count_per_replay": [
+        96
+      ],
+      "mean_ms_per_replay": 0.30649022580645163,
+      "stdev_ms_per_replay": 0.0006632607687115509,
+      "min_ms_per_replay": 0.305187,
+      "max_ms_per_replay": 0.308163,
+      "share_pct": 2.5875540934587895
+    },
+    "void mul_mat_vec_ptq1_0_pt<(int)1, (int)1, (bool)0, (bool)0>(const void *, const void *, ggml_cuda_mm_fusion_args_device, float *, int, int, int, int, int, int, uint3, uint3, bool)": {
+      "count_per_replay": [
+        242
+      ],
+      "mean_ms_per_replay": 4.5618005483870965,
+      "stdev_ms_per_replay": 0.002229144571933469,
+      "min_ms_per_replay": 4.556998,
+      "max_ms_per_replay": 4.566564,
+      "share_pct": 38.51315535907413
+    },
+    "void mul_mat_vec_ptq1_0_pt<(int)1, (int)1, (bool)1, (bool)0>(const void *, const void *, ggml_cuda_mm_fusion_args_device, float *, int, int, int, int, int, int, uint3, uint3, bool)": {
+      "count_per_replay": [
+        79
+      ],
+      "mean_ms_per_replay": 2.133727612903226,
+      "stdev_ms_per_replay": 0.001485591861345063,
+      "min_ms_per_replay": 2.130832,
+      "max_ms_per_replay": 2.136851,
+      "share_pct": 18.014067510852325
+    },
+    "void mul_mat_vec_ptq1_0_pt<(int)1, (int)1, (bool)1, (bool)1>(const void *, const void *, ggml_cuda_mm_fusion_args_device, float *, int, int, int, int, int, int, uint3, uint3, bool)": {
+      "count_per_replay": [
+        40
+      ],
+      "mean_ms_per_replay": 2.3088900322580646,
+      "stdev_ms_per_replay": 0.0014273757151703577,
+      "min_ms_per_replay": 2.30693,
+      "max_ms_per_replay": 2.313619,
+      "share_pct": 19.4928821582988
+    },
+    "void rms_norm_f32<(int)1024, (bool)1, (bool)0>(const float *, float *, int, long, long, long, float, const float *, long, long, long, uint3, uint3, uint3, uint3, const float *, long, long, long, uint3, uint3, uint3, uint3)": {
+      "count_per_replay": [
+        49
+      ],
+      "mean_ms_per_replay": 0.21143483870967741,
+      "stdev_ms_per_replay": 0.0003103218863023982,
+      "min_ms_per_replay": 0.210626,
+      "max_ms_per_replay": 0.212227,
+      "share_pct": 1.7850457741791657
+    },
+    "void rms_norm_f32<(int)256, (bool)1, (bool)0>(const float *, float *, int, long, long, long, float, const float *, long, long, long, uint3, uint3, uint3, uint3, const float *, long, long, long, uint3, uint3, uint3, uint3)": {
+      "count_per_replay": [
+        80
+      ],
+      "mean_ms_per_replay": 0.15037306451612903,
+      "stdev_ms_per_replay": 0.0003910918848117302,
+      "min_ms_per_replay": 0.14944,
+      "max_ms_per_replay": 0.151328,
+      "share_pct": 1.2695296811206231
+    },
+    "void rope_multi<(bool)1, (bool)0, float>(const T3 *, T3 *, int, int, int, int, int, int, int, int, int, int, int, const int *, float, float, float, rope_corr_dims, float, const float *, mrope_sections, bool, bool)": {
+      "count_per_replay": [
+        32
+      ],
+      "mean_ms_per_replay": 0.044196483870967744,
+      "stdev_ms_per_replay": 0.00010555215802870287,
+      "min_ms_per_replay": 0.044,
+      "max_ms_per_replay": 0.044609,
+      "share_pct": 0.37313030931376817
+    },
+    "void ssm_conv_f32<(bool)1, (unsigned long)128, (unsigned long)4>(const float *, const float *, const float *, int, int, int, int, float *, int, int, int, long)": {
+      "count_per_replay": [
+        48
+      ],
+      "mean_ms_per_replay": 0.07376467741935484,
+      "stdev_ms_per_replay": 0.00027586607706116777,
+      "min_ms_per_replay": 0.073152,
+      "max_ms_per_replay": 0.074401,
+      "share_pct": 0.6227607830132015
+    },
+    "void unary_gated_op_kernel<&op_sigmoid, float>(const T2 *, const T2 *, T2 *, long, long, long, long)": {
+      "count_per_replay": [
+        16
+      ],
+      "mean_ms_per_replay": 0.018667387096774193,
+      "stdev_ms_per_replay": 4.931982523580477e-05,
+      "min_ms_per_replay": 0.01856,
+      "max_ms_per_replay": 0.018753,
+      "share_pct": 0.15760004668775665
+    },
+    "void unary_gated_op_kernel<&op_silu, float>(const T2 *, const T2 *, T2 *, long, long, long, long)": {
+      "count_per_replay": [
+        72
+      ],
+      "mean_ms_per_replay": 0.0954506129032258,
+      "stdev_ms_per_replay": 0.0003355983390323778,
+      "min_ms_per_replay": 0.094848,
+      "max_ms_per_replay": 0.096223,
+      "share_pct": 0.8058450265127289
+    }
+  }
+}

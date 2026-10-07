@@ -1,0 +1,12 @@
+{
+  "qwen35.block_count": 64,
+  "qwen35.embedding_length": 5120,
+  "qwen35.attention.head_count": 24,
+  "qwen35.ssm.conv_kernel": 4,
+  "qwen35.ssm.state_size": 128,
+  "qwen35.ssm.group_count": 16,
+  "qwen35.ssm.time_step_rank": 48,
+  "qwen35.ssm.inner_size": 6144,
+  "linear_attention_conv_channels": 10240,
+  "linear_attention_conv_history_channels_elements": 30720
+}
