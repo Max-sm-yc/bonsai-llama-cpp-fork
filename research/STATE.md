@@ -47,7 +47,7 @@
 
 ## Experiment status
 
-- Exp075 is complete and recorded; no experimenter is active. It made no production changes and did not run a cold/warm kernel timing. Production remains the verified PTQ1_0 build. Next candidate: screen an sm_86 int8 Tensor Core PTQ1_0 MMQ for prefill batches greater than one; the batch-1 rejection in Exp073 does not decide this regime.
+- Exp076 is active with one explicitly GPT-6 Luna experimenter in an isolated worktree, screening int8 Tensor Core PTQ1_0 MMQ for prefill batches greater than one. It begins from source baseline `ffb0ef3` / project commit `5d1b4f7`; production remains unchanged. Exp073's batch-1 rejection does not decide this regime.
 
 ## Latest research result
 

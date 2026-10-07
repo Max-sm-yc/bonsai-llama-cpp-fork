@@ -354,7 +354,7 @@
     ],
     "timestamp_utc": "2026-10-07T20:00:16Z"
   },
-  "updated_timestamp_utc": "2026-10-07T20:00:16Z",
+  "updated_timestamp_utc": "2026-10-07T20:06:16Z",
   "project_commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
   "current_best": {
     "commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
@@ -1424,5 +1424,15 @@
       "results/exp075/raw/feasibility_audit.txt"
     ],
     "timestamp_utc": "2026-10-07T20:00:16Z"
+  },
+  "active_experiment": {
+    "id": "076",
+    "hypothesis": "Determine whether an sm_86 int8 Tensor Core PTQ1_0 MMQ improves multi-position prefill by amortizing ternary expansion across prompt columns.",
+    "status": "in_progress",
+    "base_project_commit": "5d1b4f7",
+    "production_source_commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
+    "worktree": "/home/maxsun/autonomous_projects/.worktrees/exp076-sm86-ptq1-mmq-tc",
+    "assigned_model": "gpt-6-luna",
+    "current_best_unchanged": true
   }
 }
