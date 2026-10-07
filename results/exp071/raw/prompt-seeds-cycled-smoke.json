@@ -1,0 +1,66 @@
+{
+  "texts": [
+    "Write a Python function to sort a list and explain its complexity. ",
+    "Explain why GPU matrix multiplication is useful for language model inference. ",
+    "Review this C++ function for correctness: int divide(int x) { return 10 / x; } "
+  ],
+  "token_ids": [
+    [
+      7734,
+      264,
+      12654,
+      709,
+      310,
+      3269,
+      264,
+      1103,
+      321,
+      10033,
+      1141,
+      22373,
+      13,
+      220
+    ],
+    [
+      814,
+      20139,
+      3069,
+      21966,
+      5979,
+      44896,
+      369,
+      5222,
+      364,
+      3992,
+      1558,
+      42903,
+      13,
+      220
+    ],
+    [
+      18842,
+      411,
+      351,
+      992,
+      709,
+      364,
+      55404,
+      25,
+      514,
+      21078,
+      1494,
+      830,
+      8,
+      313,
+      460,
+      220,
+      16,
+      15,
+      593,
+      830,
+      26,
+      333,
+      220
+    ]
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "arm": "PQ2_0_MTP",
+  "prompt_set": "natural",
+  "model": "/home/maxsun/autonomous_projects/.worktrees/exp071-bonsai-mtp-sm86/models/Ternary-Bonsai-2-27B-PQ2_0-MTP-Q8_0.gguf",
+  "context_tokens": 512,
+  "server_context": 4608,
+  "repetitions_per_prompt": 1,
+  "prompt_source_files": [
+    [
+      "experiments/052-pq2-steady-profile/REPORT.md",
+      "experiments/070-adaptive-ubatch/REPORT.md",
+      "research/STATE.md"
+    ],
+    [
+      "src/models/qwen35.cpp"
+    ],
+    [
+      "common/speculative.cpp"
+    ]
+  ],
+  "start_gate": {
+    "temperature_c": 60.0,
+    "gpu_utilization_pct": 0.0
+  },
+  "command": [
+    "/home/maxsun/autonomous_projects/.worktrees/exp071-bonsai-mtp-sm86/build/bin/llama-server",
+    "-m",
+    "/home/maxsun/autonomous_projects/.worktrees/exp071-bonsai-mtp-sm86/models/Ternary-Bonsai-2-27B-PQ2_0-MTP-Q8_0.gguf",
+    "-ngl",
+    "99",
+    "-fa",
+    "on",
+    "-b",
+    "2048",
+    "-ub",
+    "512",
+    "-ctk",
+    "f16",
+    "-ctv",
+    "f16",
+    "-t",
+    "8",
+    "-c",
+    "4608",
+    "-np",
+    "1",
+    "--host",
+    "127.0.0.1",
+    "--port",
+    "8082",
+    "--no-webui",
+    "--spec-type",
+    "draft-mtp",
+    "--spec-draft-n-max",
+    "2",
+    "-lv",
+    "4"
+  ],
+  "rows": [
+    {
+      "prompt_index": 1,
+      "repetition": 0,
+      "prompt_n": 512,
+      "prompt_ms": 553.724,
+      "prompt_per_second": 924.6483807817613,
+      "predicted_n": 128,
+      "predicted_ms": 1504.348,
+      "predicted_per_second": 84.42195555815543,
+      "draft_n": 123,
+      "draft_n_accepted": 64,
+      "wall_seconds": 2.061042418004945,
+      "content": " = LLAMA_MODEL_TYPE_QWEN35_24B;\n        case 2 main_layer: type = LLAMA_MODEL_TYPE_QWresidual stream\n        case 24: type = LLAMA_MODEL_TYPE_QWEN35_24B;\n        case 24: type = flow\n        case 24: corrupted\n        corrupted\n        corrupted\n        corrupted\n        corrupted\n        main_layer: type = LLAMA_MODEL_TYPE_QQwen35_24B;\n        main_layer: type = LLAMA_model_type_qwen35_24b;"
+    }
+  ]
+}

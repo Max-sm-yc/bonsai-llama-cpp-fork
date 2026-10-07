@@ -1,0 +1,12 @@
+# Natural-context primary server harness; each arm/context started separately after <=60 C and <=5% utilization gate.
+python3 results/exp071/raw/server_bench.py --arm PTQ1_0 --context 512 --round 0 --repetitions 7 --prompt-set natural
+python3 results/exp071/raw/server_bench.py --arm PQ2_0 --context 512 --round 0 --repetitions 7 --prompt-set natural
+python3 results/exp071/raw/server_bench.py --arm BUNDLE_TARGET --context 512 --round 0 --repetitions 7 --prompt-set natural
+python3 results/exp071/raw/server_bench.py --arm PQ2_0_MTP --context 512 --round 0 --repetitions 7 --prompt-set natural
+# Same four commands with --context 4096. PTQ1_0 run completed last.
+python3 results/exp071/raw/server_bench.py --arm PTQ1_0 --context 4096 --round 0 --repetitions 7 --prompt-set natural
+python3 results/exp071/raw/server_bench.py --arm PQ2_0 --context 4096 --round 0 --repetitions 7 --prompt-set natural
+python3 results/exp071/raw/server_bench.py --arm BUNDLE_TARGET --context 4096 --round 0 --repetitions 7 --prompt-set natural
+python3 results/exp071/raw/server_bench.py --arm PQ2_0_MTP --context 4096 --round 0 --repetitions 7 --prompt-set natural
+# Focused trace (one 128-token completion, Qwen-graph family, ctx512)
+python3 results/exp071/raw/server_bench.py --arm PQ2_0_MTP --context 512 --round 1 --repetitions 1 --prompt-set natural --focus-prompt-index 1 --trace-acceptance
