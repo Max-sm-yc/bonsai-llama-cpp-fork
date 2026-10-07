@@ -44,7 +44,7 @@
 - Experiment 029: `.cg` reached the active plain GEMV's six packed-word loads and retained 74 registers/no spills, but only one candidate trace was captured (4,115 launches; 177.969 ms). No matched control, correctness comparison, or E2E A/B exists; classify as inconclusive. Source was restored and rebuilt; see report for the distinct binary-hash recovery note.
 - Experiment 031: padding PTQ1_0 blocks from 28 to 32 bytes enabled the intended two 128-bit loads and exact outputs, but lost 3.37% at 16K blocks and 21.39% at 65K; reject this layout and its +14.29% payload cost. No runtime integration.
 - Experiment 033: a full CUDA SoA conversion has no safe GEMV-only hook: multi-column/MMQ/vector-dot/utility readers and generic transfer callbacks assume AoS. A distinct selective sidecar for the 64 K=17,408 `ffn_down` tensors would cost 1,190 MiB and projects to 7,995 MiB total; not measured.
-- Experiment 034: no candidate was built because the PTQ1 kernel switch drops tensor/buffer identity. The outer op still has `src0` and buffer destruction has an owner boundary, so explicit identity threading plus a buffer-owned sidecar registry is a concrete follow-up, not a proven blocker.
+- Experiments 034–035: a buffer-owned selective SoA sidecar was implemented in isolation and reached the actual 64 long-K `ffn_down` GEMVs correctly, but repeated decode was tied/noisy and it cost +1,280 MiB peak GPU memory plus ~294 ms load repacking. Keep AoS; do not repeat without a new traffic premise.
 
 ## Important discoveries
 
@@ -52,7 +52,7 @@
 - Median decode gains repeat, but context-4096 samples have intermittent slow tails in both ROWS=1 and ROWS=4 builds. Keep means/ranges with medians; do not hide outliers.
 - PTQ1_0 remains faster than PQ2_0 by 32–54% in the controlled reference format comparison; prefill is nearly tied. Both models fit in VRAM.
 - CUDA Graphs are already active (127 graph launches in the context-512 mixed trace); prioritize measured device work/fusion over generic launch-overhead changes.
-- The FWHT→Q8_1 path is already one kernel, and model attention normalization has Q/K/V fanout. Do not retry per-branch RMS fusion without a coordinated consumer design and measured evidence that it can avoid extra reductions.
+- The FWHT→Q8_1 path is already one kernel; attention RMS output fans out into Q/K/V. A multi-output coordinated preparation is still an open structural hypothesis, but per-branch fusion cannot discard the shared intermediate.
 - The active GDN trace is S_v=128, scalar-gate (`KDA=false`), raw-gate (`RAW=true`); on sm_86 it already uses four columns per warp, fused cache/gather paths, and CUDA Graphs.
 - The RMSNorm profile has 16,770 calls / 76.18 ms for `<1024,true,false>` and 10,400 / 24.43 ms for `<256,true,false>`; Nsight recorded CTA sizes but not `ncols`. Global reduction to 256 threads on the fused-weight `ncols >= 1024` path regressed full-model decode, so retain its current geometry.
 - Experiment 023's scalar extraction cost dominated its cooperative microbenchmark; 024 then tested the actual packed recurrence and showed that its isolated 1.49x screen did not translate to production decode.
@@ -67,7 +67,7 @@
 
 ## Next candidates
 
-1. Prototype a buffer-owned 1,190 MiB SoA sidecar for the 64 `ffn_down` tensors, threading exact tensor identity from `ggml_cuda_mul_mat_vec_q` and freeing copies with the CUDA buffer. Preserve AoS for all other operations; test full-upload assumptions, graph lifetime, correctness, actual peak VRAM, and matched E2E.
-2. Audit fused-gate non-load work or targeted PQ2_0 decode only after a concrete source/SASS premise; retain matched model conditions.
+1. Audit and, if structurally feasible, prototype coordinated RMSNorm plus Q/K/V sign/FWHT/Q8_1 preparation; prove the actual graph fan-out and shapes first, then measure whether it removes materialization/launch work without extra reductions.
+2. Challenge PTQ1_0 GEMV with a materially different weight/activation dataflow only when there is a codegen or memory-traffic premise; avoid repeated geometry, recurrence, and cache-policy screens already indexed.
 
 - Experiment 030: matched default/`.cg`/`.cs` screen completed with three actual-kernel traces per arm (485 target launches each). `.cg` was +128.4% target-kernel time; `.cs` was -0.30% in the kernel screen but lost 0.9–1.1% end-to-end median throughput in the reversed-order 7-rep comparison at contexts 512/4096. Reverted; production source, active source-default library, and backup hashes are intact. No exact correctness comparison was completed, so no candidate was retained. See report 030 and `results/exp030/`.
