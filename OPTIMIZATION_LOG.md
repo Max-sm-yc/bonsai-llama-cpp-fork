@@ -322,4 +322,11 @@
 ## Experiment 063: remaining SSM/L2 alias audit
 
 - Scheduler captures at contexts 512 and 4096 classified all 48 repeated SSM/L2 sites. The 24 unmatched sites have the same zero-offset `[128,32]` QK view, shapes, and strides as Exp062, but their L2 output buffer overlaps bytes `[0,16384)` of the `[4,10240]` SSM input. A fused store can race with another CTA reading that input.
-- The current disjoint input/output guard is required. No code change, correctness delta, or performance result; the report explicitly distinguishes prior Exp062 measurements. A cooperative grid barrier is a possible follow-up only if it is supported in captured launches and resident on sm_86. See `experiments/063-remaining-ssm-l2-views/REPORT.md` and `results/exp063/`.
+- The current disjoint input/output guard is required. Exp064 tested a cooperative grid barrier: CUDA Graph capture and the 80-CTA residency check passed, but the focused path was 7.6% slower and decode was flat. Keep Exp062's fusion/guard. See `experiments/063-remaining-ssm-l2-views/REPORT.md` and `experiments/064-cooperative-ssm-l2-alias/REPORT.md`.
+
+## Experiment 064: cooperative fusion for aliased SSM/L2 sites
+
+- On RTX 3080, the production cooperative kernel used 38 registers/thread, 16 B dynamic shared memory, and 12 resident CTAs/SM; the 80-CTA grid fit within the 816-CTA residency bound. Production CUDA Graph capture/replay worked and reduced the isolated site from two graph nodes to one.
+- The alias test matched the generic path byte-for-byte, including the overwritten input range. Compute Sanitizer reported zero racecheck hazards, synccheck errors, and memcheck errors. The broader correctness script could not complete because a full NVCC rebuild exceeded the shared `/tmp` quota; focused tests did execute against the candidate library.
+- Focused graph replay was 3.408 µs cooperative versus 3.168 µs generic combined (+7.6%). Two reversed seven-repetition model A/B pairs were flat: −0.016% at context 512 and +0.030% at 4096. Peak VRAM was unchanged (6,579/6,803 MiB).
+- **REVERT.** Keep the Exp062 disjoint-site fusion and alias guard. The report and raw capture, sanitizer, and benchmark evidence are in `experiments/064-cooperative-ssm-l2-alias/REPORT.md` and `results/exp064/`.

@@ -1,0 +1,196 @@
+{
+  "label": "pair2_generic_ctx512",
+  "arm": "generic",
+  "context": 512,
+  "pair": 2,
+  "command": [
+    "/home/maxsun/autonomous_projects/.worktrees/exp064-cooperative-ssm-l2-alias/build-fast/bin/llama-bench",
+    "-m",
+    "/home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PTQ1_0.gguf",
+    "-ngl",
+    "99",
+    "-fa",
+    "on",
+    "-b",
+    "2048",
+    "-ub",
+    "512",
+    "-ctk",
+    "f16",
+    "-ctv",
+    "f16",
+    "-t",
+    "8",
+    "-p",
+    "0",
+    "-n",
+    "128",
+    "-d",
+    "512",
+    "-r",
+    "7",
+    "-o",
+    "json"
+  ],
+  "pre_run_gate": {
+    "temperature_c": 58,
+    "utilization_pct": 0,
+    "memory_mib": 173,
+    "utc_epoch": 1791379568.697332
+  },
+  "peak_vram_mib": 6579,
+  "gpu_samples": [
+    {
+      "temperature_c": 58,
+      "utilization_pct": 0,
+      "memory_mib": 173,
+      "utc_epoch": 1791379568.7246397
+    },
+    {
+      "temperature_c": 60,
+      "utilization_pct": 0,
+      "memory_mib": 397,
+      "utc_epoch": 1791379569.2423477
+    },
+    {
+      "temperature_c": 61,
+      "utilization_pct": 91,
+      "memory_mib": 5793,
+      "utc_epoch": 1791379569.7629611
+    },
+    {
+      "temperature_c": 64,
+      "utilization_pct": 100,
+      "memory_mib": 6569,
+      "utc_epoch": 1791379570.2821798
+    },
+    {
+      "temperature_c": 67,
+      "utilization_pct": 99,
+      "memory_mib": 6579,
+      "utc_epoch": 1791379570.804963
+    },
+    {
+      "temperature_c": 67,
+      "utilization_pct": 99,
+      "memory_mib": 6579,
+      "utc_epoch": 1791379571.3269706
+    },
+    {
+      "temperature_c": 67,
+      "utilization_pct": 99,
+      "memory_mib": 6579,
+      "utc_epoch": 1791379571.8497107
+    },
+    {
+      "temperature_c": 68,
+      "utilization_pct": 99,
+      "memory_mib": 6579,
+      "utc_epoch": 1791379572.3727047
+    },
+    {
+      "temperature_c": 68,
+      "utilization_pct": 99,
+      "memory_mib": 6579,
+      "utc_epoch": 1791379572.8946545
+    },
+    {
+      "temperature_c": 68,
+      "utilization_pct": 99,
+      "memory_mib": 6579,
+      "utc_epoch": 1791379573.417831
+    },
+    {
+      "temperature_c": 68,
+      "utilization_pct": 99,
+      "memory_mib": 6579,
+      "utc_epoch": 1791379573.9402728
+    },
+    {
+      "temperature_c": 68,
+      "utilization_pct": 99,
+      "memory_mib": 6579,
+      "utc_epoch": 1791379574.4632816
+    },
+    {
+      "temperature_c": 69,
+      "utilization_pct": 99,
+      "memory_mib": 6579,
+      "utc_epoch": 1791379574.9861696
+    },
+    {
+      "temperature_c": 69,
+      "utilization_pct": 99,
+      "memory_mib": 6579,
+      "utc_epoch": 1791379575.5092275
+    },
+    {
+      "temperature_c": 69,
+      "utilization_pct": 99,
+      "memory_mib": 6579,
+      "utc_epoch": 1791379576.0323524
+    },
+    {
+      "temperature_c": 69,
+      "utilization_pct": 99,
+      "memory_mib": 6579,
+      "utc_epoch": 1791379576.5568702
+    },
+    {
+      "temperature_c": 69,
+      "utilization_pct": 99,
+      "memory_mib": 6579,
+      "utc_epoch": 1791379577.0801053
+    },
+    {
+      "temperature_c": 69,
+      "utilization_pct": 99,
+      "memory_mib": 6579,
+      "utc_epoch": 1791379577.6030083
+    },
+    {
+      "temperature_c": 70,
+      "utilization_pct": 99,
+      "memory_mib": 6579,
+      "utc_epoch": 1791379578.1267207
+    },
+    {
+      "temperature_c": 69,
+      "utilization_pct": 99,
+      "memory_mib": 6579,
+      "utc_epoch": 1791379578.6496263
+    },
+    {
+      "temperature_c": 70,
+      "utilization_pct": 99,
+      "memory_mib": 6579,
+      "utc_epoch": 1791379579.1720161
+    },
+    {
+      "temperature_c": 70,
+      "utilization_pct": 99,
+      "memory_mib": 6579,
+      "utc_epoch": 1791379579.6953056
+    },
+    {
+      "temperature_c": 70,
+      "utilization_pct": 99,
+      "memory_mib": 6579,
+      "utc_epoch": 1791379580.2183213
+    },
+    {
+      "temperature_c": 70,
+      "utilization_pct": 99,
+      "memory_mib": 6579,
+      "utc_epoch": 1791379580.7415025
+    },
+    {
+      "temperature_c": 70,
+      "utilization_pct": 99,
+      "memory_mib": 6579,
+      "utc_epoch": 1791379581.2637706
+    }
+  ],
+  "exit_code": 0,
+  "library_path": "/home/maxsun/autonomous_projects/.worktrees/exp064-cooperative-ssm-l2-alias/build-fast/bin/libggml-cuda.so.0.21.0"
+}

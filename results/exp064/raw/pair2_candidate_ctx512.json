@@ -1,0 +1,260 @@
+{
+  "meta": {
+    "label": "pair2_candidate_ctx512",
+    "arm": "candidate",
+    "context": 512,
+    "pair": 2,
+    "command": [
+      "/home/maxsun/autonomous_projects/.worktrees/exp064-cooperative-ssm-l2-alias/build-fast/bin/llama-bench",
+      "-m",
+      "/home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PTQ1_0.gguf",
+      "-ngl",
+      "99",
+      "-fa",
+      "on",
+      "-b",
+      "2048",
+      "-ub",
+      "512",
+      "-ctk",
+      "f16",
+      "-ctv",
+      "f16",
+      "-t",
+      "8",
+      "-p",
+      "0",
+      "-n",
+      "128",
+      "-d",
+      "512",
+      "-r",
+      "7",
+      "-o",
+      "json"
+    ],
+    "pre_run_gate": {
+      "temperature_c": 59,
+      "utilization_pct": 0,
+      "memory_mib": 173,
+      "utc_epoch": 1791379550.5960565
+    },
+    "peak_vram_mib": 6579,
+    "gpu_samples": [
+      {
+        "temperature_c": 59,
+        "utilization_pct": 0,
+        "memory_mib": 173,
+        "utc_epoch": 1791379550.614676
+      },
+      {
+        "temperature_c": 59,
+        "utilization_pct": 0,
+        "memory_mib": 397,
+        "utc_epoch": 1791379551.1315236
+      },
+      {
+        "temperature_c": 59,
+        "utilization_pct": 91,
+        "memory_mib": 5793,
+        "utc_epoch": 1791379551.651635
+      },
+      {
+        "temperature_c": 64,
+        "utilization_pct": 100,
+        "memory_mib": 6569,
+        "utc_epoch": 1791379552.17153
+      },
+      {
+        "temperature_c": 64,
+        "utilization_pct": 99,
+        "memory_mib": 6579,
+        "utc_epoch": 1791379552.6943164
+      },
+      {
+        "temperature_c": 65,
+        "utilization_pct": 99,
+        "memory_mib": 6579,
+        "utc_epoch": 1791379553.2170482
+      },
+      {
+        "temperature_c": 64,
+        "utilization_pct": 99,
+        "memory_mib": 6579,
+        "utc_epoch": 1791379553.7400537
+      },
+      {
+        "temperature_c": 65,
+        "utilization_pct": 99,
+        "memory_mib": 6579,
+        "utc_epoch": 1791379554.2634428
+      },
+      {
+        "temperature_c": 65,
+        "utilization_pct": 99,
+        "memory_mib": 6579,
+        "utc_epoch": 1791379554.7866628
+      },
+      {
+        "temperature_c": 65,
+        "utilization_pct": 99,
+        "memory_mib": 6579,
+        "utc_epoch": 1791379555.3101182
+      },
+      {
+        "temperature_c": 66,
+        "utilization_pct": 99,
+        "memory_mib": 6579,
+        "utc_epoch": 1791379555.833534
+      },
+      {
+        "temperature_c": 66,
+        "utilization_pct": 99,
+        "memory_mib": 6579,
+        "utc_epoch": 1791379556.3569212
+      },
+      {
+        "temperature_c": 66,
+        "utilization_pct": 99,
+        "memory_mib": 6579,
+        "utc_epoch": 1791379556.8797562
+      },
+      {
+        "temperature_c": 66,
+        "utilization_pct": 99,
+        "memory_mib": 6579,
+        "utc_epoch": 1791379557.4026785
+      },
+      {
+        "temperature_c": 66,
+        "utilization_pct": 99,
+        "memory_mib": 6579,
+        "utc_epoch": 1791379557.9257946
+      },
+      {
+        "temperature_c": 66,
+        "utilization_pct": 99,
+        "memory_mib": 6579,
+        "utc_epoch": 1791379558.4495187
+      },
+      {
+        "temperature_c": 67,
+        "utilization_pct": 99,
+        "memory_mib": 6579,
+        "utc_epoch": 1791379558.9726205
+      },
+      {
+        "temperature_c": 66,
+        "utilization_pct": 99,
+        "memory_mib": 6579,
+        "utc_epoch": 1791379559.495031
+      },
+      {
+        "temperature_c": 67,
+        "utilization_pct": 99,
+        "memory_mib": 6579,
+        "utc_epoch": 1791379560.0175898
+      },
+      {
+        "temperature_c": 67,
+        "utilization_pct": 99,
+        "memory_mib": 6579,
+        "utc_epoch": 1791379560.5403237
+      },
+      {
+        "temperature_c": 67,
+        "utilization_pct": 99,
+        "memory_mib": 6579,
+        "utc_epoch": 1791379561.0633113
+      },
+      {
+        "temperature_c": 67,
+        "utilization_pct": 99,
+        "memory_mib": 6579,
+        "utc_epoch": 1791379561.5865219
+      },
+      {
+        "temperature_c": 67,
+        "utilization_pct": 99,
+        "memory_mib": 6579,
+        "utc_epoch": 1791379562.1098
+      },
+      {
+        "temperature_c": 67,
+        "utilization_pct": 99,
+        "memory_mib": 6579,
+        "utc_epoch": 1791379562.6327693
+      },
+      {
+        "temperature_c": 67,
+        "utilization_pct": 99,
+        "memory_mib": 6037,
+        "utc_epoch": 1791379563.1519892
+      }
+    ],
+    "exit_code": 0,
+    "library_path": "/home/maxsun/autonomous_projects/.worktrees/exp064-cooperative-ssm-l2-alias/build-fast/bin/libggml-cuda.so.0.21.0"
+  },
+  "rows": [
+    {
+      "build_commit": "ffb0ef3",
+      "build_number": 83,
+      "cpu_info": "Intel(R) Core(TM) i7-10700K CPU @ 3.80GHz",
+      "gpu_info": "NVIDIA GeForce RTX 3080",
+      "backends": "CUDA",
+      "model_filename": "/home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PTQ1_0.gguf",
+      "model_type": "qwen35 27B PTQ1_0 - 1.75 bpw ternary (group 128)",
+      "model_size": 5935527936,
+      "model_n_params": 26895998464,
+      "n_batch": 2048,
+      "n_ubatch": 512,
+      "n_threads": 8,
+      "cpu_mask": "0x0",
+      "cpu_strict": false,
+      "poll": 50,
+      "type_k": "f16",
+      "type_v": "f16",
+      "n_gpu_layers": 99,
+      "n_cpu_moe": 0,
+      "split_mode": "layer",
+      "main_gpu": 0,
+      "no_kv_offload": false,
+      "flash_attn": 1,
+      "devices": "auto",
+      "tensor_split": "0.00",
+      "tensor_buft_overrides": "none",
+      "load_mode": "auto",
+      "embeddings": false,
+      "no_op_offload": 0,
+      "no_host": false,
+      "fit_target": 0,
+      "fit_min_ctx": 0,
+      "n_prompt": 0,
+      "n_gen": 128,
+      "n_depth": 512,
+      "test_time": "2026-10-07T13:25:51Z",
+      "avg_ns": 1516598886,
+      "stddev_ns": 6392756,
+      "avg_ts": 84.400652,
+      "stddev_ts": 0.353027,
+      "samples_ns": [
+        1530994028,
+        1512549279,
+        1514245027,
+        1514506200,
+        1514770121,
+        1514467141,
+        1514660412
+      ],
+      "samples_ts": [
+        83.6058,
+        84.6253,
+        84.5306,
+        84.516,
+        84.5013,
+        84.5182,
+        84.5074
+      ]
+    }
+  ]
+}
