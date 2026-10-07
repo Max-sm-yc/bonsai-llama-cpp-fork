@@ -1,0 +1,7 @@
+{
+  "normalization": "response text between [Start thinking] and timing footer",
+  "baseline_response": "\nWe need to respond to user: \"The RTX 3080 is a graphics card that\". Likely they want completion? Maybe a fill-in? Need",
+  "candidate_response": "\nWe need to respond to user: \"The RTX 3080 is a graphics card that\". Likely they want completion? Maybe a fill-in? Need",
+  "equal": true,
+  "characters": 119
+}

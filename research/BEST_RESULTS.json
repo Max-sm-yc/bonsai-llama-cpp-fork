@@ -316,39 +316,91 @@
     ]
   },
   "latest_experiment": {
-    "id": "078",
-    "hypothesis": "Freshly challenge the active sm_86 PTQ1_0 batch-1 GEMV with a fundamentally distinct exact computation or representation.",
-    "decision": "NO CANDIDATE; persistent signed bit planes add 14.3% weight storage and retain arbitrary-Q8 selection/reduction work. No implementation or performance claim; current best unchanged.",
+    "id": "079",
+    "hypothesis": "Measure exact PTQ1_0 GEMV cold/warm L2 behavior and selective access-policy persistence.",
+    "decision": "REVERT BOTH: maximum reservation regressed E2E decode by 0.85–0.89%; exact-size reservation was −0.16% at ctx512 and flat at ctx4096. Current best unchanged.",
     "hardware": "NVIDIA GeForce RTX 3080, sm_86, 10,240 MiB",
-    "source_commit": "8e9229e4f8e61cf86e2905854f80cf86977c78e2",
+    "source_commit": "44132a0 (isolated experiment base)",
     "active_kernel": "mul_mat_vec_ptq1_0_pt in ggml/src/ggml-cuda/mmvq-ptq1_0.cuh",
-    "alternative_cost_model": {
-      "representation": "persistent positive/negative 128-bit masks",
-      "candidate_bytes_per_128_weights": 32,
-      "current_ptq1_bytes_per_128_weights": 28,
-      "relative_payload_increase_pct": 14.2857142857,
-      "active_weight_payload_bytes": 5599641600,
-      "added_payload_bytes": 799948800,
-      "remaining_work": "select and reduce arbitrary signed Q8 activation values; popcount is not applicable"
+    "model": {
+      "path": "models/Ternary-Bonsai-2-27B-PTQ1_0.gguf",
+      "sha256": "53107f530aa52eb00912263ab1ee29bd199261c87cd7b4ad4ca1318c1fe33ee3",
+      "matrix_shape": [
+        5120,
+        1024
+      ],
+      "matrix_bytes": 1146880
     },
-    "verification": {
-      "source_hashes_manager_verified": "5/5",
-      "candidate_built": false,
-      "correctness_suite": "not run; no candidate arithmetic",
-      "kernel_microbenchmark": "not run; no candidate",
-      "end_to_end_benchmark": "not run; no candidate",
-      "production_code_changed": false,
+    "microbenchmark": {
+      "method": "Exact production kernel in CUDA Graph; real model weights and deterministic planar Q8_1 activation; 25 warm and 25 forced-cold replays per condition; cold eviction is outside event timing.",
+      "one_matrix_median_us": {
+        "default_warm": 5.12,
+        "persisting_warm": 5.472,
+        "default_cold": 7.168,
+        "persisting_cold": 5.44
+      },
+      "four_and_32_matrix_sets": "No meaningful policy gain."
+    },
+    "end_to_end": {
+      "contexts": [
+        512,
+        4096
+      ],
+      "decode_tokens": 128,
+      "repetitions_per_run": 7,
+      "order_reversed_pairs_per_context": 2,
+      "max_reservation": {
+        "512": {
+          "baseline_tok_s": 84.17,
+          "policy_tok_s": 83.418,
+          "delta_percent": -0.894
+        },
+        "4096": {
+          "baseline_tok_s": 81.747,
+          "policy_tok_s": 81.051,
+          "delta_percent": -0.852
+        }
+      },
+      "exact_size_reservation": {
+        "512": {
+          "baseline_tok_s": 84.265,
+          "policy_tok_s": 84.13,
+          "delta_percent": -0.159
+        },
+        "4096": {
+          "baseline_tok_s": 81.762,
+          "policy_tok_s": 81.762,
+          "delta_percent": -0.0003
+        }
+      },
+      "peak_vram_mib": {
+        "512": 6579,
+        "4096": 6803
+      },
+      "start_gate": "<=60 C and <=5% GPU utilization"
+    },
+    "correctness": {
+      "production_kernel_vs_cpu": "1,024/1,024 outputs exact; zero mismatches",
+      "fixed_seed_32_token_completion": "exact response parity after removing timing footer",
+      "production_sources_restored": true
+    },
+    "manager_verification": {
+      "paired_medians_recomputed": true,
+      "all_manifest_entries_verified_before_portable_refresh": true,
+      "candidate_samples_gate_verified": true,
       "current_best_unchanged": true
     },
     "artifacts": [
-      "experiments/078-ptq1-architecture-challenge/REPORT.md",
-      "results/exp078/architecture_audit.md",
-      "results/exp078/source_hashes.txt",
-      "results/exp078/manager-verification.md"
+      "experiments/079-ptq1-l2-persistence/REPORT.md",
+      "results/exp079/README.md",
+      "results/exp079/manager-verification.md",
+      "results/exp079/ptq1-decode-paired.json",
+      "results/exp079/ptq1-decode-exact-reservation-paired.json",
+      "results/exp079/raw/"
     ],
-    "timestamp_utc": "2026-10-07T21:17:28Z"
+    "timestamp_utc": "2026-10-07T22:11:06Z"
   },
-  "updated_timestamp_utc": "2026-10-07T21:18:20Z",
+  "updated_timestamp_utc": "2026-10-07T22:11:06Z",
   "project_commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
   "current_best": {
     "commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
@@ -1115,59 +1167,37 @@
     "timestamp_utc": "2026-10-07T12:50:36.609483+00:00"
   },
   "previous_research_audit": {
-    "id": "069",
-    "description": "Fresh profile and launch-grid audit of the active sm_86 FlashAttention Stream-K path after retained Exp060/062 changes.",
-    "decision": "NO CANDIDATE; retain current reduction. One CTA per output tile exposes only four x-grid CTAs, and cooperative fusion would add a grid barrier with no grounded cost advantage.",
-    "verified_by_manager": true,
-    "hardware": "NVIDIA GeForce RTX 3080, sm_86, 68 SMs",
-    "method": {
-      "contexts": [
-        512,
-        4096
-      ],
-      "profile": "Nsight Systems CUDA Graph node trace; -p 0 -n 16, 31 replays/profile; baseline executable loaded the main verified CUDA library.",
-      "nodes_per_replay": 1360,
-      "calls_per_replay": {
-        "main_attention": 16,
-        "uniform_fixup": 16
-      },
-      "grid": {
-        "output_tiles": 4,
-        "main_x_ctas": {
-          "512": 16,
-          "4096": 68
-        },
-        "partials_per_output_tile": {
-          "512": 4,
-          "4096": 17
-        },
-        "fixup": [
-          4,
-          1,
-          8
-        ]
-      },
-      "cuda_library_sha256": "860fcca9977ed5ba9f9d81ce7d310481db9e9cefbe14ac30987ceb2867b30f3e"
+    "id": "078",
+    "hypothesis": "Freshly challenge the active sm_86 PTQ1_0 batch-1 GEMV with a fundamentally distinct exact computation or representation.",
+    "decision": "NO CANDIDATE; persistent signed bit planes add 14.3% weight storage and retain arbitrary-Q8 selection/reduction work. No implementation or performance claim; current best unchanged.",
+    "hardware": "NVIDIA GeForce RTX 3080, sm_86, 10,240 MiB",
+    "source_commit": "8e9229e4f8e61cf86e2905854f80cf86977c78e2",
+    "active_kernel": "mul_mat_vec_ptq1_0_pt in ggml/src/ggml-cuda/mmvq-ptq1_0.cuh",
+    "alternative_cost_model": {
+      "representation": "persistent positive/negative 128-bit masks",
+      "candidate_bytes_per_128_weights": 32,
+      "current_ptq1_bytes_per_128_weights": 28,
+      "relative_payload_increase_pct": 14.2857142857,
+      "active_weight_payload_bytes": 5599641600,
+      "added_payload_bytes": 799948800,
+      "remaining_work": "select and reduce arbitrary signed Q8 activation values; popcount is not applicable"
     },
-    "attention_ms_per_token": {
-      "512": {
-        "main": 0.19578112903225806,
-        "fixup": 0.03429809677419355,
-        "total": 0.2300792258064516
-      },
-      "4096": {
-        "main": 0.5450515483870968,
-        "fixup": 0.03593616129032258,
-        "total": 0.5809877096774194
-      }
+    "verification": {
+      "source_hashes_manager_verified": "5/5",
+      "candidate_built": false,
+      "correctness_suite": "not run; no candidate arithmetic",
+      "kernel_microbenchmark": "not run; no candidate",
+      "end_to_end_benchmark": "not run; no candidate",
+      "production_code_changed": false,
+      "current_best_unchanged": true
     },
-    "correctness": "No candidate was implemented; no new candidate correctness claim or model A/B. Main production code is unchanged.",
-    "outcome": "Fresh profile reproduced Exp053 fixup timings within capture variation. Source and grid audit found no credible way to eliminate the cross-CTA online-softmax merge without either serializing full K/V over four output CTAs or adding a cooperative grid barrier.",
     "artifacts": [
-      "experiments/069-flash-attention-reduction/REPORT.md",
-      "results/exp069/raw/"
+      "experiments/078-ptq1-architecture-challenge/REPORT.md",
+      "results/exp078/architecture_audit.md",
+      "results/exp078/source_hashes.txt",
+      "results/exp078/manager-verification.md"
     ],
-    "timestamp_utc": "2026-10-07T15:09:56Z"
+    "timestamp_utc": "2026-10-07T21:17:28Z"
   },
   "runtime_verification": {
     "build_commit": "950c7ccf9a0ae145c2c397dcf9a2b25fd69b6737",
@@ -1268,59 +1298,6 @@
     }
   },
   "experiment_history": [
-    {
-      "id": "072",
-      "hypothesis": "Determine whether Exp071 MTP output divergence is caused by verification/sampler behavior or target batch-shape-sensitive logits.",
-      "decision": "REJECT MTP candidate; exact target-only greedy parity fails in the focused ctx512 Qwen case. No current-best change.",
-      "hardware": "NVIDIA GeForce RTX 3080, sm_86",
-      "configuration": {
-        "format": "PQ2_0 target bundle with optional MTP-Q8_0 head",
-        "prompt_family": "fixed Exp071 natural Qwen source prompt, index 1",
-        "context_tokens": 512,
-        "generated_tokens": 128,
-        "temperature": 0,
-        "top_k": 1,
-        "seed": 42,
-        "server_context": 4608,
-        "target_batch_positions": {
-          "target_only": 1,
-          "mtp_verification": 3
-        }
-      },
-      "first_divergence": {
-        "generated_position_zero_based": 66,
-        "target_only_token": 1167,
-        "mtp_draft_token": 18912,
-        "mtp_verdict": "reject",
-        "mtp_target_token_and_emission": 6195,
-        "target_only_sampler_matches_server_emissions": "128/128",
-        "mtp_sampler_matches_server_emissions": "128/128",
-        "post_bias_logits": {
-          "target_only": {
-            "token_1167": 8.84235477,
-            "token_6195": 8.55384827,
-            "winner_margin": 0.2885065
-          },
-          "mtp_batched_target": {
-            "token_6195": 8.84262085,
-            "token_1167": 8.83678246,
-            "winner_margin": 0.00583839
-          },
-          "relative_gap_shift_token_6195_minus_1167": 0.29434489
-        }
-      },
-      "correctness": "Verifier emits its selected target token after rejecting the draft. Same-prefix target logits differ between target-only single-token and MTP three-position target evaluation; exact greedy parity fails. Lower-level cause and other divergent family/context cells remain unlocalized.",
-      "performance_context": "Exp071 MTP pooled server decode was +9.9% at context 512 and -0.9% at 4096 versus PTQ1_0; no rerun in this diagnostic.",
-      "production_code_changed": false,
-      "current_best_unchanged": true,
-      "artifacts": [
-        "experiments/072-mtp-token-correctness/REPORT.md",
-        "results/exp072/raw/aligned_logits_ctx512_qwen.csv",
-        "results/exp072/raw/natural_r5_bundle_target_ctx512_trace.server.log",
-        "results/exp072/raw/natural_r5_pq2_0_mtp_ctx512_trace.server.log"
-      ],
-      "timestamp_utc": "2026-10-07T18:37:10Z"
-    },
     {
       "id": "073",
       "hypothesis": "Challenge the active sm_86 PTQ1_0 batch-1 GEMV with signed-int8 Tensor Core or bit-sliced alternatives.",
@@ -1509,49 +1486,177 @@
         "results/exp078/manager-verification.md"
       ],
       "timestamp_utc": "2026-10-07T21:17:28Z"
+    },
+    {
+      "id": "079",
+      "hypothesis": "Measure exact PTQ1_0 GEMV cold/warm L2 behavior and selective access-policy persistence.",
+      "decision": "REVERT BOTH: maximum reservation regressed E2E decode by 0.85–0.89%; exact-size reservation was −0.16% at ctx512 and flat at ctx4096. Current best unchanged.",
+      "hardware": "NVIDIA GeForce RTX 3080, sm_86, 10,240 MiB",
+      "source_commit": "44132a0 (isolated experiment base)",
+      "active_kernel": "mul_mat_vec_ptq1_0_pt in ggml/src/ggml-cuda/mmvq-ptq1_0.cuh",
+      "model": {
+        "path": "models/Ternary-Bonsai-2-27B-PTQ1_0.gguf",
+        "sha256": "53107f530aa52eb00912263ab1ee29bd199261c87cd7b4ad4ca1318c1fe33ee3",
+        "matrix_shape": [
+          5120,
+          1024
+        ],
+        "matrix_bytes": 1146880
+      },
+      "microbenchmark": {
+        "method": "Exact production kernel in CUDA Graph; real model weights and deterministic planar Q8_1 activation; 25 warm and 25 forced-cold replays per condition; cold eviction is outside event timing.",
+        "one_matrix_median_us": {
+          "default_warm": 5.12,
+          "persisting_warm": 5.472,
+          "default_cold": 7.168,
+          "persisting_cold": 5.44
+        },
+        "four_and_32_matrix_sets": "No meaningful policy gain."
+      },
+      "end_to_end": {
+        "contexts": [
+          512,
+          4096
+        ],
+        "decode_tokens": 128,
+        "repetitions_per_run": 7,
+        "order_reversed_pairs_per_context": 2,
+        "max_reservation": {
+          "512": {
+            "baseline_tok_s": 84.17,
+            "policy_tok_s": 83.418,
+            "delta_percent": -0.894
+          },
+          "4096": {
+            "baseline_tok_s": 81.747,
+            "policy_tok_s": 81.051,
+            "delta_percent": -0.852
+          }
+        },
+        "exact_size_reservation": {
+          "512": {
+            "baseline_tok_s": 84.265,
+            "policy_tok_s": 84.13,
+            "delta_percent": -0.159
+          },
+          "4096": {
+            "baseline_tok_s": 81.762,
+            "policy_tok_s": 81.762,
+            "delta_percent": -0.0003
+          }
+        },
+        "peak_vram_mib": {
+          "512": 6579,
+          "4096": 6803
+        },
+        "start_gate": "<=60 C and <=5% GPU utilization"
+      },
+      "correctness": {
+        "production_kernel_vs_cpu": "1,024/1,024 outputs exact; zero mismatches",
+        "fixed_seed_32_token_completion": "exact response parity after removing timing footer",
+        "production_sources_restored": true
+      },
+      "manager_verification": {
+        "paired_medians_recomputed": true,
+        "all_manifest_entries_verified_before_portable_refresh": true,
+        "candidate_samples_gate_verified": true,
+        "current_best_unchanged": true
+      },
+      "artifacts": [
+        "experiments/079-ptq1-l2-persistence/REPORT.md",
+        "results/exp079/README.md",
+        "results/exp079/manager-verification.md",
+        "results/exp079/ptq1-decode-paired.json",
+        "results/exp079/ptq1-decode-exact-reservation-paired.json",
+        "results/exp079/raw/"
+      ],
+      "timestamp_utc": "2026-10-07T22:11:06Z"
     }
   ],
   "latest_research_audit": {
-    "id": "078",
-    "hypothesis": "Freshly challenge the active sm_86 PTQ1_0 batch-1 GEMV with a fundamentally distinct exact computation or representation.",
-    "decision": "NO CANDIDATE; persistent signed bit planes add 14.3% weight storage and retain arbitrary-Q8 selection/reduction work. No implementation or performance claim; current best unchanged.",
+    "id": "079",
+    "hypothesis": "Measure exact PTQ1_0 GEMV cold/warm L2 behavior and selective access-policy persistence.",
+    "decision": "REVERT BOTH: maximum reservation regressed E2E decode by 0.85–0.89%; exact-size reservation was −0.16% at ctx512 and flat at ctx4096. Current best unchanged.",
     "hardware": "NVIDIA GeForce RTX 3080, sm_86, 10,240 MiB",
-    "source_commit": "8e9229e4f8e61cf86e2905854f80cf86977c78e2",
+    "source_commit": "44132a0 (isolated experiment base)",
     "active_kernel": "mul_mat_vec_ptq1_0_pt in ggml/src/ggml-cuda/mmvq-ptq1_0.cuh",
-    "alternative_cost_model": {
-      "representation": "persistent positive/negative 128-bit masks",
-      "candidate_bytes_per_128_weights": 32,
-      "current_ptq1_bytes_per_128_weights": 28,
-      "relative_payload_increase_pct": 14.2857142857,
-      "active_weight_payload_bytes": 5599641600,
-      "added_payload_bytes": 799948800,
-      "remaining_work": "select and reduce arbitrary signed Q8 activation values; popcount is not applicable"
+    "model": {
+      "path": "models/Ternary-Bonsai-2-27B-PTQ1_0.gguf",
+      "sha256": "53107f530aa52eb00912263ab1ee29bd199261c87cd7b4ad4ca1318c1fe33ee3",
+      "matrix_shape": [
+        5120,
+        1024
+      ],
+      "matrix_bytes": 1146880
     },
-    "verification": {
-      "source_hashes_manager_verified": "5/5",
-      "candidate_built": false,
-      "correctness_suite": "not run; no candidate arithmetic",
-      "kernel_microbenchmark": "not run; no candidate",
-      "end_to_end_benchmark": "not run; no candidate",
-      "production_code_changed": false,
+    "microbenchmark": {
+      "method": "Exact production kernel in CUDA Graph; real model weights and deterministic planar Q8_1 activation; 25 warm and 25 forced-cold replays per condition; cold eviction is outside event timing.",
+      "one_matrix_median_us": {
+        "default_warm": 5.12,
+        "persisting_warm": 5.472,
+        "default_cold": 7.168,
+        "persisting_cold": 5.44
+      },
+      "four_and_32_matrix_sets": "No meaningful policy gain."
+    },
+    "end_to_end": {
+      "contexts": [
+        512,
+        4096
+      ],
+      "decode_tokens": 128,
+      "repetitions_per_run": 7,
+      "order_reversed_pairs_per_context": 2,
+      "max_reservation": {
+        "512": {
+          "baseline_tok_s": 84.17,
+          "policy_tok_s": 83.418,
+          "delta_percent": -0.894
+        },
+        "4096": {
+          "baseline_tok_s": 81.747,
+          "policy_tok_s": 81.051,
+          "delta_percent": -0.852
+        }
+      },
+      "exact_size_reservation": {
+        "512": {
+          "baseline_tok_s": 84.265,
+          "policy_tok_s": 84.13,
+          "delta_percent": -0.159
+        },
+        "4096": {
+          "baseline_tok_s": 81.762,
+          "policy_tok_s": 81.762,
+          "delta_percent": -0.0003
+        }
+      },
+      "peak_vram_mib": {
+        "512": 6579,
+        "4096": 6803
+      },
+      "start_gate": "<=60 C and <=5% GPU utilization"
+    },
+    "correctness": {
+      "production_kernel_vs_cpu": "1,024/1,024 outputs exact; zero mismatches",
+      "fixed_seed_32_token_completion": "exact response parity after removing timing footer",
+      "production_sources_restored": true
+    },
+    "manager_verification": {
+      "paired_medians_recomputed": true,
+      "all_manifest_entries_verified_before_portable_refresh": true,
+      "candidate_samples_gate_verified": true,
       "current_best_unchanged": true
     },
     "artifacts": [
-      "experiments/078-ptq1-architecture-challenge/REPORT.md",
-      "results/exp078/architecture_audit.md",
-      "results/exp078/source_hashes.txt",
-      "results/exp078/manager-verification.md"
+      "experiments/079-ptq1-l2-persistence/REPORT.md",
+      "results/exp079/README.md",
+      "results/exp079/manager-verification.md",
+      "results/exp079/ptq1-decode-paired.json",
+      "results/exp079/ptq1-decode-exact-reservation-paired.json",
+      "results/exp079/raw/"
     ],
-    "timestamp_utc": "2026-10-07T21:17:28Z"
+    "timestamp_utc": "2026-10-07T22:11:06Z"
   },
-  "active_experiment": {
-    "id": "079",
-    "hypothesis": "Measure exact production PTQ1_0 GEMV cold/warm L2 behavior with real model weights and evaluate selected persisting access for a small K/V set.",
-    "status": "in_progress",
-    "base_project_commit": "44132a0",
-    "production_source_commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
-    "worktree": "/home/maxsun/autonomous_projects/bonsai2-rtx3080/.worktrees/exp079-ptq1-l2-persistence",
-    "assigned_model": "gpt-6-luna",
-    "current_best_unchanged": true
-  }
+  "active_experiment": null
 }

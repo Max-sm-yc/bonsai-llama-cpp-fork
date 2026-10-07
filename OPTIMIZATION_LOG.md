@@ -408,3 +408,10 @@
 - Source audit confirmed the active kernel already consumes packed ternary digits directly through DP4A, with exact subgroup activation-sum correction. A persistent positive/negative bit-plane encoding would use 32 rather than 28 bytes per 128 weights (+14.3%, about +0.800 GB over the active payload) and still needs selection/reduction for arbitrary signed Q8 values.
 - No candidate passed the cost screen, so no source, build, correctness suite, or performance benchmark was changed or claimed. The report preserves the negative result and source audit.
 - **NO CANDIDATE; production/current best unchanged.** See `experiments/078-ptq1-architecture-challenge/REPORT.md` and `results/exp078/`.
+
+
+## Experiment 079: PTQ1_0 exact-kernel L2 persistence screen
+
+- Captured the production PTQ1_0 GEMV with real `[5120,1024]` weights and deterministic valid planar Q8_1 activations. All 1,024 outputs matched the CPU reference exactly. One-matrix forced-cold graph replay improved by 1.728 µs under persistence, while warm replay was 0.352 µs slower; four- and 32-matrix sets showed no meaningful gain.
+- Two reversed seven-repetition model pairs at each context found max-reservation decode medians of 84.170/83.418 tok/s (−0.894%) at 512 and 81.747/81.051 (−0.852%) at 4096. Exact-size reservation was 84.265/84.130 (−0.159%) and 81.762/81.762 (flat). Fixed 32-token completion text matched; peak VRAM was 6,579/6,803 MiB.
+- **REVERT BOTH.** Forced-cold local benefit did not translate to decode. Manager independently recomputed medians, confirmed all samples passed the ≤60 C / ≤5% utilization gate, verified smoke parity and source restoration, and retained the prior best. See `experiments/079-ptq1-l2-persistence/REPORT.md` and `results/exp079/manager-verification.md`.

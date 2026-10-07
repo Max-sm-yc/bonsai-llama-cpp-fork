@@ -1,0 +1,290 @@
+[
+  {
+    "name": "blk.3.attn_k.weight",
+    "shape": [
+      5120,
+      1024
+    ],
+    "bytes": 1146880,
+    "file": "blk_3_attn_k_weight.bin"
+  },
+  {
+    "name": "blk.3.attn_v.weight",
+    "shape": [
+      5120,
+      1024
+    ],
+    "bytes": 1146880,
+    "file": "blk_3_attn_v_weight.bin"
+  },
+  {
+    "name": "blk.7.attn_k.weight",
+    "shape": [
+      5120,
+      1024
+    ],
+    "bytes": 1146880,
+    "file": "blk_7_attn_k_weight.bin"
+  },
+  {
+    "name": "blk.7.attn_v.weight",
+    "shape": [
+      5120,
+      1024
+    ],
+    "bytes": 1146880,
+    "file": "blk_7_attn_v_weight.bin"
+  },
+  {
+    "name": "blk.11.attn_k.weight",
+    "shape": [
+      5120,
+      1024
+    ],
+    "bytes": 1146880,
+    "file": "blk_11_attn_k_weight.bin"
+  },
+  {
+    "name": "blk.11.attn_v.weight",
+    "shape": [
+      5120,
+      1024
+    ],
+    "bytes": 1146880,
+    "file": "blk_11_attn_v_weight.bin"
+  },
+  {
+    "name": "blk.15.attn_k.weight",
+    "shape": [
+      5120,
+      1024
+    ],
+    "bytes": 1146880,
+    "file": "blk_15_attn_k_weight.bin"
+  },
+  {
+    "name": "blk.15.attn_v.weight",
+    "shape": [
+      5120,
+      1024
+    ],
+    "bytes": 1146880,
+    "file": "blk_15_attn_v_weight.bin"
+  },
+  {
+    "name": "blk.19.attn_k.weight",
+    "shape": [
+      5120,
+      1024
+    ],
+    "bytes": 1146880,
+    "file": "blk_19_attn_k_weight.bin"
+  },
+  {
+    "name": "blk.19.attn_v.weight",
+    "shape": [
+      5120,
+      1024
+    ],
+    "bytes": 1146880,
+    "file": "blk_19_attn_v_weight.bin"
+  },
+  {
+    "name": "blk.23.attn_k.weight",
+    "shape": [
+      5120,
+      1024
+    ],
+    "bytes": 1146880,
+    "file": "blk_23_attn_k_weight.bin"
+  },
+  {
+    "name": "blk.23.attn_v.weight",
+    "shape": [
+      5120,
+      1024
+    ],
+    "bytes": 1146880,
+    "file": "blk_23_attn_v_weight.bin"
+  },
+  {
+    "name": "blk.27.attn_k.weight",
+    "shape": [
+      5120,
+      1024
+    ],
+    "bytes": 1146880,
+    "file": "blk_27_attn_k_weight.bin"
+  },
+  {
+    "name": "blk.27.attn_v.weight",
+    "shape": [
+      5120,
+      1024
+    ],
+    "bytes": 1146880,
+    "file": "blk_27_attn_v_weight.bin"
+  },
+  {
+    "name": "blk.31.attn_k.weight",
+    "shape": [
+      5120,
+      1024
+    ],
+    "bytes": 1146880,
+    "file": "blk_31_attn_k_weight.bin"
+  },
+  {
+    "name": "blk.31.attn_v.weight",
+    "shape": [
+      5120,
+      1024
+    ],
+    "bytes": 1146880,
+    "file": "blk_31_attn_v_weight.bin"
+  },
+  {
+    "name": "blk.35.attn_k.weight",
+    "shape": [
+      5120,
+      1024
+    ],
+    "bytes": 1146880,
+    "file": "blk_35_attn_k_weight.bin"
+  },
+  {
+    "name": "blk.35.attn_v.weight",
+    "shape": [
+      5120,
+      1024
+    ],
+    "bytes": 1146880,
+    "file": "blk_35_attn_v_weight.bin"
+  },
+  {
+    "name": "blk.39.attn_k.weight",
+    "shape": [
+      5120,
+      1024
+    ],
+    "bytes": 1146880,
+    "file": "blk_39_attn_k_weight.bin"
+  },
+  {
+    "name": "blk.39.attn_v.weight",
+    "shape": [
+      5120,
+      1024
+    ],
+    "bytes": 1146880,
+    "file": "blk_39_attn_v_weight.bin"
+  },
+  {
+    "name": "blk.43.attn_k.weight",
+    "shape": [
+      5120,
+      1024
+    ],
+    "bytes": 1146880,
+    "file": "blk_43_attn_k_weight.bin"
+  },
+  {
+    "name": "blk.43.attn_v.weight",
+    "shape": [
+      5120,
+      1024
+    ],
+    "bytes": 1146880,
+    "file": "blk_43_attn_v_weight.bin"
+  },
+  {
+    "name": "blk.47.attn_k.weight",
+    "shape": [
+      5120,
+      1024
+    ],
+    "bytes": 1146880,
+    "file": "blk_47_attn_k_weight.bin"
+  },
+  {
+    "name": "blk.47.attn_v.weight",
+    "shape": [
+      5120,
+      1024
+    ],
+    "bytes": 1146880,
+    "file": "blk_47_attn_v_weight.bin"
+  },
+  {
+    "name": "blk.51.attn_k.weight",
+    "shape": [
+      5120,
+      1024
+    ],
+    "bytes": 1146880,
+    "file": "blk_51_attn_k_weight.bin"
+  },
+  {
+    "name": "blk.51.attn_v.weight",
+    "shape": [
+      5120,
+      1024
+    ],
+    "bytes": 1146880,
+    "file": "blk_51_attn_v_weight.bin"
+  },
+  {
+    "name": "blk.55.attn_k.weight",
+    "shape": [
+      5120,
+      1024
+    ],
+    "bytes": 1146880,
+    "file": "blk_55_attn_k_weight.bin"
+  },
+  {
+    "name": "blk.55.attn_v.weight",
+    "shape": [
+      5120,
+      1024
+    ],
+    "bytes": 1146880,
+    "file": "blk_55_attn_v_weight.bin"
+  },
+  {
+    "name": "blk.59.attn_k.weight",
+    "shape": [
+      5120,
+      1024
+    ],
+    "bytes": 1146880,
+    "file": "blk_59_attn_k_weight.bin"
+  },
+  {
+    "name": "blk.59.attn_v.weight",
+    "shape": [
+      5120,
+      1024
+    ],
+    "bytes": 1146880,
+    "file": "blk_59_attn_v_weight.bin"
+  },
+  {
+    "name": "blk.63.attn_k.weight",
+    "shape": [
+      5120,
+      1024
+    ],
+    "bytes": 1146880,
+    "file": "blk_63_attn_k_weight.bin"
+  },
+  {
+    "name": "blk.63.attn_v.weight",
+    "shape": [
+      5120,
+      1024
+    ],
+    "bytes": 1146880,
+    "file": "blk_63_attn_v_weight.bin"
+  }
+]

@@ -1,0 +1,23 @@
+Base commit: 44132a0
+Production-best runtime reference: 6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17
+Model SHA-256: 53107f530aa52eb00912263ab1ee29bd199261c87cd7b4ad4ca1318c1fe33ee3
+Base production mmvq-ptq1_0.cuh SHA-256: f398417accddf1948fbf12155b4180fd362a3dfea88366ef3980161700d56496
+Exp079 mmvq.cu (test hook) SHA-256: 9d309acf16fef45b8c511d33617e5399e138b43815f3e62f0b648fc7f28e01b2
+Exp079 exact-size mmvq-ptq1_0.cuh SHA-256: eda448bad948998e76f023215fe16dbcf8e7fc8d9920c3fc23ba79cc311e0466
+Max-reservation source snapshot SHA-256: 525091c19500fe57c8c5edebcab2cdeea1a6b4d00126e95ef8487549f76bd82e
+Max-reservation libggml-cuda.so SHA-256: c6aa742c51fcaf746ff22b86b6eb9b1315d1f35084e91b497990bea16db3ccf3
+Exact-size libggml-cuda.so SHA-256: d7f192e33bcec0a9fa0d35e51088daa3f0629863403bd0689f972789287ad99c
+llama-bench SHA-256: 6a93e9f538ed0b2359934b0a63c235ebfdf0f28191e96226aa63bae2d8f52f3a
+llama-cli SHA-256: 5f6f2f9d30a3c1ce213c1a38258036fefd20ed91e437077d9ad3dd39ddfb0b6d
+Exact replay harness SHA-256: 36110c2971f4efc54691e3f6fef896d2384e3e904fe5b9eda8eaa530f98aeaf2
+Exact-size replay activation SHA-256: 61136fb98189245811aae83a87f0864940e138382248e95d61111f227d3dc73a
+Exact-size source snapshot: results/exp079/raw/mmvq-ptq1_0.cuh.exact-reservation
+Exact-size source snapshot SHA-256: eda448bad948998e76f023215fe16dbcf8e7fc8d9920c3fc23ba79cc311e0466
+Maximum-reservation source snapshot: results/exp079/raw/mmvq-ptq1_0.max-reservation.cuh
+Maximum-reservation source snapshot SHA-256: 525091c19500fe57c8c5edebcab2cdeea1a6b4d00126e95ef8487549f76bd82e
+Exp079 test-hook mmvq.cu snapshot: results/exp079/raw/mmvq.cu.exp079-test-hook
+Exp079 test-hook mmvq.cu snapshot SHA-256: 9d309acf16fef45b8c511d33617e5399e138b43815f3e62f0b648fc7f28e01b2
+Exact-size library snapshot: results/exp079/raw/libggml-cuda-exact-reservation.so
+Exact-size library snapshot SHA-256: d7f192e33bcec0a9fa0d35e51088daa3f0629863403bd0689f972789287ad99c
+Maximum-reservation library snapshot: results/exp079/raw/libggml-cuda-max-reservation.so
+Maximum-reservation library snapshot SHA-256: c6aa742c51fcaf746ff22b86b6eb9b1315d1f35084e91b497990bea16db3ccf3
