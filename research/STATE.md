@@ -45,7 +45,7 @@
 
 ## Active experiment
 
-- None. Exp074 completed a traffic/streaming-ceiling measurement without production changes. Exp073 found no GEMV candidate and the current production remains the verified PTQ1_0 build. Exp072 resolved the focused ctx512 Qwen verifier boundary but found batch-shape-sensitive target logits; MTP remains unpromoted.
+- Exp075 is assigned to one explicitly GPT-6 Luna experimenter: test active PTQ1_0 GEMV L2 reuse applicability and controlled cold/warm replay effects. Isolated worktree; no production changes. Exp074 completed a traffic/streaming-ceiling measurement; Exp073 found no GEMV candidate. Production remains the verified PTQ1_0 build. Exp072 resolved the focused ctx512 Qwen verifier boundary but found batch-shape-sensitive target logits; MTP remains unpromoted.
 
 ## Latest research result
 
