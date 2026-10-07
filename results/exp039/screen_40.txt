@@ -1,0 +1,19 @@
+CORRECT rows=4096 blocks_per_row=40 verified_device_codes=20971520 code_mismatches=0 aos_soa_mismatches=0 aos_staged_mismatches=0 warp_register_mismatches=0 independent_host_output_mismatches=0 max_error=0
+RECURRENCE 0.01272672 ms_pair
+RECURRENCE 0.01267584 ms_pair
+RECURRENCE 0.01268416 ms_pair
+RECURRENCE 0.01267712 ms_pair
+RECURRENCE 0.01268576 ms_pair
+RECURRENCE 0.01268736 ms_pair
+RECURRENCE 0.01268736 ms_pair
+RECURRENCE 0.01281024 ms_pair
+RECURRENCE 0.01267712 ms_pair
+FIXED_POINT 0.01319936 ms_pair
+FIXED_POINT 0.01301504 ms_pair
+FIXED_POINT 0.01300480 ms_pair
+FIXED_POINT 0.01301504 ms_pair
+FIXED_POINT 0.01301504 ms_pair
+FIXED_POINT 0.01301856 ms_pair
+FIXED_POINT 0.01302144 ms_pair
+FIXED_POINT 0.01302528 ms_pair
+FIXED_POINT 0.01318912 ms_pair

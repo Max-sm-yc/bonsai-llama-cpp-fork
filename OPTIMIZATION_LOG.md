@@ -247,3 +247,8 @@
 - A focused sm_86 CUDA-event screen loaded 28 contiguous words per warp for four packed blocks, then used seven `SHFL` instructions to reconstruct each block's seven words before the same PTQ1 recurrence/DP4A dot and row fold. It screened 2,048 rows at 40 and 136 blocks/row, with nine rotated-order samples per arm.
 - All 10.5M and 35.7M trit codes and host/device row outputs matched exactly. The candidate used 40 registers/thread with no spills, shared memory, or barriers.
 - Only four lanes per warp computed dots. Direct AoS medians of 9.308/25.126 µs beat the candidate's 22.538/69.154 µs (+142.13%/+175.23%); all candidate samples were slower. Reject without model integration. See `experiments/038-warp-register-transpose/REPORT.md` and `results/exp038/`.
+
+## Experiment 039: fixed-point PTQ1_0 trit decoder in the active planar path
+
+- Exhaustive GPU checks covered 256 byte values × 4 packed lanes × 5 digits and all 65,536 qh pairs × 8 interleaved outputs; full-row device codes and outputs matched at 40 and 136 blocks/row.
+- The fixed-point floor-difference decoder was slower than recurrence work-plus-fold by 2.62% at 40 blocks (12.6858→13.0186 µs) and 4.28% at 136 (25.1221→26.1973 µs), with non-overlapping nine-sample ranges. It emitted 490 SASS instructions versus 338 and used the same 40 registers/thread without spills. Reject before runtime integration. See `experiments/039-planar-parallel-trit-decode/REPORT.md` and `results/exp039/`.

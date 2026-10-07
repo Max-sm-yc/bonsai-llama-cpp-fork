@@ -1,6 +1,6 @@
 # Current results — research in progress
 
-This is the current verified snapshot, not the end of the campaign. The fastest correct implementation remains PTQ1_0 with ROWS=1 planar GEMV and the coordinated QKV RMS/FWHT/Q8 preparation path. No production change was made in Exp037.
+This is the current verified snapshot, not the end of the campaign. The fastest correct implementation remains PTQ1_0 with ROWS=1 planar GEMV and the coordinated QKV RMS/FWHT/Q8 preparation path. Experiments 037–039 screened alternatives without changing production code.
 
 ## Hardware and software
 
@@ -60,6 +60,7 @@ Current prefill has not been remeasured: use 1378.14 tok/s at prompt 512 and 133
 - Retained: Exp010's ROWS=1 scheduling for the active sm_86 planar GEMV; Exp036's exact-shape/use-count-guarded coordinated QKV preparation, default on and disableable with `GGML_CUDA_RMS_FWHT_Q8=0`.
 - Exp037 tested CTA-local shared-memory staging of contiguous 28-byte AoS blocks. It matched codes/outputs and passed memcheck, but the production-equivalent work-plus-fold screen lost 9.85% at 40 blocks and 12.86% at 136 blocks. It was rejected before model integration.
 - Exp038 tested a warp-register transpose with contiguous packed loads. It was exact, but the four-lane-per-warp dot mapping and seven shuffles lost 142%/175% at 40/136 blocks. It was rejected before model integration.
+- Exp039 tested fixed-point floor-difference trit extraction in the active planar work-plus-fold path. Exhaustive byte/qh and full-row checks were exact, but the candidate lost 2.62% at 40 blocks and 4.28% at 136 blocks; it emitted 490 SASS instructions versus 338 for recurrence work. It was rejected before model integration.
 - Other important negative results: 2-bit side encodings, pairwise radix-3 decode, warp/multiwarp reductions, cooperative trit recurrence, strip mining, cache modifiers, next-item prefetch, padded 32-byte blocks, and the selective SoA sidecar did not improve the active decode path. The compact index and report links are in [research/EXPERIMENTS.md](research/EXPERIMENTS.md).
 - Architectural finding: active decode uses a dedicated planar Q8_1 / PTQ1_0 GEMV; generic `mmvq.cu` tuning does not reach it. CUDA Graphs are active, and the current PTQ1_0 GEMV remains the dominant measured family.
-- Next: screen an independent fixed-point trit decoder in the active planar GEMV. Exp009's related floor decoder only ran in an SOA_ISUM harness; retesting it in the active planar specialization is the concrete unresolved question. It must prove exhaustive byte and output correctness and beat the current decoder before model integration.
+- Next: test whether an asynchronous `cp.async` pipeline can hide next-item memory latency in the active GEMV, then quantify the current-versus-reference result with isolated end-to-end and prefill measurements.

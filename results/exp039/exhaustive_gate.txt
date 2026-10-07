@@ -1,0 +1,1 @@
+EXHAUSTIVE byte inputs=256 x 4 packed lanes x 5 digits; qh pairs=65536 x 8 interleaved digits; mismatches=0

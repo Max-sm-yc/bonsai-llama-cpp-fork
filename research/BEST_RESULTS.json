@@ -321,7 +321,7 @@
     "cuda_library_sha256": "bad70d76b19fdd1b21f61e5c9eb4900b5334c638ff75cdec11f3a4d3b2b28642",
     "timestamp_utc": "2026-10-07T03:25:11+00:00"
   },
-  "updated_timestamp_utc": "2026-10-07T04:23:19+00:00",
+  "updated_timestamp_utc": "2026-10-07T04:31:36+00:00",
   "project_commit": "c6cdaa5fa62787c97db58d1d2e1db666a4aeddb5",
   "current_best": {
     "commit": "c6cdaa5fa62787c97db58d1d2e1db666a4aeddb5",
@@ -390,33 +390,69 @@
     "timestamp_utc": "2026-10-07T03:25:11+00:00"
   },
   "latest_experiment_screen": {
-    "id": "038",
-    "hypothesis": "A warp-register transpose can coalesce PTQ1_0 AoS reads without shared memory or a CTA barrier.",
+    "id": "039",
+    "hypothesis": "Independent fixed-point floor-difference trit extraction may reduce the dependency chain in the active planar PTQ1_0 GEMV.",
     "decision": "REVERT; no production code changed",
     "hardware": "NVIDIA GeForce RTX 3080, sm_86",
-    "method": "CUDA-event work-plus-fold screen; 2048 rows; 9 rotated-order samples per arm; direct AoS compared with a four-block warp-register transpose",
-    "results_microseconds_median": {
-      "40_blocks_per_row": {
-        "direct_aos": 9.30816,
-        "warp_register": 22.53824,
-        "candidate_delta_percent": 142.13
+    "method": "Active planar PT work-plus-fold CUDA-event screen; recurrence versus fixed-point decoder; 9 rotated-order samples per arm at 40 and 136 blocks per row",
+    "results": {
+      "40": {
+        "rows": 4096,
+        "repetitions_per_sample": 100,
+        "samples_per_arm": 9,
+        "recurrence_median_ms_per_pair": 0.01268576,
+        "fixed_point_median_ms_per_pair": 0.01301856,
+        "fixed_point_delta_percent": 2.62341,
+        "recurrence_sample_range_ms": [
+          0.01267584,
+          0.01281024
+        ],
+        "fixed_point_sample_range_ms": [
+          0.0130048,
+          0.01319936
+        ]
       },
-      "136_blocks_per_row": {
-        "direct_aos": 25.1264,
-        "warp_register": 69.1544,
-        "candidate_delta_percent": 175.23
+      "136": {
+        "rows": 2048,
+        "repetitions_per_sample": 60,
+        "samples_per_arm": 9,
+        "recurrence_median_ms_per_pair": 0.02512213,
+        "fixed_point_median_ms_per_pair": 0.02619733,
+        "fixed_point_delta_percent": 4.27989,
+        "recurrence_sample_range_ms": [
+          0.025088,
+          0.02522933
+        ],
+        "fixed_point_sample_range_ms": [
+          0.02613973,
+          0.02626453
+        ]
       }
     },
-    "correctness": "Exact packed codes and row outputs against direct and independent host references at both shapes.",
-    "end_to_end": "Not run; candidate lost both focused shapes.",
+    "correctness": "Exhaustive byte/lane/digit and qh interleave tests had zero mismatches; full-row codes and outputs matched exactly at both shapes.",
+    "microarchitecture": {
+      "registers_per_thread": 40,
+      "spills": 0,
+      "shared_memory_bytes": 0,
+      "work_sass_instructions_recurrence": 338,
+      "work_sass_instructions_fixed_point": 490,
+      "imad_family_recurrence": 96,
+      "imad_family_fixed_point": 173,
+      "shf_recurrence": 8,
+      "shf_fixed_point": 68
+    },
+    "end_to_end": "Not run; exact candidate lost at both focused shapes.",
     "artifacts": [
-      "experiments/038-warp-register-transpose/REPORT.md",
-      "results/exp038/register_screen.cu",
-      "results/exp038/register_screen.sass",
-      "results/exp038/screen_40.txt",
-      "results/exp038/screen_136.txt",
-      "results/exp038/resources.txt"
+      "experiments/039-planar-parallel-trit-decode/REPORT.md",
+      "results/exp039/parallel_screen.cu",
+      "results/exp039/parallel_screen.sass",
+      "results/exp039/exhaustive_gate.cu",
+      "results/exp039/screen_40.txt",
+      "results/exp039/screen_136.txt",
+      "results/exp039/resources.txt"
     ],
-    "candidate_source_sha256": "40ea02b9404e2d024ec9914bc27afa63a9dfe0c110dbe6408d701777822f4001"
+    "source_sha256": "e4dcb0df2086abdd062694a0cf3e8324641a96ab1d0293981bd08b6f5f1c6140",
+    "binary_sha256": "31d33a65918d5977c9a612c3f13184ec6490867e0d628f608184c1432d228f31",
+    "manager_verification": "Recomputed medians and deltas from all 36 raw event samples; hashes match the report. Current-best implementation remains unchanged."
   }
 }
