@@ -1,5 +1,9 @@
 # Optimization log
 
+## Experiment 055: paired K/V PTQ1_0 GEMV feasibility
+
+- K/V are adjacent, same-activation 2048-row graph matmuls, but active PTQ dispatch is below the scheduler and consumes a prepared planar Q8 activation. The current kernel writes one output; its optional second matrix is reduced through a GLU gate and cannot preserve V. A safe one-launch pair needs shared PT-layout Q8 preparation and two outputs plus exact graph guards/fallback. No candidate was built or benchmarked; see `experiments/055-ptq1-kv-pair-gemv/REPORT.md`. A direct paired-kernel screen is the next step before scheduler integration.
+
 ## Experiment 054: grouped standard-attention projections audit
 
 - Q+gate is already one `wq` projection. K/V share the normalized input and 2048-wide output but need separate output buffers and K-only norm/RoPE consumers. The active PTQ1_0 batch-1 kernel accepts one matrix plus an optional nonlinear gate output, so it is not a generic paired-output path. Retained profiles have 361 PTQ GEMV launches/token but do not map signatures to Q/K/V. No candidate was built; see `experiments/054-grouped-attention-projections/REPORT.md`. Follow up only with a concrete K/V paired-output kernel and matched model A/B.

@@ -6,7 +6,7 @@ Ranked against the current ROWS=1 implementation. Controlled batch-1 model decod
 
 ## Open candidate
 
-1. **Dedicated K/V paired-output GEMV.** Exp054 established that Q+gate is already one `wq` projection and that standard-attention K/V share `cur` and a 2048-element output shape. The remaining hypothesis is a new PTQ1_0 kernel/graph path that reads both matrices and writes separate K and V outputs while preserving K-only normalization/RoPE and V-cache consumers. Exp054 did not build this broader path; use it as a concrete follow-up and require matched full-model decode evidence.
+1. **Dedicated K/V paired-output GEMV.** Exp054/055 established that Q+gate is already one `wq` projection and standard-attention K/V share `cur` and a 2048-element output shape, but the active gate path cannot produce an independent V output and the graph scheduler sits above planar Q8 preparation. First compare a direct paired-output kernel on already-prepared Q8 input against two active GEMVs. Only integrate graph fusion if the kernel screen wins; preserve separate outputs and K-only normalization/RoPE, then require matched full-model decode evidence.
 2. **Long-context FlashAttention:** Exp053 tested the active sm_86 Ampere tile path: the valid 64/64 single-stage tile regressed focused timing by 17.2% at context 512 and 11.3% at 4096, and the 96/96 tile failed a compile-time loop invariant. Reopen only with a design that directly reduces Stream-K fixup cost. See `experiments/053-flash-attention-longctx/REPORT.md`.
 
 ## Previously tested directions
