@@ -813,35 +813,33 @@
     ]
   },
   "latest_research_measurement": {
-    "id": "042",
-    "description": "Swept active planar PTQ1_0 GEMV CTA widths 64/128/256/512 with matched row-tile selection; exact work-plus-fold screens and a K=40-only 256-thread runtime dispatch.",
-    "decision": "REVERT; keep the fixed 128-thread production implementation. Shape-specific candidate regressed paired decode medians.",
-    "focused_work_fold_change_percent_vs_128": {
-      "K40": {
-        "64": 0.22,
-        "128": -0.04,
-        "256": -1.16,
-        "512": 3.65
+    "id": "044",
+    "description": "Screened CTA-local shared-memory reuse of the planar PTQ1_0 Q8_1 activation tile across the production-compatible 16-row CTA.",
+    "decision": "REVERT; exact candidate lost focused work-plus-fold at K=40 and K=136. Current-best values remain unchanged.",
+    "focused_work_fold_change_percent_vs_direct_global": {
+      "K40": 2.0828653037645584,
+      "K136": 1.268948093706923
+    },
+    "correctness": "Independent host decoder and full-row outputs matched bit-for-bit for 2,048 rows at each shape.",
+    "resources": {
+      "candidate_registers_per_thread": 40,
+      "candidate_spills": 0,
+      "cta_barriers": 1,
+      "activation_shared_bytes": {
+        "K40": 5760,
+        "K136": 19584
       },
-      "K136": {
-        "64": 2.04,
-        "128": 0.0,
-        "256": 1.53,
-        "512": 1.91
+      "estimated_production_total_shared_bytes": {
+        "K40": 8384,
+        "K136": 28416
       }
     },
-    "shape_specific_e2e_decode_change_percent": {
-      "512": -0.5954868491166221,
-      "4096": -0.6759215898659576
-    },
     "artifacts": [
-      "experiments/042-cta-width-sweep/REPORT.md",
-      "results/exp042/README.md",
-      "results/exp042/control_forward.json",
-      "results/exp042/candidate_forward.json",
-      "results/exp042/candidate_reverse.json",
-      "results/exp042/control_reverse.json"
+      "experiments/044-activation-tile-reuse/REPORT.md",
+      "results/exp044/screen_40.txt",
+      "results/exp044/screen_136.txt",
+      "results/exp044/activation_tile_screen.sass"
     ],
-    "timestamp_utc": "2026-10-07T05:52:34+00:00"
+    "timestamp_utc": "2026-10-07T06:10:00+00:00"
   }
 }

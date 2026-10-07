@@ -33,4 +33,4 @@
 
 ## Next candidates
 
-1. Screen CTA-local reuse of the planar Q8_1 activation tile across output rows. Exp037 staged weights and lost; this tests the distinct premise that the same activation vectors are reloaded for many rows. Gate on exact work-plus-fold gains at K=40/136, shared-memory occupancy, and matched E2E decode. Exp043 found gate/up DP4A streams already interleaved by ptxas; retain current 128-thread, ROWS=1 production code.
+1. Keep the active 128-thread, ROWS=1 GEMV. Exp044 screened CTA-local planar activation reuse: exact, but shared staging lost work-plus-fold at K=40/136 (+2.08%/+1.27%). Reopen only with a materially different copy/communication design. Exp043 found gate/up DP4A streams already interleaved by ptxas.

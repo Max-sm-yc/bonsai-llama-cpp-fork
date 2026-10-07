@@ -1,0 +1,31 @@
+ptxas info    : 0 bytes gmem
+ptxas info    : Compiling entry function '_Z11work_sharedILi128EEvPK1BPKiPfii' for 'sm_86'
+ptxas info    : Function properties for _Z11work_sharedILi128EEvPK1BPKiPfii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 1 barriers, 384 bytes cmem[0]
+ptxas info    : Compile time = 12.626 ms
+ptxas info    : Compiling entry function '_Z4workILi512EEvPK1BPKiPfii' for 'sm_86'
+ptxas info    : Function properties for _Z4workILi512EEvPK1BPKiPfii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 0 barriers, 384 bytes cmem[0]
+ptxas info    : Compile time = 9.385 ms
+ptxas info    : Compiling entry function '_Z4workILi256EEvPK1BPKiPfii' for 'sm_86'
+ptxas info    : Function properties for _Z4workILi256EEvPK1BPKiPfii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 0 barriers, 384 bytes cmem[0]
+ptxas info    : Compile time = 9.076 ms
+ptxas info    : Compiling entry function '_Z4workILi128EEvPK1BPKiPfii' for 'sm_86'
+ptxas info    : Function properties for _Z4workILi128EEvPK1BPKiPfii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 0 barriers, 384 bytes cmem[0]
+ptxas info    : Compile time = 9.067 ms
+ptxas info    : Compiling entry function '_Z4workILi64EEvPK1BPKiPfii' for 'sm_86'
+ptxas info    : Function properties for _Z4workILi64EEvPK1BPKiPfii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 0 barriers, 384 bytes cmem[0]
+ptxas info    : Compile time = 9.103 ms
+ptxas info    : Compiling entry function '_Z4foldPKfPfii' for 'sm_86'
+ptxas info    : Function properties for _Z4foldPKfPfii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 39 registers, used 0 barriers, 376 bytes cmem[0]
+ptxas info    : Compile time = 5.607 ms

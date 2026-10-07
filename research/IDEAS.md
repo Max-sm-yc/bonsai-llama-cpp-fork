@@ -2,7 +2,7 @@
 
 Ranked against the current ROWS=1 implementation. Controlled batch-1 model decode is the decision metric; isolated kernel gains are screening evidence only.
 
-1. Screen CTA-local reuse of the planar Q8_1 activation tile across output rows in the active PTQ1_0 GEMV. Unlike Exp037's weight staging, each CTA's rows reuse the same activation vectors; stage one K tile in shared memory and measure whether it reduces repeated global-load issue enough to pay for shared reads, synchronization, and occupancy. Check K=40/136 resource limits and exact work-plus-fold timing before model integration.
+1. Keep the active 128-thread, ROWS=1 PTQ1_0 GEMV. Exp044 tested full CTA-local activation tile reuse: exact at K=40/136, but work-plus-fold lost 2.08%/1.27% and shared use constrains long-K occupancy. Reopen only with a materially different staging mechanism that removes the copy/barrier overhead.
 2. Gate/up stream interleaving is closed for the current compiler output (Exp043): active fused SASS already interleaves the independent DP4A accumulator chains. Reopen only if a future active SASS audit shows a material serial dependency chain.
 3. CTA-width/row-tile sweep is closed by Exp042. 256 threads improves only the isolated K=40 screen; 64/256/512 lose or tie at K=136, and shape-gated 256-at-40 dispatch loses matched decode. Keep 128 threads unless a new scheduling premise improves both focused shapes and E2E behavior.
 
