@@ -1,0 +1,2 @@
+trace,launches,total_ms,average_us,median_us,min_us,max_us
+default_r2,485,9.581192,19.75503505154639,14.56,4.544,392.42

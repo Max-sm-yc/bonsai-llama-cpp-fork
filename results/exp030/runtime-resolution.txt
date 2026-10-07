@@ -1,0 +1,6 @@
+[default] LD_LIBRARY_PATH=/home/maxsun/autonomous_projects/bonsai2-rtx3080/results/exp030/libs/default
+/home/maxsun/autonomous_projects/bonsai2-rtx3080/results/exp030/libs/default/libggml-cuda.so.0 (0x00007f4f88800000)
+[cg] LD_LIBRARY_PATH=/home/maxsun/autonomous_projects/bonsai2-rtx3080/results/exp030/libs/cg
+/home/maxsun/autonomous_projects/bonsai2-rtx3080/results/exp030/libs/cg/libggml-cuda.so.0 (0x00007f91e9000000)
+[cs] LD_LIBRARY_PATH=/home/maxsun/autonomous_projects/bonsai2-rtx3080/results/exp030/libs/cs
+/home/maxsun/autonomous_projects/bonsai2-rtx3080/results/exp030/libs/cs/libggml-cuda.so.0 (0x00007fe88e800000)

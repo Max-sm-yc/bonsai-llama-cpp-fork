@@ -63,6 +63,7 @@
 
 ## Next candidates
 
-1. Complete a matched default/`.cg`/`.cs` cache-policy screen for active PTQ1_0 packed weight words. The aligned u32 `qs` loads can be targeted without changing the 28-byte storage layout; Exp029 only established code generation, so use identical actual-kernel traces and isolated relinks before any E2E comparison.
-2. A different packed-weight staging/dataflow for the 28-byte PTQ1_0 block, only with an implementation-equivalent event screen and correctness proof.
-3. Audit fused-gate non-load reuse or targeted PQ2_0 decode only after a concrete SASS/source premise; maintain identical model and workload conditions.
+1. A different packed-weight staging/dataflow for the 28-byte PTQ1_0 block, only with an implementation-equivalent event screen and correctness proof.
+2. Audit fused-gate non-load reuse or targeted PQ2_0 decode only after a concrete SASS/source premise; maintain identical model and workload conditions.
+
+- Experiment 030: matched default/`.cg`/`.cs` screen completed with three actual-kernel traces per arm (485 target launches each). `.cg` was +128.4% target-kernel time; `.cs` was -0.30% in the kernel screen but lost 0.9–1.1% end-to-end median throughput in the reversed-order 7-rep comparison at contexts 512/4096. Reverted; production source, active source-default library, and backup hashes are intact. No exact correctness comparison was completed, so no candidate was retained. See report 030 and `results/exp030/`.

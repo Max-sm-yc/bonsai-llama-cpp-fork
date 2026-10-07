@@ -1,0 +1,47 @@
+diff --git a/ggml/src/ggml-cuda/mmvq-ptq1_0.cuh b/ggml/src/ggml-cuda/mmvq-ptq1_0.cuh
+index a1f932a..b4f1489 100644
+--- a/ggml/src/ggml-cuda/mmvq-ptq1_0.cuh
++++ b/ggml/src/ggml-cuda/mmvq-ptq1_0.cuh
+@@ -36,6 +36,24 @@
+ #define PTQ1_0_PT_MAX_COLS     8    // equals MMVQ_MAX_BATCH_SIZE, checked in mmvq.cu
+ #define PTQ1_0_PT_SMEM_FLOATS  4096 // 16 KiB target when choosing rows per CTA; the launch may request more for one item
+ 
++// Optional cache-policy screen for the aligned packed qs words only.
++#ifndef PTQ1_0_PT_QS_CACHE_POLICY
++#define PTQ1_0_PT_QS_CACHE_POLICY 1
++#endif
++
++static __device__ __forceinline__ uint32_t ptq1_0_pt_load_qs_u32(const void * p, const int i) {
++    const uint32_t * word = (const uint32_t *) p + i;
++    uint32_t value;
++#if PTQ1_0_PT_QS_CACHE_POLICY == 1
++    asm volatile("ld.global.cg.u32 %0, [%1];" : "=r"(value) : "l"(word));
++#elif PTQ1_0_PT_QS_CACHE_POLICY == 2
++    asm volatile("ld.global.cs.u32 %0, [%1];" : "=r"(value) : "l"(word));
++#else
++    value = *word;
++#endif
++    return value;
++}
++
+ // the PT path is CUDA only; HIP keeps the block_q8_1 layout and the old vec_dot
+ static constexpr __host__ __device__ bool ptq1_0_pt_enabled() {
+ #if defined(GGML_USE_HIP)
+@@ -133,7 +151,7 @@ static __device__ __forceinline__ void ptq1_0_pt_block_dot(
+     for (int i = 0; i < nrows; ++i) {
+ #pragma unroll
+         for (int g = 0; g < 4; ++g) {
+-            const uint32_t packed = get_int_b4(bq[i]->qs, g);
++            const uint32_t packed = ptq1_0_pt_load_qs_u32(bq[i]->qs, g);
+             vlo[i][g] = __byte_perm(packed, 0, 0x4140);
+             vhi[i][g] = __byte_perm(packed, 0, 0x4342);
+         }
+@@ -172,7 +190,7 @@ static __device__ __forceinline__ void ptq1_0_pt_block_dot(
+     for (int i = 0; i < nrows; ++i) {
+ #pragma unroll
+         for (int g = 0; g < 2; ++g) {
+-            const uint32_t packed = get_int_b4(bq[i]->qs + 16, g);
++            const uint32_t packed = ptq1_0_pt_load_qs_u32(bq[i]->qs + 16, g);
+             vlo2[i][g] = __byte_perm(packed, 0, 0x4140);
+             vhi2[i][g] = __byte_perm(packed, 0, 0x4342);
+         }

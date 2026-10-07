@@ -2,9 +2,8 @@
 
 Ranked against the current ROWS=1 implementation. Controlled batch-1 model decode is the decision metric; isolated kernel gains are screening evidence only.
 
-1. Complete a matched default/`.cg`/`.cs` cache-policy comparison for aligned packed PTQ1_0 weight-word loads in the active plain GEMV. Exp029 proved `.cg` code generation but did not capture a control trace. Keep the baseline library untouched, use isolated relinks, and compare identical active-kernel traces before deciding whether a full decode A/B is warranted.
-2. Consider a different packed-weight staging/dataflow for the 28-byte PTQ1_0 block, with correctness and instruction/resource checks before integration.
-3. Fused-gate PTQ1_0 accounts for 15.5% (298.6 ms / 5,161 launches), but its active SASS already shares the nine 128-bit Q8_1 activation loads with the ungated dot. Only pursue paired-dot scheduling if the audit identifies redundant non-load work. PQ2_0 decode remains another lower-ranked path.
+1. Consider a different packed-weight staging/dataflow for the 28-byte PTQ1_0 block, with correctness and instruction/resource checks before integration.
+2. Fused-gate PTQ1_0 accounts for 15.5% (298.6 ms / 5,161 launches), but its active SASS already shares the nine 128-bit Q8_1 activation loads with the ungated dot. Only pursue paired-dot scheduling if the audit identifies redundant non-load work. PQ2_0 decode remains another lower-ranked path.
 
 Preserve ROWS=1. Avoid repeating row-tile geometry, warp-per-row splits, the scalar decoder, two-bit side encodings, pairwise trit decode, the eight-lane production recurrence, or 2/4-item source unrolling without a materially new premise. Experiment 024's isolated 1.49x recurrence gain regressed model decode about 81.5%; experiment 025's source strip mining did not change static resources and lost about 0.4–1.4% end-to-end.
 

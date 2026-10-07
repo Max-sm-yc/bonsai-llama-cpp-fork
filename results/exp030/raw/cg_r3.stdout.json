@@ -1,0 +1,52 @@
+[
+  {
+    "build_commit": "8450403",
+    "build_number": 31,
+    "cpu_info": "Intel(R) Core(TM) i7-10700K CPU @ 3.80GHz",
+    "gpu_info": "NVIDIA GeForce RTX 3080",
+    "backends": "CUDA",
+    "model_filename": "models/Ternary-Bonsai-2-27B-PTQ1_0.gguf",
+    "model_type": "qwen35 27B PTQ1_0 - 1.75 bpw ternary (group 128)",
+    "model_size": 5935527936,
+    "model_n_params": 26895998464,
+    "n_batch": 2048,
+    "n_ubatch": 512,
+    "n_threads": 8,
+    "cpu_mask": "0x0",
+    "cpu_strict": false,
+    "poll": 50,
+    "type_k": "f16",
+    "type_v": "f16",
+    "n_gpu_layers": 99,
+    "n_cpu_moe": 0,
+    "split_mode": "layer",
+    "main_gpu": 0,
+    "no_kv_offload": false,
+    "flash_attn": 1,
+    "devices": "auto",
+    "tensor_split": "0.00",
+    "tensor_buft_overrides": "none",
+    "load_mode": "auto",
+    "embeddings": false,
+    "no_op_offload": 0,
+    "no_host": false,
+    "fit_target": 0,
+    "fit_min_ctx": 0,
+    "n_prompt": 0,
+    "n_gen": 16,
+    "n_depth": 512,
+    "test_time": "2026-10-07T00:12:14Z",
+    "avg_ns": 427657254,
+    "stddev_ns": 0,
+    "avg_ts": 37.413138,
+    "stddev_ts": 0.000000,
+    "samples_ns": [ 427657254 ],
+    "samples_ts": [ 37.4131 ]
+  }
+]
+Collecting data...
+Generating '/tmp/nsys-report-ca8c.qdstrm'
+Press Ctrl-C to stop symbol files downloading
+[1/1] [0%                          ] cg_r3.nsys-rep[1/1] [0%                          ] cg_r3.nsys-rep[1/1] [5%                          ] cg_r3.nsys-rep[1/1] [8%                          ] cg_r3.nsys-rep[1/1] [11%                         ] cg_r3.nsys-rep[1/1] [=======37%                  ] cg_r3.nsys-rep[1/1] [===========52%              ] cg_r3.nsys-rep[1/1] [===========53%              ] cg_r3.nsys-rep[1/1] [=============58%            ] cg_r3.nsys-rep[1/1] [========================100%] cg_r3.nsys-rep[1/1] [========================100%] cg_r3.nsys-rep
+Generated:
+	/home/maxsun/autonomous_projects/bonsai2-rtx3080/results/exp030/raw/cg_r3.nsys-rep

@@ -1,0 +1,2 @@
+trace,launches,total_ms,average_us,median_us,min_us,max_us
+cg_r1,485,21.865915,45.08436082474227,28.896,6.944,1037.898
