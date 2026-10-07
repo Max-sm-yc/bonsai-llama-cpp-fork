@@ -49,7 +49,7 @@
 
 ## Experiment status
 
-- Exp077 is complete with no production change: `GGML_CUDA_BATCH_INVARIANT=1` made MTP match target-only IDs in all 42 sampled streams, but changed target-only IDs versus default mode in 21/42. Its within-mode pooled PQ2_0 MTP gain was +34.2%/+28.0% at ctx512/4096, though reports at ctx4096 lost 15.2%; no quality validation supports promotion. Exp076 likewise found no new prefill path. Current best remains unchanged.
+- Exp077 is complete with no production change: `GGML_CUDA_BATCH_INVARIANT=1` made MTP match target-only IDs in all 42 sampled streams, but changed target-only IDs versus default mode in 21/42. Its within-mode pooled PQ2_0 MTP gain was +34.2%/+28.0% at ctx512/4096, though reports at ctx4096 lost 15.2%; no quality validation supports promotion. Exp078 has one explicitly GPT-6 Luna experimenter in an isolated worktree, independently challenging the active PTQ1_0 GEMV dataflow. Current best remains unchanged.
 
 ## Latest research result
 
@@ -104,7 +104,7 @@
 
 ## Next candidates
 
-1. Fresh architectural challenge of the active PTQ1_0 batch-1 GEMV, grounded in the measured 74–77% steady decode share. Require a genuinely distinct dataflow/cost model, exact kernel checks, and model A/B before keeping any candidate; consult the exhausted decoder/layout/scheduling work first.
+1. **Active Exp078:** fresh architectural challenge of the active PTQ1_0 batch-1 GEMV, grounded in its measured 74–77% steady decode share. Require a genuinely distinct dataflow/cost model, exact kernel checks, and model A/B before keeping any candidate; consult the exhausted decoder/layout/scheduling work first.
 2. Build an exact production-kernel cold/warm replay harness for a representative PTQ1_0 GEMV shape and vary working sets around/beyond 5 MiB L2. Keep event timing, weight bytes, and graph replay separate; Exp075 established reuse distance only, not cache behavior.
 3. Revisit PTQ1_0 prompt-side MMQ only with a concrete exact dataflow/decoder derivation; Exp065/066 closed geometry-only and ungrounded source screens.
 4. Revisit long-context attention only with a concrete parallel reduction or synchronization design; Exp069/053 closed tile-only and barrier-only directions.
