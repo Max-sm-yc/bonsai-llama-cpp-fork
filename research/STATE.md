@@ -11,7 +11,7 @@
 1. Active PTQ1_0 batch-1 GEMV (`mul_mat_vec_ptq1_0_pt`): 9.014 ms/token at context 512 and 9.022 ms/token at 4096, about 77.1%/74.7% of the Exp062 candidate graph's summed kernel duration. Its plain, fused-gate, and fused non-gate specializations cost ~4.57, ~2.31, and ~2.14 ms/token.
 2. QKV activation preparation: 0.752 ms/token (6.2–6.3%); GDN: 0.500 ms/token (4.1–4.2%, no distinct candidate after Exp049); BF16 `mul_mat_vec_f<__nv_bfloat16,float,1,256,false,false>`: ~0.311 ms/token (~2.6%). Remaining RMSNorm: 0.364 ms/token; Exp069 reprofiled attention at 0.230 ms/token (ctx512) and 0.581 ms (ctx4096), including 0.034–0.036 ms of fixup.
 3. The earlier context-512 post-Exp036 trace's 1.166 s / 61.2% GEMV share is a mixed setup/decode denominator. Exp047 directly grouped 255 graph replays with 1,432 nodes/replay; it contains no quantized GEMM graph nodes.
-4. Nsight Compute counters fail with `ERR_NVGPUCTRPERM`; do not alter system-wide permissions. See [Exp047](../experiments/047-steady-decode-profile/REPORT.md) for filters, reproducibility, and variability.
+4. Nsight Compute counters fail with `ERR_NVGPUCTRPERM`; do not alter system-wide permissions. Exp074 found a 5.600 GB PTQ GEMV payload and ~621 GB/s payload-equivalent replay rate versus a ~725 GB/s synthetic stream ceiling. This makes traffic a live hypothesis but does not measure GEMV DRAM bandwidth. See [Exp047](../experiments/047-steady-decode-profile/REPORT.md) and [Exp074](../experiments/074-gemv-throughput-ceiling/REPORT.md).
 
 ## Successful optimizations
 
@@ -37,6 +37,7 @@
 
 - RTX 3080 batch-1 PTQ1_0 uses planar-transposed Q8_1 and dedicated `mul_mat_vec_ptq1_0_pt`; generic `mmvq.cu` tunings do not apply. It processes flattened `(row group,K block)` work items with per-thread stride 128 and 128-thread CTAs.
 - The active GEMV keeps decoded PTQ1_0 digits in registers and feeds raw 0/1/2 bytes directly to DP4A; subtracting the exact activation sum implements signed `digit-1`. An int8 Tensor Core mapping screened in Exp073 would require an expanded weight tile and, for batch 1, 8x aggregate products due to the `m16n8` output width.
+- Exp074 parsed 401 PTQ1_0 GEMV tensors totaling 5,599,641,600 bytes, excluding the 278 MB token-embedding lookup. Its payload divided by current replay GEMV time is about 621 GB/s; matching synthetic read patterns reach about 725 GB/s. These are different measurements and must not be reported as actual GEMV DRAM throughput or proof of a bandwidth bottleneck.
 - PTQ1_0 reference decode was 32–54% faster than PQ2_0 in the initial format comparison; prefill was nearly tied. Exp041 later measured current versus frozen-reference decode directly (+6.82%/+5.76% at contexts 512/4096) and prefill within 0.09%. Do not use the original matrix as a speedup denominator.
 - CUDA Graphs are active; the old context-512 trace had 127 graph launches but mixed setup/decode. Exp047 groups 255 direct `-p 0` token replays at 1,432 nodes each, with no prompt-side quantized GEMM nodes. Q/K/V share memoized activation transforms; keep Exp036 guards.
 - Exp052 compared the formats under the same runtime: each replay has 361 GEMV nodes in both formats, but PQ2_0 uses `mul_mat_vec_q<type 142>` and averages 10.71 ms versus PTQ1_0's dedicated planar `mul_mat_vec_ptq1_0_pt` at 9.02 ms. PQ2_0 also has 441 extra nodes/replay and ~0.59 ms more activation-prep plus standalone RMSNorm time. The PTQ1_0 model payload is 17.5% smaller. Systems timing cannot distinguish weight traffic from decoder/instruction/occupancy effects; Nsight Compute counters remain unavailable. See [Exp052](../experiments/052-pq2-steady-profile/REPORT.md).
@@ -44,10 +45,11 @@
 
 ## Active experiment
 
-- Exp074 is assigned to one explicitly GPT-6 Luna experimenter: quantify the PTQ1_0 GEMV payload and RTX 3080 read-throughput ceiling without Nsight Compute counters. Isolated worktree; no production-kernel changes. Exp073 found no candidate and current production remains the verified PTQ1_0 build. Exp072 resolved the focused ctx512 Qwen verifier boundary but found batch-shape-sensitive target logits; MTP remains unpromoted.
+- None. Exp074 completed a traffic/streaming-ceiling measurement without production changes. Exp073 found no GEMV candidate and the current production remains the verified PTQ1_0 build. Exp072 resolved the focused ctx512 Qwen verifier boundary but found batch-shape-sensitive target logits; MTP remains unpromoted.
 
 ## Latest research result
 
+- Exp074 parsed 401 active PTQ1_0 GEMV weight tensors (5,599,641,600 bytes) and measured a 724.6–724.9 GB/s synthetic read ceiling using a larger-than-L2 working set; manager rerun matched within 0.03%. Dividing payload by Nsight Systems GEMV replay time gives ~621 GB/s, not a hardware counter. Traffic reduction remains plausible, but the study does not establish a bandwidth-bound kernel. The Exp052 size value was tensor payload; total verified PTQ1_0 GGUF size is 5,946,648,928 bytes. See `experiments/074-gemv-throughput-ceiling/REPORT.md` and `results/exp074/raw/`.
 - Exp073 confirmed the active PTQ1_0 GEMV already feeds packed ternary digits directly to DP4A. A signed-int8 `m16n8k16` alternative would expand/stage a 16x128 weight tile and perform 8x the useful batch-1 products; bit slicing does not remove arbitrary signed-byte activation multiplies. No candidate was implemented, so there is no correctness or performance result and the current best is unchanged. See `experiments/073-sm86-gemv-alternative/REPORT.md` and `results/exp073/design_audit.txt`.
 - Exp072 aligned target-only and MTP traces at the first differing token in the ctx512 Qwen case. Both samplers' 128 selected tokens match their server emissions; MTP rejects draft 18912 and emits target token 6195, while target-only emits 1167. The target score ordering reverses across one-token versus three-position decode at the same prefix (relative 6195–1167 gap shifts by ~0.294). Batch-shape sensitivity is established at this boundary; its layer/kernel cause and other divergent cells remain unlocalized. MTP remains rejected; no production change. See `experiments/072-mtp-token-correctness/REPORT.md` and `results/exp072/raw/`.
 
@@ -95,6 +97,6 @@
 
 ## Next candidates
 
-1. Establish an empirical PTQ1_0 GEMV bandwidth/throughput ceiling without Nsight Compute counters: compare actual model payload and access pattern against RTX 3080 sustained device-read bandwidth, while separating launch and activation/fold costs. Use the remaining headroom to select a memory-traffic or instruction-throughput hypothesis.
+1. Isolate one representative active PTQ1_0 GEMV shape and compare cold versus warm replay across working sets around and beyond the 5 MiB L2; keep event timing, weight bytes, and graph replay separate. This may identify cache residency effects that explain part of Exp074's gap without claiming hardware memory counters.
 2. Revisit PTQ1_0 prompt-side MMQ only with a concrete exact dataflow/decoder derivation; Exp065/066 closed geometry-only and ungrounded source screens.
 3. Revisit long-context attention only with a concrete parallel reduction or synchronization design; Exp069/053 closed tile-only and barrier-only directions.

@@ -4,7 +4,7 @@
 
 Compare the current PTQ1_0 and PQ2_0 model formats using the same production runtime and RTX 3080, then separate steady-state graph replay time into active quantized GEMV, activation preparation, RMSNorm, and other families. No source, build configuration, or production binary was changed.
 
-PTQ1_0 leads in both the matched decode benchmark and the graph profile. The active GEMV family explains most of the traced difference: the PTQ1_0 dedicated planar kernel takes about 9.02 ms per token, while PQ2_0's generic type-142 matvec takes about 10.71 ms, with the same 361 GEMV graph nodes per replay. PTQ1_0 also has 441 fewer graph nodes per token and saves about 0.60 ms in activation preparation plus standalone RMSNorm, consistent with its fused planar Q8 preparation path. Its GGUF weight file is 17.5% smaller. Nsight Systems does not establish whether the GEMV advantage comes from lower memory traffic, different integer work, occupancy, or their combination.
+PTQ1_0 leads in both the matched decode benchmark and the graph profile. The active GEMV family explains most of the traced difference: the PTQ1_0 dedicated planar kernel takes about 9.02 ms per token, while PQ2_0's generic type-142 matvec takes about 10.71 ms, with the same 361 GEMV graph nodes per replay. PTQ1_0 also has 441 fewer graph nodes per token and saves about 0.60 ms in activation preparation plus standalone RMSNorm, consistent with its fused planar Q8 preparation path. Its tensor payload is 17.5% smaller relative to PQ2_0 (equivalently, PQ2_0's payload is 21.2% larger relative to PTQ1_0). Nsight Systems does not establish whether the GEMV advantage comes from lower memory traffic, different integer work, occupancy, or their combination.
 
 ## Setup and artifacts
 
@@ -13,8 +13,8 @@ PTQ1_0 leads in both the matched decode benchmark and the graph profile. The act
 - `build/bin/llama-bench` SHA-256: `81187ab3fc4aeda74f92b08ca21ad774d74d1418fb2467d278b41dfe8dcdab13`.
 - `build/bin/libggml-cuda.so.0` SHA-256: `bad70d76b19fdd1b21f61e5c9eb4900b5334c638ff75cdec11f3a4d3b2b28642` (matches the expected library).
 - `ldd build/bin/llama-bench` resolves `libggml-cuda.so.0` to the current build directory and CUDA libraries from `/usr/local/cuda/lib64`.
-- PTQ1_0 GGUF: `models/Ternary-Bonsai-2-27B-PTQ1_0.gguf`, SHA-256 `53107f530aa52eb00912263ab1ee29bd199261c87cd7b4ad4ca1318c1fe33ee3`, 5,935,527,936 bytes.
-- PQ2_0 GGUF: `models/Ternary-Bonsai-2-27B-PQ2_0.gguf`, SHA-256 `3907dc1658db1f78a9826bf8d5bcb8dc65db0d466388937af57f2294fae62ec1`, 7,195,047,936 bytes. The model has the same 26,895,998,464 parameters; its payload file is 17.5% larger than PTQ1_0.
+- PTQ1_0 GGUF: `models/Ternary-Bonsai-2-27B-PTQ1_0.gguf`, SHA-256 `53107f530aa52eb00912263ab1ee29bd199261c87cd7b4ad4ca1318c1fe33ee3`, 5,935,527,936 tensor-payload bytes and 5,946,648,928 total file bytes. Exp074 verified that the prior byte count was payload size, not total file size.
+- PQ2_0 GGUF: `models/Ternary-Bonsai-2-27B-PQ2_0.gguf`, SHA-256 `3907dc1658db1f78a9826bf8d5bcb8dc65db0d466388937af57f2294fae62ec1`, 7,195,047,936 tensor-payload bytes and 7,206,168,928 total file bytes. The model has the same 26,895,998,464 parameters; PTQ1_0's tensor payload is 17.5% smaller relative to PQ2_0.
 - Both benchmark arms loaded and decoded successfully. Peak whole-GPU memory was 6,803 MiB for PTQ1_0 and 7,949 MiB for PQ2_0. No new independent token-equivalence test was run; existing project correctness records are unchanged.
 
 ## Matched decode benchmark

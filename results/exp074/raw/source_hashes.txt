@@ -1,0 +1,4 @@
+f398417accddf1948fbf12155b4180fd362a3dfea88366ef3980161700d56496  ggml/src/ggml-cuda/mmvq-ptq1_0.cuh
+e889b1543656cd2e5c0c6151f11bfdd7f641e88af441449d92064ac902b9483d  ggml/src/ggml-cuda/mmvq.cu
+d455ed3c679f115514ff7c138178e38456438cca7a9ba94b53836dc75ab7aea8  experiments/074-gemv-throughput-ceiling/bw_ceiling.cu
+fec72ad79b7af63b881d16e298f8cd81c82aeb3b21e33c03f1232c1751c253b3  experiments/074-gemv-throughput-ceiling/summarize_gguf.py

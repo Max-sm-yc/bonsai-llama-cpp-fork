@@ -1,0 +1,4 @@
+device=NVIDIA GeForce RTX 3080 sm=86 working_set_bytes=5599641600 records28=199987200 l2_bytes=5242880
+mode=contiguous_uint4 median_ms=7.7244 mean_ms=7.7244 sd_ms=0.0009 min_ms=7.7230 max_ms=7.7257 GBps=724.93 samples_ms=7.7249,7.7251,7.7257,7.7244,7.7230,7.7240,7.7230,7.7240,7.7251,
+mode=ptq1_28B_records median_ms=7.7257 mean_ms=7.7260 sd_ms=0.0009 min_ms=7.7250 max_ms=7.7280 GBps=724.81 samples_ms=7.7261,7.7250,7.7257,7.7271,7.7280,7.7256,7.7261,7.7251,7.7251,
+mode=ptq1_28B_plus_planar9x16B_k136 median_ms=7.7279 mean_ms=7.7278 sd_ms=0.0010 min_ms=7.7261 max_ms=7.7301 GBps=724.60 samples_ms=7.7261,7.7281,7.7281,7.7277,7.7271,7.7301,7.7281,7.7279,7.7271,

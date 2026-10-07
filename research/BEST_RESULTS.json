@@ -316,25 +316,72 @@
     ]
   },
   "latest_experiment": {
-    "id": "073",
-    "hypothesis": "Challenge the active sm_86 PTQ1_0 batch-1 GEMV with signed-int8 Tensor Core or bit-sliced alternatives.",
-    "decision": "NO CANDIDATE; current-best implementation and measurements unchanged.",
-    "hardware": "NVIDIA GeForce RTX 3080, sm_86",
-    "evaluation": "Source and cost feasibility audit only; no implementation, build, correctness test, microbenchmark, or E2E result.",
-    "findings": {
-      "active_kernel": "Packed PTQ1_0 digits are decoded in registers and fed directly to DP4A; isum implements signed digit-1.",
-      "int8_mma": "m16n8k16 requires expanded/staged signed-byte weights and computes 8 output columns for batch-1 GEMV, yielding 8x aggregate products versus useful products.",
-      "bit_sliced": "Arbitrary signed-int8 activations do not permit replacing the weighted sum with simple popcount; mask extraction still needs base-3 decode."
+    "id": "074",
+    "hypothesis": "Determine whether the active PTQ1_0 batch-1 GEMV is near the RTX 3080 read ceiling without Nsight Compute counters.",
+    "decision": "Measurement only. Traffic reduction remains a hypothesis; no production candidate or current-best change.",
+    "hardware": "NVIDIA GeForce RTX 3080, sm_86, 10,240 MiB",
+    "model": {
+      "path": "models/Ternary-Bonsai-2-27B-PTQ1_0.gguf",
+      "sha256": "53107f530aa52eb00912263ab1ee29bd199261c87cd7b4ad4ca1318c1fe33ee3",
+      "file_bytes": 5946648928,
+      "tensor_payload_bytes": 5935527936,
+      "ptq1_gemv_tensor_count": 401,
+      "ptq1_gemv_tensor_payload_bytes": 5599641600
+    },
+    "gemv_replay": {
+      "source": "Exp062 current-candidate Nsight Systems graph-replay profiles; source hashes match active PTQ1_0 kernel.",
+      "context_512": {
+        "replays": 62,
+        "mean_ms_per_token": 9.006462,
+        "payload_equivalent_GB_per_s": 621.74
+      },
+      "context_4096": {
+        "replays": 31,
+        "mean_ms_per_token": 9.021207,
+        "payload_equivalent_GB_per_s": 620.72
+      }
+    },
+    "synthetic_read_microbenchmark": {
+      "working_set_bytes": 5599641600,
+      "l2_bytes": 5242880,
+      "warmup_samples": 2,
+      "recorded_samples_per_mode": 9,
+      "modes": {
+        "contiguous_uint4": {
+          "median_ms": 7.7244,
+          "throughput_GB_per_s": 724.93,
+          "population_stddev_ms": 0.0009
+        },
+        "ptq1_28B_records": {
+          "median_ms": 7.7257,
+          "throughput_GB_per_s": 724.81,
+          "population_stddev_ms": 0.0009
+        },
+        "ptq1_28B_plus_planar_context": {
+          "median_ms": 7.7279,
+          "throughput_GB_per_s": 724.6,
+          "population_stddev_ms": 0.001
+        }
+      },
+      "manager_recheck_GB_per_s": {
+        "contiguous_uint4": 724.8,
+        "ptq1_28B_records": 724.69,
+        "ptq1_28B_plus_planar_context": 724.42
+      },
+      "interpretation": "Synthetic CUDA-event read ceiling only; neither Nsight Systems timing nor GGUF tensor payload measures actual GEMV DRAM bytes."
     },
     "production_code_changed": false,
     "current_best_unchanged": true,
     "artifacts": [
-      "experiments/073-sm86-gemv-alternative/REPORT.md",
-      "results/exp073/design_audit.txt"
+      "experiments/074-gemv-throughput-ceiling/REPORT.md",
+      "experiments/074-gemv-throughput-ceiling/bw_ceiling.cu",
+      "results/exp074/raw/ptq1_tensor_manifest.json",
+      "results/exp074/raw/bw_ceiling.stdout.txt",
+      "results/exp074/raw/manager_recheck.txt"
     ],
-    "timestamp_utc": "2026-10-07T19:28:49Z"
+    "timestamp_utc": "2026-10-07T19:47:51Z"
   },
-  "updated_timestamp_utc": "2026-10-07T19:28:49Z",
+  "updated_timestamp_utc": "2026-10-07T19:47:51Z",
   "project_commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
   "current_best": {
     "commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
@@ -1306,6 +1353,25 @@
         "results/exp072/raw/natural_r5_pq2_0_mtp_ctx512_trace.server.log"
       ],
       "timestamp_utc": "2026-10-07T18:37:10Z"
+    },
+    {
+      "id": "073",
+      "hypothesis": "Challenge the active sm_86 PTQ1_0 batch-1 GEMV with signed-int8 Tensor Core or bit-sliced alternatives.",
+      "decision": "NO CANDIDATE; current-best implementation and measurements unchanged.",
+      "hardware": "NVIDIA GeForce RTX 3080, sm_86",
+      "evaluation": "Source and cost feasibility audit only; no implementation, build, correctness test, microbenchmark, or E2E result.",
+      "findings": {
+        "active_kernel": "Packed PTQ1_0 digits are decoded in registers and fed directly to DP4A; isum implements signed digit-1.",
+        "int8_mma": "m16n8k16 requires expanded/staged signed-byte weights and computes 8 output columns for batch-1 GEMV, yielding 8x aggregate products versus useful products.",
+        "bit_sliced": "Arbitrary signed-int8 activations do not permit replacing the weighted sum with simple popcount; mask extraction still needs base-3 decode."
+      },
+      "production_code_changed": false,
+      "current_best_unchanged": true,
+      "artifacts": [
+        "experiments/073-sm86-gemv-alternative/REPORT.md",
+        "results/exp073/design_audit.txt"
+      ],
+      "timestamp_utc": "2026-10-07T19:28:49Z"
     }
   ]
 }

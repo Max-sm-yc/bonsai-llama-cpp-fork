@@ -377,3 +377,9 @@
 - A source and cost audit screened a signed-int8 `m16n8k16` Tensor Core mapping and positive/negative bit-sliced masks. The current active kernel already decodes packed PTQ1_0 digits in registers and feeds raw digits to DP4A, with `isum` implementing the signed `digit-1` correction.
 - The batch-1 MMA candidate would expand and stage a 16x128 signed-byte weight tile and compute eight output columns for one useful column. Arbitrary signed-int8 activations also prevent replacing the dot with a simple popcount. No candidate survived feasibility; there was no build, correctness claim, microbenchmark, or E2E measurement.
 - **NO CANDIDATE; current best unchanged.** Future GEMV work should first quantify the memory/throughput ceiling empirically because Nsight Compute counters remain unavailable. See `experiments/073-sm86-gemv-alternative/REPORT.md` and `results/exp073/design_audit.txt`.
+
+## Experiment 074: PTQ1_0 GEMV traffic and read ceiling
+
+- GGUF metadata identified 401 PTQ1_0 GEMV tensors totaling 5,599,641,600 bytes. Exp062 graph profiles measure the active GEMV family at 9.0065 ms/token for context 512 and 9.0212 ms for context 4096, giving about 621 GB/s payload-equivalent rates.
+- A 5.6 GB, sm_86 CUDA-event streaming harness measured 724.6–724.9 GB/s across contiguous, 28-byte record, and reused planar-context access patterns. A manager rerun agreed within 0.03%. These are synthetic read results; Nsight Compute is still unavailable, so no actual GEMV DRAM rate or bandwidth-limited conclusion is claimed.
+- **MEASUREMENT ONLY; current best unchanged.** Next isolate one active GEMV shape and compare cold/warm replay across working sets around and beyond L2. See `experiments/074-gemv-throughput-ceiling/REPORT.md` and `results/exp074/raw/`.
