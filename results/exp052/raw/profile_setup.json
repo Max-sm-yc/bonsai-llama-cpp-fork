@@ -1,0 +1,46 @@
+[
+  {
+    "format": "ptq1",
+    "context": 512,
+    "start_gate": {
+      "temperature_c": 57.0,
+      "utilization_pct": 0.0,
+      "memory_used_mib": 173.0
+    },
+    "command": "nsys profile --trace=cuda,nvtx,osrt --sample=none --cuda-graph-trace=node --cuda-memory-usage=true --force-overwrite=true --output /home/maxsun/autonomous_projects/bonsai2-rtx3080/results/exp052/raw/ptq1_ctx512_short build/bin/llama-bench -m models/Ternary-Bonsai-2-27B-PTQ1_0.gguf -ngl 99 -fa on -b 2048 -ub 512 -ctk f16 -ctv f16 -t 8 -r 2 -o json -p 0 -n 16 -d 512",
+    "return_code": 0
+  },
+  {
+    "format": "pq2",
+    "context": 512,
+    "start_gate": {
+      "temperature_c": 59.0,
+      "utilization_pct": 0.0,
+      "memory_used_mib": 173.0
+    },
+    "command": "nsys profile --trace=cuda,nvtx,osrt --sample=none --cuda-graph-trace=node --cuda-memory-usage=true --force-overwrite=true --output /home/maxsun/autonomous_projects/bonsai2-rtx3080/results/exp052/raw/pq2_ctx512_short build/bin/llama-bench -m models/Ternary-Bonsai-2-27B-PQ2_0.gguf -ngl 99 -fa on -b 2048 -ub 512 -ctk f16 -ctv f16 -t 8 -r 2 -o json -p 0 -n 16 -d 512",
+    "return_code": 0
+  },
+  {
+    "format": "ptq1",
+    "context": 4096,
+    "start_gate": {
+      "temperature_c": 59.0,
+      "utilization_pct": 0.0,
+      "memory_used_mib": 173.0
+    },
+    "command": "nsys profile --trace=cuda,nvtx,osrt --sample=none --cuda-graph-trace=node --cuda-memory-usage=true --force-overwrite=true --output /home/maxsun/autonomous_projects/bonsai2-rtx3080/results/exp052/raw/ptq1_ctx4096_short build/bin/llama-bench -m models/Ternary-Bonsai-2-27B-PTQ1_0.gguf -ngl 99 -fa on -b 2048 -ub 512 -ctk f16 -ctv f16 -t 8 -r 2 -o json -p 0 -n 16 -d 4096",
+    "return_code": 0
+  },
+  {
+    "format": "pq2",
+    "context": 4096,
+    "start_gate": {
+      "temperature_c": 59.0,
+      "utilization_pct": 0.0,
+      "memory_used_mib": 173.0
+    },
+    "command": "nsys profile --trace=cuda,nvtx,osrt --sample=none --cuda-graph-trace=node --cuda-memory-usage=true --force-overwrite=true --output /home/maxsun/autonomous_projects/bonsai2-rtx3080/results/exp052/raw/pq2_ctx4096_short build/bin/llama-bench -m models/Ternary-Bonsai-2-27B-PQ2_0.gguf -ngl 99 -fa on -b 2048 -ub 512 -ctk f16 -ctv f16 -t 8 -r 2 -o json -p 0 -n 16 -d 4096",
+    "return_code": 0
+  }
+]

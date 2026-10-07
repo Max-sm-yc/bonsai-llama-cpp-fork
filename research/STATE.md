@@ -30,9 +30,12 @@
 - RTX 3080 batch-1 PTQ1_0 uses planar-transposed Q8_1 and dedicated `mul_mat_vec_ptq1_0_pt`; generic `mmvq.cu` tunings do not apply. It processes flattened `(row group,K block)` work items with per-thread stride 128 and 128-thread CTAs.
 - PTQ1_0 reference decode was 32–54% faster than PQ2_0 in the initial format comparison; prefill was nearly tied. Exp041 later measured current versus frozen-reference decode directly (+6.82%/+5.76% at contexts 512/4096) and prefill within 0.09%. Do not use the original matrix as a speedup denominator.
 - CUDA Graphs are active; the old context-512 trace had 127 graph launches but mixed setup/decode. Exp047 groups 255 direct `-p 0` token replays at 1,432 nodes each, with no prompt-side quantized GEMM nodes. Q/K/V share memoized activation transforms; keep Exp036 guards.
+- Exp052 compared the formats under the same runtime: each replay has 361 GEMV nodes in both formats, but PQ2_0 uses `mul_mat_vec_q<type 142>` and averages 10.71 ms versus PTQ1_0's dedicated planar `mul_mat_vec_ptq1_0_pt` at 9.02 ms. PQ2_0 also has 441 extra nodes/replay and ~0.59 ms more activation-prep plus standalone RMSNorm time. The PTQ1_0 model payload is 17.5% smaller. Systems timing cannot distinguish weight traffic from decoder/instruction/occupancy effects; Nsight Compute counters remain unavailable. See [Exp052](../experiments/052-pq2-steady-profile/REPORT.md).
 - Repeated context-4096 decode samples have slow tails in both arms. Preserve all repetitions/ranges and use medians. Verify candidate library paths with `ldd`/`LD_DEBUG`; earlier absolute RUNPATHs caused false A/Bs.
 
 ## Latest research result
+
+- Exp052 measured matched PTQ1_0/PQ2_0 decode in two reversed-order pairs: +19.0% at context 512 and +34.7% at 4096 by median of run medians; long-context samples have slow tails. Node-level captures had 31 full replays per format/context. PTQ1_0's GEMV family costs 9.02–9.03 ms/token versus PQ2_0 at 10.71 ms with identical per-signature launch counts; PTQ1_0 also avoids 441 graph nodes and ~0.59 ms/token of separate Q8/RMS work. No production source changed. Nsight Compute did not provide counters; no bandwidth or integer-pipe conclusion is claimed. See `experiments/052-pq2-steady-profile/REPORT.md` and `results/exp052/`.
 
 - Exp050 audited the active BF16 matvec family: Exp047 reports 24,672 kernel instances over the capture (not CTAs), with 255 graph launches. Model-specific `ssm_alpha`/`ssm_beta` projections are 48x5120, giving 48 CTAs per applicable batch-1 kernel launch; compact replay artifacts do not resolve per-replay signature counts. Existing paired loads, FP32 accumulation, warp reduction and shared inter-warp fold leave no distinct low-cost sm_86 candidate; no implementation/build or E2E run. See [Exp050](../experiments/050-bf16-matvec/REPORT.md).
 
@@ -42,6 +45,8 @@
 - Exp047 directly measured one-token graph replay: PTQ1_0 GEMV is 9.01/9.02 ms/token (74–76%); QKV prep is 0.752 ms, GDN 0.500 ms, and the BF16 matvec specialization is ~0.311 ms/token at context 512. See `experiments/047-steady-decode-profile/REPORT.md`.
 
 ## Next candidates
+
+**Format profile:** Use Exp052's paired graph signatures as the baseline for any format-specific decoder work. The measurements show both a per-call GEMV difference and fewer PTQ1_0 activation-prep nodes, but do not identify the GEMV hardware bottleneck; collect permitted hardware counters before making a traffic-versus-integer-throughput claim.
 
 1. Revisit PTQ1_0 GEMV only when a genuinely new dataflow or codegen premise appears; Exp046 and prior screens close the obvious decoder, staging, geometry, and scheduling families.
 2. Revisit GDN only if profiling/codegen exposes redundant state traffic, a removable launch, or synchronization-free gate sharing; Exp049 found none in the current kernel.

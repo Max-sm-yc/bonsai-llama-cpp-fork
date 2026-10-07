@@ -1,5 +1,7 @@
 # Candidate hypotheses
 
+Exp052 now supplies a matched format-level decode profile: PTQ1_0's dedicated planar GEMV is faster per launch than PQ2_0's generic type-142 GEMV, and PTQ1_0 has fewer activation-preparation/RMS graph nodes. The weight-size difference is consistent with lower traffic but not isolated by Nsight Systems. Do not infer a memory-versus-integer bottleneck without counters; use `experiments/052-pq2-steady-profile/REPORT.md` as the paired-format baseline.
+
 Ranked against the current ROWS=1 implementation. Controlled batch-1 model decode is the decision metric; isolated kernel gains are screening evidence only.
 
 1. **Closed by Exp050:** the active `mul_mat_vec_f<__nv_bfloat16,float,1,256,false,false>` family totals 24,672 kernel instances in Exp047's capture (~0.311 ms/token at context 512). The model-specific `ssm_alpha`/`ssm_beta` projections are 48x5120, giving 48 CTAs per applicable batch-1 kernel launch; compact artifacts do not give the exact per-replay count for this signature. One CTA owns each row; narrower CTAs add loop work and K splitting needs cross-CTA reduction. No distinct low-cost candidate survived the source/codegen audit; reopen only with a way to raise row-level parallelism without that reduction cost. See `experiments/050-bf16-matvec/REPORT.md`.
