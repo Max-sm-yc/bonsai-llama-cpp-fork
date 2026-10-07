@@ -4455,6 +4455,74 @@ static int ggml_cuda_try_fuse(ggml_backend_cuda_context * cuda_ctx, ggml_cgraph 
         return 1;
     }
 
+    // Qwen3.5 one-token recurrent chain: SSM_CONV+SiLU writes the complete
+    // Q/K/V vector, then L2_NORM reads its first 32 contiguous 128-wide rows.
+    // Each SSM CTA already owns exactly one such 128-channel group.
+    static const bool ssm_l2_fusion_enabled = [] {
+        const char * value = getenv("GGML_CUDA_DISABLE_SSM_L2_FUSION");
+        return !value || std::atoi(value) == 0;
+    }();
+    if (ssm_l2_fusion_enabled && ggml_cuda_can_fuse(cgraph, i, { GGML_OP_SSM_CONV, GGML_OP_UNARY }, { GGML_UNARY_OP_SILU })) {
+        ggml_tensor * ssm  = node;
+        ggml_tensor * silu = cgraph->nodes[i + 1];
+        int l2_index = -1;
+        bool views_safe = true;
+        for (int j = i + 2; j < std::min(i + 10, cgraph->n_nodes); ++j) {
+            ggml_tensor * candidate = cgraph->nodes[j];
+            if (candidate->op == GGML_OP_VIEW && candidate->view_src == silu &&
+                    !(candidate->flags & GGML_TENSOR_FLAG_OUTPUT)) {
+                continue;
+            }
+            if (candidate->op == GGML_OP_L2_NORM) {
+                l2_index = j;
+            } else {
+                views_safe = false;
+            }
+            break;
+        }
+        if (l2_index > i + 1) {
+            ggml_tensor * l2 = cgraph->nodes[l2_index];
+            ggml_tensor * qk_view = l2->src[0];
+            const size_t conv_bytes = 10240 * sizeof(float);
+            const size_t norm_bytes = 128 * 32 * sizeof(float);
+            auto disjoint = [](const void * a, size_t as, const void * b, size_t bs) {
+                const uintptr_t ab = (uintptr_t)a, ae = ab + as;
+                const uintptr_t bb = (uintptr_t)b, be = bb + bs;
+                return ae <= bb || be <= ab;
+            };
+            float eps = 0.0f;
+            memcpy(&eps, l2->op_params, sizeof(eps));
+            const bool exact_qwen_shape = views_safe &&
+                silu->src[0] == ssm &&
+                ssm->type == GGML_TYPE_F32 && silu->type == GGML_TYPE_F32 && l2->type == GGML_TYPE_F32 &&
+                ggml_get_unary_op(silu) == GGML_UNARY_OP_SILU &&
+                ssm->ne[0] == 10240 && ssm->ne[1] == 1 && ssm->ne[2] == 1 && ssm->ne[3] == 1 &&
+                ssm->src[0] && ssm->src[1] && ssm->src[0]->type == GGML_TYPE_F32 && ssm->src[1]->type == GGML_TYPE_F32 &&
+                ssm->src[0]->ne[0] == 4 && ssm->src[0]->ne[1] == 10240 && ssm->src[0]->ne[2] == 1 && ssm->src[0]->ne[3] == 1 &&
+                ssm->src[1]->ne[0] == 4 && ssm->src[1]->ne[1] == 10240 &&
+                silu->ne[0] == 10240 && silu->ne[1] == 1 && silu->ne[2] == 1 && silu->ne[3] == 1 &&
+                qk_view && qk_view->op == GGML_OP_VIEW && qk_view->view_src == silu && qk_view->view_offs == 0 &&
+                qk_view->type == GGML_TYPE_F32 && qk_view->ne[0] == 128 && qk_view->ne[1] == 32 &&
+                qk_view->ne[2] == 1 && qk_view->ne[3] == 1 && qk_view->nb[0] == sizeof(float) && qk_view->nb[1] == 128 * sizeof(float) &&
+                qk_view->nb[2] == 10240 * sizeof(float) && qk_view->nb[3] == 10240 * sizeof(float) &&
+                l2->ne[0] == 128 && l2->ne[1] == 32 && l2->ne[2] == 1 && l2->ne[3] == 1 &&
+                ggml_is_contiguous(l2) && eps >= 0.0f;
+            const bool graph_safe = exact_qwen_shape &&
+                ggml_node_get_use_count(cgraph, i) == 1 && ggml_node_get_use_count(cgraph, i + 1) == 2 &&
+                ggml_node_get_use_count(cgraph, l2_index) == 2 &&
+                !(ssm->flags & GGML_TENSOR_FLAG_OUTPUT) && !(silu->flags & GGML_TENSOR_FLAG_OUTPUT) &&
+                !(l2->flags & GGML_TENSOR_FLAG_OUTPUT) && !(qk_view->flags & GGML_TENSOR_FLAG_OUTPUT) &&
+                ssm->data && silu->data && qk_view->data == silu->data && l2->data &&
+                disjoint(l2->data, norm_bytes, silu->data, conv_bytes) &&
+                disjoint(l2->data, norm_bytes, ssm->src[0]->data, ggml_nbytes(ssm->src[0])) &&
+                disjoint(l2->data, norm_bytes, ssm->src[1]->data, ggml_nbytes(ssm->src[1]));
+            if (graph_safe) {
+                ggml_cuda_op_ssm_conv(*cuda_ctx, ssm, nullptr, silu, l2);
+                return l2_index - i;
+            }
+        }
+    }
+
     if (ggml_cuda_can_fuse(cgraph, i, { GGML_OP_SSM_CONV, GGML_OP_ADD, GGML_OP_UNARY }, { GGML_UNARY_OP_SILU })) {
         ggml_cuda_op_ssm_conv(*cuda_ctx, node, cgraph->nodes[i + 1], cgraph->nodes[i + 2]);
         return 2;

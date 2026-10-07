@@ -57,6 +57,46 @@ static __global__ void ssm_conv_f32(const float * src0_ptr, const float * src1_p
     }
 }
 
+// Qwen3.5 one-token recurrent path: each 128-channel CTA computes one head's
+// convolution and SiLU values. For the first 32 groups, those same values are
+// the Q/K rows consumed by L2_NORM, so reduce and emit the normalized view.
+static __global__ void ssm_conv_silu_l2_norm_f32(
+        const float * src0, const float * src1, float * dst, float * norm_dst,
+        const int src0_nb1, const int src1_nb1, const float eps) {
+    constexpr int THREADS = 128;
+    constexpr int D_CONV = 4;
+    const int group = blockIdx.y;
+    const int tid = threadIdx.x;
+    const float * x = src0 + group * THREADS * (src0_nb1 / sizeof(float));
+    const float * w = src1 + group * THREADS * (src1_nb1 / sizeof(float));
+    float value = 0.0f;
+#pragma unroll
+    for (int j = 0; j < D_CONV; ++j) {
+        value += x[tid * (src0_nb1 / sizeof(float)) + j] * w[tid * (src1_nb1 / sizeof(float)) + j];
+    }
+    value = ggml_cuda_op_silu_single(value);
+    dst[group * THREADS + tid] = value;
+
+    if (group < 32) {
+        __syncthreads();
+        extern __shared__ float shared[];
+        if (tid < 32) {
+            float sum = 0.0f;
+            for (int col = tid; col < THREADS; col += 32) {
+                const float xi = dst[group * THREADS + col];
+                sum += xi * xi;
+            }
+            sum = block_reduce<block_reduce_method::SUM, 32>(sum, shared);
+            if (tid == 0) {
+                shared[0] = rsqrtf(fmaxf(sum, eps * eps));
+            }
+        }
+        __syncthreads();
+        const float scale = shared[0];
+        norm_dst[group * THREADS + tid] = scale * value;
+    }
+}
+
 template <bool apply_silu, size_t split_d_inner, size_t d_conv, int64_t split_n_t>
 static __global__ void ssm_conv_long_token_f32(const float * __restrict__ src0, const float * __restrict__ src1,
                                                const float * __restrict__ bias,
@@ -127,9 +167,17 @@ template <bool apply_silu>
 static void ssm_conv_f32_cuda(const float * src0, const float * src1, const float * bias, const int src0_nb0, const int src0_nb1,
                               const int src0_nb2, const int src1_nb1, float * dst, const int dst_nb0, const int dst_nb1,
                               const int dst_nb2, const int64_t nc, const int64_t nr, const int64_t n_t,
-                              const int64_t n_s, cudaStream_t stream) {
+                              const int64_t n_s, cudaStream_t stream, float * norm_dst = nullptr, float norm_eps = 0.0f) {
     const int threads = 128;
     GGML_ASSERT(nr % threads == 0);
+
+    if (norm_dst != nullptr) {
+        GGML_ASSERT(n_t == 1 && n_s == 1 && nr == 10240 && nc == 4);
+        const dim3 blocks(1, nr / threads, 1);
+        const ggml_cuda_kernel_launch_params launch_params(blocks, threads, 4 * sizeof(float), stream);
+        ggml_cuda_kernel_launch(ssm_conv_silu_l2_norm_f32, launch_params, src0, src1, dst, norm_dst, src0_nb1, src1_nb1, norm_eps);
+        return;
+    }
 
     auto launch_kernel = [&](auto NC) {
         constexpr int kNC = decltype(NC)::value;
@@ -157,11 +205,12 @@ static void ssm_conv_f32_cuda(const float * src0, const float * src1, const floa
     }
 }
 
-void ggml_cuda_op_ssm_conv(ggml_backend_cuda_context & ctx, ggml_tensor * dst, ggml_tensor * bias_add_node, ggml_tensor * silu_dst) {
+void ggml_cuda_op_ssm_conv(ggml_backend_cuda_context & ctx, ggml_tensor * dst, ggml_tensor * bias_add_node, ggml_tensor * silu_dst, ggml_tensor * l2_norm_dst) {
     const struct ggml_tensor * src0 = dst->src[0];  // conv_x
     const struct ggml_tensor * src1 = dst->src[1];  // conv1d.weight
     const bool fuse_bias = bias_add_node != nullptr;
     const bool fuse_silu = silu_dst != nullptr;
+
 
     // bias always comes with silu.
     GGML_ASSERT(!fuse_bias || fuse_silu);
@@ -187,6 +236,10 @@ void ggml_cuda_op_ssm_conv(ggml_backend_cuda_context & ctx, ggml_tensor * dst, g
     const float * bias_d = fuse_bias ? (const float *) bias->data : nullptr;
     float *       dst_d  = (float *) out->data;
     cudaStream_t  stream = ctx.stream();
+    float norm_eps = 0.0f;
+    if (l2_norm_dst) {
+        memcpy(&norm_eps, l2_norm_dst->op_params, sizeof(norm_eps));
+    }
 
     GGML_ASSERT(src0->type == GGML_TYPE_F32);
     GGML_ASSERT(out->type == GGML_TYPE_F32);
@@ -198,7 +251,9 @@ void ggml_cuda_op_ssm_conv(ggml_backend_cuda_context & ctx, ggml_tensor * dst, g
 
     if (fuse_silu) {
         ssm_conv_f32_cuda<true>(src0_d, src1_d, bias_d, src0->nb[0], src0->nb[1], src0->nb[2], src1->nb[1], dst_d, out->nb[0], out->nb[1],
-                          out->nb[2], nc, nr, n_t, n_s, stream);
+                          out->nb[2], nc, nr, n_t, n_s, stream,
+                          l2_norm_dst ? (float *)l2_norm_dst->data : nullptr,
+                          norm_eps);
     } else {
         ssm_conv_f32_cuda<false>(src0_d, src1_d, bias_d, src0->nb[0], src0->nb[1], src0->nb[2], src1->nb[1], dst_d, out->nb[0], out->nb[1],
                           out->nb[2], nc, nr, n_t, n_s, stream);
