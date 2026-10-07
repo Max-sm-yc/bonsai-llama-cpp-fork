@@ -1,0 +1,182 @@
+   1247255:	find library=libpython3.14.so.1.0 [0]; searching
+   1247255:	 search path=/usr/local/cuda/lib64/glibc-hwcaps/x86-64-v3:/usr/local/cuda/lib64/glibc-hwcaps/x86-64-v2:/usr/local/cuda/lib64:glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(LD_LIBRARY_PATH)
+   1247255:	  trying file=/usr/local/cuda/lib64/glibc-hwcaps/x86-64-v3/libpython3.14.so.1.0
+   1247255:	  trying file=/usr/local/cuda/lib64/glibc-hwcaps/x86-64-v2/libpython3.14.so.1.0
+   1247255:	  trying file=/usr/local/cuda/lib64/libpython3.14.so.1.0
+   1247255:	  trying file=glibc-hwcaps/x86-64-v3/libpython3.14.so.1.0
+   1247255:	  trying file=glibc-hwcaps/x86-64-v2/libpython3.14.so.1.0
+   1247255:	  trying file=libpython3.14.so.1.0
+   1247255:	 search cache=/etc/ld.so.cache
+   1247255:	  trying file=/lib64/libpython3.14.so.1.0
+   1247255:	
+   1247255:	find library=libc.so.6 [0]; searching
+   1247255:	 search path=/usr/local/cuda/lib64:glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(LD_LIBRARY_PATH)
+   1247255:	  trying file=/usr/local/cuda/lib64/libc.so.6
+   1247255:	  trying file=glibc-hwcaps/x86-64-v3/libc.so.6
+   1247255:	  trying file=glibc-hwcaps/x86-64-v2/libc.so.6
+   1247255:	  trying file=libc.so.6
+   1247255:	 search cache=/etc/ld.so.cache
+   1247255:	  trying file=/lib64/libc.so.6
+   1247255:	
+   1247255:	find library=libm.so.6 [0]; searching
+   1247255:	 search path=/usr/local/cuda/lib64:glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(LD_LIBRARY_PATH)
+   1247255:	  trying file=/usr/local/cuda/lib64/libm.so.6
+   1247255:	  trying file=glibc-hwcaps/x86-64-v3/libm.so.6
+   1247255:	  trying file=glibc-hwcaps/x86-64-v2/libm.so.6
+   1247255:	  trying file=libm.so.6
+   1247255:	 search cache=/etc/ld.so.cache
+   1247255:	  trying file=/lib64/libm.so.6
+   1247255:	
+   1247255:	
+   1247255:	calling init: /lib64/ld-linux-x86-64.so.2
+   1247255:	
+   1247255:	
+   1247255:	calling init: /lib64/libc.so.6
+   1247255:	
+   1247255:	
+   1247255:	calling init: /lib64/libm.so.6
+   1247255:	
+   1247255:	
+   1247255:	calling init: /lib64/libpython3.14.so.1.0
+   1247255:	
+   1247255:	
+   1247255:	initialize program: python3
+   1247255:	
+   1247255:	
+   1247255:	transferring control: python3
+   1247255:	
+   1247255:	
+   1247255:	calling init: /usr/lib64/python3.14/lib-dynload/_json.cpython-314-x86_64-linux-gnu.so
+   1247255:	
+   1247255:	
+   1247255:	calling init: /usr/lib64/python3.14/lib-dynload/fcntl.cpython-314-x86_64-linux-gnu.so
+   1247255:	
+   1247255:	
+   1247255:	calling init: /usr/lib64/python3.14/lib-dynload/_posixsubprocess.cpython-314-x86_64-linux-gnu.so
+   1247255:	
+   1247255:	
+   1247255:	calling init: /usr/lib64/python3.14/lib-dynload/select.cpython-314-x86_64-linux-gnu.so
+   1247255:	
+   1247255:	
+   1247255:	calling init: /usr/lib64/python3.14/lib-dynload/math.cpython-314-x86_64-linux-gnu.so
+   1247255:	
+   1247255:	
+   1247255:	calling init: /usr/lib64/python3.14/lib-dynload/grp.cpython-314-x86_64-linux-gnu.so
+   1247255:	
+   1247255:	find library=libz.so.1 [0]; searching
+   1247255:	 search path=/usr/local/cuda/lib64:glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(LD_LIBRARY_PATH)
+   1247255:	  trying file=/usr/local/cuda/lib64/libz.so.1
+   1247255:	  trying file=glibc-hwcaps/x86-64-v3/libz.so.1
+   1247255:	  trying file=glibc-hwcaps/x86-64-v2/libz.so.1
+   1247255:	  trying file=libz.so.1
+   1247255:	 search cache=/etc/ld.so.cache
+   1247255:	  trying file=/lib64/libz.so.1
+   1247255:	
+   1247255:	
+   1247255:	calling init: /lib64/libz.so.1
+   1247255:	
+   1247255:	
+   1247255:	calling init: /usr/lib64/python3.14/lib-dynload/zlib.cpython-314-x86_64-linux-gnu.so
+   1247255:	
+   1247255:	find library=libbz2.so.1 [0]; searching
+   1247255:	 search path=/usr/local/cuda/lib64:glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(LD_LIBRARY_PATH)
+   1247255:	  trying file=/usr/local/cuda/lib64/libbz2.so.1
+   1247255:	  trying file=glibc-hwcaps/x86-64-v3/libbz2.so.1
+   1247255:	  trying file=glibc-hwcaps/x86-64-v2/libbz2.so.1
+   1247255:	  trying file=libbz2.so.1
+   1247255:	 search cache=/etc/ld.so.cache
+   1247255:	  trying file=/lib64/libbz2.so.1
+   1247255:	
+   1247255:	
+   1247255:	calling init: /lib64/libbz2.so.1
+   1247255:	
+   1247255:	
+   1247255:	calling init: /usr/lib64/python3.14/lib-dynload/_bz2.cpython-314-x86_64-linux-gnu.so
+   1247255:	
+   1247255:	find library=liblzma.so.5 [0]; searching
+   1247255:	 search path=/usr/local/cuda/lib64:glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(LD_LIBRARY_PATH)
+   1247255:	  trying file=/usr/local/cuda/lib64/liblzma.so.5
+   1247255:	  trying file=glibc-hwcaps/x86-64-v3/liblzma.so.5
+   1247255:	  trying file=glibc-hwcaps/x86-64-v2/liblzma.so.5
+   1247255:	  trying file=liblzma.so.5
+   1247255:	 search cache=/etc/ld.so.cache
+   1247255:	  trying file=/lib64/liblzma.so.5
+   1247255:	
+   1247255:	
+   1247255:	calling init: /lib64/liblzma.so.5
+   1247255:	
+   1247255:	
+   1247255:	calling init: /usr/lib64/python3.14/lib-dynload/_lzma.cpython-314-x86_64-linux-gnu.so
+   1247255:	
+   1247255:	find library=libzstd.so.1 [0]; searching
+   1247255:	 search path=/usr/local/cuda/lib64:glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(LD_LIBRARY_PATH)
+   1247255:	  trying file=/usr/local/cuda/lib64/libzstd.so.1
+   1247255:	  trying file=glibc-hwcaps/x86-64-v3/libzstd.so.1
+   1247255:	  trying file=glibc-hwcaps/x86-64-v2/libzstd.so.1
+   1247255:	  trying file=libzstd.so.1
+   1247255:	 search cache=/etc/ld.so.cache
+   1247255:	  trying file=/lib64/libzstd.so.1
+   1247255:	
+   1247255:	
+   1247255:	calling init: /lib64/libzstd.so.1
+   1247255:	
+   1247255:	
+   1247255:	calling init: /usr/lib64/python3.14/lib-dynload/_zstd.cpython-314-x86_64-linux-gnu.so
+   1247255:	
+   1247255:	
+   1247255:	calling fini:  [0]
+   1247255:	
+   1247255:	
+   1247255:	calling fini: /lib64/libpython3.14.so.1.0 [0]
+   1247255:	
+   1247255:	
+   1247255:	calling fini: /usr/lib64/python3.14/lib-dynload/_json.cpython-314-x86_64-linux-gnu.so [0]
+   1247255:	
+   1247255:	
+   1247255:	calling fini: /usr/lib64/python3.14/lib-dynload/fcntl.cpython-314-x86_64-linux-gnu.so [0]
+   1247255:	
+   1247255:	
+   1247255:	calling fini: /usr/lib64/python3.14/lib-dynload/_posixsubprocess.cpython-314-x86_64-linux-gnu.so [0]
+   1247255:	
+   1247255:	
+   1247255:	calling fini: /usr/lib64/python3.14/lib-dynload/select.cpython-314-x86_64-linux-gnu.so [0]
+   1247255:	
+   1247255:	
+   1247255:	calling fini: /usr/lib64/python3.14/lib-dynload/math.cpython-314-x86_64-linux-gnu.so [0]
+   1247255:	
+   1247255:	
+   1247255:	calling fini: /lib64/libm.so.6 [0]
+   1247255:	
+   1247255:	
+   1247255:	calling fini: /usr/lib64/python3.14/lib-dynload/grp.cpython-314-x86_64-linux-gnu.so [0]
+   1247255:	
+   1247255:	
+   1247255:	calling fini: /usr/lib64/python3.14/lib-dynload/zlib.cpython-314-x86_64-linux-gnu.so [0]
+   1247255:	
+   1247255:	
+   1247255:	calling fini: /lib64/libz.so.1 [0]
+   1247255:	
+   1247255:	
+   1247255:	calling fini: /usr/lib64/python3.14/lib-dynload/_bz2.cpython-314-x86_64-linux-gnu.so [0]
+   1247255:	
+   1247255:	
+   1247255:	calling fini: /lib64/libbz2.so.1 [0]
+   1247255:	
+   1247255:	
+   1247255:	calling fini: /usr/lib64/python3.14/lib-dynload/_lzma.cpython-314-x86_64-linux-gnu.so [0]
+   1247255:	
+   1247255:	
+   1247255:	calling fini: /lib64/liblzma.so.5 [0]
+   1247255:	
+   1247255:	
+   1247255:	calling fini: /usr/lib64/python3.14/lib-dynload/_zstd.cpython-314-x86_64-linux-gnu.so [0]
+   1247255:	
+   1247255:	
+   1247255:	calling fini: /lib64/libzstd.so.1 [0]
+   1247255:	
+   1247255:	
+   1247255:	calling fini: /lib64/libc.so.6 [0]
+   1247255:	
+   1247255:	
+   1247255:	calling fini: /lib64/ld-linux-x86-64.so.2 [0]
+   1247255:	

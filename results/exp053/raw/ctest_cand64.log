@@ -1,0 +1,19 @@
+Internal ctest changing into directory: /home/maxsun/autonomous_projects/.worktrees/exp053-flash-attention/build
+Test project /home/maxsun/autonomous_projects/.worktrees/exp053-flash-attention/build
+    Start 55: test-quantize-fns
+1/5 Test #55: test-quantize-fns ................   Passed    1.27 sec
+    Start 56: test-ptq1_0-element-map
+2/5 Test #56: test-ptq1_0-element-map ..........   Passed    0.05 sec
+    Start 57: test-ptq1_0-cuda-dot
+3/5 Test #57: test-ptq1_0-cuda-dot .............   Passed    0.06 sec
+    Start 58: test-pq2-row-shapes
+4/5 Test #58: test-pq2-row-shapes ..............   Passed    0.05 sec
+    Start 59: test-fwht-rms-q8
+5/5 Test #59: test-fwht-rms-q8 .................   Passed    0.32 sec
+
+100% tests passed, 0 tests failed out of 5
+
+Label Time Summary:
+main    =   1.75 sec*proc (5 tests)
+
+Total Test time (real) =   1.76 sec
