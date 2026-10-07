@@ -1,0 +1,11 @@
+Internal ctest changing into directory: /home/maxsun/autonomous_projects/bonsai2-rtx3080/build
+Test project /home/maxsun/autonomous_projects/bonsai2-rtx3080/build
+    Start 59: test-fwht-rms-q8
+1/1 Test #59: test-fwht-rms-q8 .................   Passed    0.36 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Label Time Summary:
+main    =   0.36 sec*proc (1 test)
+
+Total Test time (real) =   0.36 sec

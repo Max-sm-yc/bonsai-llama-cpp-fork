@@ -303,7 +303,7 @@
         "peak_memory_mib_disabled": 6805
       }
     },
-    "correctness": "Main-tree tests/run_correctness.sh passed: selected CTests 4/4; CUDA-vs-CPU PTQ1_0/PQ2_0 backend operations 96/96; fixed-seed 32-token PTQ1_0/PQ2_0 model smokes. Normalized PTQ1_0 completion matched exactly.",
+    "correctness": "Main-tree tests/run_correctness.sh passed: selected CTests 5/5 including the direct fused-kernel GPU numerical test (one and three rows, max error 0.539778/0.542589 Q8 scales, exact block sums); CUDA-vs-CPU backend operations 96/96; fixed-seed PTQ1_0/PQ2_0 model smokes; normalized PTQ1_0 completion matched exactly.",
     "profile": "Post-change Nsight Systems mixed context-512 trace: active GEMV 1.166 s / 61.22%; RMSNorm plus activation-preparation family 155.4 ms versus 185.7 ms pre-change; see PROFILE.md.",
     "artifacts": [
       "experiments/036-coordinated-qkv-prep/REPORT.md",
@@ -312,10 +312,13 @@
       "results/exp036/main_default_on.json",
       "results/exp036/main_default_on_reverse.json",
       "results/exp036/main_default_off_reverse.json",
-      "results/profile/ptq1_decode512_rmsfwht.nsys-rep"
+      "results/profile/ptq1_decode512_rmsfwht.nsys-rep",
+      "results/exp036/direct_cuda_correctness.log",
+      "results/exp036/fused_quantizer_reference.log",
+      "results/exp036/full_correctness.log"
     ],
     "code_commit": "c6cdaa5fa62787c97db58d1d2e1db666a4aeddb5",
-    "cuda_library_sha256": "4b4adb58e3d26cb8694aebf0843112b981de66ac54441760ec8290bb2b021dcf",
+    "cuda_library_sha256": "bad70d76b19fdd1b21f61e5c9eb4900b5334c638ff75cdec11f3a4d3b2b28642",
     "timestamp_utc": "2026-10-07T03:25:11+00:00"
   },
   "updated_timestamp_utc": "2026-10-07T03:25:11+00:00",
@@ -382,8 +385,8 @@
       "512_median_tokens_per_second": 1378.14,
       "4096_median_tokens_per_second": 1331.25
     },
-    "correctness": "pass: main-tree tests/run_correctness.sh; CTest 4/4; CUDA-vs-CPU backend ops 96/96; fixed-seed PTQ1_0 and PQ2_0 32-token smokes; PTQ1_0 normalized completion exactly matched reference",
-    "cuda_library_sha256": "4b4adb58e3d26cb8694aebf0843112b981de66ac54441760ec8290bb2b021dcf",
+    "correctness": "pass: main-tree tests/run_correctness.sh; selected CTest 5/5 including direct fused RMS/FWHT/Q8 GPU reference test; CUDA-vs-CPU backend ops 96/96; fixed-seed PTQ1_0 and PQ2_0 32-token smokes; PTQ1_0 normalized completion exactly matched reference",
+    "cuda_library_sha256": "bad70d76b19fdd1b21f61e5c9eb4900b5334c638ff75cdec11f3a4d3b2b28642",
     "timestamp_utc": "2026-10-07T03:25:11+00:00"
   }
 }

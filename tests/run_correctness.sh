@@ -5,10 +5,10 @@ cd "$(dirname "$0")/.."
 
 cmake --build build --parallel 4 --target \
   test-quantize-fns test-ptq1_0-element-map test-ptq1_0-cuda-dot \
-  test-pq2-row-shapes test-backend-ops
+  test-pq2-row-shapes test-backend-ops test-fwht-rms-q8
 
 ctest --test-dir build --output-on-failure -R \
-  'test-quantize-fns|test-ptq1_0-element-map|test-ptq1_0-cuda-dot|test-pq2-row-shapes'
+  'test-quantize-fns|test-ptq1_0-element-map|test-ptq1_0-cuda-dot|test-pq2-row-shapes|test-fwht-rms-q8'
 
 # Compare representative PTQ1_0/PQ2_0 GGML matvec and small-batch matrix
 # products on CUDA against the CPU backend. Includes odd row tails and model K sizes.

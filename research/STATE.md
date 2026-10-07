@@ -3,7 +3,7 @@
 ## Current best
 
 - **PTQ1_0, sm_86 ROWS=1 GEMV plus coordinated RMS/FWHT/Q8 preparation.** Code commit `c6cdaa5fa62787c97db58d1d2e1db666a4aeddb5`; reference runtime commit `6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17`. Same-binary, two order-reversed 7-repetition comparisons: enabled median-of-run-medians 83.35 tok/s at context 512 and 80.35 at 4096 versus disabled 81.99/79.13 (+1.65%/+1.55%). Peak whole-GPU memory 6,803 MiB enabled / 6,805 disabled. Prefill was not remeasured; reference medians remain 1,378/1,331 tok/s at 512/4096.
-- Correctness: rebuilt main checkout passed `tests/run_correctness.sh`: selected CTests 4/4, CUDA-vs-CPU PTQ1_0/PQ2_0 backend cases 96/96, and both fixed-seed 32-token model smokes. The PTQ1_0 normalized completion exactly matches the previous default. Main CUDA library SHA-256 `4b4adb58e3d26cb8694aebf0843112b981de66ac54441760ec8290bb2b021dcf`.
+- Correctness: rebuilt main checkout passed `tests/run_correctness.sh`: selected CTests 5/5 including a direct fused-kernel numerical test, CUDA-vs-CPU PTQ1_0/PQ2_0 backend cases 96/96, and both fixed-seed 32-token model smokes. The direct test's max error was 0.54 stored Q8 scale for both one-row and three-row inputs; block sums were exact. PTQ1_0 normalized completion exactly matches the previous default. Current main CUDA library SHA-256 `bad70d76b19fdd1b21f61e5c9eb4900b5334c638ff75cdec11f3a4d3b2b28642`.
 
 ## Bottlenecks
 
