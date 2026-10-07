@@ -33,4 +33,4 @@
 
 ## Next candidates
 
-1. Revisit gated/plain GEMV work sharing only if a focused trace identifies redundant computation; current SASS already shares activation loads. Exp042 closed the CTA-width/row-tile sweep: retain 128 threads.
+1. Screen explicit interleaving of independent gate/up PTQ1_0 decode/DP4A streams. The source calls the block-dot helper serially, while SASS already shares activation loads; test whether joint scheduling hides dependency latency without spills. Require exactness, K=40/136 work-plus-fold gains, and matched E2E decode. Exp042 closed CTA-width tuning; retain 128 threads.
