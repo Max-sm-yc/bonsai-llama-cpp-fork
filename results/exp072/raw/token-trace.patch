@@ -1,0 +1,53 @@
+diff --git a/common/sampling.cpp b/common/sampling.cpp
+index dd5b148..066e566 100644
+--- a/common/sampling.cpp
++++ b/common/sampling.cpp
+@@ -12,6 +12,8 @@
+ #include <cinttypes>
+ #include <climits>
+ #include <cmath>
++#include <cstdio>
++#include <cstdlib>
+ #include <cstring>
+ #include <unordered_map>
+ #include <vector>
+@@ -696,6 +698,26 @@ llama_token common_sampler_sample(struct common_sampler * gsmpl, struct llama_co
+ 
+     id = cur_p.data[cur_p.selected].id;
+ 
++    // Exp072 opt-in trace: record raw target logits beside the final sampler choice.
++    if (std::getenv("LLAMA_MTP_TOKEN_TRACE")) {
++        const float * logits = llama_get_logits_ith(ctx, idx);
++        const int n_vocab = llama_vocab_n_tokens(llama_model_get_vocab(llama_get_model(ctx)));
++        int best[5] = {-1, -1, -1, -1, -1};
++        float vals[5] = {-INFINITY, -INFINITY, -INFINITY, -INFINITY, -INFINITY};
++        for (int j = 0; j < n_vocab; ++j) {
++            for (int k = 0; k < 5; ++k) {
++                if (logits[j] > vals[k]) {
++                    for (int m = 4; m > k; --m) { vals[m] = vals[m - 1]; best[m] = best[m - 1]; }
++                    vals[k] = logits[j]; best[k] = j; break;
++                }
++            }
++        }
++        std::fprintf(stderr, "MTPTRACE sample idx=%d chosen=%d raw=", idx, id);
++        for (int k = 0; k < 5; ++k) std::fprintf(stderr, "%s%d:%.9g", k ? "," : "", best[k], vals[k]);
++        std::fprintf(stderr, " margin=%.9g\n", vals[0] - vals[1]);
++        std::fflush(stderr);
++    }
++
+     return id;
+ }
+ 
+@@ -709,6 +731,12 @@ std::vector<llama_token> common_sampler_sample_and_accept_n(struct common_sample
+     for (; i < draft.size(); i++) {
+         const llama_token id = common_sampler_sample(gsmpl, ctx, idxs[i], grammar_first);
+ 
++        if (std::getenv("LLAMA_MTP_TOKEN_TRACE")) {
++            std::fprintf(stderr, "MTPTRACE verify round_row=%zu draft=%d target=%d verdict=%s\n",
++                    i, draft[i], id, draft[i] == id ? "accept" : "reject");
++            std::fflush(stderr);
++        }
++
+         common_sampler_accept(gsmpl, id, true);
+ 
+         result.push_back(id);
