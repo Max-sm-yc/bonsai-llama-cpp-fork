@@ -6,17 +6,12 @@ Ranked against the current ROWS=1 implementation. Controlled batch-1 model decod
 
 ## Open candidates
 
-1. **PTQ1_0 batch-1 decode GEMV:** remains the dominant cost at 74–77% of steady decode kernel time. Exp068 confirmed `ptq1_0_pt_block_dot` already decodes packed trits in registers and feeds raw digits to DP4A, with `isum` implementing signed `digit-1` exactly. Existing LUT/floor-difference decoders, side encodings, cache/prefetch, staging, geometry, scheduling, paired K/V CTA mappings, and the proposed signed-byte-elimination premise are exhausted; reopen only with a new primitive, representation, or code-generation opportunity.
-2. **Long-context FlashAttention:** the active path costs 0.587 ms/token at ctx4096, including 0.0359 ms in 16 Stream-K fixups. Exp053's 64/64 single-stage tile regressed focused time by 17.2% at context 512 and 11.3% at 4096; 96/96 failed a compile invariant. Exp069 tests an alternate reduction/launch path without repeating tile geometry; see `experiments/053-flash-attention-longctx/REPORT.md`.
-3. **PTQ1_0 prefill MMQ:** Exp065 measured type-143 MMQ at 65.5% of the 4096-token prompt profile; its 128-thread/I=64 schedule lost by 3.3–15.6%. Exp066 confirmed serial trit expansion and shared staging in the active PTX but found no grounded local replacement. Reopen only with a concrete exact direct-compute or decoder derivation; do not repeat geometry-only screens or assume the GEMV floor-difference result transfers.
+1. **PTQ1_0 batch-1 decode GEMV:** remains the primary target at 74–77% of steady decode kernel time. Exp068 confirmed the active path already decodes packed trits in registers and feeds raw digits to DP4A, with `isum` implementing signed `digit-1`. LUT/floor-difference decoders, side encodings, cache/prefetch, staging, geometry, scheduling, paired K/V mappings, and signed-byte-elimination are exhausted. Reopen only with a new primitive, representation, or code-generation opportunity.
+2. **Prompt-length-aware prefill ubatch policy:** Exp067 found `ub=2048` +1.85%/+1.79% at prompts 2048/4096 but −1.33%/−1.49% at 128/512, with peak 8,363 MiB. Exp070 tests a general length-based policy using intermediate prompt lengths, while checking decode, output, and memory. Do not hard-code the benchmark's four points or repeat the global fixed-ub sweep.
+3. **Long-context FlashAttention:** the current path costs 0.581 ms/token at ctx4096, including 0.0359 ms in 16 Stream-K fixups. Exp053's 64/64 single-stage tile regressed by 17.2%/11.3%; Exp069 found no grounded alternate reduction. Reopen only with a concrete synchronization or partitioning design that preserves adequate parallelism.
+4. **PTQ1_0 prefill MMQ:** Exp065 measured type-143 MMQ at 65.5% of the 4096-token prompt profile; its 128-thread/I=64 schedule lost by 3.3–15.6%. Exp066 confirmed serial trit expansion and shared staging in active PTX but found no grounded replacement. Reopen only with a concrete exact direct-compute or decoder derivation.
 
-Exp067 tested one global PTQ1_0 `ubatch_size` at fixed `-b 2048`. `ub=128/256` lost on long prompts; `ub=1024/2048` traded short-prompt speed for a long-prompt gain. Keep `-ub 512`; do not repeat the global sweep unless workload requirements change.
-
-Exp061 confirmed the actual final-layer `GET_ROWS + GET_ROWS + ADD` chain and tested exact fusion. It saves 1–3 µs locally but has flat model decode (−0.041% at 512, +0.004% at 4096); do not repeat while it remains a single site. See `experiments/061-final-layer-gather-add/REPORT.md`.
-
-Exp062 confirmed an exact repeated SSM+SiLU+L2 path at 24 recurrent sites. It preserves the complete 10,240-wide SiLU tensor, writes a separate 4,096-wide normalized result, and gives a repeatable +0.23% at context 4096. Keep the view/use guards; see `experiments/062-repeated-smallop-fusion/REPORT.md`.
-
-Exp060 implemented and integrated the recurrent concat/cache pair fusion. It preserved the full concat, wrote cache-tail bytes exactly, removed 48 graph nodes/replay, and gained +0.95%/+0.90% decode at contexts 512/4096 in two reversed-order pairs. Independent manager reruns also improved; do not repeat this candidate absent a correctness or merged-build issue. See `experiments/060-concat-cache-fusion/REPORT.md`.
+Exp067 tested global PTQ1_0 `ubatch_size` at fixed `-b 2048`. `ub=128/256` lost on long prompts; `ub=1024/2048` traded short-prompt speed for long-prompt gain. Keep `-ub 512` as the current global default; only a generic input-length policy is open.
 
 ## Previously tested directions
 

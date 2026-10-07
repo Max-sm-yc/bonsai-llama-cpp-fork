@@ -359,7 +359,7 @@
     "cuda_library_sha256": "8e54b08629aafaae0e835a4c630367fe8126e85f9df64199f34f0db2e2798c94",
     "timestamp_utc": "2026-10-07T11:06:47+00:00"
   },
-  "updated_timestamp_utc": "2026-10-07T13:51:36Z",
+  "updated_timestamp_utc": "2026-10-07T15:09:56Z",
   "project_commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
   "current_best": {
     "commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
@@ -1126,22 +1126,58 @@
     "timestamp_utc": "2026-10-07T12:50:36.609483+00:00"
   },
   "latest_research_audit": {
-    "id": "068",
-    "description": "Source audit of the active PTQ1_0 one-column batch-1 GEMV direct-dot dataflow.",
-    "decision": "NO CANDIDATE; active path already feeds packed raw ternary digits directly to DP4A and applies the signed digit-1 correction through isum. Production and verified best are unchanged.",
+    "id": "069",
+    "description": "Fresh profile and launch-grid audit of the active sm_86 FlashAttention Stream-K path after retained Exp060/062 changes.",
+    "decision": "NO CANDIDATE; retain current reduction. One CTA per output tile exposes only four x-grid CTAs, and cooperative fusion would add a grid barrier with no grounded cost advantage.",
     "verified_by_manager": true,
-    "hardware": "NVIDIA GeForce RTX 3080, sm_86",
+    "hardware": "NVIDIA GeForce RTX 3080, sm_86, 68 SMs",
     "method": {
-      "target": "ggml/src/ggml-cuda/mmvq-ptq1_0.cuh::ptq1_0_pt_block_dot",
-      "comparison": "Main checkout and isolated experiment worktree source hashes matched; no source diff or performance candidate.",
-      "source_sha256": "f398417accddf1948fbf12155b4180fd362a3dfea88366ef3980161700d56496"
+      "contexts": [
+        512,
+        4096
+      ],
+      "profile": "Nsight Systems CUDA Graph node trace; -p 0 -n 16, 31 replays/profile; baseline executable loaded the main verified CUDA library.",
+      "nodes_per_replay": 1360,
+      "calls_per_replay": {
+        "main_attention": 16,
+        "uniform_fixup": 16
+      },
+      "grid": {
+        "output_tiles": 4,
+        "main_x_ctas": {
+          "512": 16,
+          "4096": 68
+        },
+        "partials_per_output_tile": {
+          "512": 4,
+          "4096": 17
+        },
+        "fixup": [
+          4,
+          1,
+          8
+        ]
+      },
+      "cuda_library_sha256": "860fcca9977ed5ba9f9d81ce7d310481db9e9cefbe14ac30987ceb2867b30f3e"
     },
-    "correctness": "No candidate was built or tested; existing production arithmetic is unchanged. No new correctness claim.",
-    "outcome": "Packed qs/qh decode emits raw digits {0,1,2} in registers, each word is passed immediately to DP4A, and isum subtracts activation sum to compute signed digit-1. No signed-byte vector is materialized. Mask-based alternative lacked a grounded reduction in work.",
+    "attention_ms_per_token": {
+      "512": {
+        "main": 0.19578112903225806,
+        "fixup": 0.03429809677419355,
+        "total": 0.2300792258064516
+      },
+      "4096": {
+        "main": 0.5450515483870968,
+        "fixup": 0.03593616129032258,
+        "total": 0.5809877096774194
+      }
+    },
+    "correctness": "No candidate was implemented; no new candidate correctness claim or model A/B. Main production code is unchanged.",
+    "outcome": "Fresh profile reproduced Exp053 fixup timings within capture variation. Source and grid audit found no credible way to eliminate the cross-CTA online-softmax merge without either serializing full K/V over four output CTAs or adding a cooperative grid barrier.",
     "artifacts": [
-      "experiments/068-direct-ternary-gemv/REPORT.md",
-      "results/exp068/source_audit.txt"
+      "experiments/069-flash-attention-reduction/REPORT.md",
+      "results/exp069/raw/"
     ],
-    "timestamp_utc": "2026-10-07T14:59:17Z"
+    "timestamp_utc": "2026-10-07T15:09:56Z"
   }
 }

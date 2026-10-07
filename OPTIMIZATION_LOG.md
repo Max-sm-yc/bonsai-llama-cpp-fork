@@ -1,5 +1,9 @@
 # Optimization log
 
+## Experiment 069: FlashAttention Stream-K reduction audit
+
+- Fresh CUDA Graph captures of the current retained graph measured 16 main FlashAttention calls plus 16 uniform fixups: 0.1958+0.0343 ms/token at context 512 and 0.5451+0.0359 ms at 4096. Grid audit found 4 output tiles with 4/17 partial states per tile. Removing the merge leaves four x-grid CTAs scanning full K/V; cooperative fusion requires an unproven grid barrier. No candidate was implemented, correctness/E2E was not run, and production is unchanged. The manager recomputed the per-replay profile summaries and verified the loaded CUDA library hash. See `experiments/069-flash-attention-reduction/REPORT.md` and `results/exp069/`.
+
 ## Experiment 068: active PTQ1_0 GEMV direct-dot audit
 
 - Source inspection disproved the signed-byte-materialization premise: `ptq1_0_pt_block_dot` unpacks raw ternary digits in registers and feeds them directly to `dp4a`; the `isum` fold subtracts the activation sum to implement signed `digit-1`. A positive/negative mask formulation had no demonstrated instruction reduction and overlaps exhausted decoder screens, so no candidate was implemented, built, or benchmarked. Production source and current best are unchanged. See `experiments/068-direct-ternary-gemv/REPORT.md` and `results/exp068/source_audit.txt`.

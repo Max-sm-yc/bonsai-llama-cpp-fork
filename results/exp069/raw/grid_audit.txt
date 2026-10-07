@@ -1,0 +1,10 @@
+Exp069 launch-grid audit
+
+Source policy: launch_fattn computes ntiles_KV=(K.ne[1]+nbatch_fa-1)/nbatch_fa, caps Stream-K block count at max_blocks_per_sm*nSM and ntiles_KV*ntiles_dst, and uses uniform fixup when blocks_num.x is divisible by ntiles_dst and exceeds it. The active Ampere config sets nbatch_fa=128.
+
+SQLite observations (CUPTI_ACTIVITY_KIND_KERNEL, grouped by demangledName and launch geometry; the reported count includes all matching capture instances):
+
+ctx512 active flash_attn_ext_f16<256,256,1,8>: grid=(16,1,1), block=(32,2,1), 16 matching kernels. Uniform fixup: grid=(4,1,8), block=(256,1,1), 528 matching kernels.
+ctx4096 active flash_attn_ext_f16<256,256,1,8>: grid=(68,1,1), block=(32,2,1), 16 matching kernels. Uniform fixup: grid=(4,1,8), block=(256,1,1), 528 matching kernels.
+
+Thus ntiles_dst=4, ntiles_KV=4/32, and active main grid blocks per output tile=4/17. The fixup x,z dimensions produce 4*8 output CTAs per launch. The exported profile normalizes active signature counts to 16 calls/replay over 31 graph replays. The raw SQLite activity includes additional capture/setup kernel launches, so its aggregate instance count is not used as replay count. Active attention and fixup durations in base_ctx{512,4096}.profile.json are per-replay sums.

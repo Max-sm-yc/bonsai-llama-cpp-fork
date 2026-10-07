@@ -9,7 +9,7 @@
 ## Bottlenecks
 
 1. Active PTQ1_0 batch-1 GEMV (`mul_mat_vec_ptq1_0_pt`): 9.014 ms/token at context 512 and 9.022 ms/token at 4096, about 77.1%/74.7% of the Exp062 candidate graph's summed kernel duration. Its plain, fused-gate, and fused non-gate specializations cost ~4.57, ~2.31, and ~2.14 ms/token.
-2. QKV activation preparation: 0.752 ms/token (6.2–6.3%); GDN: 0.500 ms/token (4.1–4.2%, no distinct candidate after Exp049); BF16 `mul_mat_vec_f<__nv_bfloat16,float,1,256,false,false>`: ~0.311 ms/token (~2.6%). Remaining RMSNorm: 0.364 ms/token; attention rises from 0.236 ms/token at context 512 to 0.588 ms at 4096.
+2. QKV activation preparation: 0.752 ms/token (6.2–6.3%); GDN: 0.500 ms/token (4.1–4.2%, no distinct candidate after Exp049); BF16 `mul_mat_vec_f<__nv_bfloat16,float,1,256,false,false>`: ~0.311 ms/token (~2.6%). Remaining RMSNorm: 0.364 ms/token; Exp069 reprofiled attention at 0.230 ms/token (ctx512) and 0.581 ms (ctx4096), including 0.034–0.036 ms of fixup.
 3. The earlier context-512 post-Exp036 trace's 1.166 s / 61.2% GEMV share is a mixed setup/decode denominator. Exp047 directly grouped 255 graph replays with 1,432 nodes/replay; it contains no quantized GEMM graph nodes.
 4. Nsight Compute counters fail with `ERR_NVGPUCTRPERM`; do not alter system-wide permissions. See [Exp047](../experiments/047-steady-decode-profile/REPORT.md) for filters, reproducibility, and variability.
 
@@ -42,9 +42,11 @@
 
 ## Active experiment
 
-- Exp069 challenges the measured FlashAttention Stream-K fixup overhead with a new reduction/launch-fusion premise. Baseline at ctx4096 is 16 main calls plus 16 fixups per token, 0.5511+0.0359 ms; do not repeat Exp053 tile geometry. Production remains unchanged unless exactness and focused/model timing both qualify.
+- Exp070 tests a general prompt-length-aware prefill ubatch policy, motivated by Exp067's measured crossover: ub=2048 was +1.8% at prompts 2048/4096 but −1.3–1.5% at 128/512. Find a robust threshold across intermediate lengths, preserve decode and fixed-seed output, and stay within 10 GiB; avoid benchmark-specific dispatch.
 
 ## Latest research result
+
+- Exp069 refreshed the attention profile on the current retained graph: 16 main plus 16 uniform fixup calls cost 0.2301 ms/token at ctx512 and 0.5810 ms at 4096. The launch grid uses 4 output tiles; avoiding the merge means only four x-grid CTAs scan full context, while cooperative fusion requires an unproven barrier. No candidate/source change or E2E comparison. See `experiments/069-flash-attention-reduction/REPORT.md` and `results/exp069/`.
 
 - Exp068 found the active PTQ1_0 batch-1 GEMV already performs direct packed-digit DP4A: raw digits stay in registers and `isum` subtracts the activation sum to implement signed `digit-1`. No new decoder or timing candidate was justified; production source is unchanged. See `experiments/068-direct-ternary-gemv/REPORT.md` and `results/exp068/source_audit.txt`.
 
@@ -84,6 +86,6 @@
 
 ## Next candidates
 
-1. Test whether a new FlashAttention reduction/dataflow can remove the measured Stream-K fixup launch cost; keep the current tile geometry and require full correctness plus matched decode A/B.
-2. Profile and screen PTQ1_0 prompt-side MMQ only with a concrete dataflow/decoder premise; Exp065/066 closed geometry-only and ungrounded source screens. Preserve decode and measure prompts 128/512/2048/4096.
-3. Revisit the dominant PTQ1_0 batch-1 GEMV only with a genuinely new primitive, code-generation, or representation premise; Exp046/068 and earlier screens close current direct-dot and obvious decoder variants.
+1. Test a prompt-length-aware ubatch policy against a broader prompt-length sweep; Exp067 provides a concrete long/short crossover, but decode, exact output, and VRAM must remain acceptable.
+2. Revisit the dominant PTQ1_0 batch-1 GEMV only with a genuinely new primitive, code-generation, or representation premise; Exp046/068 and earlier screens close current direct-dot and obvious decoder variants.
+3. Revisit PTQ1_0 prompt-side MMQ only with a concrete exact dataflow/decoder derivation; Exp065/066 closed geometry-only and ungrounded source screens.
