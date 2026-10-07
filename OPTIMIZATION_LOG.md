@@ -1,5 +1,9 @@
 # Optimization log
 
+## Experiment 059: recurrent graph metadata and fusion feasibility
+
+- Runtime instrumentation captured the actual one-token graph. `conv_input` is F32 `[4,10240]`, use=2; `conv_state_last` starts 4 bytes into it with strided rows; the CPY targets a disjoint 120 KiB cache view at offset 0 with no output pin. Unrelated recurrent-state nodes separate that CPY from SSM_CONV, so the current contiguous matcher cannot fuse the four-op chain safely. No candidate or timing was run. Follow up by screening only the local CONCAT+CPY site. See `experiments/059-recurrent-graph-fusion/REPORT.md` and `results/exp059/`.
+
 ## Experiment 058: recurrent convolution/cache fusion feasibility
 
 - Source audit derived the one-token `n_rs_seq==0` CPY source view and cache destination offset, and identified rollback as a separate multi-CPY path. The retained Exp057 profile lacks per-node view, alias-range, use-count, and output-pin details, so the experiment stopped before instrumentation, build, or correctness testing. No candidate or timing was produced; treat as inconclusive, not rejected. Next collect runtime graph metadata with scheduler debug and targeted instrumentation. See `experiments/058-recurrent-conv-state-fusion/REPORT.md`.

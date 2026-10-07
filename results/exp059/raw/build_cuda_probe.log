@@ -1,0 +1,11 @@
+[1/11] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/ggml-cuda.cu.o
+[2/11] Linking CUDA shared library bin/libggml-cuda.so.0.21.0
+[3/11] Creating library symlink bin/libggml-cuda.so.0 bin/libggml-cuda.so
+[4/11] Linking CXX shared library bin/libggml.so.0.21.0
+[5/11] Creating library symlink bin/libggml.so.0 bin/libggml.so
+[6/11] Linking CXX shared library bin/libllama.so.0.2.0
+[7/11] Creating library symlink bin/libllama.so.0 bin/libllama.so
+[8/11] Linking CXX shared library bin/libllama-common.so.0.2.0
+[9/11] Creating library symlink bin/libllama-common.so.0 bin/libllama-common.so
+[10/11] Linking CXX shared library bin/libllama-bench-impl.so
+[11/11] Linking CXX executable bin/llama-bench

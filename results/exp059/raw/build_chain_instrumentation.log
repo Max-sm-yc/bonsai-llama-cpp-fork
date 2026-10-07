@@ -1,0 +1,86 @@
+[0/1] Re-running CMake...
+-- llama.cpp version: 0.2.0-dev
+CMAKE_BUILD_TYPE=Release
+-- Warning: ccache not found - consider installing it for faster compilation or disable this warning with GGML_CCACHE=OFF
+-- CMAKE_SYSTEM_PROCESSOR: x86_64
+-- GGML_SYSTEM_ARCH: x86
+-- Including CPU backend
+-- x86 detected
+-- Adding CPU backend variant ggml-cpu: -march=native 
+-- CUDA Toolkit found
+-- Using CMAKE_CUDA_ARCHITECTURES=86 CMAKE_CUDA_ARCHITECTURES_NATIVE=86-real
+-- Could NOT find NCCL (missing: NCCL_LIBRARY NCCL_INCLUDE_DIR) 
+-- Warning: NCCL not found, performance for multiple CUDA GPUs will be suboptimal
+-- CUDA host compiler is GNU 15.3.1
+-- Including CUDA backend
+-- ggml version: 0.21.0
+-- ggml commit:  39c2a88-dirty
+-- OpenSSL found: 3.5.7
+-- Generating embedded license file for target: llama-app
+-- Configuring done (0.2s)
+-- Generating done (0.1s)
+-- Build files have been written to: /home/maxsun/autonomous_projects/.worktrees/exp059-recurrent-graph-fusion/build
+[1/16] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-backend.cpp.o
+In file included from /home/maxsun/autonomous_projects/.worktrees/exp059-recurrent-graph-fusion/ggml/src/ggml-backend.cpp:14:
+/home/maxsun/autonomous_projects/.worktrees/exp059-recurrent-graph-fusion/ggml/src/ggml-backend.cpp: In function ‘void ggml_backend_sched_print_assignments(ggml_backend_sched_t, ggml_cgraph*)’:
+/home/maxsun/autonomous_projects/.worktrees/exp059-recurrent-graph-fusion/ggml/src/ggml-backend.cpp:1012:28: warning: format ‘%p’ expects argument of type ‘void*’, but argument 16 has type ‘ggml_tensor*’ [-Wformat=]
+ 1012 |             GGML_LOG_DEBUG("EXP059 node=%d op=%s name=%s type=%s ne=[%lld,%lld,%lld,%lld] nb=[%zu,%zu,%zu,%zu] data=%p view_src=%p view_offs=%zu flags=0x%x use=%d buffer=%p range=[%p,%p)\n",
+      |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+......
+ 1015 |                 node->nb[0], node->nb[1], node->nb[2], node->nb[3], node->data, node->view_src,
+      |                                                                                 ~~~~~~~~~~~~~~
+      |                                                                                       |
+      |                                                                                       ggml_tensor*
+/home/maxsun/autonomous_projects/.worktrees/exp059-recurrent-graph-fusion/ggml/src/ggml-impl.h:122:69: note: in definition of macro ‘GGML_LOG_DEBUG’
+  122 | #define GGML_LOG_DEBUG(...) ggml_log_internal(GGML_LOG_LEVEL_DEBUG, __VA_ARGS__)
+      |                                                                     ^~~~~~~~~~~
+/home/maxsun/autonomous_projects/.worktrees/exp059-recurrent-graph-fusion/ggml/src/ggml-backend.cpp:1012:130: note: format string is defined here
+ 1012 |             GGML_LOG_DEBUG("EXP059 node=%d op=%s name=%s type=%s ne=[%lld,%lld,%lld,%lld] nb=[%zu,%zu,%zu,%zu] data=%p view_src=%p view_offs=%zu flags=0x%x use=%d buffer=%p range=[%p,%p)\n",
+      |                                                                                                                                 ~^
+      |                                                                                                                                  |
+      |                                                                                                                                  void*
+/home/maxsun/autonomous_projects/.worktrees/exp059-recurrent-graph-fusion/ggml/src/ggml-backend.cpp:1012:28: warning: format ‘%p’ expects argument of type ‘void*’, but argument 20 has type ‘ggml_backend_buffer*’ [-Wformat=]
+ 1012 |             GGML_LOG_DEBUG("EXP059 node=%d op=%s name=%s type=%s ne=[%lld,%lld,%lld,%lld] nb=[%zu,%zu,%zu,%zu] data=%p view_src=%p view_offs=%zu flags=0x%x use=%d buffer=%p range=[%p,%p)\n",
+      |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+......
+ 1017 |                 graph->use_counts[ggml_hash_find(&graph->visited_hash_set, node)], node->buffer,
+      |                                                                                    ~~~~~~~~~~~~
+      |                                                                                          |
+      |                                                                                          ggml_backend_buffer*
+/home/maxsun/autonomous_projects/.worktrees/exp059-recurrent-graph-fusion/ggml/src/ggml-impl.h:122:69: note: in definition of macro ‘GGML_LOG_DEBUG’
+  122 | #define GGML_LOG_DEBUG(...) ggml_log_internal(GGML_LOG_LEVEL_DEBUG, __VA_ARGS__)
+      |                                                                     ^~~~~~~~~~~
+/home/maxsun/autonomous_projects/.worktrees/exp059-recurrent-graph-fusion/ggml/src/ggml-backend.cpp:1012:172: note: format string is defined here
+ 1012 |             GGML_LOG_DEBUG("EXP059 node=%d op=%s name=%s type=%s ne=[%lld,%lld,%lld,%lld] nb=[%zu,%zu,%zu,%zu] data=%p view_src=%p view_offs=%zu flags=0x%x use=%d buffer=%p range=[%p,%p)\n",
+      |                                                                                                                                                                           ~^
+      |                                                                                                                                                                            |
+      |                                                                                                                                                                            void*
+/home/maxsun/autonomous_projects/.worktrees/exp059-recurrent-graph-fusion/ggml/src/ggml-backend.cpp:1024:36: warning: format ‘%p’ expects argument of type ‘void*’, but argument 8 has type ‘ggml_tensor*’ [-Wformat=]
+ 1024 |                     GGML_LOG_DEBUG("EXP059 chain node=%d depth=%d name=%s op=%s data=%p view_src=%p view_offs=%zu total_offs=%zu ne0=%lld ne1=%lld nb0=%zu nb1=%zu flags=0x%x\n",
+      |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 1025 |                         i, depth, chain->name, ggml_op_name(chain->op), chain->data, chain->view_src,
+      |                                                                                      ~~~~~~~~~~~~~~~
+      |                                                                                             |
+      |                                                                                             ggml_tensor*
+/home/maxsun/autonomous_projects/.worktrees/exp059-recurrent-graph-fusion/ggml/src/ggml-impl.h:122:69: note: in definition of macro ‘GGML_LOG_DEBUG’
+  122 | #define GGML_LOG_DEBUG(...) ggml_log_internal(GGML_LOG_LEVEL_DEBUG, __VA_ARGS__)
+      |                                                                     ^~~~~~~~~~~
+/home/maxsun/autonomous_projects/.worktrees/exp059-recurrent-graph-fusion/ggml/src/ggml-backend.cpp:1024:99: note: format string is defined here
+ 1024 |                     GGML_LOG_DEBUG("EXP059 chain node=%d depth=%d name=%s op=%s data=%p view_src=%p view_offs=%zu total_offs=%zu ne0=%lld ne1=%lld nb0=%zu nb1=%zu flags=0x%x\n",
+      |                                                                                                  ~^
+      |                                                                                                   |
+      |                                                                                                   void*
+[2/16] Linking CXX shared library bin/libggml-base.so.0.21.0
+[3/16] Creating library symlink bin/libggml-base.so.0 bin/libggml-base.so
+[4/16] Linking CXX shared library bin/libggml-cpu.so.0.21.0
+[5/16] Creating library symlink bin/libggml-cpu.so.0 bin/libggml-cpu.so
+[6/16] Linking CUDA shared library bin/libggml-cuda.so.0.21.0
+[7/16] Creating library symlink bin/libggml-cuda.so.0 bin/libggml-cuda.so
+[8/16] Linking CXX shared library bin/libggml.so.0.21.0
+[9/16] Creating library symlink bin/libggml.so.0 bin/libggml.so
+[10/16] Linking CXX shared library bin/libllama.so.0.2.0
+[11/16] Creating library symlink bin/libllama.so.0 bin/libllama.so
+[12/16] Linking CXX shared library bin/libllama-common.so.0.2.0
+[13/16] Creating library symlink bin/libllama-common.so.0 bin/libllama-common.so
+[14/16] Linking CXX shared library bin/libllama-bench-impl.so
+[15/16] Linking CXX executable bin/llama-bench
