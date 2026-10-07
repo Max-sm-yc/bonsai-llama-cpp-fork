@@ -1,0 +1,22 @@
+Independent manager reruns of the final compiled screen binary on NVIDIA GeForce RTX 3080 / sm_86.
+
+40 K blocks/row, 2048 rows, 150 paired launches/sample:
+  exact codes: 10,485,760; code mismatches: 0
+  AoS vs SoA row outputs: 0 mismatches
+  independent host reference: 0 mismatches; max error: 0
+  AoS median: 0.00924331 ms (range 0.00923499..0.00932523)
+  SoA median: 0.00922261 ms (range 0.00921344..0.00931157)
+  SoA delta: -0.224% (tie)
+
+136 K blocks/row, 2048 rows, 80 paired launches/sample:
+  exact codes: 35,651,584; code mismatches: 0
+  AoS vs SoA row outputs: 0 mismatches
+  independent host reference: 0 mismatches; max error: 0
+  AoS median: 0.02510440 ms (range 0.02506240..0.02576080)
+  SoA median: 0.02314240 ms (range 0.02310400..0.02329960)
+  SoA delta: -7.815%
+
+Independent Compute Sanitizer memcheck: `manager_memcheck_40.txt`, zero errors.
+Production source SHA-256: f398417accddf1948fbf12155b4180fd362a3dfea88366ef3980161700d56496
+Active CUDA library SHA-256: c828135b126ec507ffbecb4dc11b6a7a9ac5cd0fe050553323d7f35c38fae6c7
+Repository HEAD during verification: c0dbe28678598d749afa1aa3967e8e9da19a46fb

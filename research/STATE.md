@@ -57,6 +57,7 @@
 - Experiment 025's work-list strip mining changed neither static register usage nor model throughput favorably; do not retry source unrolling alone without disassembly or kernel-counter evidence.
 - Experiments 001/002 changed only the generic PTQ1 prefetch, while the RTX 3080 batch-1 decode takes the dedicated kernel. Experiment 026's gated/ungated SASS each has nine 128-bit activation loads, so do not pursue load reuse there without a new codegen premise.
 - The dedicated GEMV assigns `(row group,K block)` work items with per-thread loop stride 128. Prefetching that thread's next work item is a distinct lookahead candidate; current-block prefetch is not.
+- Experiment 032: a same-footprint seven-plane SoA layout was exact and sanitizer-clean. Repeated 2,048-row screens tied at 40 K blocks (-0.22% manager rerun) and won at 136 blocks (-7.82%); this is block-dot evidence only, with no production/runtime result.
 - The work-list lookahead adds index/address instructions before the dot and did not repay that overhead in the first actual-kernel trace. PTQ1 packed `qs` words remain naturally 4-byte aligned even though 28-byte block starts are not 16-byte aligned. Exp029's `.cg` modifier emitted `LDG.E.STRONG.GPU` for these loads while the nine activation vector loads remained cached; its profile lacks a contemporaneous control and says nothing about speed.
 - Exp029 showed that interrupted broad Ninja rebuilds can remove the linked CUDA library and leave missing objects. The source-default library has now been rebuilt and passed a model smoke, but its byte hash differs from the archived best library; preserve the active library and use isolated candidate relinks for future cache-policy tests.
 
@@ -64,7 +65,7 @@
 
 ## Next candidates
 
-1. Screen a no-padding, per-row SoA PTQ1_0 weight layout: contiguous lanes would load the same packed word from adjacent K blocks, preserving the 28-byte/block footprint. Require exact output and implementation-equivalent timings at 40- and 136-block rows before considering loader/runtime integration.
+1. Determine whether the exact 28-byte/block SoA layout can serve every active PTQ1_0 consumer without a second GPU copy; if feasible, implement an isolated runtime candidate and compare full correctness, VRAM, and matched decode/prefill.
 2. Audit fused-gate non-load work or targeted PQ2_0 decode only after a concrete source/SASS premise; retain matched model conditions.
 
 - Experiment 030: matched default/`.cg`/`.cs` screen completed with three actual-kernel traces per arm (485 target launches each). `.cg` was +128.4% target-kernel time; `.cs` was -0.30% in the kernel screen but lost 0.9–1.1% end-to-end median throughput in the reversed-order 7-rep comparison at contexts 512/4096. Reverted; production source, active source-default library, and backup hashes are intact. No exact correctness comparison was completed, so no candidate was retained. See report 030 and `results/exp030/`.

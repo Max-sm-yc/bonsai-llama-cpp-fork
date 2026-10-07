@@ -1,0 +1,19 @@
+CORRECT rows=2048 blocks_per_row=40 verified_device_codes=10485760 code_mismatches=0 aos_soa_mismatches=0 independent_host_output_mismatches=0 max_error=0
+AoS 0.00928213 ms_pair
+AoS 0.00924928 ms_pair
+AoS 0.00923840 ms_pair
+AoS 0.00924331 ms_pair
+AoS 0.00924331 ms_pair
+AoS 0.00923499 ms_pair
+AoS 0.00924331 ms_pair
+AoS 0.00932523 ms_pair
+AoS 0.00932523 ms_pair
+SoA 0.00921600 ms_pair
+SoA 0.00922731 ms_pair
+SoA 0.00921344 ms_pair
+SoA 0.00922155 ms_pair
+SoA 0.00922261 ms_pair
+SoA 0.00921856 ms_pair
+SoA 0.00922965 ms_pair
+SoA 0.00926208 ms_pair
+SoA 0.00931157 ms_pair
