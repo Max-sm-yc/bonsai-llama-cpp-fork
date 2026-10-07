@@ -1,0 +1,16 @@
+Exp050 codegen audit
+====================
+
+Control library: /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libggml-cuda.so.0
+SHA-256: bad70d76b19fdd1b21f61e5c9eb4900b5334c638ff75cdec11f3a4d3b2b28642
+Device: NVIDIA GeForce RTX 3080, sm_86
+
+Target function (mangled):
+_Z13mul_mat_vec_fI13__nv_bfloat16fLi1ELi256ELb0ELb0EEvPKT_PKfPKi31ggml_cuda_mm_fusion_args_devicePfi5uint3iiiSA_iiiSA_iiii
+
+cuobjdump --dump-resource-usage:
+REG:39 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:512
+
+Launch supplies 128 bytes dynamic shared memory (one float partial per 32-lane warp). Source and SASS show paired BF16/F32 loads, FP32 FMA accumulation, warp-shuffle reduction, shared partial fold, and CTA barrier. No local-memory spill or tensor-core path.
+
+SASS source location: exp047 manager control library; extracted target begins in /tmp/exp050_sass.txt around line 657253 during this audit. Full 319 MiB SASS dump intentionally not retained in results.

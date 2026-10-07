@@ -34,12 +34,14 @@
 
 ## Latest research result
 
+- Exp050 audited the active BF16 matvec family: Exp047 reports 24,672 kernel instances over the capture (not CTAs), with 255 graph launches. Model-specific `ssm_alpha`/`ssm_beta` projections are 48x5120, giving 48 CTAs per applicable batch-1 kernel launch; compact replay artifacts do not resolve per-replay signature counts. Existing paired loads, FP32 accumulation, warp reduction and shared inter-warp fold leave no distinct low-cost sm_86 candidate; no implementation/build or E2E run. See [Exp050](../experiments/050-bf16-matvec/REPORT.md).
+
 - Exp049 audited active sm_86 GDN code/SASS and found no distinct safe candidate: q/k reuse, contiguous state access, required warp reductions, and adjacent graph fusions are already present. No code or measurements; see `experiments/049-gdn-design/REPORT.md`.
 - Exp048's cooperative one-launch QKV RMS-sharing variant was byte-exact and sanitizer-clean, but graph replay was ~25% slower; reverted before E2E. Current best unchanged; see `experiments/048-qkv-rms-sharing/REPORT.md`.
 - Exp047 directly measured one-token graph replay: PTQ1_0 GEMV is 9.01/9.02 ms/token (74–76%); QKV prep is 0.752 ms, GDN 0.500 ms, and the BF16 matvec specialization is ~0.311 ms/token at context 512. See `experiments/047-steady-decode-profile/REPORT.md`.
 
 ## Next candidates
 
-1. Exp050: investigate the frequently invoked BF16 `mul_mat_vec_f<__nv_bfloat16,float,1,256,false,false>` path (~0.311 ms/token at context 512), identify its actual graph shapes, and test distinct sm_86 dataflow/geometry variants with focused CUDA timing. It is a secondary target; only matched model decode can justify keeping a change.
-2. Revisit PTQ1_0 GEMV only when a genuinely new dataflow or codegen premise appears; Exp046 and prior screens close the obvious decoder, staging, geometry, and scheduling families.
-3. Revisit GDN only if profiling/codegen exposes redundant state traffic, a removable launch, or synchronization-free gate sharing; Exp049 found none in the current kernel.
+1. Revisit PTQ1_0 GEMV only when a genuinely new dataflow or codegen premise appears; Exp046 and prior screens close the obvious decoder, staging, geometry, and scheduling families.
+2. Revisit GDN only if profiling/codegen exposes redundant state traffic, a removable launch, or synchronization-free gate sharing; Exp049 found none in the current kernel.
+3. Revisit BF16 matvec only if a future design can raise row-level CTA parallelism without an expensive cross-CTA K reduction; Exp050 found 48 CTAs per applicable 48-row launch and no surviving low-cost dataflow candidate. Per-replay family invocation counts remain unavailable in the compact profile artifacts.
