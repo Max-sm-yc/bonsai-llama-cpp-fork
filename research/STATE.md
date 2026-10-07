@@ -51,6 +51,7 @@
 ## Experiment status
 
 - Exp077–082 completed with no production change. Exp077 did not qualify MTP/global arithmetic promotion; Exp078 rejected signed bit planes; Exp079 rejected L2 persistence after no E2E gain; Exp080 found no exact new partial-reduction mapping; Exp081 found direct 2-bit trits 8.8–95.5% slower in the active planar screen; Exp082 doubled long-context FlashAttention CTAs via lower shared memory but total attention regressed 12.8–13.7%. Current best remains unchanged.
+- Exp083 is active: map the highest-cost remaining repeated small CUDA operations to graph consumers, then screen one distinct, alias-safe decode fusion if the measured opportunities justify implementation. Worktree base `ae5241b`; experimenter configured explicitly as GPT-6 Luna.
 
 ## Latest research result
 
