@@ -1,0 +1,10 @@
+Exact production-kernel isolation feasibility audit
+
+Production kernel target: static template mul_mat_vec_ptq1_0_pt<ncols=1, ROWS=1, has_fusion, has_gate> in ggml/src/ggml-cuda/mmvq-ptq1_0.cuh. Exact path requires:
+- a PTQ1_0 weight tensor in block_ptq1_0 format, real planar Q8_1 activation storage (9 planes, including packed d/s plane), launch dimensions/fastdiv/partial-reduction parameters from the production wrapper, and the right fusion args;
+- internal ggml CUDA headers/launch helpers (`ggml_cuda_kernel_launch`, PDL sync, common.cuh types/macros) and the production compile configuration;
+- an actual replayable invocation of the production kernel with cache perturbation between graph replays.
+
+The profile records kernel template names, graph node IDs, and durations, but not vx/vy addresses or tensor names. Captured graph replay does not label the corresponding model tensor. A cold/warm experiment on the exact kernel would therefore need either an instrumented isolated engine build that tags each GEMV's tensor and inserts a cache-eviction operation between graph replays, or a standalone harness that reproduces the production launch environment while loading the real GGUF and matching activations. Both require building/instrumenting engine internals and validating buffer format/output equivalence. The requested isolated study restricts work to the new experiment/results directories and leaves production build/source untouched; no such dedicated engine build or pre-existing exact-harness exists here.
+
+Decision: stop before timing a synthetic/rewritten proxy. Existing profile and manifest support logical size/reuse-distance analysis, while Nsight Compute remains unavailable. No GPU cache counters are claimed.

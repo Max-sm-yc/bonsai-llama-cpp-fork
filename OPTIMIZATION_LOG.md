@@ -382,4 +382,10 @@
 
 - GGUF metadata identified 401 PTQ1_0 GEMV tensors totaling 5,599,641,600 bytes. Exp062 graph profiles measure the active GEMV family at 9.0065 ms/token for context 512 and 9.0212 ms for context 4096, giving about 621 GB/s payload-equivalent rates.
 - A 5.6 GB, sm_86 CUDA-event streaming harness measured 724.6–724.9 GB/s across contiguous, 28-byte record, and reused planar-context access patterns. A manager rerun agreed within 0.03%. These are synthetic read results; Nsight Compute is still unavailable, so no actual GEMV DRAM rate or bandwidth-limited conclusion is claimed.
-- **MEASUREMENT ONLY; current best unchanged.** Next isolate one active GEMV shape and compare cold/warm replay across working sets around and beyond L2. See `experiments/074-gemv-throughput-ceiling/REPORT.md` and `results/exp074/raw/`.
+- **MEASUREMENT ONLY; current best unchanged.** Exp075 followed with a reuse-distance audit and found that an exact cold/warm replay requires engine instrumentation; it intentionally did not substitute a synthetic proxy. See `experiments/074-gemv-throughput-ceiling/REPORT.md` and `results/exp074/raw/`.
+
+## Experiment 075: active PTQ1_0 L2 reuse-distance audit
+
+- 32 of 401 active type-143 GEMV matrices fit individually in a 5 MiB L2; all are 1.14688 MB K/V matrices, totaling 36,700,160 bytes. Their next-token reuse distance includes about 5.598 GB of other PTQ payload, so whole-matrix inter-token retention is implausible.
+- An exact cold/warm production-kernel test would require a tagged engine replay or a standalone harness matching the real packed weights, planar activations, launch schedule, and cache condition. Existing graph traces lack tensor pointers/names; no synthetic proxy timing was used.
+- **NO KERNEL CANDIDATE; no cache-hit, bandwidth, or E2E performance claim.** Production and current best remain unchanged. See `experiments/075-l2-cache-reuse/REPORT.md` and `results/exp075/raw/`.

@@ -1,0 +1,3 @@
+f398417accddf1948fbf12155b4180fd362a3dfea88366ef3980161700d56496  ggml/src/ggml-cuda/mmvq-ptq1_0.cuh
+e889b1543656cd2e5c0c6151f11bfdd7f641e88af441449d92064ac902b9483d  ggml/src/ggml-cuda/mmvq.cu
+8a47f1b7ef1b1819e56e16611af4632fcd6152da449df94edeb7080b77d79e9e  ggml/src/ggml-cuda/vecdotq.cuh

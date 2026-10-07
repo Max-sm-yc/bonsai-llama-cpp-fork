@@ -1,0 +1,66 @@
+{
+  "512": {
+    "source_file": "results/exp062/raw/candidate_ctx512.profile.json",
+    "graph_replays": 31,
+    "nodes_per_replay": [
+      1360
+    ],
+    "gemv_instances_per_replay": [
+      361
+    ],
+    "gemv_mean_ms_per_replay": 9.005588548387097,
+    "gemv_stdev_ms_per_replay": 0.003000711480507275,
+    "specializations": {
+      "void mul_mat_vec_ptq1_0_pt<(int)1, (int)1, (bool)0, (bool)0>(const void *, const void *, ggml_cuda_mm_fusion_args_device, float *, int, int, int, int, int, int, uint3, uint3, bool)": {
+        "count_per_replay": [
+          242
+        ],
+        "mean_ms_per_replay": 4.561250677419355
+      },
+      "void mul_mat_vec_ptq1_0_pt<(int)1, (int)1, (bool)1, (bool)0>(const void *, const void *, ggml_cuda_mm_fusion_args_device, float *, int, int, int, int, int, int, uint3, uint3, bool)": {
+        "count_per_replay": [
+          79
+        ],
+        "mean_ms_per_replay": 2.1343870967741934
+      },
+      "void mul_mat_vec_ptq1_0_pt<(int)1, (int)1, (bool)1, (bool)1>(const void *, const void *, ggml_cuda_mm_fusion_args_device, float *, int, int, int, int, int, int, uint3, uint3, bool)": {
+        "count_per_replay": [
+          40
+        ],
+        "mean_ms_per_replay": 2.3099507741935486
+      }
+    }
+  },
+  "4096": {
+    "source_file": "results/exp062/raw/candidate_ctx4096.profile.json",
+    "graph_replays": 31,
+    "nodes_per_replay": [
+      1360
+    ],
+    "gemv_instances_per_replay": [
+      361
+    ],
+    "gemv_mean_ms_per_replay": 9.021207225806451,
+    "gemv_stdev_ms_per_replay": 0.003164651973594984,
+    "specializations": {
+      "void mul_mat_vec_ptq1_0_pt<(int)1, (int)1, (bool)0, (bool)0>(const void *, const void *, ggml_cuda_mm_fusion_args_device, float *, int, int, int, int, int, int, uint3, uint3, bool)": {
+        "count_per_replay": [
+          242
+        ],
+        "mean_ms_per_replay": 4.566852967741935
+      },
+      "void mul_mat_vec_ptq1_0_pt<(int)1, (int)1, (bool)1, (bool)0>(const void *, const void *, ggml_cuda_mm_fusion_args_device, float *, int, int, int, int, int, int, uint3, uint3, bool)": {
+        "count_per_replay": [
+          79
+        ],
+        "mean_ms_per_replay": 2.141350322580645
+      },
+      "void mul_mat_vec_ptq1_0_pt<(int)1, (int)1, (bool)1, (bool)1>(const void *, const void *, ggml_cuda_mm_fusion_args_device, float *, int, int, int, int, int, int, uint3, uint3, bool)": {
+        "count_per_replay": [
+          40
+        ],
+        "mean_ms_per_replay": 2.313003935483871
+      }
+    }
+  }
+}
