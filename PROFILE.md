@@ -77,3 +77,20 @@ The CUDA API summary still has 127 graph-launch calls. Synchronization and async
 The post-ROWS=1 CSV contains 16,770 calls / 76.18 ms for `rms_norm_f32<1024,true,false>` and 10,400 calls / 24.43 ms for `rms_norm_f32<256,true,false>`. Together they account for 100.61 ms, or 5.21% of the 1.933 s summed kernel time. The former alone is 3.94%, matching the previously reported 3.9% row; the 256-thread signature had been omitted from that family total. The baseline CSV has the same call counts and 101.39 ms combined family time. In the PQ2_0 CSV, the two signatures account for 81.21 ms / 16,770 calls and 25.46 ms / 10,400 calls (106.67 ms total, or 4.80% of 2.224 s).
 
 The fused-weight dispatch uses the 1024-thread specialization for `ncols >= 1024`, and the 256-thread specialization below that threshold. A full-model decode screen changed only that branch to 256 threads; it lost 3.32% at context 512 and 3.25% at 4096 (7 repetitions, 128 tokens), so the original 1024-thread dispatch remains active. Both fixed-seed 32-token PTQ1_0/PQ2_0 model outputs matched after removing only build and timing text. The broader standalone CTest/CUDA-vs-CPU suite did not complete because its script initiated a 393-target rebuild after the clear end-to-end regression; no correctness-suite pass is claimed for this rejected candidate. See `experiments/022-rmsnorm-sm86/REPORT.md`.
+
+## Post-Exp036 coordinated RMS/FWHT/Q8 profile
+
+After promoting Exp036 commit `c6cdaa5fa62787c97db58d1d2e1db666a4aeddb5`, I repeated the same context-512 Nsight Systems command and workload on the actual RTX 3080: `llama-bench -p 0 -n 64 -d 512 -r 2`, with node-level CUDA graph tracing. This is again a mixed setup/decode trace. Nsight-instrumented throughput was 74.81 tok/s; use the non-profiled paired A/B for the performance claim. Raw report and CSV exports are `results/profile/ptq1_decode512_rmsfwht.nsys-rep` and `results/profile/ptq1_decode512_rmsfwht.stats.csv_cuda_gpu_kern_sum.csv` / `_cuda_api_sum.csv`.
+
+| Kernel family | Post-ROWS=1 | Post-Exp036 | Interpretation |
+|---|---:|---:|---|
+| Three active PTQ1_0 GEMV variants | 1,165.7 ms / 60.32%, 46,572 launches | 1,165.5 ms / 61.22%, 46,572 launches | Still the dominant target; absolute traced time is effectively unchanged. |
+| PTQ1_0 quantized GEMM | 242.8 ms / 12.56% | 242.6 ms / 12.74% | Prompt-side work unchanged. |
+| RMSNorm family | 100.6 ms / 5.21%, 27,170 launches | 56.8 ms / 2.98%, 16,849 launches | The coordinated fusion eliminates about 43.8 ms from this family in the mixed trace. |
+| Standard FWHT/Q8_1 | 85.1 ms / 4.41%, 33,156 launches | 59.3 ms / 3.12%, 22,835 launches | Fewer transform-to-Q8 launches. |
+| New coordinated RMS/FWHT/Q8 kernel | — | 39.3 ms / 2.06%, 10,321 launches | Five 1024-element CTAs per row; included separately from the remaining standard FWHT calls. |
+| Gated delta network | 88.0 ms / 4.56%, 6,240 launches | 88.2 ms / 4.63%, 6,240 launches | Unchanged secondary cost. |
+
+The measured activation-preparation kernels (`fwht_quantize_q8_1` plus `fwht_rms_quantize_q8_1`) total 98.6 ms in the post-Exp036 mixed trace, versus 85.1 ms for the old fused-FWHT row alone; the new candidate kernel is a separate signature, so comparing only that old row would be misleading. Together, RMSNorm plus activation preparation fall from 185.7 to 155.4 ms (-30.4 ms) across these comparable traces. Overall summed kernel time fell from 1.933 s to 1.904 s; the GEMV absolute total stayed flat. Nsight Compute remains blocked by `ERR_NVGPUCTRPERM`.
+
+The next experiment should therefore challenge the active `mul_mat_vec_ptq1_0_pt` implementation with a materially different sm_86 dataflow. Do not repeat the already screened row geometry, recurrence, naive strip mining, cache policies, next-item prefetch, or padded 32-byte block layout without a new codegen or traffic premise.

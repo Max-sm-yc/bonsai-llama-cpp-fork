@@ -2,20 +2,20 @@
 
 ## Current best
 
-- **PTQ1_0, active sm_86 planar GEMV with ROWS=1.** Code commit `9fa97200e68fd798ef027470c8e420172a0ac719`; reference runtime commit `6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17`. Rebuilt source-default medians: 82.22 tok/s at context 512 and 79.70 at 4096 (7 reps, 128 decode tokens, F16 KV, FA on, 99 GPU layers, 8 CPU threads); matched archived ROWS=4 medians: 78.00/75.66, or +5.42%/+5.34%. Peak whole-GPU memory 6,805 MiB. Prefill not remeasured; reference medians are 1,378/1,331 tok/s at 512/4096.
-- Current source-default CUDA library was rebuilt after Exp029 interruption: SHA-256 `c828135b126ec507ffbecb4dc11b6a7a9ac5cd0fe050553323d7f35c38fae6c7`; source and 76-register active-kernel resource record match production. Fixed-seed 32-token PTQ1_0 smoke passed. This differs from the archived library SHA (`708ece...`); byte-for-byte reproduction is unverified.
-- Correctness: final source-default ROWS=1 passed 4 CTests, 96 CUDA-vs-CPU PTQ1_0/PQ2_0 matmul cases, and both fixed 32-token model smokes. See experiment 010 report and raw results.
+- **PTQ1_0, sm_86 ROWS=1 GEMV plus coordinated RMS/FWHT/Q8 preparation.** Code commit `c6cdaa5fa62787c97db58d1d2e1db666a4aeddb5`; reference runtime commit `6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17`. Same-binary, two order-reversed 7-repetition comparisons: enabled median-of-run-medians 83.35 tok/s at context 512 and 80.35 at 4096 versus disabled 81.99/79.13 (+1.65%/+1.55%). Peak whole-GPU memory 6,803 MiB enabled / 6,805 disabled. Prefill was not remeasured; reference medians remain 1,378/1,331 tok/s at 512/4096.
+- Correctness: rebuilt main checkout passed `tests/run_correctness.sh`: selected CTests 4/4, CUDA-vs-CPU PTQ1_0/PQ2_0 backend cases 96/96, and both fixed-seed 32-token model smokes. The PTQ1_0 normalized completion exactly matches the previous default. Main CUDA library SHA-256 `4b4adb58e3d26cb8694aebf0843112b981de66ac54441760ec8290bb2b021dcf`.
 
 ## Bottlenecks
 
-1. PTQ1_0 batch-1 `mul_mat_vec_ptq1_0_pt` remains dominant at 60.4% (1.166 s) in the post-ROWS=1 mixed context-512 trace.
-2. PTQ1_0 GEMM: 12.6% (242.8 ms).
-3. RMSNorm family: 5.21% (100.61 ms), including 1024-thread and 256-thread signatures; the 3.9% profile row covered only the 1024-thread signature. Gated delta attention: 4.6% (88.0 ms); fused FWHT/Q8_1: 4.4% (85.1 ms).
-4. Nsight Compute counters remain blocked by `ERR_NVGPUCTRPERM`; do not alter system-wide driver permissions.
+1. PTQ1_0 batch-1 `mul_mat_vec_ptq1_0_pt` remains dominant at 61.2% (1.166 s) in the post-Exp036 mixed context-512 trace.
+2. PTQ1_0 GEMM: 12.7% (242.6 ms).
+3. Coordinated activation prep (standard plus fused RMS/FWHT/Q8): 5.2% (98.6 ms); gated delta attention: 4.6% (88.2 ms).
+4. Remaining RMSNorm family: 3.0% (56.8 ms). Nsight Compute counters remain blocked by `ERR_NVGPUCTRPERM`; do not alter system-wide driver permissions.
 
 ## Successful optimizations
 
 - Experiment 010: ROWS=1 lowers the active specialization from 108 to 76 registers/thread (no spills) and raises paired median decode by 4.9–5.8% vs ROWS=4; the manager's rebuilt A/B measured +5.42%/+5.34% at contexts 512/4096. ROWS=1 edges ROWS=2 by 0.65–0.73% in two direct pairs.
+- Experiment 036: exact-shape, use-count-guarded coordinated RMS→weighted multiply→sign→FWHT/Q8 preparation. Same-binary reversed-order decode pairs improved +1.65%/+1.55% at contexts 512/4096; combined RMSNorm plus activation-preparation time fell 30.4 ms in the mixed profile. Default on; `GGML_CUDA_RMS_FWHT_Q8=0` disables it. See report and raw A/B under `experiments/036-coordinated-qkv-prep/` and `results/exp036/`.
 
 ## Failed or exhausted approaches
 
@@ -52,7 +52,7 @@
 - Median decode gains repeat, but context-4096 samples have intermittent slow tails in both ROWS=1 and ROWS=4 builds. Keep means/ranges with medians; do not hide outliers.
 - PTQ1_0 remains faster than PQ2_0 by 32–54% in the controlled reference format comparison; prefill is nearly tied. Both models fit in VRAM.
 - CUDA Graphs are already active (127 graph launches in the context-512 mixed trace); prioritize measured device work/fusion over generic launch-overhead changes.
-- The FWHT→Q8_1 path is already one kernel; attention RMS output fans out into Q/K/V. A multi-output coordinated preparation is still an open structural hypothesis, but per-branch fusion cannot discard the shared intermediate.
+- Full-attention Q/K/V share a memoized activation transform. Exp036 added a guarded coordinated RMS/weight/sign/FWHT/Q8 path; five CTAs repeat a 5120-wide RMS reduction. It reduces combined norm/preparation time in the mixed trace and improves same-binary decode medians modestly. Keep the shape/use-count guards and disable override.
 - The active GDN trace is S_v=128, scalar-gate (`KDA=false`), raw-gate (`RAW=true`); on sm_86 it already uses four columns per warp, fused cache/gather paths, and CUDA Graphs.
 - The RMSNorm profile has 16,770 calls / 76.18 ms for `<1024,true,false>` and 10,400 / 24.43 ms for `<256,true,false>`; Nsight recorded CTA sizes but not `ncols`. Global reduction to 256 threads on the fused-weight `ncols >= 1024` path regressed full-model decode, so retain its current geometry.
 - Experiment 023's scalar extraction cost dominated its cooperative microbenchmark; 024 then tested the actual packed recurrence and showed that its isolated 1.49x screen did not translate to production decode.
@@ -67,7 +67,7 @@
 
 ## Next candidates
 
-1. Audit and, if structurally feasible, prototype coordinated RMSNorm plus Q/K/V sign/FWHT/Q8_1 preparation; prove the actual graph fan-out and shapes first, then measure whether it removes materialization/launch work without extra reductions.
-2. Challenge PTQ1_0 GEMV with a materially different weight/activation dataflow only when there is a codegen or memory-traffic premise; avoid repeated geometry, recurrence, and cache-policy screens already indexed.
+1. Fresh challenge of the active sm_86 PTQ1_0 GEMV dataflow. It remains 61.2% of mixed-trace kernel time after Exp036; seek a materially different packed-weight/activation mapping and screen it on the actual ROWS=1 specialization before model A/B.
+2. Revisit PQ2_0 or prompt-side work only if a format-specific or workload-level change has a stronger expected decode impact than the active PTQ1_0 GEMV.
 
 - Experiment 030: matched default/`.cg`/`.cs` screen completed with three actual-kernel traces per arm (485 target launches each). `.cg` was +128.4% target-kernel time; `.cs` was -0.30% in the kernel screen but lost 0.9–1.1% end-to-end median throughput in the reversed-order 7-rep comparison at contexts 512/4096. Reverted; production source, active source-default library, and backup hashes are intact. No exact correctness comparison was completed, so no candidate was retained. See report 030 and `results/exp030/`.
