@@ -48,7 +48,8 @@
 
 **Format profile:** Use Exp052's paired graph signatures as the baseline for any format-specific decoder work. The measurements show both a per-call GEMV difference and fewer PTQ1_0 activation-prep nodes, but do not identify the GEMV hardware bottleneck; collect permitted hardware counters before making a traffic-versus-integer-throughput claim.
 
-1. Revisit PTQ1_0 GEMV only when a genuinely new dataflow or codegen premise appears; Exp046 and prior screens close the obvious decoder, staging, geometry, and scheduling families.
-2. Revisit GDN only if profiling/codegen exposes redundant state traffic, a removable launch, or synchronization-free gate sharing; Exp049 found none in the current kernel.
-3. Revisit BF16 matvec only if a future design can raise row-level CTA parallelism without an expensive cross-CTA K reduction; Exp050 found 48 CTAs per applicable 48-row launch and no surviving low-cost dataflow candidate. Per-replay family invocation counts remain unavailable in the compact profile artifacts.
-4. Keep the current FWHT helper after Exp051: the cross-warp barrier reduction is correct and faster in isolation, but did not move matched decode. Reopen only with a stronger end-to-end premise or a layout that avoids doubling shared storage.
+1. Profile and tune the active long-context FlashAttention decode path: Exp052 measured `flash_attn_ext_f16` at 0.553 ms/token plus 0.036 ms fixup at context 4096, versus 0.202 + 0.035 ms at 512. Keep only if matched model decode improves at 4096 without regressing 512.
+2. Revisit PTQ1_0 GEMV only when a genuinely new dataflow or codegen premise appears; Exp046 and prior screens close the obvious decoder, staging, geometry, and scheduling families.
+3. Revisit GDN only if profiling/codegen exposes redundant state traffic, a removable launch, or synchronization-free gate sharing; Exp049 found none in the current kernel.
+4. Revisit BF16 matvec only if a future design can raise row-level CTA parallelism without an expensive cross-CTA K reduction; Exp050 found 48 CTAs per applicable 48-row launch and no surviving low-cost dataflow candidate. Per-replay family invocation counts remain unavailable in the compact profile artifacts.
+5. Keep the current FWHT helper after Exp051: the cross-warp barrier reduction is correct and faster in isolation, but did not move matched decode. Reopen only with a stronger end-to-end premise or a layout that avoids doubling shared storage.

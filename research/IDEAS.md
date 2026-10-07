@@ -4,6 +4,12 @@ Exp052 now supplies a matched format-level decode profile: PTQ1_0's dedicated pl
 
 Ranked against the current ROWS=1 implementation. Controlled batch-1 model decode is the decision metric; isolated kernel gains are screening evidence only.
 
+## Open candidate
+
+1. **Long-context FlashAttention decode:** Exp052 measured the active `flash_attn_ext_f16` call at 0.553 ms/token plus 0.036 ms fixup at context 4096, versus 0.202 + 0.035 ms at 512. Investigate the active sm_86 tile/scheduling path and keep a variant only if full decode improves at 4096 without regressing 512.
+
+## Previously tested directions
+
 1. **Closed by Exp050:** the active `mul_mat_vec_f<__nv_bfloat16,float,1,256,false,false>` family totals 24,672 kernel instances in Exp047's capture (~0.311 ms/token at context 512). The model-specific `ssm_alpha`/`ssm_beta` projections are 48x5120, giving 48 CTAs per applicable batch-1 kernel launch; compact artifacts do not give the exact per-replay count for this signature. One CTA owns each row; narrower CTAs add loop work and K splitting needs cross-CTA reduction. No distinct low-cost candidate survived the source/codegen audit; reopen only with a way to raise row-level parallelism without that reduction cost. See `experiments/050-bf16-matvec/REPORT.md`.
 2. **Closed by Exp049:** active sm_86 GDN already reuses q/k across columns, accesses contiguous state, and uses the required two warp reductions per column without an inner CTA barrier. Existing gather/cache-copy fusions remove adjacent work; low-cost gate sharing has no viable communication path. No candidate survived the source/SASS audit. Reopen only if future profiling exposes redundant traffic or synchronization-free gate sharing; see `experiments/049-gdn-design/REPORT.md`.
 3. **Closed by Exp048:** cooperative grid-sync sharing preserved five-CTA FWHT parallelism and produced byte-identical output, but two grid barriers increased graph replay time about 25%. Reopen only with a synchronization design that removes the measured barrier cost. See `experiments/048-qkv-rms-sharing/REPORT.md`.
