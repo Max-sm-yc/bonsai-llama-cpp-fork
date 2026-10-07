@@ -51,6 +51,7 @@
 ## Experiment status
 
 - Exp077–081 completed with no production change. Exp077 did not qualify MTP/global arithmetic promotion; Exp078 rejected signed bit planes; Exp079 rejected L2 persistence after no E2E gain; Exp080 found no exact new partial-reduction mapping; Exp081 found direct 2-bit trits 8.8–95.5% slower in the active planar screen. Current best remains unchanged.
+- Exp082 is active: test whether a genuinely lower-resource Ampere attention kernel can raise resident Stream-K splits enough to offset extra partial/fixup work. Worktree base `39f6b1e`; experimenter configured explicitly as GPT-6 Luna.
 
 ## Latest research result
 

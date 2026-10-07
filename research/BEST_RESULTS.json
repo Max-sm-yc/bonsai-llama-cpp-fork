@@ -388,8 +388,8 @@
     ],
     "timestamp_utc": "2026-10-07T22:38:27Z"
   },
-  "updated_timestamp_utc": "2026-10-07T22:38:27Z",
-  "project_commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
+  "updated_timestamp_utc": "2026-10-07T22:40:57Z",
+  "project_commit": "39f6b1e7bbe305dbbb068053e29298025276e26c",
   "current_best": {
     "commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
     "reference_runtime_commit": "6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17",
@@ -1759,5 +1759,14 @@
     ],
     "timestamp_utc": "2026-10-07T22:26:55Z"
   },
-  "active_experiment": null
+  "active_experiment": {
+    "id": "082",
+    "hypothesis": "Test whether a lower-resource active Ampere FlashAttention kernel enables more resident Stream-K partitions and improves total long-context attention/decode.",
+    "status": "in_progress",
+    "base_project_commit": "39f6b1e7bbe305dbbb068053e29298025276e26c",
+    "production_source_commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
+    "worktree": "/home/maxsun/autonomous_projects/.worktrees/exp082-fa-split-occupancy",
+    "assigned_model": "gpt-6-luna",
+    "current_best_unchanged": true
+  }
 }
