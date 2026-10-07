@@ -42,7 +42,7 @@
 
 ## Active experiment
 
-- None. Exp067 completed the global PTQ1_0 prefill ubatch screen; retain `-ub 512`.
+- Exp068 is a fresh direct-dot challenge for the active PTQ1_0 one-column planar GEMV: can packed ternary codes feed the activation dot without materializing the current signed-byte weight vector? All proven/failed decoder and geometry results remain indexed; production source is unchanged pending exactness and timing.
 
 ## Latest research result
 

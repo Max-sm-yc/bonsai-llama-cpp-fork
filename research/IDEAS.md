@@ -6,7 +6,7 @@ Ranked against the current ROWS=1 implementation. Controlled batch-1 model decod
 
 ## Open candidates
 
-1. **PTQ1_0 batch-1 decode GEMV:** remains the dominant cost at 74–77% of steady decode kernel time. Existing decoder, layout, cache, prefetch, staging, geometry, scheduling, and paired K/V CTA mappings are extensively tested. A new study needs a concrete, materially different ternary representation or dataflow; do not repeat LUT/floor-difference decoders, side encodings, or exhausted CTA mappings.
+1. **PTQ1_0 batch-1 decode GEMV:** remains the dominant cost at 74–77% of steady decode kernel time. Exp068 is a fresh direct-dot challenge: test whether the packed ternary codes can contribute to the activation dot without first materializing the current signed-byte weight vectors. Existing LUT/floor-difference decoders, side encodings, cache/prefetch, staging, geometry, scheduling, and paired K/V CTA mappings are exhausted; do not repeat them.
 2. **PTQ1_0 prefill MMQ:** Exp065 measured type-143 MMQ at 65.5% of the 4096-token prompt profile; its 128-thread/I=64 schedule lost by 3.3–15.6%. Exp066 confirmed serial trit expansion and shared staging in the active PTX but found no grounded local replacement. Reopen only with a concrete exact direct-compute or decoder derivation; do not repeat geometry-only screens or assume the GEMV floor-difference result transfers.
 3. **Long-context FlashAttention:** Exp053's valid 64/64 single-stage Ampere tile regressed focused time by 17.2% at context 512 and 11.3% at 4096; 96/96 failed a compile invariant. Reopen only with a design that reduces Stream-K fixup cost. See `experiments/053-flash-attention-longctx/REPORT.md`.
 
