@@ -1,0 +1,13 @@
+diff --git a/ggml/src/ggml-cuda/mmvq-ptq1_0.cuh b/ggml/src/ggml-cuda/mmvq-ptq1_0.cuh
+index a1f932a..438b912 100644
+--- a/ggml/src/ggml-cuda/mmvq-ptq1_0.cuh
++++ b/ggml/src/ggml-cuda/mmvq-ptq1_0.cuh
+@@ -297,7 +297,7 @@ static __host__ size_t ptq1_0_pt_smem_bytes(const int blocks_per_row, const int
+ }
+ 
+ template <int ncols, int ROWS, bool has_fusion, bool has_gate>
+-__launch_bounds__(PTQ1_0_PT_THREADS, (ncols <= 2 ? 4 : (ncols <= 4 ? PTQ1_0_PT_MINB_34 : 2)))
++__launch_bounds__(PTQ1_0_PT_THREADS, (ncols == 1 ? PTQ1_0_PT_MINB_1 : (ncols <= 4 ? PTQ1_0_PT_MINB_34 : 2)))
+ static __global__ void mul_mat_vec_ptq1_0_pt(
+         const void * vx_, const void * vy_, const ggml_cuda_mm_fusion_args_device fusion,
+         float * dst_,
