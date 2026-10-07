@@ -241,3 +241,9 @@
 - A focused sm_86 CUDA-event harness compared direct AoS, seven-plane SoA, and a CTA-local shared-memory transpose for the same packed recurrence/DP4A dot and row fold. It screened 2,048 rows at 40 and 136 blocks/row, with nine rotated-order samples per arm.
 - Staged output was exact across 10.5M and 35.7M trits and row sums; Compute Sanitizer memcheck reported zero errors. The staged path used 40 registers/thread, 3,584 B shared memory, and one barrier, without spills.
 - Staging lost to direct AoS by 9.85% at 40 blocks (9.257→10.168 µs) and 12.86% at 136 blocks (25.075→28.301 µs). Reject before runtime integration. No production source or binary changed. See `experiments/037-fresh-gemv-challenge/REPORT.md` and `results/exp037/`.
+
+## Experiment 038: warp-register PTQ1_0 AoS transpose
+
+- A focused sm_86 CUDA-event screen loaded 28 contiguous words per warp for four packed blocks, then used seven `SHFL` instructions to reconstruct each block's seven words before the same PTQ1 recurrence/DP4A dot and row fold. It screened 2,048 rows at 40 and 136 blocks/row, with nine rotated-order samples per arm.
+- All 10.5M and 35.7M trit codes and host/device row outputs matched exactly. The candidate used 40 registers/thread with no spills, shared memory, or barriers.
+- Only four lanes per warp computed dots. Direct AoS medians of 9.308/25.126 µs beat the candidate's 22.538/69.154 µs (+142.13%/+175.23%); all candidate samples were slower. Reject without model integration. See `experiments/038-warp-register-transpose/REPORT.md` and `results/exp038/`.

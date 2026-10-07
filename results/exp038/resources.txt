@@ -1,0 +1,31 @@
+ptxas info    : 0 bytes gmem
+ptxas info    : Compiling entry function '_Z4foldPKfPfii' for 'sm_86'
+ptxas info    : Function properties for _Z4foldPKfPfii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 39 registers, used 0 barriers, 376 bytes cmem[0]
+ptxas info    : Compile time = 5.975 ms
+ptxas info    : Compiling entry function '_Z10emit_codesPK1BPhii' for 'sm_86'
+ptxas info    : Function properties for _Z10emit_codesPK1BPhii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 28 registers, used 0 barriers, 376 bytes cmem[0]
+ptxas info    : Compile time = 11.699 ms
+ptxas info    : Compiling entry function '_Z18work_warp_registerPK1BPKiPfii' for 'sm_86'
+ptxas info    : Function properties for _Z18work_warp_registerPK1BPKiPfii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 0 barriers, 384 bytes cmem[0]
+ptxas info    : Compile time = 8.497 ms
+ptxas info    : Compiling entry function '_Z11work_stagedPK1BPKiPfii' for 'sm_86'
+ptxas info    : Function properties for _Z11work_stagedPK1BPKiPfii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 1 barriers, 3584 bytes smem, 384 bytes cmem[0]
+ptxas info    : Compile time = 13.224 ms
+ptxas info    : Compiling entry function '_Z8work_soaPKjPKiPfii' for 'sm_86'
+ptxas info    : Function properties for _Z8work_soaPKjPKiPfii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 0 barriers, 384 bytes cmem[0]
+ptxas info    : Compile time = 7.144 ms
+ptxas info    : Compiling entry function '_Z8work_aosPK1BPKiPfii' for 'sm_86'
+ptxas info    : Function properties for _Z8work_aosPK1BPKiPfii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 0 barriers, 384 bytes cmem[0]
+ptxas info    : Compile time = 7.004 ms

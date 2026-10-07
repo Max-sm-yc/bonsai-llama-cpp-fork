@@ -46,6 +46,8 @@
 - Experiment 033: a full CUDA SoA conversion has no safe GEMV-only hook: multi-column/MMQ/vector-dot/utility readers and generic transfer callbacks assume AoS. A distinct selective sidecar for the 64 K=17,408 `ffn_down` tensors would cost 1,190 MiB and projects to 7,995 MiB total; not measured.
 - Experiments 034–035: a buffer-owned selective SoA sidecar was implemented in isolation and reached the actual 64 long-K `ffn_down` GEMVs correctly, but repeated decode was tied/noisy and it cost +1,280 MiB peak GPU memory plus ~294 ms load repacking. Keep AoS; do not repeat without a new traffic premise.
 - Experiment 037: CTA-local shared staging coalesced the 28-byte AoS blocks and matched all codes/outputs, but the CUDA-event screen lost 9.85% at 40 blocks and 12.86% at 136 blocks; Compute Sanitizer passed. Do not repeat this staging design. See `experiments/037-fresh-gemv-challenge/REPORT.md` and `results/exp037/`.
+- Experiment 038: a four-block warp-register transpose reconstructed seven words/block exactly but left 28/32 lanes idle for the dot; seven SHFL instructions drove a 2.42–2.75x focused slowdown. Keep direct AoS. See `experiments/038-warp-register-transpose/REPORT.md` and `results/exp038/`.
+- Experiment 038: four-block warp-register transpose loaded contiguous 28-word spans and reconstructed all seven words per block exactly, but only four lanes/warp computed the dot. It lost 142.13% at 40 blocks and 175.23% at 136 blocks in nine-sample CUDA-event screens; ptxas used 40 registers with no spills/shared memory/barrier, and SASS emitted seven SHFL instructions. Keep direct AoS; see `experiments/038-warp-register-transpose/REPORT.md` and `results/exp038/`.
 
 ## Important discoveries
 
@@ -68,8 +70,7 @@
 
 ## Next candidates
 
-1. Screen a warp-register transpose of packed PTQ1_0 blocks: load contiguous word spans, redistribute words with warp shuffles, and compare the real packed dot against direct AoS loads. This avoids Exp037's shared-memory copy/barrier but may trade sectors for too many shuffles; require 40/136-block CUDA-event results before model A/B.
-2. If register redistribution loses, challenge packed-trit arithmetic with a distinct generated-code-backed decoder rather than repeating LUT, pairwise radix-3, or cooperative recurrence variants.
-3. Revisit PQ2_0 or prompt-side work only if a format-specific or workload-level change has stronger expected value than active PTQ1_0 decode.
+1. Test an independent fixed-point decoder in the active planar GEMV: for byte `x`, compute `t_i=floor(3^i*x/256)` and recover trits as `t_i-3*t_(i-1)`. It is exact by construction and avoids the five dependent multiply-by-three remainder steps; Exp009 tested a related floor decoder only in the SOA_ISUM harness, not the active planar specialization. Require exhaustive byte checks, generated-code inspection, and a 40/136-block CUDA-event screen before model integration.
+2. Revisit PQ2_0 or prompt-side work only if a format-specific or workload-level change has stronger expected value than active PTQ1_0 decode.
 
 - Experiment 030: matched default/`.cg`/`.cs` screen completed with three actual-kernel traces per arm (485 target launches each). `.cg` was +128.4% target-kernel time; `.cs` was -0.30% in the kernel screen but lost 0.9–1.1% end-to-end median throughput in the reversed-order 7-rep comparison at contexts 512/4096. Reverted; production source, active source-default library, and backup hashes are intact. No exact correctness comparison was completed, so no candidate was retained. See report 030 and `results/exp030/`.
