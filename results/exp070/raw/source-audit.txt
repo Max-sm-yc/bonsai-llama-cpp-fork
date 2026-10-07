@@ -1,0 +1,63 @@
+Exp070 source/runtime audit
+===========================
+
+Starting docs HEAD: 838a19f4fbe59532fc85f9c2dcfb257ce4146b66
+Production implementation commit: ffb0ef37690b902829ea1158b02b14517ed93c2b
+No candidate source changes remain in this worktree.
+
+Normal CLI path
+---------------
+
+tools/cli/main.cpp:3-4 delegates to llama_cli(). tools/cli/cli.cpp:58-64
+creates cli_context and enters its loop. tools/cli/cli-context.cpp:121-132
+starts an embedded server before prompting; later user messages become
+/v1/chat/completions requests (350-365, 478-497). Server initialization in
+tools/server/server-context.cpp:1060 creates the model/context before later
+requests are accepted. Therefore llama-cli cannot choose n_ubatch from a
+future arbitrary request's token count in its generic server-backed path.
+
+Direct one-shot path
+--------------------
+
+examples/simple/simple.cpp:89-107 loads the model and vocab and tokenizes its
+single command-line prompt before context creation at 111-119. It could select
+a requested ubatch using n_prompt. The sample's default batch is n_prompt, so
+effective n_ubatch is additionally clamped to min(n_batch, n_ctx). A temporary
+opt-in was implemented in this file, built, and exercised, then reverted after
+the decode gate failed. The temporary rule was n_prompt >= 1536 -> request
+2048; otherwise request 512. No benchmark ID or prompt string was inspected.
+
+Runtime setting semantics
+-------------------------
+
+common/common.cpp:1290-1402 creates context params before llama_init_from_model;
+common/common.cpp:1716-1738 copies params.n_ubatch into context params.
+src/llama-context.cpp:334-337 clamps the micro-batch to min(n_batch, n_ubatch)
+while constructing the context. The server reads llama_n_ubatch(ctx_tgt) later
+in request processing (tools/server/server-context.cpp:3025-3027). There is no
+per-request n_ubatch setter for the shared server context.
+
+Build/validation
+----------------
+
+An isolated CUDA CMake build was configured, but `cmake --build build --target
+llama-simple -j 8` stopped because nvcc/g++ temporary output hit the shared
+/tmp disk quota. The changed simple.cpp then compiled and linked as a standalone
+example against the already-built verified main-checkout runtime libraries.
+Candidate temporary executable SHA-256:
+  849ce6c066f05cfb32d713d81dbdad8205c7cdeafd88a49ba7bef1b0dc73d68e
+
+Temporary opt-in source SHA-256 before it was reverted:
+  1c2981a212aba3e7920f4f4193de3fd00cf8cd230654d9f388d7f163347d2b5d
+
+Runtime/library hashes used by benchmark and smoke paths:
+  llama-bench       81187ab3fc4aeda74f92b08ca21ad774d74d1418fb2467d278b41dfe8dcdab13
+  libllama.so.0     3e205e4dc88aabf734a9c26266ad32ed6715fc47e9c1d49ab020cc7e6bcc52f9
+  libggml-cuda.so.0 860fcca9977ed5ba9f9d81ce7d310481db9e9cefbe14ac30987ceb2867b30f3e
+  libggml-cpu.so.0  9b339aab062ec22e1614f6f40437e753a30b4642e828eec259941e816b04473a
+  libggml-base.so.0 ddf2b869cb43fa22f92895ac884c3aad909daaeb6b4871ba23495381602a8eb7
+  libggml.so.0      a0711dca8020a7ca44ce8ea7894a4caaf561e119954ff3f1aaf17ff3f98f390d
+
+The canonical produced binary hashes the temporary example change; all
+production runtime libraries remain the baseline. Exact build and run commands
+are preserved in `commands.txt` and JSON run records.

@@ -1,0 +1,62 @@
+Exp070 commands (run from the isolated worktree)
+=================================================
+
+All benchmark commands used:
+
+  env LD_LIBRARY_PATH=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin python3 benchmark/run.py --binary /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/llama-bench --model PTQ1_0=/home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PTQ1_0.gguf --contexts 128 512 1024 1536 2048 3072 4096 --modes prefill --repetitions 3 --batch-size 2048 --ubatch-size 512 --cooldown-temp-c 60 --output results/exp070/screen-ub512-3.json
+  env LD_LIBRARY_PATH=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin python3 benchmark/run.py --binary /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/llama-bench --model PTQ1_0=/home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PTQ1_0.gguf --contexts 128 512 1024 1536 2048 3072 4096 --modes prefill --repetitions 3 --batch-size 2048 --ubatch-size 1024 --cooldown-temp-c 60 --output results/exp070/screen-ub1024-3.json
+  env LD_LIBRARY_PATH=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin python3 benchmark/run.py --binary /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/llama-bench --model PTQ1_0=/home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PTQ1_0.gguf --contexts 128 512 1024 1536 2048 3072 4096 --modes prefill --repetitions 3 --batch-size 2048 --ubatch-size 2048 --cooldown-temp-c 60 --output results/exp070/screen-ub2048-3.json
+  env LD_LIBRARY_PATH=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin python3 benchmark/run.py --binary /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/llama-bench --model PTQ1_0=/home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PTQ1_0.gguf --contexts 128 512 1024 1536 2048 3072 4096 --modes prefill --repetitions 7 --batch-size 2048 --ubatch-size 512 --cooldown-temp-c 60 --output results/exp070/confirm-baseline-ub512-7.json
+  env LD_LIBRARY_PATH=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin python3 benchmark/run.py --binary /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/llama-bench --model PTQ1_0=/home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PTQ1_0.gguf --contexts 1536 2048 3072 4096 --modes prefill --repetitions 7 --batch-size 2048 --ubatch-size 2048 --cooldown-temp-c 60 --output results/exp070/confirm-policy-long-ub2048-7.json
+  env LD_LIBRARY_PATH=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin python3 benchmark/run.py --binary /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/llama-bench --model PTQ1_0=/home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PTQ1_0.gguf --contexts 128 512 1024 1536 2048 3072 4096 --modes prefill --repetitions 3 --batch-size 2048 --ubatch-size 2048 --cooldown-temp-c 60 --output results/exp070/reverse-ub2048-3.json
+  env LD_LIBRARY_PATH=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin python3 benchmark/run.py --binary /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/llama-bench --model PTQ1_0=/home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PTQ1_0.gguf --contexts 128 512 1024 1536 2048 3072 4096 --modes prefill --repetitions 3 --batch-size 2048 --ubatch-size 512 --cooldown-temp-c 60 --output results/exp070/reverse-ub512-3.json
+
+The selected decode pair (both orders) used the same command shape, with
+`--contexts 512 4096 --modes decode --decode-tokens 128 --repetitions 7`:
+
+  ub=512 output results/exp070/decode-ub512-7.json
+  ub=2048 output results/exp070/decode-ub2048-7.json
+  ub=2048 first output results/exp070/decode-reverse-ub2048-7.json
+  ub=512 second output results/exp070/decode-reverse-ub512-7.json
+
+Exact decode commands (common path/options shown in full):
+
+  env LD_LIBRARY_PATH=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin python3 benchmark/run.py --binary /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/llama-bench --model PTQ1_0=/home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PTQ1_0.gguf --contexts 512 4096 --modes decode --decode-tokens 128 --repetitions 7 --batch-size 2048 --ubatch-size 512 --cooldown-temp-c 60 --output results/exp070/decode-ub512-7.json
+  env LD_LIBRARY_PATH=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin python3 benchmark/run.py --binary /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/llama-bench --model PTQ1_0=/home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PTQ1_0.gguf --contexts 512 4096 --modes decode --decode-tokens 128 --repetitions 7 --batch-size 2048 --ubatch-size 2048 --cooldown-temp-c 60 --output results/exp070/decode-ub2048-7.json
+  env LD_LIBRARY_PATH=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin python3 benchmark/run.py --binary /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/llama-bench --model PTQ1_0=/home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PTQ1_0.gguf --contexts 512 4096 --modes decode --decode-tokens 128 --repetitions 7 --batch-size 2048 --ubatch-size 2048 --cooldown-temp-c 60 --output results/exp070/decode-reverse-ub2048-7.json
+  env LD_LIBRARY_PATH=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin python3 benchmark/run.py --binary /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/llama-bench --model PTQ1_0=/home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PTQ1_0.gguf --contexts 512 4096 --modes decode --decode-tokens 128 --repetitions 7 --batch-size 2048 --ubatch-size 512 --cooldown-temp-c 60 --output results/exp070/decode-reverse-ub512-7.json
+
+The exact shared command in the final multi-ubatch prefill run was:
+
+  /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/llama-bench -m /home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PTQ1_0.gguf -ngl 99 -fa on -b 2048 -ub 512,2048 -ctk f16 -ctv f16 -t 8 -r 7 -o json -p 128,512,1024,1536,2048,3072,4096 -n 0 -d 0
+
+That single process is invalid for crossover comparisons: llama-bench loops
+ubatch before prompt lengths, so all ub=512 cases ran before all ub=2048 cases;
+its later GPU telemetry reached 86 C and 1065 MHz. Raw stdout, stderr and all
+650 telemetry samples are in `paired-prefill-7.*` and are excluded from claims.
+
+Combined long A/B commands were `benchmark/run.py` with
+`--contexts 2048 4096 --modes combined --decode-tokens 128 --repetitions 3
+--batch-size 2048 --cooldown-temp-c 60`, using ub=2048 first and ub=512
+second. The separately gated ub=512 screen over 128/512/2048/4096 is also
+preserved. See the result JSON's `runs[].command` for exact argv.
+
+Exact combined long arms:
+
+  env LD_LIBRARY_PATH=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin python3 benchmark/run.py --binary /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/llama-bench --model PTQ1_0=/home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PTQ1_0.gguf --contexts 2048 4096 --modes combined --decode-tokens 128 --repetitions 3 --batch-size 2048 --ubatch-size 2048 --cooldown-temp-c 60 --output results/exp070/combined-policy-long-ub2048-3.json
+  env LD_LIBRARY_PATH=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin python3 benchmark/run.py --binary /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/llama-bench --model PTQ1_0=/home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PTQ1_0.gguf --contexts 2048 4096 --modes combined --decode-tokens 128 --repetitions 3 --batch-size 2048 --ubatch-size 512 --cooldown-temp-c 60 --output results/exp070/combined-fixed-long-ub512-3.json
+
+Temporary standalone example build:
+
+  g++ -O3 -DNDEBUG -DGGML_BACKEND_SHARED -DGGML_SHARED -DGGML_USE_CPU -DGGML_USE_CUDA -DLLAMA_SHARED -Wmissing-declarations -Wmissing-noreturn -Wall -Wextra -Wpedantic -Wcast-qual -Wno-unused-function -Wno-array-bounds -Wextra-semi -I/home/maxsun/autonomous_projects/.worktrees/exp070-adaptive-ubatch/include -I/home/maxsun/autonomous_projects/.worktrees/exp070-adaptive-ubatch/ggml/include -c examples/simple/simple.cpp -o /tmp/exp070-simple.o
+  g++ -O3 -DNDEBUG /tmp/exp070-simple.o -Wl,-rpath,/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin -L/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin -lllama -lggml -lggml-cpu -lggml-cuda -lggml-base -L/usr/local/cuda/targets/x86_64-linux/lib/stubs -lcuda -o /tmp/llama-simple-exp070
+
+The compiled one-shot commands were:
+
+  /tmp/llama-simple-exp070 -m /home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PTQ1_0.gguf -n 32 -ngl 99 -s 42 "hello my name is"
+  /tmp/llama-simple-exp070 -m /home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PTQ1_0.gguf -n 32 -ngl 99 -s 42 --adaptive-ubatch "hello hello ... hello"  # 1800 space-separated hello tokens
+
+Each was run once fixed-512 and once with `--adaptive-ubatch`; completion
+files and sampled memory traces are under `results/exp070/`. Adaptive output
+was byte-identical after stripping the echoed input. All starts used the
+standard <=60 C / <=5% GPU-utilization gate where the harness supported it.

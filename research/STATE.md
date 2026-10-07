@@ -42,9 +42,11 @@
 
 ## Active experiment
 
-- Exp070 tests a general prompt-length-aware prefill ubatch policy, motivated by Exp067's measured crossover: ub=2048 was +1.8% at prompts 2048/4096 but −1.3–1.5% at 128/512. Find a robust threshold across intermediate lengths, preserve decode and fixed-seed output, and stay within 10 GiB; avoid benchmark-specific dispatch.
+- None. Exp070 tested a generic token-count rule in a one-shot example. Long prompt-plus-128 generation improved 1.7–2.2%, but seven-repetition batch-1 decode medians at context 4096 were about 1.8% slower in two arm orders. The temporary setting was reverted; see `experiments/070-adaptive-ubatch/REPORT.md` and `results/exp070/`.
 
 ## Latest research result
+
+- Exp070 found that a one-shot caller can tokenize before context creation, while llama-cli's server creates its shared context before arbitrary requests. A 1536-token threshold for ub=2048 screened positively for long prefill; matched combined 2048/4096 prompt+128-gen medians improved 1.66%/2.20%, and fixed-seed completion text matched. However, ub=2048 decode at context 4096 measured ~1.8% slower in both seven-repetition arm orders, so the task's no-decode-slow gate failed and the temporary example implementation was reverted. Peak whole-GPU memory was 8371 MiB in combined mode and 7973 MiB in the long one-shot smoke. See `experiments/070-adaptive-ubatch/REPORT.md` and `results/exp070/`.
 
 - Exp069 refreshed the attention profile on the current retained graph: 16 main plus 16 uniform fixup calls cost 0.2301 ms/token at ctx512 and 0.5810 ms at 4096. The launch grid uses 4 output tiles; avoiding the merge means only four x-grid CTAs scan full context, while cooperative fusion requires an unproven barrier. No candidate/source change or E2E comparison. See `experiments/069-flash-attention-reduction/REPORT.md` and `results/exp069/`.
 
@@ -86,6 +88,5 @@
 
 ## Next candidates
 
-1. Test a prompt-length-aware ubatch policy against a broader prompt-length sweep; Exp067 provides a concrete long/short crossover, but decode, exact output, and VRAM must remain acceptable.
-2. Revisit the dominant PTQ1_0 batch-1 GEMV only with a genuinely new primitive, code-generation, or representation premise; Exp046/068 and earlier screens close current direct-dot and obvious decoder variants.
-3. Revisit PTQ1_0 prompt-side MMQ only with a concrete exact dataflow/decoder derivation; Exp065/066 closed geometry-only and ungrounded source screens.
+1. Revisit the dominant PTQ1_0 batch-1 GEMV only with a genuinely new primitive, code-generation, or representation premise; Exp046/068 and earlier screens close current direct-dot and obvious decoder variants.
+2. Revisit PTQ1_0 prompt-side MMQ only with a concrete exact dataflow/decoder derivation; Exp065/066 closed geometry-only and ungrounded source screens.
