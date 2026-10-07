@@ -25,6 +25,7 @@
 - Prefetch/cache/load/layout variants: next-item hints and `.cs` lost E2E; `.cg` lost its kernel screen; padding to 32B added 14.3% payload and lost. Exp032's same-footprint SoA block screen gained 7.8% at 136 blocks but tied at 40; the runtime sidecar in 034–035 had no repeatable decode gain, added 1,280 MiB peak VRAM, and cost ~294 ms load time. Synchronous shared staging (037) lost 9.9–12.9%; warp-register transpose (038) lost 2.42–2.75x. The measured sm_86 `cp.async` next-work-item pipeline (040) emitted real async transfers but lost 10.4%/23.2% at 40/136 blocks. CTA widths 64/128/256/512 (042) lowered active-kernel registers at 256/512 but did not win both K shapes; a 256-at-K40/128-otherwise dispatch regressed matched decode 0.60%/0.68%.
 - Register pressure/occupancy: Exp045 held 128-thread ROWS=1 geometry fixed and asked for 6/7/8 resident CTAs on `ncols==1`. Active plain/gated register use fell to 72/77, 68/72, and 60/63 with no active spills, but all three short reversed model screens regressed at contexts 512/4096 (-2.5% to -5.1%). Keep the four-CTA bound.
 - Inconclusive only: 014/016/027 ended before candidate measurement; 029 had one unmatched `.cg` trace. See `research/EXPERIMENTS.md` and linked reports before revisiting any idea.
+- Exp061's exact final-layer gather+ADD fusion saved only 1–3 µs in local replay, with paired decode at −0.041%/+0.004%; reverted. No reason to revisit unless this path becomes repeated or wider.
 
 ## Important architectural discoveries
 
@@ -35,6 +36,8 @@
 - Repeated context-4096 decode samples have slow tails in both arms. Preserve all repetitions/ranges and use medians. Verify candidate library paths with `ldd`/`LD_DEBUG`; earlier absolute RUNPATHs caused false A/Bs.
 
 ## Latest research result
+
+- Exp061 verified the final-layer attention/residual gather+ADD graph site and an exact guarded fusion. It removed two graph nodes but changed paired decode by only −0.041% at context 512 and +0.004% at 4096, so source was reverted. See `experiments/061-final-layer-gather-add/REPORT.md` and `results/exp061/`.
 
 - Exp060 fused the standard recurrent CONCAT and cache-tail CPY while keeping the complete concat for SSM_CONV. The guarded kernel passed exact repeated model-shape/cache-byte tests and fallback; Nsight captures showed 1,432→1,384 nodes/replay and 0.118/0.116 ms lower summed time at contexts 512/4096. Reversed pairs gained +0.95%/+0.90%; manager reruns gained +0.54%/+0.93%; final main-build runs reached 84.594/81.932 tok/s. Integrated as code commit `4cb2072`; see report and raw artifacts.
 
@@ -62,7 +65,7 @@
 
 **Format profile:** Use Exp052's paired graph signatures as the baseline for any format-specific decoder work. The measurements show both a per-call GEMV difference and fewer PTQ1_0 activation-prep nodes, but do not identify the GEMV hardware bottleneck; collect permitted hardware counters before making a traffic-versus-integer-throughput claim.
 
-2. **Final-layer gather/residual:** measure exact adjacency and dimensions for the two `GET_ROWS` operations followed by hidden-width `ADD`. This path reaches only the narrow last-layer output mode, so expected E2E value is limited.
+2. Find repeated adjacent small-op graph chains that can eliminate launch nodes beyond the Exp060 recurrent site. Exp061 confirmed final-layer gather+ADD is exact but too infrequent to move decode; scan current graph traces for higher-frequency, safe fusion candidates before choosing one.
 3. Revisit PTQ1_0 GEMV only when a genuinely new dataflow or codegen premise appears; Exp046 and prior screens close the obvious decoder, staging, geometry, scheduling, and paired K/V CTA mappings.
 4. Revisit GDN only if profiling/codegen exposes redundant state traffic, a removable launch, or synchronization-free gate sharing; Exp049 found none in the current kernel.
 5. Revisit BF16 matvec only if a future design can raise row-level CTA parallelism without an expensive cross-CTA K reduction; Exp050 found 48 CTAs per applicable 48-row launch and no surviving low-cost dataflow candidate. Per-replay family invocation counts remain unavailable in the compact profile artifacts.

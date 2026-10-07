@@ -6,9 +6,11 @@ Ranked against the current ROWS=1 implementation. Controlled batch-1 model decod
 
 ## Open candidates
 
-1. **Final-layer gather/residual.** Exp057 mapped a narrow last-layer `GET_ROWS(attention) + GET_ROWS(residual) + ADD` sequence. Confirm exact adjacency and shapes; its single-layer reach limits expected end-to-end gain.
+1. **Repeated small-op fusion scan.** Exp060 showed that a safe, repeated graph fusion can improve decode (+0.9%); Exp061 showed a single last-layer fusion is too small to measure end-to-end. Inspect the current Exp060 CUDA graph for exact adjacent chains repeated across layers, rank their aggregate time and node savings, then test the best safe chain.
 2. **PTQ1_0 GEMV:** still dominates at 74–76% of steady decode kernel time, but decoder, layout, cache, prefetch, staging, geometry, scheduling, and paired K/V CTA mappings have been extensively tested. Reopen only with a genuinely new dataflow/codegen premise.
 3. **Long-context FlashAttention:** Exp053's valid 64/64 single-stage Ampere tile regressed focused time by 17.2% at context 512 and 11.3% at 4096; 96/96 failed a compile invariant. Reopen only with a design that reduces Stream-K fixup cost. See `experiments/053-flash-attention-longctx/REPORT.md`.
+
+Exp061 confirmed the actual final-layer `GET_ROWS + GET_ROWS + ADD` chain and tested exact fusion. It saves 1–3 µs locally but has flat model decode (−0.041% at 512, +0.004% at 4096); do not repeat while it remains a single site. See `experiments/061-final-layer-gather-add/REPORT.md`.
 
 Exp060 implemented and integrated the recurrent concat/cache pair fusion. It preserved the full concat, wrote cache-tail bytes exactly, removed 48 graph nodes/replay, and gained +0.95%/+0.90% decode at contexts 512/4096 in two reversed-order pairs. Independent manager reruns also improved; do not repeat this candidate absent a correctness or merged-build issue. See `experiments/060-concat-cache-fusion/REPORT.md`.
 

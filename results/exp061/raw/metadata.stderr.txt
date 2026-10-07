@@ -1,0 +1,30 @@
+ggml_cuda_init: found 1 CUDA devices (Total VRAM: 9867 MiB):
+  Device 0: NVIDIA GeForce RTX 3080, compute capability 8.6, VMM: yes, VRAM: 9867 MiB
+EXP061 node=4613 name=node_4615 op=GET_ROWS type=f32 ne=[5120,1,1,1] nb=[4,20480,20480,20480] flags=16 use=1 src0=attn_output-63 src1=CUDA0#leaf_987#0 data=0x7f7e32ac4880 view_src=(nil) view_offs=0
+EXP061 node=4614 name=node_4616 op=GET_ROWS type=f32 ne=[5120,1,1,1] nb=[4,20480,20480,20480] flags=16 use=1 src0=l_out-62 src1=CUDA0#leaf_987#0 data=0x7f7e334c4880 view_src=(nil) view_offs=0
+EXP061 node=4615 name=attn_residual-63 op=ADD type=f32 ne=[5120,1,1,1] nb=[4,20480,20480,20480] flags=16 use=2 src0=node_4615 src1=node_4616 data=0x7f7e32ac4880 view_src=(nil) view_offs=0
+EXP061 src0 name=attn_output-63 type=f32 ne=[5120,1,1,1] nb=[4,20480,20480,20480] flags=16 data=0x7f7e336c4880
+EXP061 src1 name=CUDA0#leaf_987#0 type=i32 ne=[1,1,1,1] nb=[4,4,4,4] flags=0 data=0x7f7e32ac4080
+EXP061 src0 name=l_out-62 type=f32 ne=[5120,1,1,1] nb=[4,20480,20480,20480] flags=16 data=0x7f7e32000000
+EXP061 src1 name=CUDA0#leaf_987#0 type=i32 ne=[1,1,1,1] nb=[4,4,4,4] flags=0 data=0x7f7e32ac4080
+EXP061 node=4613 name=node_4615 op=GET_ROWS type=f32 ne=[5120,1,1,1] nb=[4,20480,20480,20480] flags=16 use=1 src0=attn_output-63 src1=CUDA0#leaf_987#0 data=0x7f7e32ac4880 view_src=(nil) view_offs=0
+EXP061 node=4614 name=node_4616 op=GET_ROWS type=f32 ne=[5120,1,1,1] nb=[4,20480,20480,20480] flags=16 use=1 src0=l_out-62 src1=CUDA0#leaf_987#0 data=0x7f7e334c4880 view_src=(nil) view_offs=0
+EXP061 node=4615 name=attn_residual-63 op=ADD type=f32 ne=[5120,1,1,1] nb=[4,20480,20480,20480] flags=16 use=2 src0=node_4615 src1=node_4616 data=0x7f7e32ac4880 view_src=(nil) view_offs=0
+EXP061 src0 name=attn_output-63 type=f32 ne=[5120,512,1,1] nb=[4,20480,10485760,10485760] flags=16 data=0x7f7e336c4880
+EXP061 src1 name=CUDA0#leaf_987#0 type=i32 ne=[1,1,1,1] nb=[4,4,4,4] flags=0 data=0x7f7e32ac4080
+EXP061 src0 name=l_out-62 type=f32 ne=[5120,512,1,1] nb=[4,20480,10485760,10485760] flags=16 data=0x7f7e32000000
+EXP061 src1 name=CUDA0#leaf_987#0 type=i32 ne=[1,1,1,1] nb=[4,4,4,4] flags=0 data=0x7f7e32ac4080
+EXP061 node=4613 name=node_4615 op=GET_ROWS type=f32 ne=[5120,1,1,1] nb=[4,20480,20480,20480] flags=16 use=1 src0=attn_output-63 src1=CUDA0#leaf_987#0 data=0x7f7e32ac4880 view_src=(nil) view_offs=0
+EXP061 node=4614 name=node_4616 op=GET_ROWS type=f32 ne=[5120,1,1,1] nb=[4,20480,20480,20480] flags=16 use=1 src0=l_out-62 src1=CUDA0#leaf_987#0 data=0x7f7e334c4880 view_src=(nil) view_offs=0
+EXP061 node=4615 name=attn_residual-63 op=ADD type=f32 ne=[5120,1,1,1] nb=[4,20480,20480,20480] flags=16 use=2 src0=node_4615 src1=node_4616 data=0x7f7e32ac4880 view_src=(nil) view_offs=0
+EXP061 src0 name=attn_output-63 type=f32 ne=[5120,1,1,1] nb=[4,20480,20480,20480] flags=16 data=0x7f7e336c4880
+EXP061 src1 name=CUDA0#leaf_987#0 type=i32 ne=[1,1,1,1] nb=[4,4,4,4] flags=0 data=0x7f7e32ac4080
+EXP061 src0 name=l_out-62 type=f32 ne=[5120,1,1,1] nb=[4,20480,20480,20480] flags=16 data=0x7f7e32000000
+EXP061 src1 name=CUDA0#leaf_987#0 type=i32 ne=[1,1,1,1] nb=[4,4,4,4] flags=0 data=0x7f7e32ac4080
+EXP061 node=4613 name=node_4615 op=GET_ROWS type=f32 ne=[5120,1,1,1] nb=[4,20480,20480,20480] flags=16 use=1 src0=attn_output-63 src1=CUDA0#leaf_987#0 data=0x7f7e32ac4880 view_src=(nil) view_offs=0
+EXP061 node=4614 name=node_4616 op=GET_ROWS type=f32 ne=[5120,1,1,1] nb=[4,20480,20480,20480] flags=16 use=1 src0=l_out-62 src1=CUDA0#leaf_987#0 data=0x7f7e334c4880 view_src=(nil) view_offs=0
+EXP061 node=4615 name=attn_residual-63 op=ADD type=f32 ne=[5120,1,1,1] nb=[4,20480,20480,20480] flags=16 use=2 src0=node_4615 src1=node_4616 data=0x7f7e32ac4880 view_src=(nil) view_offs=0
+EXP061 src0 name=attn_output-63 type=f32 ne=[5120,1,1,1] nb=[4,20480,20480,20480] flags=16 data=0x7f7e336c4880
+EXP061 src1 name=CUDA0#leaf_987#0 type=i32 ne=[1,1,1,1] nb=[4,4,4,4] flags=0 data=0x7f7e32ac4080
+EXP061 src0 name=l_out-62 type=f32 ne=[5120,1,1,1] nb=[4,20480,20480,20480] flags=16 data=0x7f7e32000000
+EXP061 src1 name=CUDA0#leaf_987#0 type=i32 ne=[1,1,1,1] nb=[4,4,4,4] flags=0 data=0x7f7e32ac4080

@@ -1,5 +1,10 @@
 # Optimization log
 
+## Experiment 061: final-layer gather/residual fusion
+
+- Captured the actual one-token graph and confirmed one adjacent final-layer pair of F32 GET_ROWS operations feeding a 5,120-wide ADD. A guarded CUDA fusion passed bit-exact row-zero/last-row checks and the fallback case; graph nodes fell 1,384→1,382 and focused replay saved 1–3 µs.
+- Two reversed-order PTQ1_0 A/B pairs were flat: median run results changed −0.041% at context 512 and +0.004% at 4096. Candidate sources were reverted; report, patch, test, traces, and all eight run results are retained under `experiments/061-final-layer-gather-add/` and `results/exp061/`. No current-best metrics changed.
+
 ## Experiment 060: recurrent concat/cache-tail fusion
 
 - Added a shape, stride, use-count, graph-output, and alias-range guarded sm_86 CUDA path that materializes the complete recurrent concat and writes its exact cache-tail bytes in one launch. Exact repeated-update tests passed for the model shape and a fallback shape; selected CTests (5/5), CUDA backend comparisons (96/96), and PTQ1_0/PQ2_0 model smokes passed.

@@ -1,0 +1,4 @@
+d77dab1a5a8731b14cc045161a2f821123cdf3dc8624617cbf25cf5f8720d5da  build/bin/llama-bench
+756c400d415618de88e6717eea4008acd1c408bea1a22e29974d7457df32e5f1  build/bin/libggml-cuda.so.0
+f7e162168becf73c8994f49f0c483e96b0b6b9bbcb0e4e36d5f9690bff541533  /home/maxsun/autonomous_projects/.worktrees/exp060-concat-cache-fusion/build/bin/llama-bench
+5a82af131b322d7a15ff3a0951ad2953a2e67eb83a874d5a1f1f724916532a26  /home/maxsun/autonomous_projects/.worktrees/exp060-concat-cache-fusion/build/bin/libggml-cuda.so.0
