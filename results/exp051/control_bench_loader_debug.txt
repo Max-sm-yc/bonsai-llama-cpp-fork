@@ -1,0 +1,252 @@
+   1213568:	find library=libggml-cuda.so.0 [0]; searching
+   1213568:	 search path=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/glibc-hwcaps/x86-64-v3:/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/glibc-hwcaps/x86-64-v2:/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin		(LD_LIBRARY_PATH)
+   1213568:	  trying file=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/glibc-hwcaps/x86-64-v3/libggml-cuda.so.0
+   1213568:	  trying file=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/glibc-hwcaps/x86-64-v2/libggml-cuda.so.0
+   1213568:	  trying file=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libggml-cuda.so.0
+   1213568:	
+   1213568:	find library=libcudart.so.13 [0]; searching
+   1213568:	 search path=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin		(LD_LIBRARY_PATH)
+   1213568:	  trying file=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libcudart.so.13
+   1213568:	 search path=/home/maxsun/autonomous_projects/.worktrees/exp051-fwht-barriers/build-exp051/bin/glibc-hwcaps/x86-64-v3:/home/maxsun/autonomous_projects/.worktrees/exp051-fwht-barriers/build-exp051/bin/glibc-hwcaps/x86-64-v2:/home/maxsun/autonomous_projects/.worktrees/exp051-fwht-barriers/build-exp051/bin:/usr/local/cuda/lib64/glibc-hwcaps/x86-64-v3:/usr/local/cuda/lib64/glibc-hwcaps/x86-64-v2:/usr/local/cuda/lib64		(RUNPATH from file build-exp051/bin/fwht-quant-test)
+   1213568:	  trying file=/home/maxsun/autonomous_projects/.worktrees/exp051-fwht-barriers/build-exp051/bin/glibc-hwcaps/x86-64-v3/libcudart.so.13
+   1213568:	  trying file=/home/maxsun/autonomous_projects/.worktrees/exp051-fwht-barriers/build-exp051/bin/glibc-hwcaps/x86-64-v2/libcudart.so.13
+   1213568:	  trying file=/home/maxsun/autonomous_projects/.worktrees/exp051-fwht-barriers/build-exp051/bin/libcudart.so.13
+   1213568:	  trying file=/usr/local/cuda/lib64/glibc-hwcaps/x86-64-v3/libcudart.so.13
+   1213568:	  trying file=/usr/local/cuda/lib64/glibc-hwcaps/x86-64-v2/libcudart.so.13
+   1213568:	  trying file=/usr/local/cuda/lib64/libcudart.so.13
+   1213568:	
+   1213568:	find library=libstdc++.so.6 [0]; searching
+   1213568:	 search path=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin		(LD_LIBRARY_PATH)
+   1213568:	  trying file=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libstdc++.so.6
+   1213568:	 search path=/home/maxsun/autonomous_projects/.worktrees/exp051-fwht-barriers/build-exp051/bin:/usr/local/cuda/lib64		(RUNPATH from file build-exp051/bin/fwht-quant-test)
+   1213568:	  trying file=/home/maxsun/autonomous_projects/.worktrees/exp051-fwht-barriers/build-exp051/bin/libstdc++.so.6
+   1213568:	  trying file=/usr/local/cuda/lib64/libstdc++.so.6
+   1213568:	 search cache=/etc/ld.so.cache
+   1213568:	  trying file=/lib64/libstdc++.so.6
+   1213568:	
+   1213568:	find library=libm.so.6 [0]; searching
+   1213568:	 search path=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin		(LD_LIBRARY_PATH)
+   1213568:	  trying file=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libm.so.6
+   1213568:	 search path=/home/maxsun/autonomous_projects/.worktrees/exp051-fwht-barriers/build-exp051/bin:/usr/local/cuda/lib64		(RUNPATH from file build-exp051/bin/fwht-quant-test)
+   1213568:	  trying file=/home/maxsun/autonomous_projects/.worktrees/exp051-fwht-barriers/build-exp051/bin/libm.so.6
+   1213568:	  trying file=/usr/local/cuda/lib64/libm.so.6
+   1213568:	 search cache=/etc/ld.so.cache
+   1213568:	  trying file=/lib64/libm.so.6
+   1213568:	
+   1213568:	find library=libgcc_s.so.1 [0]; searching
+   1213568:	 search path=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin		(LD_LIBRARY_PATH)
+   1213568:	  trying file=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libgcc_s.so.1
+   1213568:	 search path=/home/maxsun/autonomous_projects/.worktrees/exp051-fwht-barriers/build-exp051/bin:/usr/local/cuda/lib64		(RUNPATH from file build-exp051/bin/fwht-quant-test)
+   1213568:	  trying file=/home/maxsun/autonomous_projects/.worktrees/exp051-fwht-barriers/build-exp051/bin/libgcc_s.so.1
+   1213568:	  trying file=/usr/local/cuda/lib64/libgcc_s.so.1
+   1213568:	 search cache=/etc/ld.so.cache
+   1213568:	  trying file=/lib64/libgcc_s.so.1
+   1213568:	
+   1213568:	find library=libc.so.6 [0]; searching
+   1213568:	 search path=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin		(LD_LIBRARY_PATH)
+   1213568:	  trying file=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libc.so.6
+   1213568:	 search path=/home/maxsun/autonomous_projects/.worktrees/exp051-fwht-barriers/build-exp051/bin:/usr/local/cuda/lib64		(RUNPATH from file build-exp051/bin/fwht-quant-test)
+   1213568:	  trying file=/home/maxsun/autonomous_projects/.worktrees/exp051-fwht-barriers/build-exp051/bin/libc.so.6
+   1213568:	  trying file=/usr/local/cuda/lib64/libc.so.6
+   1213568:	 search cache=/etc/ld.so.cache
+   1213568:	  trying file=/lib64/libc.so.6
+   1213568:	
+   1213568:	find library=libggml-base.so.0 [0]; searching
+   1213568:	 search path=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin		(LD_LIBRARY_PATH)
+   1213568:	  trying file=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libggml-base.so.0
+   1213568:	
+   1213568:	find library=libcublas.so.13 [0]; searching
+   1213568:	 search path=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin		(LD_LIBRARY_PATH)
+   1213568:	  trying file=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libcublas.so.13
+   1213568:	 search path=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin		(LD_LIBRARY_PATH)
+   1213568:	  trying file=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libcublas.so.13
+   1213568:	 search path=glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libggml-cuda.so.0)
+   1213568:	  trying file=glibc-hwcaps/x86-64-v3/libcublas.so.13
+   1213568:	  trying file=glibc-hwcaps/x86-64-v2/libcublas.so.13
+   1213568:	  trying file=libcublas.so.13
+   1213568:	 search cache=/etc/ld.so.cache
+   1213568:	  trying file=/usr/local/cuda/targets/x86_64-linux/lib/libcublas.so.13
+   1213568:	
+   1213568:	find library=libcuda.so.1 [0]; searching
+   1213568:	 search path=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin		(LD_LIBRARY_PATH)
+   1213568:	  trying file=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libcuda.so.1
+   1213568:	 search path=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin		(LD_LIBRARY_PATH)
+   1213568:	  trying file=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libcuda.so.1
+   1213568:	 search path=glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libggml-cuda.so.0)
+   1213568:	  trying file=glibc-hwcaps/x86-64-v3/libcuda.so.1
+   1213568:	  trying file=glibc-hwcaps/x86-64-v2/libcuda.so.1
+   1213568:	  trying file=libcuda.so.1
+   1213568:	 search cache=/etc/ld.so.cache
+   1213568:	  trying file=/lib64/libcuda.so.1
+   1213568:	
+   1213568:	find library=libcublasLt.so.13 [0]; searching
+   1213568:	 search path=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin		(LD_LIBRARY_PATH)
+   1213568:	  trying file=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libcublasLt.so.13
+   1213568:	 search path=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin		(LD_LIBRARY_PATH)
+   1213568:	  trying file=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libcublasLt.so.13
+   1213568:	 search path=glibc-hwcaps/x86-64-v3:glibc-hwcaps/x86-64-v2:		(RUNPATH from file /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libggml-cuda.so.0)
+   1213568:	  trying file=glibc-hwcaps/x86-64-v3/libcublasLt.so.13
+   1213568:	  trying file=glibc-hwcaps/x86-64-v2/libcublasLt.so.13
+   1213568:	  trying file=libcublasLt.so.13
+   1213568:	 search cache=/etc/ld.so.cache
+   1213568:	  trying file=/usr/local/cuda/targets/x86_64-linux/lib/libcublasLt.so.13
+   1213568:	
+   1213568:	find library=libdl.so.2 [0]; searching
+   1213568:	 search path=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin		(LD_LIBRARY_PATH)
+   1213568:	  trying file=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libdl.so.2
+   1213568:	 search cache=/etc/ld.so.cache
+   1213568:	  trying file=/lib64/libdl.so.2
+   1213568:	
+   1213568:	find library=libpthread.so.0 [0]; searching
+   1213568:	 search path=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin		(LD_LIBRARY_PATH)
+   1213568:	  trying file=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libpthread.so.0
+   1213568:	 search cache=/etc/ld.so.cache
+   1213568:	  trying file=/lib64/libpthread.so.0
+   1213568:	
+   1213568:	find library=librt.so.1 [0]; searching
+   1213568:	 search path=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin		(LD_LIBRARY_PATH)
+   1213568:	  trying file=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/librt.so.1
+   1213568:	 search cache=/etc/ld.so.cache
+   1213568:	  trying file=/lib64/librt.so.1
+   1213568:	
+   1213568:	find library=libgomp.so.1 [0]; searching
+   1213568:	 search path=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin		(LD_LIBRARY_PATH)
+   1213568:	  trying file=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libgomp.so.1
+   1213568:	 search cache=/etc/ld.so.cache
+   1213568:	  trying file=/lib64/libgomp.so.1
+   1213568:	
+   1213568:	
+   1213568:	calling init: /lib64/ld-linux-x86-64.so.2
+   1213568:	
+   1213568:	
+   1213568:	calling init: /lib64/libc.so.6
+   1213568:	
+   1213568:	
+   1213568:	calling init: /lib64/libgomp.so.1
+   1213568:	
+   1213568:	
+   1213568:	calling init: /lib64/librt.so.1
+   1213568:	
+   1213568:	
+   1213568:	calling init: /lib64/libpthread.so.0
+   1213568:	
+   1213568:	
+   1213568:	calling init: /lib64/libdl.so.2
+   1213568:	
+   1213568:	
+   1213568:	calling init: /lib64/libm.so.6
+   1213568:	
+   1213568:	
+   1213568:	calling init: /lib64/libgcc_s.so.1
+   1213568:	
+   1213568:	
+   1213568:	calling init: /usr/local/cuda/targets/x86_64-linux/lib/libcublasLt.so.13
+   1213568:	
+   1213568:	
+   1213568:	calling init: /lib64/libcuda.so.1
+   1213568:	
+   1213568:	
+   1213568:	calling init: /usr/local/cuda/targets/x86_64-linux/lib/libcublas.so.13
+   1213568:	
+   1213568:	
+   1213568:	calling init: /lib64/libstdc++.so.6
+   1213568:	
+   1213568:	
+   1213568:	calling init: /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libggml-base.so.0
+   1213568:	
+   1213568:	
+   1213568:	calling init: /usr/local/cuda/lib64/libcudart.so.13
+   1213568:	
+   1213568:	
+   1213568:	calling init: /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libggml-cuda.so.0
+   1213568:	
+   1213568:	
+   1213568:	initialize program: build-exp051/bin/fwht-quant-test
+   1213568:	
+   1213568:	
+   1213568:	transferring control: build-exp051/bin/fwht-quant-test
+   1213568:	
+   1213568:	find library=libnvidia-ptxjitcompiler.so.1 [0]; searching
+   1213568:	 search path=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin		(LD_LIBRARY_PATH)
+   1213568:	  trying file=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libnvidia-ptxjitcompiler.so.1
+   1213568:	 search cache=/etc/ld.so.cache
+   1213568:	  trying file=/lib64/libnvidia-ptxjitcompiler.so.1
+   1213568:	
+   1213568:	
+   1213568:	calling init: /lib64/libnvidia-ptxjitcompiler.so.1
+   1213568:	
+   1213568:	find library=libnvidia-nvvm70.so.4 [0]; searching
+   1213568:	 search path=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin		(LD_LIBRARY_PATH)
+   1213568:	  trying file=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libnvidia-nvvm70.so.4
+   1213568:	 search cache=/etc/ld.so.cache
+   1213568:	  trying file=/lib64/libnvidia-nvvm70.so.4
+   1213568:	
+   1213568:	
+   1213568:	calling init: /lib64/libnvidia-nvvm70.so.4
+   1213568:	
+   1213568:	find library=libnvidia-gpucomp.so.580.178.04 [0]; searching
+   1213568:	 search path=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin		(LD_LIBRARY_PATH)
+   1213568:	  trying file=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libnvidia-gpucomp.so.580.178.04
+   1213568:	 search cache=/etc/ld.so.cache
+   1213568:	  trying file=/lib64/libnvidia-gpucomp.so.580.178.04
+   1213568:	
+   1213568:	
+   1213568:	calling init: /lib64/libnvidia-gpucomp.so.580.178.04
+   1213568:	
+   1213568:	
+   1213568:	calling fini:  [0]
+   1213568:	
+   1213568:	
+   1213568:	calling fini: /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libggml-cuda.so.0 [0]
+   1213568:	
+   1213568:	
+   1213568:	calling fini: /usr/local/cuda/lib64/libcudart.so.13 [0]
+   1213568:	
+   1213568:	
+   1213568:	calling fini: /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libggml-base.so.0 [0]
+   1213568:	
+   1213568:	
+   1213568:	calling fini: /lib64/libstdc++.so.6 [0]
+   1213568:	
+   1213568:	
+   1213568:	calling fini: /usr/local/cuda/targets/x86_64-linux/lib/libcublas.so.13 [0]
+   1213568:	
+   1213568:	
+   1213568:	calling fini: /lib64/libcuda.so.1 [0]
+   1213568:	
+   1213568:	
+   1213568:	calling fini: /usr/local/cuda/targets/x86_64-linux/lib/libcublasLt.so.13 [0]
+   1213568:	
+   1213568:	
+   1213568:	calling fini: /lib64/libgcc_s.so.1 [0]
+   1213568:	
+   1213568:	
+   1213568:	calling fini: /lib64/libgomp.so.1 [0]
+   1213568:	
+   1213568:	
+   1213568:	calling fini: /lib64/libnvidia-ptxjitcompiler.so.1 [0]
+   1213568:	
+   1213568:	
+   1213568:	calling fini: /lib64/libnvidia-nvvm70.so.4 [0]
+   1213568:	
+   1213568:	
+   1213568:	calling fini: /lib64/libnvidia-gpucomp.so.580.178.04 [0]
+   1213568:	
+   1213568:	
+   1213568:	calling fini: /lib64/libm.so.6 [0]
+   1213568:	
+   1213568:	
+   1213568:	calling fini: /lib64/libdl.so.2 [0]
+   1213568:	
+   1213568:	
+   1213568:	calling fini: /lib64/librt.so.1 [0]
+   1213568:	
+   1213568:	
+   1213568:	calling fini: /lib64/libpthread.so.0 [0]
+   1213568:	
+   1213568:	
+   1213568:	calling fini: /lib64/libc.so.6 [0]
+   1213568:	
+   1213568:	
+   1213568:	calling fini: /lib64/ld-linux-x86-64.so.2 [0]
+   1213568:	

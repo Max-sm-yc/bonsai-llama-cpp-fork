@@ -38,6 +38,7 @@
 
 - Exp049 audited active sm_86 GDN code/SASS and found no distinct safe candidate: q/k reuse, contiguous state access, required warp reductions, and adjacent graph fusions are already present. No code or measurements; see `experiments/049-gdn-design/REPORT.md`.
 - Exp048's cooperative one-launch QKV RMS-sharing variant was byte-exact and sanitizer-clean, but graph replay was ~25% slower; reverted before E2E. Current best unchanged; see `experiments/048-qkv-rms-sharing/REPORT.md`.
+- Exp051's ping-pong shared-buffer FWHT cut active stage barriers and improved isolated graph-call medians 1.22%/5.91% for N=1024/NT=256 and NT=1024. Direct bytes matched baseline and Compute Sanitizer found no errors, but reversed-order model A/B was flat (+0.07% at context 512, -0.04% at 4096). Source was restored; current best unchanged. See `experiments/051-fwht-barriers/REPORT.md`.
 - Exp047 directly measured one-token graph replay: PTQ1_0 GEMV is 9.01/9.02 ms/token (74–76%); QKV prep is 0.752 ms, GDN 0.500 ms, and the BF16 matvec specialization is ~0.311 ms/token at context 512. See `experiments/047-steady-decode-profile/REPORT.md`.
 
 ## Next candidates
@@ -45,3 +46,4 @@
 1. Revisit PTQ1_0 GEMV only when a genuinely new dataflow or codegen premise appears; Exp046 and prior screens close the obvious decoder, staging, geometry, and scheduling families.
 2. Revisit GDN only if profiling/codegen exposes redundant state traffic, a removable launch, or synchronization-free gate sharing; Exp049 found none in the current kernel.
 3. Revisit BF16 matvec only if a future design can raise row-level CTA parallelism without an expensive cross-CTA K reduction; Exp050 found 48 CTAs per applicable 48-row launch and no surviving low-cost dataflow candidate. Per-replay family invocation counts remain unavailable in the compact profile artifacts.
+4. Keep the current FWHT helper after Exp051: the cross-warp barrier reduction is correct and faster in isolation, but did not move matched decode. Reopen only with a stronger end-to-end premise or a layout that avoids doubling shared storage.

@@ -1,0 +1,8 @@
+N=64 NT=64: q_mismatch=2 sum_mismatch=0 max_abs=0.00637725 max_error/scale=0.538586
+N=128 NT=128: q_mismatch=1 sum_mismatch=0 max_abs=0.00691789 max_error/scale=0.500249
+N=256 NT=256: q_mismatch=0 sum_mismatch=0 max_abs=0.00756586 max_error/scale=0.498939
+N=512 NT=256: q_mismatch=3 sum_mismatch=0 max_abs=0.0065549 max_error/scale=0.515401
+N=1024 NT=256: q_mismatch=8 sum_mismatch=0 max_abs=0.00644135 max_error/scale=0.5173
+BENCH fwht_quantize_N1024_NT256 graph-event us/node median=2.4270 range=2.4160-2.4320 (9 samples, 64 nodes)
+BENCH fwht_rms_quantize_N1024_NT1024 graph-event us/node median=3.8720 range=3.8710-3.8720 (9 samples, 64 nodes)
+N=2048 NT=256: q_mismatch=10 sum_mismatch=0 max_abs=0.00864476 max_error/scale=0.517878

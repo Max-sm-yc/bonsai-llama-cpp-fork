@@ -1,0 +1,1 @@
+wrote /home/maxsun/autonomous_projects/.worktrees/exp051-fwht-barriers/results/exp051/e2e_control_pair1.json

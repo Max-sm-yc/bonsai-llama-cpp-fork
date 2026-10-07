@@ -1,0 +1,2 @@
+nrows=1: pass; max abs error 0.013881683, max error/scale 0.539778, block sums exact
+nrows=3: pass; max abs error 0.016958237, max error/scale 0.542589, block sums exact
