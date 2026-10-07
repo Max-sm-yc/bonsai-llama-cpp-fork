@@ -336,3 +336,9 @@
 - A dedicated 4,096-token prompt capture measured type-143 `mul_mat_q` at 5.882 s / 9,528 launches (65.5% of captured kernel time). Baseline prefill medians were 1,315.80/1,400.21/1,383.66/1,359.56 tok/s at prompt lengths 128/512/2048/4096, with 6,793 MiB peak GPU use.
 - The tested 128-thread/I=64 tile lowered dynamic shared memory from 57,856 to 38,400 B. Despite a two-CTA resource budget, focused type-143 time regressed +15.6%/3.8%/3.3% at prompts 128/512/4096. These are profiler-instrumented comparisons; there was no unprofiled candidate A/B and no candidate correctness claim.
 - **REVERT.** Source and build-local CUDA library were hash-verified at baseline; the candidate library and raw Nsight Systems artifacts are retained. See `experiments/065-ptq1-prefill-mmq/REPORT.md` and `results/exp065/`.
+
+## Experiment 066: PTQ1_0 MMQ dataflow challenge
+
+- The clean isolated sm_86 baseline build completed all 441 steps. Inspection of the active J=128 type-143 PTX/SASS confirmed the loader keeps the dependent five-step multiply-by-three trit expansion and shared-memory stores; relevant excerpts are retained in `results/exp066/`.
+- No concrete exact decoder/direct-compute implementation emerged from the feasibility screen. No candidate source, correctness claim, profile, or E2E result was produced; source hashes match the code baseline.
+- **INCONCLUSIVE — NO CANDIDATE.** The current MMQ path is unchanged. Revisit only with a concrete decoder/direct packed-compute derivation and exact test plan. See `experiments/066-ptq1-mmq-dataflow/REPORT.md`.

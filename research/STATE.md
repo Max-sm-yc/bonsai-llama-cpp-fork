@@ -23,6 +23,7 @@
 ## Failed or exhausted approaches
 
 - Exp065: PTQ1_0 prefill type-143 MMQ with 128-thread/I=64 tile cut shared memory enough for two CTAs by resource budget, but Nsight Systems kernel totals regressed +15.6%/3.8%/3.3% at prompt 128/512/4096. No candidate correctness or unprofiled E2E result; schedule reverted. Keep current MMQ configuration.
+- Exp066: source/PTX/SASS audit confirmed a serial five-step trit expansion and shared-tile staging in type-143 MMQ but produced no concrete candidate. Baseline rebuilt cleanly; no source or performance change. Any decoder follow-up must account for Exp004/009/039 LUT and floor-difference losses.
 - Exp063/064: the remaining 24 recurrent SSM/L2 sites alias the first 16 KiB of SSM input. Cooperative fusion was exact, sanitizer-clean, and graph-capturable (2 nodes→1), but focused replay was 7.6% slower and decode A/B was flat (−0.016%/+0.030%); reverted. Keep Exp062's alias guard.
 
 - Dispatch, decoder, and GEMV scheduling: generic-path edits in 001–003 do not reach the active sm_86 batch-1 path. LUT/floor, two-bit, pairwise, fixed-point, row-tile, warp/multiwarp reduction, recurrence distribution, and source strip-mining attempts (004–025, 039) were invalid for the target or exact but slower/no better. Exp024's isolated 1.49x cooperative recurrence screen became an 81.5% model regression.
@@ -39,11 +40,9 @@
 - Exp052 compared the formats under the same runtime: each replay has 361 GEMV nodes in both formats, but PQ2_0 uses `mul_mat_vec_q<type 142>` and averages 10.71 ms versus PTQ1_0's dedicated planar `mul_mat_vec_ptq1_0_pt` at 9.02 ms. PQ2_0 also has 441 extra nodes/replay and ~0.59 ms more activation-prep plus standalone RMSNorm time. The PTQ1_0 model payload is 17.5% smaller. Systems timing cannot distinguish weight traffic from decoder/instruction/occupancy effects; Nsight Compute counters remain unavailable. See [Exp052](../experiments/052-pq2-steady-profile/REPORT.md).
 - Repeated context-4096 decode samples have slow tails in both arms. Preserve all repetitions/ranges and use medians. Verify candidate library paths with `ldd`/`LD_DEBUG`; earlier absolute RUNPATHs caused false A/Bs.
 
-## Active experiment
-
-- Exp066 is challenging type-143 prefill MMQ with a new ternary unpack/compute dataflow; the Exp065 I=64 schedule is excluded. Isolated worktree is `/home/maxsun/autonomous_projects/.worktrees/exp066-ptq1-mmq-dataflow`; production source remains unchanged pending correctness and timing review.
-
 ## Latest research result
+
+- Exp066 confirmed type-143 MMQ PTX still emits the dependent multiply-by-three digit expansion and shared stores. Source review did not identify a feasible local replacement; no candidate or timing result. Current best is unchanged. See `experiments/066-ptq1-mmq-dataflow/REPORT.md`.
 
 - Exp065 measured type-143 PTQ1_0 MMQ at 65.5% of the 4096-token prefill capture. The 128-thread/I=64 schedule lost in focused profiles at all tested prompts; baseline source/library restored. Current best and decode ranking are unchanged. See `experiments/065-ptq1-prefill-mmq/REPORT.md`.
 
