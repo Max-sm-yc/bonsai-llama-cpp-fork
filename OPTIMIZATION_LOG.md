@@ -389,3 +389,10 @@
 - 32 of 401 active type-143 GEMV matrices fit individually in a 5 MiB L2; all are 1.14688 MB K/V matrices, totaling 36,700,160 bytes. Their next-token reuse distance includes about 5.598 GB of other PTQ payload, so whole-matrix inter-token retention is implausible.
 - An exact cold/warm production-kernel test would require a tagged engine replay or a standalone harness matching the real packed weights, planar activations, launch schedule, and cache condition. Existing graph traces lack tensor pointers/names; no synthetic proxy timing was used.
 - **NO KERNEL CANDIDATE; no cache-hit, bandwidth, or E2E performance claim.** Production and current best remain unchanged. See `experiments/075-l2-cache-reuse/REPORT.md` and `results/exp075/raw/`.
+
+
+## Experiment 076: PTQ1_0 prefill Tensor Core path audit
+
+- The NVIDIA sm_86 PTQ1_0 MMQ path already expands signed trits and dispatches to the signed-int8 MMA consumer. The compiled exact PTQ1_0 translation unit contains `IMMA.16832.S8.S8`; the active consumer uses K=32 fragments, with prompt positions on N.
+- The batch-one Tensor Core waste from Exp073 does not apply to this prefill path. Exp065's occupancy schedule variation regressed and Exp066 found no alternate decoder; Exp076 produced no distinct candidate, correctness change, or benchmark comparison.
+- **NO CANDIDATE; production and current best unchanged.** See `experiments/076-ptq1-mmq-tensor-core/REPORT.md` and `results/exp076/`.

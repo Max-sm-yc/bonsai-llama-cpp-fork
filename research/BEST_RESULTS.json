@@ -316,45 +316,39 @@
     ]
   },
   "latest_experiment": {
-    "id": "075",
-    "hypothesis": "Determine whether active PTQ1_0 batch-1 GEMV weights can remain in RTX 3080 L2 across token replays.",
-    "decision": "No kernel candidate. Reuse-distance audit only; no exact-kernel cache timing or cache-hit/performance claim. Current best unchanged.",
+    "id": "076",
+    "hypothesis": "Check whether PTQ1_0 prefill MMQ needs an int8 Tensor Core path for multi-position batches.",
+    "decision": "No candidate: the active sm_86 PTQ1_0 MMQ already uses signed-int8 Tensor Core MMA. No benchmark or correctness change; current best unchanged.",
     "hardware": "NVIDIA GeForce RTX 3080, sm_86, 10,240 MiB",
-    "model": {
-      "path": "models/Ternary-Bonsai-2-27B-PTQ1_0.gguf",
-      "sha256": "53107f530aa52eb00912263ab1ee29bd199261c87cd7b4ad4ca1318c1fe33ee3",
-      "active_ptq_gemv_tensors": 401,
-      "active_ptq_gemv_payload_bytes": 5599641600
+    "source_audit": {
+      "dispatch": "ggml_cuda_mmq_load_tiles_ptq1_0 plus ggml_cuda_mmq_vec_dot_q8_0_q8_1_mma",
+      "active_fragment": "m16n8k32 signed-int8 MMA",
+      "sass_instruction": "IMMA.16832.S8.S8",
+      "sass_instruction_occurrences_across_emitted_template_variants": 1792,
+      "focused_ptq_translation_unit": "compiled successfully for sm_86",
+      "source_changed": false
     },
-    "l2_reuse_audit": {
-      "l2_capacity_bytes": 5242880,
-      "tensors_at_or_below_l2": 32,
-      "small_tensor_payload_bytes": 36700160,
-      "small_tensor_shape": [
-        5120,
-        1024
-      ],
-      "small_tensor_bytes_each": 1146880,
-      "intervening_ptq_payload_bytes_before_next_token_reuse": 5598494720,
-      "interpretation": "Whole-matrix inter-token residency is implausible from size and traversal distance; no actual cache hit rate was measured."
-    },
-    "measurement": {
-      "exact_production_kernel_cold_warm_timing": "not run; existing graph trace lacks tensor addresses/names and a valid harness requires engine instrumentation or an exact standalone launcher",
-      "synthetic_proxy": "not used",
-      "end_to_end": "not run",
-      "production_code_changed": false,
+    "performance": {
+      "candidate": "none",
+      "prefill_benchmark": "not run",
+      "decode_benchmark": "not run",
+      "correctness": "no arithmetic candidate; no new correctness claim",
       "current_best_unchanged": true
     },
+    "prior_evidence": {
+      "Exp065": "128-thread/I=64 schedule regressed MMQ totals +15.6%/+3.8%/+3.3% at prompts 128/512/4096",
+      "Exp066": "source/dataflow audit found no grounded alternate decoder"
+    },
     "artifacts": [
-      "experiments/075-l2-cache-reuse/REPORT.md",
-      "results/exp075/raw/tensor_size_classes.json",
-      "results/exp075/raw/replay_profile_summary.json",
-      "results/exp075/raw/source_hashes.txt",
-      "results/exp075/raw/feasibility_audit.txt"
+      "experiments/076-ptq1-mmq-tensor-core/REPORT.md",
+      "results/exp076/source_audit.md",
+      "results/exp076/source_hashes.txt",
+      "results/exp076/ptq1-sm86.sass.txt",
+      "results/exp076/extracted/mmq-instance-ptq1_0.cu.1.sm_86.cubin"
     ],
-    "timestamp_utc": "2026-10-07T20:00:16Z"
+    "timestamp_utc": "2026-10-07T20:13:59Z"
   },
-  "updated_timestamp_utc": "2026-10-07T20:06:16Z",
+  "updated_timestamp_utc": "2026-10-07T20:13:59Z",
   "project_commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
   "current_best": {
     "commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
@@ -1384,55 +1378,72 @@
         "results/exp075/raw/feasibility_audit.txt"
       ],
       "timestamp_utc": "2026-10-07T20:00:16Z"
+    },
+    {
+      "id": "076",
+      "hypothesis": "Check whether PTQ1_0 prefill MMQ needs an int8 Tensor Core path for multi-position batches.",
+      "decision": "No candidate: the active sm_86 PTQ1_0 MMQ already uses signed-int8 Tensor Core MMA. No benchmark or correctness change; current best unchanged.",
+      "hardware": "NVIDIA GeForce RTX 3080, sm_86, 10,240 MiB",
+      "source_audit": {
+        "dispatch": "ggml_cuda_mmq_load_tiles_ptq1_0 plus ggml_cuda_mmq_vec_dot_q8_0_q8_1_mma",
+        "active_fragment": "m16n8k32 signed-int8 MMA",
+        "sass_instruction": "IMMA.16832.S8.S8",
+        "sass_instruction_occurrences_across_emitted_template_variants": 1792,
+        "focused_ptq_translation_unit": "compiled successfully for sm_86",
+        "source_changed": false
+      },
+      "performance": {
+        "candidate": "none",
+        "prefill_benchmark": "not run",
+        "decode_benchmark": "not run",
+        "correctness": "no arithmetic candidate; no new correctness claim",
+        "current_best_unchanged": true
+      },
+      "prior_evidence": {
+        "Exp065": "128-thread/I=64 schedule regressed MMQ totals +15.6%/+3.8%/+3.3% at prompts 128/512/4096",
+        "Exp066": "source/dataflow audit found no grounded alternate decoder"
+      },
+      "artifacts": [
+        "experiments/076-ptq1-mmq-tensor-core/REPORT.md",
+        "results/exp076/source_audit.md",
+        "results/exp076/source_hashes.txt",
+        "results/exp076/ptq1-sm86.sass.txt",
+        "results/exp076/extracted/mmq-instance-ptq1_0.cu.1.sm_86.cubin"
+      ],
+      "timestamp_utc": "2026-10-07T20:13:59Z"
     }
   ],
   "latest_research_audit": {
-    "id": "075",
-    "hypothesis": "Determine whether active PTQ1_0 batch-1 GEMV weights can remain in RTX 3080 L2 across token replays.",
-    "decision": "No kernel candidate. Reuse-distance audit only; no exact-kernel cache timing or cache-hit/performance claim. Current best unchanged.",
+    "id": "076",
+    "hypothesis": "Check whether PTQ1_0 prefill MMQ needs an int8 Tensor Core path for multi-position batches.",
+    "decision": "No candidate: the active sm_86 PTQ1_0 MMQ already uses signed-int8 Tensor Core MMA. No benchmark or correctness change; current best unchanged.",
     "hardware": "NVIDIA GeForce RTX 3080, sm_86, 10,240 MiB",
-    "model": {
-      "path": "models/Ternary-Bonsai-2-27B-PTQ1_0.gguf",
-      "sha256": "53107f530aa52eb00912263ab1ee29bd199261c87cd7b4ad4ca1318c1fe33ee3",
-      "active_ptq_gemv_tensors": 401,
-      "active_ptq_gemv_payload_bytes": 5599641600
+    "source_audit": {
+      "dispatch": "ggml_cuda_mmq_load_tiles_ptq1_0 plus ggml_cuda_mmq_vec_dot_q8_0_q8_1_mma",
+      "active_fragment": "m16n8k32 signed-int8 MMA",
+      "sass_instruction": "IMMA.16832.S8.S8",
+      "sass_instruction_occurrences_across_emitted_template_variants": 1792,
+      "focused_ptq_translation_unit": "compiled successfully for sm_86",
+      "source_changed": false
     },
-    "l2_reuse_audit": {
-      "l2_capacity_bytes": 5242880,
-      "tensors_at_or_below_l2": 32,
-      "small_tensor_payload_bytes": 36700160,
-      "small_tensor_shape": [
-        5120,
-        1024
-      ],
-      "small_tensor_bytes_each": 1146880,
-      "intervening_ptq_payload_bytes_before_next_token_reuse": 5598494720,
-      "interpretation": "Whole-matrix inter-token residency is implausible from size and traversal distance; no actual cache hit rate was measured."
-    },
-    "measurement": {
-      "exact_production_kernel_cold_warm_timing": "not run; existing graph trace lacks tensor addresses/names and a valid harness requires engine instrumentation or an exact standalone launcher",
-      "synthetic_proxy": "not used",
-      "end_to_end": "not run",
-      "production_code_changed": false,
+    "performance": {
+      "candidate": "none",
+      "prefill_benchmark": "not run",
+      "decode_benchmark": "not run",
+      "correctness": "no arithmetic candidate; no new correctness claim",
       "current_best_unchanged": true
     },
+    "prior_evidence": {
+      "Exp065": "128-thread/I=64 schedule regressed MMQ totals +15.6%/+3.8%/+3.3% at prompts 128/512/4096",
+      "Exp066": "source/dataflow audit found no grounded alternate decoder"
+    },
     "artifacts": [
-      "experiments/075-l2-cache-reuse/REPORT.md",
-      "results/exp075/raw/tensor_size_classes.json",
-      "results/exp075/raw/replay_profile_summary.json",
-      "results/exp075/raw/source_hashes.txt",
-      "results/exp075/raw/feasibility_audit.txt"
+      "experiments/076-ptq1-mmq-tensor-core/REPORT.md",
+      "results/exp076/source_audit.md",
+      "results/exp076/source_hashes.txt",
+      "results/exp076/ptq1-sm86.sass.txt",
+      "results/exp076/extracted/mmq-instance-ptq1_0.cu.1.sm_86.cubin"
     ],
-    "timestamp_utc": "2026-10-07T20:00:16Z"
-  },
-  "active_experiment": {
-    "id": "076",
-    "hypothesis": "Determine whether an sm_86 int8 Tensor Core PTQ1_0 MMQ improves multi-position prefill by amortizing ternary expansion across prompt columns.",
-    "status": "in_progress",
-    "base_project_commit": "5d1b4f7",
-    "production_source_commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
-    "worktree": "/home/maxsun/autonomous_projects/.worktrees/exp076-sm86-ptq1-mmq-tc",
-    "assigned_model": "gpt-6-luna",
-    "current_best_unchanged": true
+    "timestamp_utc": "2026-10-07T20:13:59Z"
   }
 }
