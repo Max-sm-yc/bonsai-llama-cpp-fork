@@ -42,7 +42,7 @@
 
 ## Active experiment
 
-- None. Exp070 tested a generic token-count rule in a one-shot example. Long prompt-plus-128 generation improved 1.7–2.2%, but seven-repetition batch-1 decode medians at context 4096 were about 1.8% slower in two arm orders. The temporary setting was reverted; see `experiments/070-adaptive-ubatch/REPORT.md` and `results/exp070/`.
+- Exp071: feasibility and RTX 3080 decode trial of the community PQ2_0+MTP-Q8_0 model bundle. Candidate must beat the current PTQ1_0 best under a matched server benchmark, pass greedy/correctness checks, and fit within 10 GiB. No candidate result yet.
 
 ## Latest research result
 
