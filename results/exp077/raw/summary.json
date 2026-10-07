@@ -1,0 +1,404 @@
+{
+  "build_commit": "56b1e3faeec003e86afe8b4dce7e9182f23323a3",
+  "cuda_library_sha256": "8ea0295e1a5d7e56ed12c2a44458212527ce4d2b7caba9f60185552bf2ddc419",
+  "env_off_round": 770,
+  "env_on_round": 771,
+  "cells": {
+    "512": {
+      "reports": {
+        "off_target": {
+          "median_tok_s": 69.54274277672673,
+          "range_tok_s": [
+            69.28717679850689,
+            69.59899470554419
+          ],
+          "sample_sd_tok_s": 0.11099699119576277
+        },
+        "off_mtp": {
+          "median_tok_s": 120.64284587923936,
+          "range_tok_s": [
+            118.6647505891191,
+            120.79856411407569
+          ],
+          "sample_sd_tok_s": 0.7530362507404713
+        },
+        "on_target": {
+          "median_tok_s": 68.82823453410602,
+          "range_tok_s": [
+            68.57873540811907,
+            68.90060138832
+          ],
+          "sample_sd_tok_s": 0.11688523029637665
+        },
+        "on_mtp": {
+          "median_tok_s": 117.73245438794419,
+          "range_tok_s": [
+            116.53172232050443,
+            118.24127737820916
+          ],
+          "sample_sd_tok_s": 0.5266956891471192
+        },
+        "off_accepted": 581,
+        "off_proposed": 609,
+        "on_accepted": 581,
+        "on_proposed": 609,
+        "off_exact_ids": true,
+        "on_exact_ids": true,
+        "on_target_vs_off_exact_ids": 7,
+        "first_crossenv_divergence": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "first_on_mtp_divergence": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "peak_target_mib": 7593,
+        "peak_mtp_mib": 8485
+      },
+      "Qwen graph C++": {
+        "off_target": {
+          "median_tok_s": 69.3505512003652,
+          "range_tok_s": [
+            69.14349180077963,
+            69.40626492644576
+          ],
+          "sample_sd_tok_s": 0.08767763306218349
+        },
+        "off_mtp": {
+          "median_tok_s": 85.08329118249026,
+          "range_tok_s": [
+            84.93176702213175,
+            85.14312760876533
+          ],
+          "sample_sd_tok_s": 0.08395024656781183
+        },
+        "on_target": {
+          "median_tok_s": 62.376321751802166,
+          "range_tok_s": [
+            56.66248167392571,
+            68.59058764310859
+          ],
+          "sample_sd_tok_s": 5.417953000974845
+        },
+        "on_mtp": {
+          "median_tok_s": 90.20527026067191,
+          "range_tok_s": [
+            90.12909040586479,
+            90.3495960234795
+          ],
+          "sample_sd_tok_s": 0.08383116483401024
+        },
+        "off_accepted": 448,
+        "off_proposed": 861,
+        "on_accepted": 483,
+        "on_proposed": 791,
+        "off_exact_ids": false,
+        "on_exact_ids": true,
+        "on_target_vs_off_exact_ids": 7,
+        "first_crossenv_divergence": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "first_on_mtp_divergence": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "peak_target_mib": 7593,
+        "peak_mtp_mib": 8485
+      },
+      "speculative C++": {
+        "off_target": {
+          "median_tok_s": 69.07741402445558,
+          "range_tok_s": [
+            68.92962068626765,
+            69.13344224118644
+          ],
+          "sample_sd_tok_s": 0.06529199136617085
+        },
+        "off_mtp": {
+          "median_tok_s": 71.99403639950454,
+          "range_tok_s": [
+            67.29664094380624,
+            73.4312030575134
+          ],
+          "sample_sd_tok_s": 2.3620250248864183
+        },
+        "on_target": {
+          "median_tok_s": 65.9504208623511,
+          "range_tok_s": [
+            45.47129203991019,
+            66.76149953687495
+          ],
+          "sample_sd_tok_s": 8.100493879888178
+        },
+        "on_mtp": {
+          "median_tok_s": 69.49878787547131,
+          "range_tok_s": [
+            51.79240462347125,
+            70.1670639116978
+          ],
+          "sample_sd_tok_s": 7.384738326570977
+        },
+        "off_accepted": 372,
+        "off_proposed": 1027,
+        "on_accepted": 364,
+        "on_proposed": 1036,
+        "off_exact_ids": true,
+        "on_exact_ids": true,
+        "on_target_vs_off_exact_ids": 0,
+        "first_crossenv_divergence": [
+          104,
+          104,
+          104,
+          104,
+          104,
+          104,
+          104
+        ],
+        "first_on_mtp_divergence": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "peak_target_mib": 7593,
+        "peak_mtp_mib": 8485
+      },
+      "pooled_server_tok_s": {
+        "off_target": 69.8424035265425,
+        "off_mtp": 88.29233460600646,
+        "on_target": 63.78121827252178,
+        "on_mtp": 85.57133301768293,
+        "on_mtp_vs_on_target_pct": 34.16384217067985,
+        "off_mtp_vs_off_target_pct": 26.416517971710917
+      },
+      "exp071_target_text_match_by_family": [
+        true,
+        true,
+        false
+      ]
+    },
+    "4096": {
+      "reports": {
+        "off_target": {
+          "median_tok_s": 67.12959659341084,
+          "range_tok_s": [
+            66.1243773504743,
+            67.32857191327656
+          ],
+          "sample_sd_tok_s": 0.4226259060215477
+        },
+        "off_mtp": {
+          "median_tok_s": 62.729059854389554,
+          "range_tok_s": [
+            61.66775839640521,
+            63.231928240225564
+          ],
+          "sample_sd_tok_s": 0.49845093397554024
+        },
+        "on_target": {
+          "median_tok_s": 65.1552696248185,
+          "range_tok_s": [
+            63.766416086409016,
+            65.34192348100608
+          ],
+          "sample_sd_tok_s": 0.5598049533044098
+        },
+        "on_mtp": {
+          "median_tok_s": 55.21616694586337,
+          "range_tok_s": [
+            54.03983970166605,
+            55.620981986247166
+          ],
+          "sample_sd_tok_s": 0.5330299871687931
+        },
+        "off_accepted": 302,
+        "off_proposed": 1167,
+        "on_accepted": 266,
+        "on_proposed": 1239,
+        "off_exact_ids": false,
+        "on_exact_ids": true,
+        "on_target_vs_off_exact_ids": 0,
+        "first_crossenv_divergence": [
+          17,
+          17,
+          17,
+          17,
+          17,
+          17,
+          17
+        ],
+        "first_on_mtp_divergence": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "peak_target_mib": 7593,
+        "peak_mtp_mib": 8485
+      },
+      "Qwen graph C++": {
+        "off_target": {
+          "median_tok_s": 56.726159156629414,
+          "range_tok_s": [
+            52.183188466775746,
+            64.68862106781049
+          ],
+          "sample_sd_tok_s": 4.977812467897253
+        },
+        "off_mtp": {
+          "median_tok_s": 66.20207061310937,
+          "range_tok_s": [
+            60.454081554936096,
+            69.73933413762371
+          ],
+          "sample_sd_tok_s": 3.2350260836921874
+        },
+        "on_target": {
+          "median_tok_s": 55.59020824442183,
+          "range_tok_s": [
+            42.74693846090153,
+            62.88429982045789
+          ],
+          "sample_sd_tok_s": 6.901425755818224
+        },
+        "on_mtp": {
+          "median_tok_s": 69.44455836268324,
+          "range_tok_s": [
+            64.18494969062348,
+            73.45396749748696
+          ],
+          "sample_sd_tok_s": 3.7602253352094737
+        },
+        "off_accepted": 366,
+        "off_proposed": 1025,
+        "on_accepted": 433,
+        "on_proposed": 898,
+        "off_exact_ids": false,
+        "on_exact_ids": true,
+        "on_target_vs_off_exact_ids": 0,
+        "first_crossenv_divergence": [
+          94,
+          94,
+          94,
+          94,
+          94,
+          94,
+          94
+        ],
+        "first_on_mtp_divergence": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "peak_target_mib": 7593,
+        "peak_mtp_mib": 8485
+      },
+      "speculative C++": {
+        "off_target": {
+          "median_tok_s": 41.59131651908845,
+          "range_tok_s": [
+            22.308755993502,
+            51.49004904123096
+          ],
+          "sample_sd_tok_s": 10.78915851029536
+        },
+        "off_mtp": {
+          "median_tok_s": 62.22510101779687,
+          "range_tok_s": [
+            53.68507909883465,
+            79.85422516879423
+          ],
+          "sample_sd_tok_s": 9.106386672024328
+        },
+        "on_target": {
+          "median_tok_s": 33.037616317772965,
+          "range_tok_s": [
+            21.221187434049313,
+            47.25032852000066
+          ],
+          "sample_sd_tok_s": 10.798207568447433
+        },
+        "on_mtp": {
+          "median_tok_s": 48.49175372909223,
+          "range_tok_s": [
+            44.291288810241824,
+            72.44421652720679
+          ],
+          "sample_sd_tok_s": 11.500340306247951
+        },
+        "off_accepted": 455,
+        "off_proposed": 868,
+        "on_accepted": 448,
+        "on_proposed": 882,
+        "off_exact_ids": true,
+        "on_exact_ids": true,
+        "on_target_vs_off_exact_ids": 7,
+        "first_crossenv_divergence": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "first_on_mtp_divergence": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "peak_target_mib": 7593,
+        "peak_mtp_mib": 8485
+      },
+      "pooled_server_tok_s": {
+        "off_target": 49.67143124348547,
+        "off_mtp": 63.51316103513882,
+        "on_target": 45.77702749017791,
+        "on_mtp": 58.61212889478741,
+        "on_mtp_vs_on_target_pct": 28.03830241568972,
+        "off_mtp_vs_off_target_pct": 27.86658134290971
+      },
+      "exp071_target_text_match_by_family": [
+        false,
+        false,
+        true
+      ]
+    }
+  }
+}

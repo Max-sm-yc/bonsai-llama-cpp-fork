@@ -1,0 +1,135 @@
+{
+  "build_commit": "56b1e3faeec003e86afe8b4dce7e9182f23323a3",
+  "cuda_library_sha256": "8ea0295e1a5d7e56ed12c2a44458212527ce4d2b7caba9f60185552bf2ddc419",
+  "env": "unset",
+  "cells": {
+    "512": {
+      "reports": {
+        "target": {
+          "median": 69.54274277672673,
+          "min": 69.28717679850689,
+          "max": 69.59899470554419,
+          "sample_sd": 0.11099699119576277
+        },
+        "mtp": {
+          "median": 120.64284587923936,
+          "min": 118.6647505891191,
+          "max": 120.79856411407569,
+          "sample_sd": 0.7530362507404713
+        },
+        "mtp_accepted": 581,
+        "mtp_proposed": 609,
+        "exact_ids": true,
+        "target_peak_mib": 7593,
+        "mtp_peak_mib": 8485
+      },
+      "Qwen graph C++": {
+        "target": {
+          "median": 69.3505512003652,
+          "min": 69.14349180077963,
+          "max": 69.40626492644576,
+          "sample_sd": 0.08767763306218349
+        },
+        "mtp": {
+          "median": 85.08329118249026,
+          "min": 84.93176702213175,
+          "max": 85.14312760876533,
+          "sample_sd": 0.08395024656781183
+        },
+        "mtp_accepted": 448,
+        "mtp_proposed": 861,
+        "exact_ids": false,
+        "target_peak_mib": 7593,
+        "mtp_peak_mib": 8485
+      },
+      "speculative C++": {
+        "target": {
+          "median": 69.07741402445558,
+          "min": 68.92962068626765,
+          "max": 69.13344224118644,
+          "sample_sd": 0.06529199136617085
+        },
+        "mtp": {
+          "median": 71.99403639950454,
+          "min": 67.29664094380624,
+          "max": 73.4312030575134,
+          "sample_sd": 2.3620250248864183
+        },
+        "mtp_accepted": 372,
+        "mtp_proposed": 1027,
+        "exact_ids": true,
+        "target_peak_mib": 7593,
+        "mtp_peak_mib": 8485
+      },
+      "exp071_target_text_match_by_family": [
+        true,
+        true,
+        true
+      ]
+    },
+    "4096": {
+      "reports": {
+        "target": {
+          "median": 67.12959659341084,
+          "min": 66.1243773504743,
+          "max": 67.32857191327656,
+          "sample_sd": 0.4226259060215477
+        },
+        "mtp": {
+          "median": 62.729059854389554,
+          "min": 61.66775839640521,
+          "max": 63.231928240225564,
+          "sample_sd": 0.49845093397554024
+        },
+        "mtp_accepted": 302,
+        "mtp_proposed": 1167,
+        "exact_ids": false,
+        "target_peak_mib": 7593,
+        "mtp_peak_mib": 8485
+      },
+      "Qwen graph C++": {
+        "target": {
+          "median": 56.726159156629414,
+          "min": 52.183188466775746,
+          "max": 64.68862106781049,
+          "sample_sd": 4.977812467897253
+        },
+        "mtp": {
+          "median": 66.20207061310937,
+          "min": 60.454081554936096,
+          "max": 69.73933413762371,
+          "sample_sd": 3.2350260836921874
+        },
+        "mtp_accepted": 366,
+        "mtp_proposed": 1025,
+        "exact_ids": false,
+        "target_peak_mib": 7593,
+        "mtp_peak_mib": 8485
+      },
+      "speculative C++": {
+        "target": {
+          "median": 41.59131651908845,
+          "min": 22.308755993502,
+          "max": 51.49004904123096,
+          "sample_sd": 10.78915851029536
+        },
+        "mtp": {
+          "median": 62.22510101779687,
+          "min": 53.68507909883465,
+          "max": 79.85422516879423,
+          "sample_sd": 9.106386672024328
+        },
+        "mtp_accepted": 455,
+        "mtp_proposed": 868,
+        "exact_ids": true,
+        "target_peak_mib": 7593,
+        "mtp_peak_mib": 8485
+      },
+      "exp071_target_text_match_by_family": [
+        true,
+        true,
+        true
+      ]
+    }
+  }
+}

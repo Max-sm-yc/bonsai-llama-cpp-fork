@@ -1,0 +1,12 @@
+# Each command was run sequentially; env-off round 770 first, then env-on round 771.
+# Every server start passed the harness gate <=60 C and <=5% GPU utilization.
+# All use 7 repetitions, fixed Exp071 natural token IDs, 128 output tokens, seed 42, temp=0/top_k=1, cache_prompt=false, ignore_eos=true.
+# Shared server args: -ngl 99 -fa on -b 2048 -ub 512 -ctk f16 -ctv f16 -t 8 -c 4608 -np 1
+env -u GGML_CUDA_BATCH_INVARIANT python3 results/exp077/raw/server_bench.py --arm BUNDLE_TARGET --context 512 --round 770 --repetitions 7 --prompt-set natural
+env -u GGML_CUDA_BATCH_INVARIANT python3 results/exp077/raw/server_bench.py --arm PQ2_0_MTP --context 512 --round 770 --repetitions 7 --prompt-set natural
+env -u GGML_CUDA_BATCH_INVARIANT python3 results/exp077/raw/server_bench.py --arm BUNDLE_TARGET --context 4096 --round 770 --repetitions 7 --prompt-set natural
+env -u GGML_CUDA_BATCH_INVARIANT python3 results/exp077/raw/server_bench.py --arm PQ2_0_MTP --context 4096 --round 770 --repetitions 7 --prompt-set natural
+GGML_CUDA_BATCH_INVARIANT=1 python3 results/exp077/raw/server_bench.py --arm BUNDLE_TARGET --context 512 --round 771 --repetitions 7 --prompt-set natural
+GGML_CUDA_BATCH_INVARIANT=1 python3 results/exp077/raw/server_bench.py --arm PQ2_0_MTP --context 512 --round 771 --repetitions 7 --prompt-set natural
+GGML_CUDA_BATCH_INVARIANT=1 python3 results/exp077/raw/server_bench.py --arm BUNDLE_TARGET --context 4096 --round 771 --repetitions 7 --prompt-set natural
+GGML_CUDA_BATCH_INVARIANT=1 python3 results/exp077/raw/server_bench.py --arm PQ2_0_MTP --context 4096 --round 771 --repetitions 7 --prompt-set natural

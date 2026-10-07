@@ -316,39 +316,71 @@
     ]
   },
   "latest_experiment": {
-    "id": "076",
-    "hypothesis": "Check whether PTQ1_0 prefill MMQ needs an int8 Tensor Core path for multi-position batches.",
-    "decision": "No candidate: the active sm_86 PTQ1_0 MMQ already uses signed-int8 Tensor Core MMA. No benchmark or correctness change; current best unchanged.",
+    "id": "077",
+    "hypothesis": "Test whether GGML_CUDA_BATCH_INVARIANT=1 restores MTP target-only greedy parity while preserving useful decode speed.",
+    "decision": "REJECT global mode promotion: exact MTP parity is restored, but target-only outputs change in 21/42 streams and changed outputs lack quality validation. Current best unchanged.",
     "hardware": "NVIDIA GeForce RTX 3080, sm_86, 10,240 MiB",
-    "source_audit": {
-      "dispatch": "ggml_cuda_mmq_load_tiles_ptq1_0 plus ggml_cuda_mmq_vec_dot_q8_0_q8_1_mma",
-      "active_fragment": "m16n8k32 signed-int8 MMA",
-      "sass_instruction": "IMMA.16832.S8.S8",
-      "sass_instruction_occurrences_across_emitted_template_variants": 1792,
-      "focused_ptq_translation_unit": "compiled successfully for sm_86",
-      "source_changed": false
+    "build": {
+      "source_commit": "56b1e3faeec003e86afe8b4dce7e9182f23323a3",
+      "cuda_library_sha256": "8ea0295e1a5d7e56ed12c2a44458212527ce4d2b7caba9f60185552bf2ddc419",
+      "llama_server_sha256": "be3c95b605eece0afe4fb5ea0fcdfa1bb1d9bac3a707d13b545a49e0361ca79f"
     },
-    "performance": {
-      "candidate": "none",
-      "prefill_benchmark": "not run",
-      "decode_benchmark": "not run",
-      "correctness": "no arithmetic candidate; no new correctness claim",
-      "current_best_unchanged": true
+    "configuration": {
+      "model": "PQ2_0 target bundle with MTP-Q8_0 head",
+      "model_sha256": "3cb3f0056d2e34ee44245a64396004a21f8492573d6ce1266ec4b7222c131dd4",
+      "prompt_families": [
+        "reports",
+        "Qwen graph C++",
+        "speculative C++"
+      ],
+      "contexts": [
+        512,
+        4096
+      ],
+      "generated_tokens": 128,
+      "repetitions_per_family_context": 7,
+      "temperature": 0,
+      "top_k": 1,
+      "seed": 42,
+      "cache_prompt": false,
+      "ignore_eos": true,
+      "server_args": "-ngl 99 -fa on -b 2048 -ub 512 -ctk f16 -ctv f16 -t 8 -c 4608 -np 1"
     },
-    "prior_evidence": {
-      "Exp065": "128-thread/I=64 schedule regressed MMQ totals +15.6%/+3.8%/+3.3% at prompts 128/512/4096",
-      "Exp066": "source/dataflow audit found no grounded alternate decoder"
+    "correctness": {
+      "invariant_mtp_vs_target_only": "42/42 exact token-ID sequences across six family/context cells",
+      "target_only_invariant_vs_default": "21/42 exact; output changed in ctx512 speculative C++ at token index 104 and ctx4096 reports/Qwen at indices 17/94",
+      "quality_validation": "not run for changed target-only outputs",
+      "historical_exp071_text_match": "3/6 cells; text-only comparison because Exp071 retained no output token IDs"
     },
+    "throughput": {
+      "ctx512_pooled_tokens_per_second": {
+        "target_only_invariant": 63.7812182725,
+        "mtp_invariant": 85.5713330177,
+        "mtp_vs_target_pct": 34.1638421707
+      },
+      "ctx4096_pooled_tokens_per_second": {
+        "target_only_invariant": 45.77702749017791,
+        "mtp_invariant": 58.61212889478741,
+        "mtp_vs_target_pct": 28.03830241568972
+      },
+      "ctx4096_reports_family_paired_mtp_delta_pct": -15.2,
+      "interpretation": "PQ2_0 MTP within-mode measurements, not a matched PTQ1_0 comparison or production-best result"
+    },
+    "peak_vram_mib": {
+      "target_only": 7593,
+      "mtp": 8485
+    },
+    "production_code_changed": false,
+    "current_best_unchanged": true,
     "artifacts": [
-      "experiments/076-ptq1-mmq-tensor-core/REPORT.md",
-      "results/exp076/source_audit.md",
-      "results/exp076/source_hashes.txt",
-      "results/exp076/ptq1-sm86.sass.txt",
-      "results/exp076/extracted/mmq-instance-ptq1_0.cu.1.sm_86.cubin"
+      "experiments/077-mtp-batch-invariant/REPORT.md",
+      "results/exp077/raw/summary.json",
+      "results/exp077/raw/build-info.txt",
+      "results/exp077/manager-verification.md"
     ],
-    "timestamp_utc": "2026-10-07T20:13:59Z"
+    "timestamp_utc": "2026-10-07T21:12:39Z"
   },
-  "updated_timestamp_utc": "2026-10-07T20:15:03Z",
+  "updated_timestamp_utc": "2026-10-07T21:12:39Z",
   "project_commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
   "current_best": {
     "commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
@@ -1411,49 +1443,137 @@
         "results/exp076/extracted/mmq-instance-ptq1_0.cu.1.sm_86.cubin"
       ],
       "timestamp_utc": "2026-10-07T20:13:59Z"
+    },
+    {
+      "id": "077",
+      "hypothesis": "Test whether GGML_CUDA_BATCH_INVARIANT=1 restores MTP target-only greedy parity while preserving useful decode speed.",
+      "decision": "REJECT global mode promotion: exact MTP parity is restored, but target-only outputs change in 21/42 streams and changed outputs lack quality validation. Current best unchanged.",
+      "hardware": "NVIDIA GeForce RTX 3080, sm_86, 10,240 MiB",
+      "build": {
+        "source_commit": "56b1e3faeec003e86afe8b4dce7e9182f23323a3",
+        "cuda_library_sha256": "8ea0295e1a5d7e56ed12c2a44458212527ce4d2b7caba9f60185552bf2ddc419",
+        "llama_server_sha256": "be3c95b605eece0afe4fb5ea0fcdfa1bb1d9bac3a707d13b545a49e0361ca79f"
+      },
+      "configuration": {
+        "model": "PQ2_0 target bundle with MTP-Q8_0 head",
+        "model_sha256": "3cb3f0056d2e34ee44245a64396004a21f8492573d6ce1266ec4b7222c131dd4",
+        "prompt_families": [
+          "reports",
+          "Qwen graph C++",
+          "speculative C++"
+        ],
+        "contexts": [
+          512,
+          4096
+        ],
+        "generated_tokens": 128,
+        "repetitions_per_family_context": 7,
+        "temperature": 0,
+        "top_k": 1,
+        "seed": 42,
+        "cache_prompt": false,
+        "ignore_eos": true,
+        "server_args": "-ngl 99 -fa on -b 2048 -ub 512 -ctk f16 -ctv f16 -t 8 -c 4608 -np 1"
+      },
+      "correctness": {
+        "invariant_mtp_vs_target_only": "42/42 exact token-ID sequences across six family/context cells",
+        "target_only_invariant_vs_default": "21/42 exact; output changed in ctx512 speculative C++ at token index 104 and ctx4096 reports/Qwen at indices 17/94",
+        "quality_validation": "not run for changed target-only outputs",
+        "historical_exp071_text_match": "3/6 cells; text-only comparison because Exp071 retained no output token IDs"
+      },
+      "throughput": {
+        "ctx512_pooled_tokens_per_second": {
+          "target_only_invariant": 63.7812182725,
+          "mtp_invariant": 85.5713330177,
+          "mtp_vs_target_pct": 34.1638421707
+        },
+        "ctx4096_pooled_tokens_per_second": {
+          "target_only_invariant": 45.77702749017791,
+          "mtp_invariant": 58.61212889478741,
+          "mtp_vs_target_pct": 28.03830241568972
+        },
+        "ctx4096_reports_family_paired_mtp_delta_pct": -15.2,
+        "interpretation": "PQ2_0 MTP within-mode measurements, not a matched PTQ1_0 comparison or production-best result"
+      },
+      "peak_vram_mib": {
+        "target_only": 7593,
+        "mtp": 8485
+      },
+      "production_code_changed": false,
+      "current_best_unchanged": true,
+      "artifacts": [
+        "experiments/077-mtp-batch-invariant/REPORT.md",
+        "results/exp077/raw/summary.json",
+        "results/exp077/raw/build-info.txt",
+        "results/exp077/manager-verification.md"
+      ],
+      "timestamp_utc": "2026-10-07T21:12:39Z"
     }
   ],
   "latest_research_audit": {
-    "id": "076",
-    "hypothesis": "Check whether PTQ1_0 prefill MMQ needs an int8 Tensor Core path for multi-position batches.",
-    "decision": "No candidate: the active sm_86 PTQ1_0 MMQ already uses signed-int8 Tensor Core MMA. No benchmark or correctness change; current best unchanged.",
-    "hardware": "NVIDIA GeForce RTX 3080, sm_86, 10,240 MiB",
-    "source_audit": {
-      "dispatch": "ggml_cuda_mmq_load_tiles_ptq1_0 plus ggml_cuda_mmq_vec_dot_q8_0_q8_1_mma",
-      "active_fragment": "m16n8k32 signed-int8 MMA",
-      "sass_instruction": "IMMA.16832.S8.S8",
-      "sass_instruction_occurrences_across_emitted_template_variants": 1792,
-      "focused_ptq_translation_unit": "compiled successfully for sm_86",
-      "source_changed": false
-    },
-    "performance": {
-      "candidate": "none",
-      "prefill_benchmark": "not run",
-      "decode_benchmark": "not run",
-      "correctness": "no arithmetic candidate; no new correctness claim",
-      "current_best_unchanged": true
-    },
-    "prior_evidence": {
-      "Exp065": "128-thread/I=64 schedule regressed MMQ totals +15.6%/+3.8%/+3.3% at prompts 128/512/4096",
-      "Exp066": "source/dataflow audit found no grounded alternate decoder"
-    },
-    "artifacts": [
-      "experiments/076-ptq1-mmq-tensor-core/REPORT.md",
-      "results/exp076/source_audit.md",
-      "results/exp076/source_hashes.txt",
-      "results/exp076/ptq1-sm86.sass.txt",
-      "results/exp076/extracted/mmq-instance-ptq1_0.cu.1.sm_86.cubin"
-    ],
-    "timestamp_utc": "2026-10-07T20:13:59Z"
-  },
-  "active_experiment": {
     "id": "077",
     "hypothesis": "Test whether GGML_CUDA_BATCH_INVARIANT=1 restores MTP target-only greedy parity while preserving useful decode speed.",
-    "status": "in_progress",
-    "base_project_commit": "56b1e3f",
-    "production_source_commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
-    "worktree": "/home/maxsun/autonomous_projects/.worktrees/exp077-mtp-batch-invariant",
-    "assigned_model": "gpt-6-luna",
-    "current_best_unchanged": true
-  }
+    "decision": "REJECT global mode promotion: exact MTP parity is restored, but target-only outputs change in 21/42 streams and changed outputs lack quality validation. Current best unchanged.",
+    "hardware": "NVIDIA GeForce RTX 3080, sm_86, 10,240 MiB",
+    "build": {
+      "source_commit": "56b1e3faeec003e86afe8b4dce7e9182f23323a3",
+      "cuda_library_sha256": "8ea0295e1a5d7e56ed12c2a44458212527ce4d2b7caba9f60185552bf2ddc419",
+      "llama_server_sha256": "be3c95b605eece0afe4fb5ea0fcdfa1bb1d9bac3a707d13b545a49e0361ca79f"
+    },
+    "configuration": {
+      "model": "PQ2_0 target bundle with MTP-Q8_0 head",
+      "model_sha256": "3cb3f0056d2e34ee44245a64396004a21f8492573d6ce1266ec4b7222c131dd4",
+      "prompt_families": [
+        "reports",
+        "Qwen graph C++",
+        "speculative C++"
+      ],
+      "contexts": [
+        512,
+        4096
+      ],
+      "generated_tokens": 128,
+      "repetitions_per_family_context": 7,
+      "temperature": 0,
+      "top_k": 1,
+      "seed": 42,
+      "cache_prompt": false,
+      "ignore_eos": true,
+      "server_args": "-ngl 99 -fa on -b 2048 -ub 512 -ctk f16 -ctv f16 -t 8 -c 4608 -np 1"
+    },
+    "correctness": {
+      "invariant_mtp_vs_target_only": "42/42 exact token-ID sequences across six family/context cells",
+      "target_only_invariant_vs_default": "21/42 exact; output changed in ctx512 speculative C++ at token index 104 and ctx4096 reports/Qwen at indices 17/94",
+      "quality_validation": "not run for changed target-only outputs",
+      "historical_exp071_text_match": "3/6 cells; text-only comparison because Exp071 retained no output token IDs"
+    },
+    "throughput": {
+      "ctx512_pooled_tokens_per_second": {
+        "target_only_invariant": 63.7812182725,
+        "mtp_invariant": 85.5713330177,
+        "mtp_vs_target_pct": 34.1638421707
+      },
+      "ctx4096_pooled_tokens_per_second": {
+        "target_only_invariant": 45.77702749017791,
+        "mtp_invariant": 58.61212889478741,
+        "mtp_vs_target_pct": 28.03830241568972
+      },
+      "ctx4096_reports_family_paired_mtp_delta_pct": -15.2,
+      "interpretation": "PQ2_0 MTP within-mode measurements, not a matched PTQ1_0 comparison or production-best result"
+    },
+    "peak_vram_mib": {
+      "target_only": 7593,
+      "mtp": 8485
+    },
+    "production_code_changed": false,
+    "current_best_unchanged": true,
+    "artifacts": [
+      "experiments/077-mtp-batch-invariant/REPORT.md",
+      "results/exp077/raw/summary.json",
+      "results/exp077/raw/build-info.txt",
+      "results/exp077/manager-verification.md"
+    ],
+    "timestamp_utc": "2026-10-07T21:12:39Z"
+  },
+  "active_experiment": null
 }

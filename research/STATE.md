@@ -49,10 +49,11 @@
 
 ## Experiment status
 
-- Exp076 is complete: the proposed int8 Tensor Core prefill path already exists. Its exact PTQ1_0 sm_86 translation unit compiled and SASS confirmed signed-int8 MMA; no new path or benchmark comparison was made. Production and current best are unchanged. Exp077 is active with one explicitly GPT-6 Luna experimenter in an isolated worktree, testing whether `GGML_CUDA_BATCH_INVARIANT=1` restores MTP greedy parity without erasing its throughput advantage.
+- Exp077 is complete with no production change: `GGML_CUDA_BATCH_INVARIANT=1` made MTP match target-only IDs in all 42 sampled streams, but changed target-only IDs versus default mode in 21/42. Its within-mode pooled PQ2_0 MTP gain was +34.2%/+28.0% at ctx512/4096, though reports at ctx4096 lost 15.2%; no quality validation supports promotion. Exp076 likewise found no new prefill path. Current best remains unchanged.
 
 ## Latest research result
 
+- Exp077 compared the same isolated sm_86 binary with batch-invariant mode off/on across three fixed prompt families, contexts 512/4096, seven repetitions, and 128 greedy tokens. On-mode MTP matched target-only IDs in 42/42 streams; target-only IDs changed across modes in 21/42 streams (ctx512 speculative C++ at index 104; ctx4096 reports at 17 and Qwen at 94). Pooled MTP/target throughput was 85.57/63.78 tok/s at ctx512 and 58.61/45.78 at ctx4096; reports MTP lost 15.2% paired at 4096. Peak VRAM was 8,485 MiB. No output-quality check or production change; reject promotion. See `experiments/077-mtp-batch-invariant/REPORT.md`.
 - Exp076 independently confirmed NVIDIA MMQ dispatches PTQ1_0 to `ggml_cuda_mmq_load_tiles_ptq1_0` plus the signed-int8 MMA consumer. The focused sm_86 cubin contains `IMMA.16832.S8.S8` instructions and the active K loop uses `m16n8k32`; 1,792 instances count across emitted template variants, not runtime calls. No candidate or E2E measurement was made. See `experiments/076-ptq1-mmq-tensor-core/REPORT.md` and `results/exp076/`.
 - Exp075 counted 32 of 401 active PTQ GEMV tensors at or below 5 MiB L2; all are 1.14688 MB K/V tensors (36,700,160 B total). Each is separated from its next-token use by about 5.598 GB of PTQ weight payload. No exact-kernel cache timing was feasible without engine instrumentation, so no cache-hit, DRAM, or performance attribution is claimed. See `experiments/075-l2-cache-reuse/REPORT.md` and `results/exp075/raw/`.
 - Exp074 parsed 401 active PTQ1_0 GEMV weight tensors (5,599,641,600 bytes) and measured a 724.6–724.9 GB/s synthetic read ceiling using a larger-than-L2 working set; manager rerun matched within 0.03%. Dividing payload by Nsight Systems GEMV replay time gives ~621 GB/s, not a hardware counter. Traffic reduction remains plausible, but the study does not establish a bandwidth-bound kernel. The Exp052 size value was tensor payload; total verified PTQ1_0 GGUF size is 5,946,648,928 bytes. See `experiments/074-gemv-throughput-ceiling/REPORT.md` and `results/exp074/raw/`.
@@ -103,6 +104,7 @@
 
 ## Next candidates
 
-1. Isolate one representative active PTQ1_0 GEMV shape and compare cold versus warm replay across working sets around and beyond the 5 MiB L2; keep event timing, weight bytes, and graph replay separate. This may identify cache residency effects that explain part of Exp074's gap without claiming hardware memory counters.
-2. Revisit PTQ1_0 prompt-side MMQ only with a concrete exact dataflow/decoder derivation; Exp065/066 closed geometry-only and ungrounded source screens.
-3. Revisit long-context attention only with a concrete parallel reduction or synchronization design; Exp069/053 closed tile-only and barrier-only directions.
+1. Fresh architectural challenge of the active PTQ1_0 batch-1 GEMV, grounded in the measured 74–77% steady decode share. Require a genuinely distinct dataflow/cost model, exact kernel checks, and model A/B before keeping any candidate; consult the exhausted decoder/layout/scheduling work first.
+2. Build an exact production-kernel cold/warm replay harness for a representative PTQ1_0 GEMV shape and vary working sets around/beyond 5 MiB L2. Keep event timing, weight bytes, and graph replay separate; Exp075 established reuse distance only, not cache behavior.
+3. Revisit PTQ1_0 prompt-side MMQ only with a concrete exact dataflow/decoder derivation; Exp065/066 closed geometry-only and ungrounded source screens.
+4. Revisit long-context attention only with a concrete parallel reduction or synchronization design; Exp069/053 closed tile-only and barrier-only directions.

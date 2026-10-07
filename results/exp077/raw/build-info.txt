@@ -1,0 +1,17 @@
+Exp077 build record
+
+Source commit: 56b1e3faeec003e86afe8b4dce7e9182f23323a3
+Worktree base: 56b1e3f (detached)
+CMake: Release; GGML_CUDA=ON; CMAKE_CUDA_ARCHITECTURES=86; llama-server=ON; tests/examples=OFF; CUDA 13.2.86; GCC 15.3.1
+CUDA library SHA256: 8ea0295e1a5d7e56ed12c2a44458212527ce4d2b7caba9f60185552bf2ddc419
+llama-server SHA256: be3c95b605eece0afe4fb5ea0fcdfa1bb1d9bac3a707d13b545a49e0361ca79f
+Target MTP bundle: Ternary-Bonsai-2-27B-PQ2_0-MTP-Q8_0.gguf; SHA256 3cb3f0056d2e34ee44245a64396004a21f8492573d6ce1266ec4b7222c131dd4 (Exp071 verified)
+GPU: RTX 3080, 10,240 MiB, sm_86; driver 580.178.04; runtime library path resolves to results/exp077/build/bin/libggml-cuda.so.
+
+Only one binary/library build was used for both env variants. Each server process received either GGML_CUDA_BATCH_INVARIANT unset or equal to 1.
+
+Reproducible configure/build commands from the project root:
+`cmake -S . -B results/exp077/build -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_CUDA_ARCHITECTURES=86 -DGGML_CUDA=ON -DGGML_CUDA_FA=ON -DGGML_CUDA_GRAPHS=ON -DGGML_CUDA_NCCL=ON -DGGML_NATIVE=ON -DGGML_OPENMP=ON -DGGML_CUDA_COMPRESSION_MODE=size -DGGML_BUILD_TESTS=OFF -DGGML_BUILD_EXAMPLES=OFF -DLLAMA_BUILD_TESTS=OFF -DLLAMA_BUILD_EXAMPLES=OFF -DLLAMA_BUILD_SERVER=ON`
+`cmake --build results/exp077/build --target llama-server -j 8`
+
+Relevant CMake cache values were checked against the original build. The isolated build directory is retained at the worktree path documented in `results/exp077/README.md` and is not copied into the tracked experiment artifacts.

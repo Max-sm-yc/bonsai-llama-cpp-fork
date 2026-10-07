@@ -396,3 +396,9 @@
 - The NVIDIA sm_86 PTQ1_0 MMQ path already expands signed trits and dispatches to the signed-int8 MMA consumer. The compiled exact PTQ1_0 translation unit contains `IMMA.16832.S8.S8`; the active consumer uses K=32 fragments, with prompt positions on N.
 - The batch-one Tensor Core waste from Exp073 does not apply to this prefill path. Exp065's occupancy schedule variation regressed and Exp066 found no alternate decoder; Exp076 produced no distinct candidate, correctness change, or benchmark comparison.
 - **NO CANDIDATE; production and current best unchanged.** See `experiments/076-ptq1-mmq-tensor-core/REPORT.md` and `results/exp076/`.
+
+## Experiment 077: MTP batch-invariant correctness and throughput
+
+- In one Release sm_86 build, `GGML_CUDA_BATCH_INVARIANT=1` made the PQ2_0+MTP bundle's generated token IDs exactly match target-only in all 42 tested streams (three fixed prompts, contexts 512/4096, seven repetitions). With the mode off, 3/6 cells diverged, including the Exp072 ctx512 Qwen boundary.
+- Enabling the global mode changed target-only token IDs in 21/42 streams, at ctx512 speculative C++ (index 104) and ctx4096 reports/Qwen (indices 17/94). Those changed outputs have no quality validation. Pooled MTP/target rates within the invariant mode were 85.57/63.78 tok/s at ctx512 and 58.61/45.78 at ctx4096; reports MTP was 15.2% slower at ctx4096. Peak VRAM was 8,485 MiB.
+- **REJECT GLOBAL MODE PROMOTION; production/current best unchanged.** Cross-build Exp071 output-text matches only 3/6 cells, an unlocalized historical difference; see `experiments/077-mtp-batch-invariant/REPORT.md` and `results/exp077/`.

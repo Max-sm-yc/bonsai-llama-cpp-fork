@@ -1,0 +1,32 @@
+[
+  {
+    "name": "report",
+    "path": "experiments/052-pq2-steady-profile/REPORT.md",
+    "sha256": "7ed24be455ccf001be35045f907a80a98211e622f013c4f3a654ba62b2c21336",
+    "characters": 10317
+  },
+  {
+    "name": "report",
+    "path": "experiments/070-adaptive-ubatch/REPORT.md",
+    "sha256": "c4e06fc452d1489f3521f336fd07dfea5dc1333b6e34cebee05f0cac2f2dc47f",
+    "characters": 9089
+  },
+  {
+    "name": "report",
+    "path": "research/STATE.md",
+    "sha256": "55d28291a008c6dd628066fc488635b56191de5de9f3fb048733835bda8156b7",
+    "characters": 23916
+  },
+  {
+    "name": "model_source",
+    "path": "src/models/qwen35.cpp",
+    "sha256": "056ae5e71776e1cf54d7d3eb48f34eeafa3a6d7eae2f9130044585b67c06625a",
+    "characters": 36088
+  },
+  {
+    "name": "spec_source",
+    "path": "common/speculative.cpp",
+    "sha256": "3043664fe6be44dd3aebb8c9a3ccbccdf83b91a2127d08bb6ef98d9acf2b357a",
+    "characters": 169838
+  }
+]
