@@ -1,0 +1,2 @@
+temperature_c=53
+utilization_pct=3

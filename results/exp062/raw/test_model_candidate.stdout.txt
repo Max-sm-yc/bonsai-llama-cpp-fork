@@ -1,0 +1,5 @@
+Collecting data...
+Generating '/tmp/nsys-report-0fcb.qdstrm'
+[1/1] [0%                          ] test_model_candidate.nsys-rep[1/1] [0%                          ] test_model_candidate.nsys-rep[1/1] [=15%                        ] test_model_candidate.nsys-rep[1/1] [==========48%               ] test_model_candidate.nsys-rep[1/1] [===================82%      ] test_model_candidate.nsys-rep[1/1] [====================83%     ] test_model_candidate.nsys-rep[1/1] [========================100%] test_model_candidate.nsys-rep[1/1] [========================100%] test_model_candidate.nsys-rep
+Generated:
+	/home/maxsun/autonomous_projects/.worktrees/exp062-repeated-smallop-fusion/results/exp062/raw/test_model_candidate.nsys-rep

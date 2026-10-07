@@ -151,3 +151,26 @@ The one-token Qwen3.5 graph has 48 recurrent sites where the full F32 `[4,10240]
 | 4096 baseline → fused | 1,432 → 1,384 | 48 / 0.099511 ms → 48 / 0.080699 ms | 112 / 0.208968 ms → 64 / 0.111408 ms | 12.196336 → 12.079838 ms |
 
 This removes one cache CPY per recurrent block and reduces summed device-kernel replay time about 1%. Matched non-profiled model A/B pairs gained 0.95% at context 512 and 0.90% at context 4096; an independent manager pair also favored the fused build (+0.57% / +0.95%). Peak VRAM was unchanged at 6,579 / 6,803 MiB. PTQ1_0 GEMV remains the dominant bottleneck; use `experiments/060-concat-cache-fusion/REPORT.md` and `results/exp060/` for the complete graph, test, and benchmark evidence.
+
+## Recurrent SSM+SiLU+L2 fusion (Exp062)
+
+Exp062 profiled the current Exp060 graph at 31 complete one-token replays/context. It found 48 adjacent SSM/L2 pairs per replay; the guarded candidate fused 24 whose normalization input is the exact zero-offset `[128,32]` QK view of the full `[10240]` SSM+SiLU output. The remaining 24 sites kept the generic path. The fused kernel still writes the complete SiLU output for its other consumers.
+
+| Context | Nodes/replay | Fused sites/replay | Summed kernel time/replay | Change |
+|---:|---:|---:|---:|---:|
+| 512 | 1,384 → 1,360 | 24 | 11.728813 → 11.696529 ms | −0.032284 ms (−0.275%) |
+| 4096 | 1,384 → 1,360 | 24 | 12.102607 → 12.072064 ms | −0.030543 ms (−0.252%) |
+
+Four reversed-order, seven-repetition PTQ1_0 A/B pairs measured +0.037% at context 512 (within variation) and +0.231% at 4096. Peak VRAM stayed 6,579/6,803 MiB. Active GEMV remains the primary cost at 9.014/9.022 ms per token; relative to these current graph totals it is about 77.1%/74.7%. See `experiments/062-repeated-smallop-fusion/REPORT.md` and `results/exp062/`.
+
+
+## Post-Exp062 recurrent SSM/L2 fusion profile
+
+Exp062 matched 24 of 48 adjacent recurrent SSM+SiLU→L2 pairs. The guarded path fuses SSM, SiLU, and normalization for the exact zero-offset `[128,32]` QK view while retaining the full `[10240]` SiLU output required by other consumers. The other 24 sites use the generic kernels. The one-token graph dropped from 1,384 to 1,360 nodes per replay.
+
+| Context | Generic summed kernel time/replay | Exp062 | Delta |
+|---:|---:|---:|---:|
+| 512 | 11.728813 ms | 11.696529 ms | −0.032284 ms (−0.275%) |
+| 4096 | 12.102607 ms | 12.072064 ms | −0.030543 ms (−0.252%) |
+
+Four reversed-order, seven-repetition PTQ1_0 A/B pairs measured +0.037% decode at context 512 (within variation) and +0.231% at 4096. Peak VRAM was 6,579/6,803 MiB. Active GEMV remains dominant at 9.014/9.022 ms per token, about 77.1%/74.7% of the Exp062 graph kernel total. The integrated model/fallback exact-output CTest passed, selected CTests passed 5/5, CUDA-vs-CPU operation checks passed 96/96, and fixed-seed model completion matched with fusion enabled/disabled. Nsight Compute counters remain unavailable, so the underlying GEMV bandwidth-versus-instruction limit is still unknown. See `experiments/062-repeated-smallop-fusion/REPORT.md` and `results/exp062/`.

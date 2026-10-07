@@ -1,5 +1,10 @@
 # Optimization log
 
+## Experiment 062: repeated SSM+SiLU+L2 fusion
+
+- Added a guarded one-token CUDA path that materializes the full 10,240-element SSM+SiLU output and computes the separate 4,096-element normalized QK view in the same launch. The matcher handles 24 of 48 adjacent sites; graph nodes fell 1,384→1,360 and replay kernel time fell 0.0323/0.0305 ms at contexts 512/4096.
+- Focused model/fallback outputs matched the generic path byte-for-byte; selected CTests passed 5/5, CUDA backend checks 96/96, the integrated exact CTest passed 1/1, and a fixed-seed model smoke matched after removing only timing diagnostics. Four reversed-order A/B pairs were +0.037% at context 512 (flat) and +0.231% at 4096. Manager integration changed the epsilon parameter read to `memcpy` to avoid strict-aliasing warnings. Current code commit: `ffb0ef3`; see `experiments/062-repeated-smallop-fusion/REPORT.md` and `results/exp062/`.
+
 ## Experiment 061: final-layer gather/residual fusion
 
 - Captured the actual one-token graph and confirmed one adjacent final-layer pair of F32 GET_ROWS operations feeding a 5,120-wide ADD. A guarded CUDA fusion passed bit-exact row-zero/last-row checks and the fallback case; graph nodes fell 1,384→1,382 and focused replay saved 1–3 µs.

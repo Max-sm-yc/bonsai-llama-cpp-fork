@@ -1,0 +1,5 @@
+ggml_cuda_init: found 1 CUDA devices (Total VRAM: 9867 MiB):
+  Device 0: NVIDIA GeForce RTX 3080, compute capability 8.6, VMM: yes, VRAM: 9867 MiB
+EXP062_MATCH l2idx=3 views=1 exact=1 safe=1 ssm=node_0 silu=node_1 l2=node_3 qk= (view) qk_view_src=node_1
+EXP062_DATA ssm=0x7f2213e50000 silu=0x7f2213e5a000 qk=0x7f2213e5a000 norm=0x7f2213e64000 input=0x7f2213e00000 weights=0x7f2213e28000 uses=1/2/2 flags=10/10/10
+EXP062_SHAPES ssm=[10240,1,1,1] in=[4,10240,1,1] w=[4,10240,1,1] silu=[10240,1,1,1] qk=[128,32,1,1] nb=[4,512,40960,40960] l2=[128,32,1,1] l2nb=[4,512,16384,16384] src_eq=1

@@ -1,0 +1,2 @@
+temperature_c=51
+utilization_pct=0

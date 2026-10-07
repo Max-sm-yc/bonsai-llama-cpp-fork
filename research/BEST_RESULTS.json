@@ -1,7 +1,7 @@
 {
   "status": "optimization_campaign_active",
-  "implementation_commit": "4cb2072d8534c45d0aed0da7472dfe6587e9c3ee",
-  "timestamp_utc": "2026-10-06T11:00:24.981932+00:00",
+  "implementation_commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
+  "timestamp_utc": "2026-10-07T12:50:36.609483+00:00",
   "hardware": {
     "gpu": "NVIDIA GeForce RTX 3080",
     "compute_capability": "8.6",
@@ -359,10 +359,10 @@
     "cuda_library_sha256": "8e54b08629aafaae0e835a4c630367fe8126e85f9df64199f34f0db2e2798c94",
     "timestamp_utc": "2026-10-07T11:06:47+00:00"
   },
-  "updated_timestamp_utc": "2026-10-07T11:06:47+00:00",
-  "project_commit": "4cb2072d8534c45d0aed0da7472dfe6587e9c3ee",
+  "updated_timestamp_utc": "2026-10-07T12:50:36.609483+00:00",
+  "project_commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
   "current_best": {
-    "commit": "4cb2072d8534c45d0aed0da7472dfe6587e9c3ee",
+    "commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
     "reference_runtime_commit": "6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17",
     "quantization": "PTQ1_0",
     "decode_benchmark": {
@@ -373,8 +373,8 @@
         4096
       ],
       "repetitions_per_run": 7,
-      "order_reversed_pairs": 2,
-      "comparison": "Two order-reversed baseline/candidate pairs; median of two run medians per arm. Independent manager pair and final integrated-build runs are also attached.",
+      "order_reversed_pairs": 4,
+      "comparison": "Four order-reversed baseline/candidate pairs: two from Exp062 and two manager checks on the integrated main build. Primary value is the median of four seven-sample run medians per arm.",
       "flash_attention": "on",
       "kv_type": "f16",
       "n_gpu_layers": 99,
@@ -386,84 +386,130 @@
       "results": {
         "512": {
           "baseline_run_medians_tokens_per_second": [
-            83.6922,
-            83.245
+            84.4764,
+            84.1293,
+            84.401,
+            84.3515
           ],
           "candidate_run_medians_tokens_per_second": [
-            84.356,
-            84.1744
+            84.4234,
+            84.3915,
+            84.731,
+            84.3217
           ],
-          "baseline_median_tokens_per_second": 83.4686,
-          "median_tokens_per_second": 84.2652,
-          "improvement_percent": 0.9543708652,
-          "baseline_median_sample_latency_ms": 1533.521,
-          "median_sample_latency_ms": 1519.016,
+          "baseline_median_tokens_per_second": 84.37625,
+          "median_tokens_per_second": 84.40745,
+          "improvement_percent": 0.03697722996696129,
+          "baseline_median_sample_latency_ms": 1517.0142465,
+          "median_sample_latency_ms": 1516.4543795,
+          "baseline_run_average_tokens_per_second": [
+            84.34443,
+            84.074088,
+            84.26667,
+            84.235249
+          ],
+          "candidate_run_average_tokens_per_second": [
+            84.32104,
+            84.240977,
+            84.599412,
+            84.227245
+          ],
+          "baseline_median_run_average_tokens_per_second": 84.2509595,
+          "candidate_median_run_average_tokens_per_second": 84.2810085,
+          "median_run_average_improvement_percent": 0.03566606265179573,
+          "baseline_sample_range_tokens_per_second": [
+            83.3565,
+            84.5541
+          ],
+          "candidate_sample_range_tokens_per_second": [
+            83.489,
+            84.7647
+          ],
+          "baseline_sample_stddev_tokens_per_second": 0.33724578903556596,
+          "candidate_sample_stddev_tokens_per_second": 0.3442693808064349,
           "peak_gpu_memory_used_mib": 6579.0,
           "manager_verification": {
-            "baseline_mean_tokens_per_second": 83.103856,
-            "baseline_median_tokens_per_second": 83.2259,
-            "candidate_mean_tokens_per_second": 83.576636,
-            "candidate_median_tokens_per_second": 83.677,
-            "improvement_percent_by_median": 0.5420187706,
-            "peak_gpu_memory_used_mib": 6579.0
-          },
-          "final_main_build_verification": {
-            "mean_tokens_per_second": 84.428341,
-            "median_tokens_per_second": 84.5944,
-            "sample_stddev_tokens_per_second": 0.35398,
-            "mean_latency_ms": 1516.1016,
-            "peak_gpu_memory_used_mib": 6579.0
+            "baseline_run_medians_tokens_per_second": [
+              84.401,
+              84.3515
+            ],
+            "candidate_run_medians_tokens_per_second": [
+              84.731,
+              84.3217
+            ],
+            "baseline_median_tokens_per_second": 84.37625,
+            "candidate_median_tokens_per_second": 84.52635000000001,
+            "improvement_percent": 0.1778936608346715
           }
         },
         "4096": {
           "baseline_run_medians_tokens_per_second": [
-            80.9863,
-            80.936
+            81.6813,
+            81.6275,
+            81.7301,
+            81.7113
           ],
           "candidate_run_medians_tokens_per_second": [
-            81.6728,
-            81.7019
+            81.8345,
+            81.8519,
+            81.9383,
+            81.9174
           ],
-          "baseline_median_tokens_per_second": 80.9612,
-          "median_tokens_per_second": 81.6874,
-          "improvement_percent": 0.896972871,
-          "baseline_median_sample_latency_ms": 1581.005,
-          "median_sample_latency_ms": 1566.951,
+          "baseline_median_tokens_per_second": 81.6963,
+          "median_tokens_per_second": 81.88465,
+          "improvement_percent": 0.2305489967109997,
+          "baseline_median_sample_latency_ms": 1566.778433,
+          "median_sample_latency_ms": 1563.1740295,
+          "baseline_run_average_tokens_per_second": [
+            81.552905,
+            81.561991,
+            81.585631,
+            81.568074
+          ],
+          "candidate_run_average_tokens_per_second": [
+            81.779245,
+            81.790411,
+            81.782339,
+            81.796026
+          ],
+          "baseline_median_run_average_tokens_per_second": 81.5650325,
+          "candidate_median_run_average_tokens_per_second": 81.78637499999999,
+          "median_run_average_improvement_percent": 0.2713693518113791,
+          "baseline_sample_range_tokens_per_second": [
+            80.8362,
+            81.7726
+          ],
+          "candidate_sample_range_tokens_per_second": [
+            81.0273,
+            81.9909
+          ],
+          "baseline_sample_stddev_tokens_per_second": 0.2960871962185294,
+          "candidate_sample_stddev_tokens_per_second": 0.2866473010023953,
           "peak_gpu_memory_used_mib": 6803.0,
           "manager_verification": {
-            "baseline_mean_tokens_per_second": 80.756578,
-            "baseline_median_tokens_per_second": 80.8924,
-            "candidate_mean_tokens_per_second": 81.524016,
-            "candidate_median_tokens_per_second": 81.6427,
-            "improvement_percent_by_median": 0.9275284205,
-            "peak_gpu_memory_used_mib": 6803.0
-          },
-          "final_main_build_verification": {
-            "mean_tokens_per_second": 81.816798,
-            "median_tokens_per_second": 81.9324,
-            "sample_stddev_tokens_per_second": 0.322725,
-            "mean_latency_ms": 1564.491932,
-            "peak_gpu_memory_used_mib": 6803.0
+            "baseline_run_medians_tokens_per_second": [
+              81.7301,
+              81.7113
+            ],
+            "candidate_run_medians_tokens_per_second": [
+              81.9383,
+              81.9174
+            ],
+            "baseline_median_tokens_per_second": 81.7207,
+            "candidate_median_tokens_per_second": 81.92785,
+            "improvement_percent": 0.25348534704183745
           }
         }
       },
       "artifacts": [
-        "results/exp060/pair1_base_ctx512.json",
-        "results/exp060/pair1_cand_ctx512.json",
-        "results/exp060/pair2_base_ctx512.json",
-        "results/exp060/pair2_cand_ctx512.json",
-        "results/exp060/pair1_base_ctx4096.json",
-        "results/exp060/pair1_cand_ctx4096.json",
-        "results/exp060/pair2_base_ctx4096.json",
-        "results/exp060/pair2_cand_ctx4096.json",
-        "results/exp060/manager-verify/",
-        "results/exp060/main-final_ctx512.json",
-        "results/exp060/main-final_ctx4096.json"
+        "experiments/062-repeated-smallop-fusion/REPORT.md",
+        "results/exp062/manager_ab.json",
+        "results/exp062/raw/"
       ]
     },
-    "correctness": "pass: Exp060 candidate tests/run_correctness.sh (selected CTests 5/5, CUDA-vs-CPU backend 96/96, PTQ1_0/PQ2_0 fixed-seed model smokes); integrated main-tree Release build and test-exp060-concat-cache CTest passed 1/1; final integrated-build decode runs succeeded at contexts 512 and 4096.",
-    "cuda_library_sha256": "8e54b08629aafaae0e835a4c630367fe8126e85f9df64199f34f0db2e2798c94",
-    "timestamp_utc": "2026-10-07T11:06:47+00:00",
+    "correctness": "Exp062 exact focused model/fallback outputs; selected CTests 5/5; CUDA backend cases 96/96; integrated exact CTest 1/1; fixed-seed PTQ1_0 completion identical after stripping only CLI timing diagnostics.",
+    "cuda_library_sha256": "860fcca9977ed5ba9f9d81ce7d310481db9e9cefbe14ac30987ceb2867b30f3e",
+    "timestamp_utc": "2026-10-07T12:50:36.609483+00:00",
     "reference_comparison": {
       "measurement_id": "041",
       "baseline_project_commit": "2a6ac568b69a61db0ee151b24c9b2cdb7a4f8a7c",
@@ -910,31 +956,173 @@
     ]
   },
   "latest_research_measurement": {
-    "id": "060",
-    "description": "Guarded fused materialization of the recurrent concat plus cache-tail copy on the standard one-token model graph.",
-    "decision": "KEEP; merged build, exact CUDA test, paired model benchmarks, and manager verification passed.",
+    "id": "062",
+    "description": "Guarded fusion of the repeated recurrent SSM+SiLU output and its QK L2 normalization.",
+    "decision": "KEEP; 24 nodes removed per replay, exact model/fallback outputs, +0.037% context 512 (flat) and +0.231% context 4096 across four reversed pairs.",
+    "hardware": "NVIDIA GeForce RTX 3080, sm_86",
     "resources": {
-      "nodes_removed_per_token": 48,
-      "summed_replay_kernel_reduction_ms": {
-        "512": 0.118315,
-        "4096": 0.116498
-      }
-    },
-    "short_decode_screens": {
-      "paired_median_delta_percent": {
-        "512": 0.9543708652,
-        "4096": 0.896972871
+      "nodes_per_replay": {
+        "baseline": 1384,
+        "candidate": 1360
       },
-      "manager_median_delta_percent": {
-        "512": 0.5420187706,
-        "4096": 0.9275284205
+      "fused_sites_per_replay": 24,
+      "summed_replay_kernel_time_ms": {
+        "512": {
+          "baseline": 11.728813,
+          "candidate": 11.696529
+        },
+        "4096": {
+          "baseline": 12.102607,
+          "candidate": 12.072064
+        }
       }
     },
-    "correctness": "Exact outputs/cache bytes, selected CTests 5/5, backend tests 96/96, both format smokes, and integrated focused CTest pass.",
+    "benchmark_configuration": {
+      "contexts": [
+        512,
+        4096
+      ],
+      "modes": [
+        "decode"
+      ],
+      "pair_ids": [
+        1,
+        2
+      ],
+      "repetitions_per_process": 7,
+      "decode_tokens": 128,
+      "n_gpu_layers": 99,
+      "flash_attention": "on",
+      "batch_size": 2048,
+      "ubatch_size": 512,
+      "kv_type": "f16",
+      "cpu_threads": 8,
+      "cooldown_temperature_c": 60.0
+    },
+    "results": {
+      "512": {
+        "baseline_run_medians_tokens_per_second": [
+          84.4764,
+          84.1293,
+          84.401,
+          84.3515
+        ],
+        "candidate_run_medians_tokens_per_second": [
+          84.4234,
+          84.3915,
+          84.731,
+          84.3217
+        ],
+        "baseline_median_tokens_per_second": 84.37625,
+        "median_tokens_per_second": 84.40745,
+        "improvement_percent": 0.03697722996696129,
+        "baseline_median_sample_latency_ms": 1517.0142465,
+        "median_sample_latency_ms": 1516.4543795,
+        "baseline_run_average_tokens_per_second": [
+          84.34443,
+          84.074088,
+          84.26667,
+          84.235249
+        ],
+        "candidate_run_average_tokens_per_second": [
+          84.32104,
+          84.240977,
+          84.599412,
+          84.227245
+        ],
+        "baseline_median_run_average_tokens_per_second": 84.2509595,
+        "candidate_median_run_average_tokens_per_second": 84.2810085,
+        "median_run_average_improvement_percent": 0.03566606265179573,
+        "baseline_sample_range_tokens_per_second": [
+          83.3565,
+          84.5541
+        ],
+        "candidate_sample_range_tokens_per_second": [
+          83.489,
+          84.7647
+        ],
+        "baseline_sample_stddev_tokens_per_second": 0.33724578903556596,
+        "candidate_sample_stddev_tokens_per_second": 0.3442693808064349,
+        "peak_gpu_memory_used_mib": 6579.0,
+        "manager_verification": {
+          "baseline_run_medians_tokens_per_second": [
+            84.401,
+            84.3515
+          ],
+          "candidate_run_medians_tokens_per_second": [
+            84.731,
+            84.3217
+          ],
+          "baseline_median_tokens_per_second": 84.37625,
+          "candidate_median_tokens_per_second": 84.52635000000001,
+          "improvement_percent": 0.1778936608346715
+        }
+      },
+      "4096": {
+        "baseline_run_medians_tokens_per_second": [
+          81.6813,
+          81.6275,
+          81.7301,
+          81.7113
+        ],
+        "candidate_run_medians_tokens_per_second": [
+          81.8345,
+          81.8519,
+          81.9383,
+          81.9174
+        ],
+        "baseline_median_tokens_per_second": 81.6963,
+        "median_tokens_per_second": 81.88465,
+        "improvement_percent": 0.2305489967109997,
+        "baseline_median_sample_latency_ms": 1566.778433,
+        "median_sample_latency_ms": 1563.1740295,
+        "baseline_run_average_tokens_per_second": [
+          81.552905,
+          81.561991,
+          81.585631,
+          81.568074
+        ],
+        "candidate_run_average_tokens_per_second": [
+          81.779245,
+          81.790411,
+          81.782339,
+          81.796026
+        ],
+        "baseline_median_run_average_tokens_per_second": 81.5650325,
+        "candidate_median_run_average_tokens_per_second": 81.78637499999999,
+        "median_run_average_improvement_percent": 0.2713693518113791,
+        "baseline_sample_range_tokens_per_second": [
+          80.8362,
+          81.7726
+        ],
+        "candidate_sample_range_tokens_per_second": [
+          81.0273,
+          81.9909
+        ],
+        "baseline_sample_stddev_tokens_per_second": 0.2960871962185294,
+        "candidate_sample_stddev_tokens_per_second": 0.2866473010023953,
+        "peak_gpu_memory_used_mib": 6803.0,
+        "manager_verification": {
+          "baseline_run_medians_tokens_per_second": [
+            81.7301,
+            81.7113
+          ],
+          "candidate_run_medians_tokens_per_second": [
+            81.9383,
+            81.9174
+          ],
+          "baseline_median_tokens_per_second": 81.7207,
+          "candidate_median_tokens_per_second": 81.92785,
+          "improvement_percent": 0.25348534704183745
+        }
+      }
+    },
+    "correctness": "Exp062 exact focused model/fallback outputs; selected CTests 5/5; CUDA backend cases 96/96; integrated exact CTest 1/1; fixed-seed PTQ1_0 completion identical after stripping only CLI timing diagnostics.",
+    "cuda_library_sha256": "860fcca9977ed5ba9f9d81ce7d310481db9e9cefbe14ac30987ceb2867b30f3e",
     "artifacts": [
-      "experiments/060-concat-cache-fusion/REPORT.md",
-      "results/exp060/"
+      "experiments/062-repeated-smallop-fusion/REPORT.md",
+      "results/exp062/"
     ],
-    "timestamp_utc": "2026-10-07T11:06:47+00:00"
+    "timestamp_utc": "2026-10-07T12:50:36.609483+00:00"
   }
 }
