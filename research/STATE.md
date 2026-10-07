@@ -3,6 +3,7 @@
 ## Current best
 
 - **PTQ1_0, active sm_86 planar GEMV with ROWS=1.** Code commit `9fa97200e68fd798ef027470c8e420172a0ac719`; reference runtime commit `6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17`. Rebuilt source-default medians: 82.22 tok/s at context 512 and 79.70 at 4096 (7 reps, 128 decode tokens, F16 KV, FA on, 99 GPU layers, 8 CPU threads); matched archived ROWS=4 medians: 78.00/75.66, or +5.42%/+5.34%. Peak whole-GPU memory 6,805 MiB. Prefill not remeasured; reference medians are 1,378/1,331 tok/s at 512/4096.
+- Current source-default CUDA library was rebuilt after Exp029 interruption: SHA-256 `c828135b126ec507ffbecb4dc11b6a7a9ac5cd0fe050553323d7f35c38fae6c7`; source and 76-register active-kernel resource record match production. Fixed-seed 32-token PTQ1_0 smoke passed. This differs from the archived library SHA (`708ece...`); byte-for-byte reproduction is unverified.
 - Correctness: final source-default ROWS=1 passed 4 CTests, 96 CUDA-vs-CPU PTQ1_0/PQ2_0 matmul cases, and both fixed 32-token model smokes. See experiment 010 report and raw results.
 
 ## Bottlenecks
@@ -40,6 +41,7 @@
 - Experiment 026: SASS audit found nine 128-bit activation loads in both gated and ungated fused GEMV variants; compiler already reuses the activation vectors. No paired-helper candidate was built.
 - Experiment 027: active-kernel current-block prefetch has no useful lookahead; 28-byte weight-block spacing complicates vector loads. Static challenge ended before a candidate/event test, so alternate dataflows remain open.
 - Experiment 028: per-thread next-item lookahead was address-safe and emitted active `CCTL.E.PF1/PF2`, but one trace per variant showed 2.3% (distance 1) and 7.4% (distance 2) more plain-kernel time. Reverted at the focused screen; no E2E claim.
+- Experiment 029: `.cg` reached the active plain GEMV's six packed-word loads and retained 74 registers/no spills, but only one candidate trace was captured (4,115 launches; 177.969 ms). No matched control, correctness comparison, or E2E A/B exists; classify as inconclusive. Source was restored and rebuilt; see report for the distinct binary-hash recovery note.
 
 ## Important discoveries
 
@@ -54,12 +56,13 @@
 - Experiment 025's work-list strip mining changed neither static register usage nor model throughput favorably; do not retry source unrolling alone without disassembly or kernel-counter evidence.
 - Experiments 001/002 changed only the generic PTQ1 prefetch, while the RTX 3080 batch-1 decode takes the dedicated kernel. Experiment 026's gated/ungated SASS each has nine 128-bit activation loads, so do not pursue load reuse there without a new codegen premise.
 - The dedicated GEMV assigns `(row group,K block)` work items with per-thread loop stride 128. Prefetching that thread's next work item is a distinct lookahead candidate; current-block prefetch is not.
-- The work-list lookahead adds index/address instructions before the dot and did not repay that overhead in the first actual-kernel trace. PTQ1 packed `qs` words remain naturally 4-byte aligned even though 28-byte block starts are not 16-byte aligned.
+- The work-list lookahead adds index/address instructions before the dot and did not repay that overhead in the first actual-kernel trace. PTQ1 packed `qs` words remain naturally 4-byte aligned even though 28-byte block starts are not 16-byte aligned. Exp029's `.cg` modifier emitted `LDG.E.STRONG.GPU` for these loads while the nine activation vector loads remained cached; its profile lacks a contemporaneous control and says nothing about speed.
+- Exp029 showed that interrupted broad Ninja rebuilds can remove the linked CUDA library and leave missing objects. The source-default library has now been rebuilt and passed a model smoke, but its byte hash differs from the archived best library; preserve the active library and use isolated candidate relinks for future cache-policy tests.
 
 - Experiment 021 confirmed graph gather fusion is active: the 16-token trace had 864 GDN calls and no GET_ROWS; disabling fusion added exactly 864 GET_ROWS calls. Cache-copy fusion was source-audited, not toggled.
 
 ## Next candidates
 
-1. Compare default caching with `.cg` L1-bypass or `.cs` streaming loads for active PTQ1_0 packed weight words. The aligned u32 `qs` loads can be targeted without changing the 28-byte storage layout; test whether avoiding weight pollution preserves useful activation L1 residency.
+1. Complete a matched default/`.cg`/`.cs` cache-policy screen for active PTQ1_0 packed weight words. The aligned u32 `qs` loads can be targeted without changing the 28-byte storage layout; Exp029 only established code generation, so use identical actual-kernel traces and isolated relinks before any E2E comparison.
 2. A different packed-weight staging/dataflow for the 28-byte PTQ1_0 block, only with an implementation-equivalent event screen and correctness proof.
 3. Audit fused-gate non-load reuse or targeted PQ2_0 decode only after a concrete SASS/source premise; maintain identical model and workload conditions.

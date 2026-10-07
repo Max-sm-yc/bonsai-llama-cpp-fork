@@ -181,3 +181,10 @@
 - Tested `.L1` distance 1/2 and `.L2` distance 1 for each thread's future work item in the actual active plain specialization. Address checks passed for 4,575 shape/pitch combinations and 21.6M future indices; SASS emitted the expected `CCTL.E.PF1/PF2` hints.
 - In one 16-token Nsight Systems trace per arm (485 target launches each), plain-kernel totals were 9.577 ms control, 9.799 ms L1-D1 (+2.3%), 10.281 ms L1-D2 (+7.4%), and 9.793 ms L2-D1 (+2.3%). Manager independently reproduced the totals, medians, selected library paths, and address-check result. The screen was negative; no correctness suite or end-to-end candidate A/B was run, and no candidate is retained.
 - Next, test load-cache policy directly on the active packed weight reads. This avoids adding future-index decode and tests whether streaming weights currently displace the reusable activation planes.
+
+## Experiment 029: PTQ1_0 packed-weight cache policy
+
+- Tested `.cg` on the six aligned packed `qs` u32 reads in the active plain planar GEMV. SASS emitted `LDG.E.STRONG.GPU`; activation vector loads were unchanged and resources remained 74 registers/thread with no spills. `.cs` was not built.
+- Captured one 16-token actual-model profile (4,115 active plain launches, 177.969 ms aggregate) but no matched default control, so this is code-path evidence only. No candidate correctness comparison or end-to-end A/B was performed; decision is inconclusive and the candidate is reverted.
+- Interrupted broad rebuilds removed the active CUDA library and some objects. The source-default tree was rebuilt successfully and passed a fixed-seed 32-token PTQ1_0 smoke. Its active-kernel resource record matches the archived control, but the rebuilt `.so` SHA differs from the archived binary and byte identity is not claimed. See `experiments/029-ptq1-weight-cache-policy/REPORT.md` and `results/exp029/`.
+- Follow-up: compare default/`.cg`/`.cs` with identical actual-kernel traces and isolated candidate relinks, preserving the working source-default library.

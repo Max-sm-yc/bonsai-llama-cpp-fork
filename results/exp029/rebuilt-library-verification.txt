@@ -1,0 +1,6 @@
+Source SHA-256: f398417accddf1948fbf12155b4180fd362a3dfea88366ef3980161700d56496
+Rebuilt source-default library SHA-256: c828135b126ec507ffbecb4dc11b6a7a9ac5cd0fe050553323d7f35c38fae6c7
+Archived production library SHA-256: 708eceba48460ad3d963b88c7f84a0f60a2bbed061d2cf7fdec70e39b15e29a9
+Rebuilt library exists and is loaded by build/bin/llama-cli and build/bin/llama-bench from build/bin/libggml-cuda.so.0.
+The active <1,1,false,false> resource record matches exp028 control: REG 76, STACK 0, SHARED 0, LOCAL 0.
+The rebuilt hash differs from the archived production hash. No binary-level diff against the archived file was possible because it was not separately preserved before the candidate rebuild. Likely sources include full-library rebuild/code-generation metadata variance, but the cause is not demonstrated; do not claim a verified bitwise reproduction.
