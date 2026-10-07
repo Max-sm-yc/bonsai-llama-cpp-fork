@@ -1126,30 +1126,80 @@
     "timestamp_utc": "2026-10-07T12:50:36.609483+00:00"
   },
   "latest_research_audit": {
-    "id": "066",
-    "description": "Fresh codegen/dataflow challenge for PTQ1_0 type-143 prefill MMQ on RTX 3080/sm_86.",
-    "result": "A clean 441-step Release CUDA sm_86 baseline build completed. Active J=128 PTX/SASS confirms five dependent multiply-by-three trit-expansion stages followed by shared-memory stores. Source/compiler review found no grounded local candidate; no candidate or performance measurement was produced.",
-    "decision": "INCONCLUSIVE \u2014 NO CANDIDATE; production source and current best unchanged.",
+    "id": "067",
+    "description": "Global PTQ1_0 prefill ubatch sweep at fixed logical batch 2048.",
+    "decision": "REVERT; retain global ub=512. No setting consistently improved all four prompts.",
     "verified_by_manager": true,
-    "build": {
-      "llama_bench_sha256": "48f7dae8aa4d8553659d83f56afed7d4899d2c359e95026cb362002acdc38e71",
-      "cuda_library_sha256": "21bff8d31b9cf49358434f670f82551a8a58612237d95d7e185bd9180f4ed692",
-      "loader_paths": "ldd resolves llama/GGML libraries from isolated worktree build/bin."
+    "method": {
+      "contexts": [
+        128,
+        512,
+        2048,
+        4096
+      ],
+      "repetitions_per_screen": 3,
+      "settings": {
+        "batch_size": 2048,
+        "ubatch_sizes": [
+          128,
+          256,
+          512,
+          1024,
+          2048
+        ],
+        "n_gpu_layers": 99,
+        "flash_attention": true,
+        "kv_type": "f16",
+        "cpu_threads": 8,
+        "warmup": "llama-bench default",
+        "cooldown_temperature_c": 60
+      },
+      "comparison": "All settings measured in same isolated build/session with cooldown gate; medians compared to same-session ub=512 control."
     },
-    "source_sha256": {
-      "mmq-load-tiles.cuh": "4312755ddfc498f23c9be34f1771bb929c9c474fd8089451c41234968e6400ba",
-      "mmq-vec-dot.cuh": "071639b9d69f97d1bd28819b5cb2b21a814e17514dd74da1f3d4196151497720",
-      "mmq-config-ampere.cuh": "6631e4c06c0538774822e850414dc5846c1a0486ea5a5c9dab541e9b0b8b07e0"
+    "prefill_median_tokens_per_second": {
+      "128": {
+        "128": 1303.46,
+        "256": 1297.26,
+        "512": 1310.81,
+        "1024": 1297.16,
+        "2048": 1293.36
+      },
+      "512": {
+        "128": 1285.54,
+        "256": 1326.45,
+        "512": 1395.87,
+        "1024": 1371.34,
+        "2048": 1375.02
+      },
+      "2048": {
+        "128": 1263.59,
+        "256": 1323.45,
+        "512": 1382.69,
+        "1024": 1385.0,
+        "2048": 1408.3
+      },
+      "4096": {
+        "128": 1243.08,
+        "256": 1304.39,
+        "512": 1366.58,
+        "1024": 1368.26,
+        "2048": 1391.06
+      }
     },
-    "artifacts_sha256": {
-      "results/exp066/type143-j128-baseline.ptx": "2722a4b442817c90ba63377441f4299027bae96c8f4066ea2f77cd9881688206",
-      "results/exp066/type143-j128-baseline.sass": "57cb203d6f86c3477602f2b065254d82e0961bf8898a5f39e3274dc9c5a85ae3"
+    "peak_gpu_memory_mib_by_ubatch": {
+      "128": 6403,
+      "256": 6531,
+      "512": 6793,
+      "1024": 7313,
+      "2048": 8363
     },
-    "correctness": "No arithmetic or layout candidate was built; no new correctness result or candidate performance claim applies. Baseline source was unchanged.",
+    "screen_sample_count": 3,
+    "correctness": "Fixed-seed 32-token PTQ1_0 CLI completion text matched for ub=512 and ub=2048; only throughput diagnostic differed. No logits-level test. No decode/PQ2 comparison because no global candidate qualified.",
+    "outcome": "ub=2048 gained 1.85%/1.79% at prompts 2048/4096 but lost 1.33%/1.49% at prompts 128/512; ub=1024 was near-flat on long prompts and slower on short prompts. No 7-repetition confirmation or production setting change.",
     "artifacts": [
-      "experiments/066-ptq1-mmq-dataflow/REPORT.md",
-      "results/exp066/"
+      "experiments/067-prefill-ubatch-sweep/REPORT.md",
+      "results/exp067/"
     ],
-    "timestamp_utc": "2026-10-07T14:33:43.927928+00:00"
+    "timestamp_utc": "2026-10-07T14:50:55.799836+00:00"
   }
 }

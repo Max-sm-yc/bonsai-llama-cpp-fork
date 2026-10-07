@@ -1,0 +1,26 @@
+Worktree: /home/maxsun/autonomous_projects/.worktrees/exp067-prefill-ubatch-sweep
+Benchmark model: /home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PTQ1_0.gguf
+Benchmark binary: build/bin/llama-bench
+Library resolution: LD_LIBRARY_PATH="$PWD/build/bin" (see llama-bench-ldd.txt)
+Common benchmark options: --modes prefill --contexts 128 512 2048 4096 --repetitions 3 --batch-size 2048 --cpu-threads 8 --kv-type f16 --cooldown-temp-c 60
+Warmups: llama-bench default warmups enabled
+
+Screen screen-ub512-3.json:
+LD_LIBRARY_PATH="$PWD/build/bin" python3 benchmark/run.py --model "PTQ1_0=/home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PTQ1_0.gguf" --binary build/bin/llama-bench --output results/exp067/screen-ub512-3.json --modes prefill --contexts 128 512 2048 4096 --repetitions 3 --batch-size 2048 --ubatch-size 512 --cpu-threads 8 --kv-type f16 --cooldown-temp-c 60
+
+Screen screen-ub128-3.json:
+LD_LIBRARY_PATH="$PWD/build/bin" python3 benchmark/run.py --model "PTQ1_0=/home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PTQ1_0.gguf" --binary build/bin/llama-bench --output results/exp067/screen-ub128-3.json --modes prefill --contexts 128 512 2048 4096 --repetitions 3 --batch-size 2048 --ubatch-size 128 --cpu-threads 8 --kv-type f16 --cooldown-temp-c 60
+
+Screen screen-ub256-3.json:
+LD_LIBRARY_PATH="$PWD/build/bin" python3 benchmark/run.py --model "PTQ1_0=/home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PTQ1_0.gguf" --binary build/bin/llama-bench --output results/exp067/screen-ub256-3.json --modes prefill --contexts 128 512 2048 4096 --repetitions 3 --batch-size 2048 --ubatch-size 256 --cpu-threads 8 --kv-type f16 --cooldown-temp-c 60
+
+Screen screen-ub1024-3.json:
+LD_LIBRARY_PATH="$PWD/build/bin" python3 benchmark/run.py --model "PTQ1_0=/home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PTQ1_0.gguf" --binary build/bin/llama-bench --output results/exp067/screen-ub1024-3.json --modes prefill --contexts 128 512 2048 4096 --repetitions 3 --batch-size 2048 --ubatch-size 1024 --cpu-threads 8 --kv-type f16 --cooldown-temp-c 60
+
+Screen screen-ub2048-3.json:
+LD_LIBRARY_PATH="$PWD/build/bin" python3 benchmark/run.py --model "PTQ1_0=/home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PTQ1_0.gguf" --binary build/bin/llama-bench --output results/exp067/screen-ub2048-3.json --modes prefill --contexts 128 512 2048 4096 --repetitions 3 --batch-size 2048 --ubatch-size 2048 --cpu-threads 8 --kv-type f16 --cooldown-temp-c 60
+
+Fixed-seed smoke command (run with -ub 512 and -ub 2048; stdout and stderr saved under results/exp067):
+/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/llama-cli -m /home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PTQ1_0.gguf -ngl 99 -fa on -b 2048 -ub <512|2048> -ctk f16 -ctv f16 -c 512 -t 8 -p "The RTX 3080 is a graphics card that" -n 32 --seed 42 --temp 0 --ignore-eos --no-display-prompt --simple-io --single-turn
+
+Note: no 7-repetition confirmation was run because no screen candidate was globally consistent. No decode/PQ2 confirmation was triggered by the same conditional criterion.

@@ -42,9 +42,11 @@
 
 ## Active experiment
 
-- Exp067 screens one global PTQ1_0 prefill `ubatch_size` while holding `-b 2048` fixed. Compare the same setting across prompts 128/512/2048/4096; keep model math unchanged and measure VRAM plus batch-1 decode controls. This follows the no-candidate Exp066 MMQ source audit.
+- None. Exp067 completed the global PTQ1_0 prefill ubatch screen; retain `-ub 512`.
 
 ## Latest research result
+
+- Exp067 screened `ub=128/256/512/1024/2048` at fixed `-b 2048`. `ub=2048` gained about 1.8% at prompts 2048/4096 but lost 1.3–1.5% at 128/512; `ub=1024` was nearly flat on long prompts and slower on short prompts. Peak was 8,363 MiB. Fixed-seed smoke text matched `ub=512`. No global candidate qualified, so no parameter change or decode/PQ2 follow-up. See `experiments/067-prefill-ubatch-sweep/REPORT.md`.
 
 - Exp066 confirmed type-143 MMQ PTX still emits the dependent multiply-by-three digit expansion and shared stores. Source review did not identify a feasible local replacement; no candidate or timing result. Current best is unchanged. See `experiments/066-ptq1-mmq-dataflow/REPORT.md`.
 

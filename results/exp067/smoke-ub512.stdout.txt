@@ -1,0 +1,9 @@
+<think>
+The user wants a one-sentence explanation of why the sky looks blue. This is about Rayleigh scattering - shorter wavelengths (blue/violet) of sunlight are scattered more by molecules in the atmosphere than longer wavelengths (red/orange). I should keep it to one clear sentence.
+</think>
+
+The sky appears blue because molecules in Earth's atmosphere scatter shorter wavelengths of sunlight (blue and violet) much more strongly than longer wavelengths, a process called Rayleigh scattering, and our eyes are more sensitive to blue than violet.
+
+> EOF by user
+
+

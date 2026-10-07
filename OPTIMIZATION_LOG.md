@@ -342,3 +342,9 @@
 - The clean isolated sm_86 baseline build completed all 441 steps. Inspection of the active J=128 type-143 PTX/SASS confirmed the loader keeps the dependent five-step multiply-by-three trit expansion and shared-memory stores; relevant excerpts are retained in `results/exp066/`.
 - No concrete exact decoder/direct-compute implementation emerged from the feasibility screen. No candidate source, correctness claim, profile, or E2E result was produced; source hashes match the code baseline.
 - **INCONCLUSIVE — NO CANDIDATE.** The current MMQ path is unchanged. Revisit only with a concrete decoder/direct packed-compute derivation and exact test plan. See `experiments/066-ptq1-mmq-dataflow/REPORT.md`.
+
+## Experiment 067: global prefill ubatch configuration
+
+- Screened PTQ1_0 with logical batch fixed at 2048 and global `ub=128/256/512/1024/2048`, three samples each at prompts 128/512/2048/4096. Peaks ranged from 6,403 to 8,363 MiB.
+- Larger ubatches improved 2048/4096 prompts slightly (+1.85%/+1.79% at ub=2048) but reduced 128/512 performance (-1.33%/-1.49%). Smaller values lost more at long prompts. Fixed-seed 32-token output text matched ub=512; only performance diagnostics differed.
+- **REVERT / keep `ub=512`.** No global setting consistently improved all prompt lengths, so no seven-repetition confirmation, decode A/B, or PQ2 finalist was warranted. No source or model math changed. See `experiments/067-prefill-ubatch-sweep/REPORT.md` and `results/exp067/`.

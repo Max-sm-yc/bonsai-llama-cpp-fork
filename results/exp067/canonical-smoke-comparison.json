@@ -1,0 +1,8 @@
+{
+  "same_completion_text": true,
+  "completion_sha256": "bc99a99001bd47afe39379e7efb3fb4499d620f5c04c2e66ae23ebbcda40c1a5",
+  "completion_text": "We need to respond to user: \"The RTX 3080 is a graphics card that\". Likely they want completion? Maybe a fill-in? Need",
+  "ub512_output_sha256": "62d9002450077fbaac1b648bc621b40b7ff7686099aa522c4e8cfdb0866751c9",
+  "ub2048_output_sha256": "d53e0c8a9e94a5d9b54d6e4b505d7d93b1192305aa8a75cde3af9a03467c9588",
+  "note": "Full CLI stdout differs only in the reported prompt/generation throughput values."
+}
