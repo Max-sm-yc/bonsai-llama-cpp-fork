@@ -257,3 +257,8 @@
 
 - The active-planar work-plus-fold harness emitted seven `LDGSTS.E` copies for the next 28-byte weight block, then decoded/dotted the current item. Codes and row outputs matched exactly at K=40 and K=136. Ptxas used 40 registers/thread, 3,584 B shared memory, and one barrier for the candidate.
 - Nine rotated-order CUDA-event samples showed the async path slower by 10.40% at 40 blocks (13.8947→15.3395 µs) and 23.16% at 136 (27.8528→34.3029 µs), with no overlapping ranges. The async instructions were present, but seven 4-byte copies plus waits/barrier outweighed overlap. Reject before runtime integration. See `experiments/040-async-worklist-pipeline/REPORT.md` and `results/exp040/`.
+
+## Experiment 041: matched frozen-reference versus current-best measurement
+
+- Freshly built original project baseline `2a6ac56` in an isolated worktree and compared it to current production code `c6cdaa5`, both from runtime `6bfcd79`. RUNPATH and `ldd` confirmed each executable loaded its own CUDA and ggml libraries.
+- Two reversed-order pairs of seven repetitions with a ≤60°C gate before every arm: current/reference decode medians were 83.433/78.106 tok/s at context 512 (+6.82%) and 79.882/75.533 at 4096 (+5.76%). Prefill matched within 0.09% across 128/512/2048/4096; combined improved +5.67% at prompt 512 and +1.96% at 4096. Peak memory was 6,803 MiB current / 6,805 MiB reference. See `experiments/041-reference-current-ab/REPORT.md` and `results/reference_ab/`.

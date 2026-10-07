@@ -321,7 +321,7 @@
     "cuda_library_sha256": "bad70d76b19fdd1b21f61e5c9eb4900b5334c638ff75cdec11f3a4d3b2b28642",
     "timestamp_utc": "2026-10-07T03:25:11+00:00"
   },
-  "updated_timestamp_utc": "2026-10-07T04:39:04+00:00",
+  "updated_timestamp_utc": "2026-10-07T05:28:20+00:00",
   "project_commit": "c6cdaa5fa62787c97db58d1d2e1db666a4aeddb5",
   "current_best": {
     "commit": "c6cdaa5fa62787c97db58d1d2e1db666a4aeddb5",
@@ -381,13 +381,266 @@
         }
       }
     },
-    "prefill_reference_not_remeasured": {
-      "512_median_tokens_per_second": 1378.14,
-      "4096_median_tokens_per_second": 1331.25
-    },
     "correctness": "pass: main-tree tests/run_correctness.sh; selected CTest 5/5 including direct fused RMS/FWHT/Q8 GPU reference test; CUDA-vs-CPU backend ops 96/96; fixed-seed PTQ1_0 and PQ2_0 32-token smokes; PTQ1_0 normalized completion exactly matched reference",
     "cuda_library_sha256": "bad70d76b19fdd1b21f61e5c9eb4900b5334c638ff75cdec11f3a4d3b2b28642",
-    "timestamp_utc": "2026-10-07T03:25:11+00:00"
+    "timestamp_utc": "2026-10-07T03:25:11+00:00",
+    "reference_comparison": {
+      "measurement_id": "041",
+      "baseline_project_commit": "2a6ac568b69a61db0ee151b24c9b2cdb7a4f8a7c",
+      "current_production_code_commit": "c6cdaa5fa62787c97db58d1d2e1db666a4aeddb5",
+      "reference_runtime_commit": "6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17",
+      "method": "Two reversed-order pairs; 7 llama-bench repetitions per run; median of two run medians; a fresh <=60 C / <=5% utilization gate before every arm; 14 samples per arm/context.",
+      "builds": {
+        "reference": {
+          "source_commit": "2a6ac568b69a61db0ee151b24c9b2cdb7a4f8a7c",
+          "reference_runtime_commit": "6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17",
+          "executable_path": "/tmp/bonsai2-reference/build/bin/llama-bench",
+          "executable_sha256": "0ac0b7c1a08829d3fc4fca2d328daaf29c57acd1c63f1cf727b18bcd7dd74042",
+          "cuda_library_path": "/tmp/bonsai2-reference/build/bin/libggml-cuda.so.0.21.0",
+          "cuda_library_sha256": "d3286529a3df9db8d53fe89145bf4c4f69062dcc9f49ba1f85216d571f55a51b",
+          "cmake": "Release; GGML_CUDA=ON; CMAKE_CUDA_ARCHITECTURES=86; CUDA graphs on; Flash Attention on",
+          "ldd_library_resolution": "verified executable RUNPATH resolves all ggml libraries from this build directory"
+        },
+        "current": {
+          "source_commit": "c6cdaa5fa62787c97db58d1d2e1db666a4aeddb5",
+          "reference_runtime_commit": "6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17",
+          "executable_path": "/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/llama-bench",
+          "executable_sha256": "81187ab3fc4aeda74f92b08ca21ad774d74d1418fb2467d278b41dfe8dcdab13",
+          "cuda_library_path": "/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libggml-cuda.so.0.21.0",
+          "cuda_library_sha256": "bad70d76b19fdd1b21f61e5c9eb4900b5334c638ff75cdec11f3a4d3b2b28642",
+          "cmake": "Release; GGML_CUDA=ON; CMAKE_CUDA_ARCHITECTURES=86; CUDA graphs on; Flash Attention on",
+          "ldd_library_resolution": "verified executable RUNPATH resolves all ggml libraries from this build directory"
+        }
+      },
+      "decode": {
+        "512": {
+          "reference_median_tokens_per_second": 78.10615000000001,
+          "current_median_tokens_per_second": 83.43275,
+          "current_improvement_percent": 6.819693455636955,
+          "reference_run_medians": [
+            78.3401,
+            77.8722
+          ],
+          "current_run_medians": [
+            83.5727,
+            83.2928
+          ],
+          "reference_sample_range_tokens_per_second": [
+            76.9761,
+            78.4036
+          ],
+          "current_sample_range_tokens_per_second": [
+            82.4383,
+            83.5999
+          ],
+          "reference_sample_stddev_tokens_per_second": 0.40054212054373284,
+          "current_sample_stddev_tokens_per_second": 0.3519749023270437,
+          "reference_median_sample_latency_ms": 1643.2613015,
+          "current_median_sample_latency_ms": 1535.895421,
+          "reference_peak_gpu_memory_mib": 6805.0,
+          "current_peak_gpu_memory_mib": 6803.0
+        },
+        "4096": {
+          "reference_median_tokens_per_second": 75.53285,
+          "current_median_tokens_per_second": 79.8817,
+          "current_improvement_percent": 5.757561114137744,
+          "reference_run_medians": [
+            76.1517,
+            74.914
+          ],
+          "current_run_medians": [
+            80.9266,
+            78.8368
+          ],
+          "reference_sample_range_tokens_per_second": [
+            70.0684,
+            76.1668
+          ],
+          "current_sample_range_tokens_per_second": [
+            64.2709,
+            80.9879
+          ],
+          "reference_sample_stddev_tokens_per_second": 1.9563561110497654,
+          "current_sample_stddev_tokens_per_second": 6.021069650361593,
+          "reference_median_sample_latency_ms": 1693.3662575,
+          "current_median_sample_latency_ms": 1588.0919625,
+          "reference_peak_gpu_memory_mib": 6805.0,
+          "current_peak_gpu_memory_mib": 6803.0
+        }
+      },
+      "prefill": {
+        "128": {
+          "reference_median_tokens_per_second": 1292.995,
+          "current_median_tokens_per_second": 1291.875,
+          "current_improvement_percent": -0.08662059791413323,
+          "reference_run_medians": [
+            1291.61,
+            1294.38
+          ],
+          "current_run_medians": [
+            1292.41,
+            1291.34
+          ],
+          "reference_sample_range_tokens_per_second": [
+            1148.8,
+            1300.35
+          ],
+          "current_sample_range_tokens_per_second": [
+            1153.42,
+            1293.21
+          ],
+          "reference_sample_stddev_tokens_per_second": 51.881206531930154,
+          "current_sample_stddev_tokens_per_second": 48.56475765680023,
+          "reference_median_sample_latency_ms": 99.008509,
+          "current_median_sample_latency_ms": 99.1145775,
+          "reference_peak_gpu_memory_mib": 6793.0,
+          "current_peak_gpu_memory_mib": 6793.0
+        },
+        "512": {
+          "reference_median_tokens_per_second": 1377.4,
+          "current_median_tokens_per_second": 1377.395,
+          "current_improvement_percent": -0.00036300275882972244,
+          "reference_run_medians": [
+            1378.24,
+            1376.56
+          ],
+          "current_run_medians": [
+            1377.94,
+            1376.85
+          ],
+          "reference_sample_range_tokens_per_second": [
+            1351.7,
+            1383.62
+          ],
+          "current_sample_range_tokens_per_second": [
+            1353.1,
+            1383.65
+          ],
+          "reference_sample_stddev_tokens_per_second": 10.230244456920444,
+          "current_sample_stddev_tokens_per_second": 10.45680250752201,
+          "reference_median_sample_latency_ms": 371.714685,
+          "current_median_sample_latency_ms": 371.7163885,
+          "reference_peak_gpu_memory_mib": 6793.0,
+          "current_peak_gpu_memory_mib": 6793.0
+        },
+        "2048": {
+          "reference_median_tokens_per_second": 1355.28,
+          "current_median_tokens_per_second": 1355.505,
+          "current_improvement_percent": 0.01660173543476251,
+          "reference_run_medians": [
+            1355.26,
+            1355.3
+          ],
+          "current_run_medians": [
+            1355.69,
+            1355.32
+          ],
+          "reference_sample_range_tokens_per_second": [
+            1353.61,
+            1360.79
+          ],
+          "current_sample_range_tokens_per_second": [
+            1353.14,
+            1360.16
+          ],
+          "reference_sample_stddev_tokens_per_second": 2.2009954041821183,
+          "current_sample_stddev_tokens_per_second": 2.209636238771525,
+          "reference_median_sample_latency_ms": 1511.1276885,
+          "current_median_sample_latency_ms": 1510.835097,
+          "reference_peak_gpu_memory_mib": 6793.0,
+          "current_peak_gpu_memory_mib": 6793.0
+        },
+        "4096": {
+          "reference_median_tokens_per_second": 1332.11,
+          "current_median_tokens_per_second": 1332.26,
+          "current_improvement_percent": 0.011260331354034925,
+          "reference_run_medians": [
+            1332.61,
+            1331.61
+          ],
+          "current_run_medians": [
+            1332.72,
+            1331.8
+          ],
+          "reference_sample_range_tokens_per_second": [
+            1328.65,
+            1338.86
+          ],
+          "current_sample_range_tokens_per_second": [
+            1328.8,
+            1340.41
+          ],
+          "reference_sample_stddev_tokens_per_second": 3.302440739084439,
+          "current_sample_stddev_tokens_per_second": 3.8117346286331393,
+          "reference_median_sample_latency_ms": 3074.8214015,
+          "current_median_sample_latency_ms": 3074.47058,
+          "reference_peak_gpu_memory_mib": 6793.0,
+          "current_peak_gpu_memory_mib": 6793.0
+        }
+      },
+      "combined": {
+        "512": {
+          "reference_median_tokens_per_second": 314.37149999999997,
+          "current_median_tokens_per_second": 332.196,
+          "current_improvement_percent": 5.669884197517927,
+          "reference_run_medians": [
+            314.066,
+            314.677
+          ],
+          "current_run_medians": [
+            332.166,
+            332.226
+          ],
+          "reference_sample_range_tokens_per_second": [
+            313.526,
+            314.799
+          ],
+          "current_sample_range_tokens_per_second": [
+            331.497,
+            332.75
+          ],
+          "reference_sample_stddev_tokens_per_second": 0.46004756084752274,
+          "current_sample_stddev_tokens_per_second": 0.4335645825626736,
+          "reference_median_sample_latency_ms": 2035.2113095,
+          "current_median_sample_latency_ms": 1926.575257,
+          "reference_peak_gpu_memory_mib": 6805.0,
+          "current_peak_gpu_memory_mib": 6803.0
+        },
+        "4096": {
+          "reference_median_tokens_per_second": 860.9469999999999,
+          "current_median_tokens_per_second": 877.7855,
+          "current_improvement_percent": 1.9558114494852896,
+          "reference_run_medians": [
+            861.507,
+            860.387
+          ],
+          "current_run_medians": [
+            876.845,
+            878.726
+          ],
+          "reference_sample_range_tokens_per_second": [
+            767.355,
+            886.22
+          ],
+          "current_sample_range_tokens_per_second": [
+            793.657,
+            907.268
+          ],
+          "reference_sample_stddev_tokens_per_second": 38.81870426082008,
+          "current_sample_stddev_tokens_per_second": 37.62898823964792,
+          "reference_median_sample_latency_ms": 4906.2272625,
+          "current_median_sample_latency_ms": 4812.1149275,
+          "reference_peak_gpu_memory_mib": 6805.0,
+          "current_peak_gpu_memory_mib": 6803.0
+        }
+      },
+      "correctness": "Current and baseline builds completed all requested model benchmarks. Baseline project correctness passed 4/4 quantization/layout tests, 96/96 CUDA-vs-CPU operations, and model smokes. Current best passed tests/run_correctness.sh (CTest 5/5, backend 96/96, PTQ1_0/PQ2_0 smokes).",
+      "artifacts": [
+        "experiments/041-reference-current-ab/REPORT.md",
+        "results/reference_ab/README.md",
+        "results/reference_ab/summary.json"
+      ]
+    }
   },
   "latest_experiment_screen": {
     "id": "040",
@@ -452,5 +705,131 @@
     "executable_sha256": "a7f4a37083e259b5a6016d94dc6caab5d7c388dd82117ba787fc8c3c59a039c7",
     "cubin_sha256": "7f8077a8cde532d03c2762a730d276c2dee80fc16bd0257c30cd8820872cf825",
     "manager_verification": "Recomputed medians and deltas from all 36 raw event samples; reviewed correctness output and confirmed seven async-copy instructions in the candidate SASS. Current-best implementation remains unchanged."
+  },
+  "matched_baseline": {
+    "measurement_id": "041",
+    "project_commit": "2a6ac568b69a61db0ee151b24c9b2cdb7a4f8a7c",
+    "reference_runtime_commit": "6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17",
+    "format": "PTQ1_0",
+    "decode": {
+      "512": {
+        "median_tokens_per_second": 78.10615000000001,
+        "sample_range_tokens_per_second": [
+          76.9761,
+          78.4036
+        ],
+        "peak_gpu_memory_mib": 6805.0
+      },
+      "4096": {
+        "median_tokens_per_second": 75.53285,
+        "sample_range_tokens_per_second": [
+          70.0684,
+          76.1668
+        ],
+        "peak_gpu_memory_mib": 6805.0
+      }
+    },
+    "prefill": {
+      "128": {
+        "median_tokens_per_second": 1292.995,
+        "sample_range_tokens_per_second": [
+          1148.8,
+          1300.35
+        ],
+        "peak_gpu_memory_mib": 6793.0
+      },
+      "512": {
+        "median_tokens_per_second": 1377.4,
+        "sample_range_tokens_per_second": [
+          1351.7,
+          1383.62
+        ],
+        "peak_gpu_memory_mib": 6793.0
+      },
+      "2048": {
+        "median_tokens_per_second": 1355.28,
+        "sample_range_tokens_per_second": [
+          1353.61,
+          1360.79
+        ],
+        "peak_gpu_memory_mib": 6793.0
+      },
+      "4096": {
+        "median_tokens_per_second": 1332.11,
+        "sample_range_tokens_per_second": [
+          1328.65,
+          1338.86
+        ],
+        "peak_gpu_memory_mib": 6793.0
+      }
+    },
+    "combined": {
+      "512": {
+        "median_tokens_per_second": 314.37149999999997,
+        "sample_range_tokens_per_second": [
+          313.526,
+          314.799
+        ],
+        "peak_gpu_memory_mib": 6805.0
+      },
+      "4096": {
+        "median_tokens_per_second": 860.9469999999999,
+        "sample_range_tokens_per_second": [
+          767.355,
+          886.22
+        ],
+        "peak_gpu_memory_mib": 6805.0
+      }
+    },
+    "configuration": {
+      "contexts_decode": [
+        512,
+        4096
+      ],
+      "contexts_prefill": [
+        128,
+        512,
+        2048,
+        4096
+      ],
+      "combined_prompt_contexts": [
+        512,
+        4096
+      ],
+      "decode_tokens": 128,
+      "repetitions_per_run": 7,
+      "reversed_order_pairs": 2,
+      "warmup": "llama-bench defaults",
+      "start_gate": "GPU <=60 C and <=5% utilization before every arm",
+      "n_gpu_layers": 99,
+      "flash_attention": "on",
+      "batch_size": 2048,
+      "ubatch_size": 512,
+      "kv_type": "f16",
+      "cpu_threads": 8
+    },
+    "artifacts": [
+      "results/reference_ab/summary.json"
+    ]
+  },
+  "latest_research_measurement": {
+    "id": "041",
+    "description": "Matched, reversed-order frozen-reference/current-best comparison across decode, prefill, and combined workloads.",
+    "decision": "Current best retained; measurement only.",
+    "decode_improvement_percent": {
+      "512": 6.819693455636955,
+      "4096": 5.757561114137744
+    },
+    "prefill_improvement_percent": {
+      "128": -0.08662059791413323,
+      "512": -0.00036300275882972244,
+      "2048": 0.01660173543476251,
+      "4096": 0.011260331354034925
+    },
+    "combined_improvement_percent": {
+      "512": 5.669884197517927,
+      "4096": 1.9558114494852896
+    },
+    "timestamp_utc": "2026-10-07T05:25:54+00:00"
   }
 }

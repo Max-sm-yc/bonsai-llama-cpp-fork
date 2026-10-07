@@ -1,0 +1,1630 @@
+{
+  "experiment_id": "041",
+  "timestamp_utc": "2026-10-07T05:25:54+00:00",
+  "purpose": "Matched frozen-reference versus current-best comparison on the actual RTX 3080",
+  "hardware": {
+    "gpu": "NVIDIA GeForce RTX 3080",
+    "compute_capability": "8.6",
+    "vram_mib": 10240,
+    "driver": "580.178.04",
+    "cuda_toolkit": "13.2.86"
+  },
+  "builds": {
+    "reference": {
+      "source_commit": "2a6ac568b69a61db0ee151b24c9b2cdb7a4f8a7c",
+      "reference_runtime_commit": "6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17",
+      "executable_path": "/tmp/bonsai2-reference/build/bin/llama-bench",
+      "executable_sha256": "0ac0b7c1a08829d3fc4fca2d328daaf29c57acd1c63f1cf727b18bcd7dd74042",
+      "cuda_library_path": "/tmp/bonsai2-reference/build/bin/libggml-cuda.so.0.21.0",
+      "cuda_library_sha256": "d3286529a3df9db8d53fe89145bf4c4f69062dcc9f49ba1f85216d571f55a51b",
+      "cmake": "Release; GGML_CUDA=ON; CMAKE_CUDA_ARCHITECTURES=86; CUDA graphs on; Flash Attention on",
+      "ldd_library_resolution": "verified executable RUNPATH resolves all ggml libraries from this build directory"
+    },
+    "current": {
+      "source_commit": "c6cdaa5fa62787c97db58d1d2e1db666a4aeddb5",
+      "reference_runtime_commit": "6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17",
+      "executable_path": "/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/llama-bench",
+      "executable_sha256": "81187ab3fc4aeda74f92b08ca21ad774d74d1418fb2467d278b41dfe8dcdab13",
+      "cuda_library_path": "/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libggml-cuda.so.0.21.0",
+      "cuda_library_sha256": "bad70d76b19fdd1b21f61e5c9eb4900b5334c638ff75cdec11f3a4d3b2b28642",
+      "cmake": "Release; GGML_CUDA=ON; CMAKE_CUDA_ARCHITECTURES=86; CUDA graphs on; Flash Attention on",
+      "ldd_library_resolution": "verified executable RUNPATH resolves all ggml libraries from this build directory"
+    }
+  },
+  "configuration": {
+    "contexts_decode": [
+      512,
+      4096
+    ],
+    "contexts_prefill": [
+      128,
+      512,
+      2048,
+      4096
+    ],
+    "combined_prompt_contexts": [
+      512,
+      4096
+    ],
+    "decode_tokens": 128,
+    "repetitions_per_run": 7,
+    "reversed_order_pairs": 2,
+    "warmup": "llama-bench defaults",
+    "start_gate": "GPU <=60 C and <=5% utilization before every arm",
+    "n_gpu_layers": 99,
+    "flash_attention": "on",
+    "batch_size": 2048,
+    "ubatch_size": 512,
+    "kv_type": "f16",
+    "cpu_threads": 8
+  },
+  "run_order": {
+    "pair_1": [
+      "reference",
+      "current"
+    ],
+    "pair_2": [
+      "current",
+      "reference"
+    ]
+  },
+  "timing_scope": "llama-bench excludes tokenization and sampling; combined includes prompt evaluation and model token generation",
+  "modes": {
+    "decode": {
+      "contexts": {
+        "512": {
+          "reference": {
+            "run_medians_tokens_per_second": [
+              78.3401,
+              77.8722
+            ],
+            "median_of_run_medians_tokens_per_second": 78.10615000000001,
+            "all_14_samples_tokens_per_second": [
+              77.5166,
+              78.3895,
+              78.4036,
+              78.3996,
+              78.3401,
+              78.1968,
+              78.2885,
+              76.9761,
+              77.8914,
+              77.8964,
+              77.8722,
+              77.8774,
+              77.8696,
+              77.8422
+            ],
+            "sample_mean_tokens_per_second": 77.98285714285714,
+            "sample_stddev_tokens_per_second": 0.40054212054373284,
+            "sample_range_tokens_per_second": [
+              76.9761,
+              78.4036
+            ],
+            "median_sample_latency_ms": 1643.2613015,
+            "peak_gpu_memory_mib": 6805.0,
+            "per_run": [
+              {
+                "pair": 1,
+                "median_tokens_per_second": 78.3401,
+                "sample_tokens_per_second": [
+                  77.5166,
+                  78.3895,
+                  78.4036,
+                  78.3996,
+                  78.3401,
+                  78.1968,
+                  78.2885
+                ],
+                "sample_latency_ns": [
+                  1651260185,
+                  1632870777,
+                  1632578939,
+                  1632661877,
+                  1633901629,
+                  1636895809,
+                  1634978682
+                ],
+                "gpu_peak_memory_mib": 6805.0,
+                "gpu_start": {
+                  "memory_used_mib": 173.0,
+                  "utilization_percent": 0.0,
+                  "temperature_c": 47.0,
+                  "power_w": 25.53,
+                  "sm_clock_mhz": 210.0
+                }
+              },
+              {
+                "pair": 2,
+                "median_tokens_per_second": 77.8722,
+                "sample_tokens_per_second": [
+                  76.9761,
+                  77.8914,
+                  77.8964,
+                  77.8722,
+                  77.8774,
+                  77.8696,
+                  77.8422
+                ],
+                "sample_latency_ns": [
+                  1662854680,
+                  1643313797,
+                  1643208806,
+                  1643719812,
+                  1643608908,
+                  1643773557,
+                  1644351477
+                ],
+                "gpu_peak_memory_mib": 6805.0,
+                "gpu_start": {
+                  "memory_used_mib": 173.0,
+                  "utilization_percent": 0.0,
+                  "temperature_c": 60.0,
+                  "power_w": 29.32,
+                  "sm_clock_mhz": 210.0
+                }
+              }
+            ]
+          },
+          "current": {
+            "run_medians_tokens_per_second": [
+              83.5727,
+              83.2928
+            ],
+            "median_of_run_medians_tokens_per_second": 83.43275,
+            "all_14_samples_tokens_per_second": [
+              82.6226,
+              83.5293,
+              83.5999,
+              83.5907,
+              83.5747,
+              83.5727,
+              83.4647,
+              82.4383,
+              83.335,
+              83.343,
+              83.3215,
+              83.2928,
+              83.268,
+              83.2756
+            ],
+            "sample_mean_tokens_per_second": 83.30205714285714,
+            "sample_stddev_tokens_per_second": 0.3519749023270437,
+            "sample_range_tokens_per_second": [
+              82.4383,
+              83.5999
+            ],
+            "median_sample_latency_ms": 1535.895421,
+            "peak_gpu_memory_mib": 6803.0,
+            "per_run": [
+              {
+                "pair": 1,
+                "median_tokens_per_second": 83.5727,
+                "sample_tokens_per_second": [
+                  82.6226,
+                  83.5293,
+                  83.5999,
+                  83.5907,
+                  83.5747,
+                  83.5727,
+                  83.4647
+                ],
+                "sample_latency_ns": [
+                  1549213292,
+                  1532395564,
+                  1531102514,
+                  1531270853,
+                  1531563348,
+                  1531599877,
+                  1533581653
+                ],
+                "gpu_peak_memory_mib": 6803.0,
+                "gpu_start": {
+                  "memory_used_mib": 173.0,
+                  "utilization_percent": 0.0,
+                  "temperature_c": 57.0,
+                  "power_w": 91.31,
+                  "sm_clock_mhz": 270.0
+                }
+              },
+              {
+                "pair": 2,
+                "median_tokens_per_second": 83.2928,
+                "sample_tokens_per_second": [
+                  82.4383,
+                  83.335,
+                  83.343,
+                  83.3215,
+                  83.2928,
+                  83.268,
+                  83.2756
+                ],
+                "sample_latency_ns": [
+                  1552677019,
+                  1535969095,
+                  1535821747,
+                  1536218082,
+                  1536746608,
+                  1537205187,
+                  1537065680
+                ],
+                "gpu_peak_memory_mib": 6803.0,
+                "gpu_start": {
+                  "memory_used_mib": 173.0,
+                  "utilization_percent": 0.0,
+                  "temperature_c": 60.0,
+                  "power_w": 28.85,
+                  "sm_clock_mhz": 210.0
+                }
+              }
+            ]
+          },
+          "current_delta_percent": 6.819693455636955
+        },
+        "4096": {
+          "reference": {
+            "run_medians_tokens_per_second": [
+              76.1517,
+              74.914
+            ],
+            "median_of_run_medians_tokens_per_second": 75.53285,
+            "all_14_samples_tokens_per_second": [
+              75.4401,
+              76.1517,
+              76.1668,
+              76.1658,
+              76.1588,
+              76.1391,
+              76.0246,
+              74.914,
+              75.5914,
+              75.5867,
+              75.5531,
+              72.9836,
+              71.4482,
+              70.0684
+            ],
+            "sample_mean_tokens_per_second": 74.88516428571428,
+            "sample_stddev_tokens_per_second": 1.9563561110497654,
+            "sample_range_tokens_per_second": [
+              70.0684,
+              76.1668
+            ],
+            "median_sample_latency_ms": 1693.3662575,
+            "peak_gpu_memory_mib": 6805.0,
+            "per_run": [
+              {
+                "pair": 1,
+                "median_tokens_per_second": 76.1517,
+                "sample_tokens_per_second": [
+                  75.4401,
+                  76.1517,
+                  76.1668,
+                  76.1658,
+                  76.1588,
+                  76.1391,
+                  76.0246
+                ],
+                "sample_latency_ns": [
+                  1696711364,
+                  1680856412,
+                  1680522247,
+                  1680544649,
+                  1680699463,
+                  1681133021,
+                  1683665491
+                ],
+                "gpu_peak_memory_mib": 6805.0,
+                "gpu_start": {
+                  "memory_used_mib": 173.0,
+                  "utilization_percent": 0.0,
+                  "temperature_c": 47.0,
+                  "power_w": 25.53,
+                  "sm_clock_mhz": 210.0
+                }
+              },
+              {
+                "pair": 2,
+                "median_tokens_per_second": 74.914,
+                "sample_tokens_per_second": [
+                  74.914,
+                  75.5914,
+                  75.5867,
+                  75.5531,
+                  72.9836,
+                  71.4482,
+                  70.0684
+                ],
+                "sample_latency_ns": [
+                  1708625209,
+                  1693313279,
+                  1693419236,
+                  1694171956,
+                  1753817988,
+                  1791507753,
+                  1826785274
+                ],
+                "gpu_peak_memory_mib": 6805.0,
+                "gpu_start": {
+                  "memory_used_mib": 173.0,
+                  "utilization_percent": 0.0,
+                  "temperature_c": 60.0,
+                  "power_w": 29.32,
+                  "sm_clock_mhz": 210.0
+                }
+              }
+            ]
+          },
+          "current": {
+            "run_medians_tokens_per_second": [
+              80.9266,
+              78.8368
+            ],
+            "median_of_run_medians_tokens_per_second": 79.8817,
+            "all_14_samples_tokens_per_second": [
+              80.223,
+              80.9879,
+              80.9673,
+              80.9684,
+              80.9217,
+              80.9266,
+              80.9014,
+              79.9728,
+              80.6432,
+              80.5566,
+              78.8368,
+              72.9187,
+              64.2709,
+              64.4621
+            ],
+            "sample_mean_tokens_per_second": 77.68267142857142,
+            "sample_stddev_tokens_per_second": 6.021069650361593,
+            "sample_range_tokens_per_second": [
+              64.2709,
+              80.9879
+            ],
+            "median_sample_latency_ms": 1588.0919625,
+            "peak_gpu_memory_mib": 6803.0,
+            "per_run": [
+              {
+                "pair": 1,
+                "median_tokens_per_second": 80.9266,
+                "sample_tokens_per_second": [
+                  80.223,
+                  80.9879,
+                  80.9673,
+                  80.9684,
+                  80.9217,
+                  80.9266,
+                  80.9014
+                ],
+                "sample_latency_ns": [
+                  1595551491,
+                  1580482084,
+                  1580885481,
+                  1580863037,
+                  1581775439,
+                  1581680077,
+                  1582173484
+                ],
+                "gpu_peak_memory_mib": 6803.0,
+                "gpu_start": {
+                  "memory_used_mib": 173.0,
+                  "utilization_percent": 0.0,
+                  "temperature_c": 57.0,
+                  "power_w": 91.31,
+                  "sm_clock_mhz": 270.0
+                }
+              },
+              {
+                "pair": 2,
+                "median_tokens_per_second": 78.8368,
+                "sample_tokens_per_second": [
+                  79.9728,
+                  80.6432,
+                  80.5566,
+                  78.8368,
+                  72.9187,
+                  64.2709,
+                  64.4621
+                ],
+                "sample_latency_ns": [
+                  1600543460,
+                  1587238100,
+                  1588945825,
+                  1623607956,
+                  1755379228,
+                  1991570720,
+                  1985662550
+                ],
+                "gpu_peak_memory_mib": 6803.0,
+                "gpu_start": {
+                  "memory_used_mib": 173.0,
+                  "utilization_percent": 0.0,
+                  "temperature_c": 60.0,
+                  "power_w": 28.85,
+                  "sm_clock_mhz": 210.0
+                }
+              }
+            ]
+          },
+          "current_delta_percent": 5.757561114137744
+        }
+      },
+      "raw_files": [
+        "decode_reference_pair1.json",
+        "decode_current_pair1.json",
+        "decode_reference_pair2.json",
+        "decode_current_pair2.json"
+      ]
+    },
+    "prefill": {
+      "contexts": {
+        "128": {
+          "reference": {
+            "run_medians_tokens_per_second": [
+              1291.61,
+              1294.38
+            ],
+            "median_of_run_medians_tokens_per_second": 1292.995,
+            "all_14_samples_tokens_per_second": [
+              1154.45,
+              1293.07,
+              1292.45,
+              1290.43,
+              1291.61,
+              1291.41,
+              1292.96,
+              1148.8,
+              1298.25,
+              1299.92,
+              1300.35,
+              1294.38,
+              1292.94,
+              1292.7
+            ],
+            "sample_mean_tokens_per_second": 1273.837142857143,
+            "sample_stddev_tokens_per_second": 51.881206531930154,
+            "sample_range_tokens_per_second": [
+              1148.8,
+              1300.35
+            ],
+            "median_sample_latency_ms": 99.008509,
+            "peak_gpu_memory_mib": 6793.0,
+            "per_run": [
+              {
+                "pair": 1,
+                "median_tokens_per_second": 1291.61,
+                "sample_tokens_per_second": [
+                  1154.45,
+                  1293.07,
+                  1292.45,
+                  1290.43,
+                  1291.61,
+                  1291.41,
+                  1292.96
+                ],
+                "sample_latency_ns": [
+                  110875624,
+                  98988857,
+                  99037014,
+                  99191955,
+                  99101204,
+                  99116471,
+                  98997547
+                ],
+                "gpu_peak_memory_mib": 6793.0,
+                "gpu_start": {
+                  "memory_used_mib": 173.0,
+                  "utilization_percent": 0.0,
+                  "temperature_c": 60.0,
+                  "power_w": 29.37,
+                  "sm_clock_mhz": 210.0
+                }
+              },
+              {
+                "pair": 2,
+                "median_tokens_per_second": 1294.38,
+                "sample_tokens_per_second": [
+                  1148.8,
+                  1298.25,
+                  1299.92,
+                  1300.35,
+                  1294.38,
+                  1292.94,
+                  1292.7
+                ],
+                "sample_latency_ns": [
+                  111420441,
+                  98594402,
+                  98467776,
+                  98435311,
+                  98888835,
+                  98999538,
+                  99017480
+                ],
+                "gpu_peak_memory_mib": 6793.0,
+                "gpu_start": {
+                  "memory_used_mib": 173.0,
+                  "utilization_percent": 0.0,
+                  "temperature_c": 60.0,
+                  "power_w": 29.15,
+                  "sm_clock_mhz": 210.0
+                }
+              }
+            ]
+          },
+          "current": {
+            "run_medians_tokens_per_second": [
+              1292.41,
+              1291.34
+            ],
+            "median_of_run_medians_tokens_per_second": 1291.875,
+            "all_14_samples_tokens_per_second": [
+              1162.61,
+              1290.1,
+              1290.99,
+              1292.5,
+              1292.96,
+              1292.41,
+              1293.21,
+              1153.42,
+              1288.9,
+              1291.34,
+              1291.52,
+              1291.24,
+              1292.34,
+              1291.97
+            ],
+            "sample_mean_tokens_per_second": 1272.5364285714286,
+            "sample_stddev_tokens_per_second": 48.56475765680023,
+            "sample_range_tokens_per_second": [
+              1153.42,
+              1293.21
+            ],
+            "median_sample_latency_ms": 99.1145775,
+            "peak_gpu_memory_mib": 6793.0,
+            "per_run": [
+              {
+                "pair": 1,
+                "median_tokens_per_second": 1292.41,
+                "sample_tokens_per_second": [
+                  1162.61,
+                  1290.1,
+                  1290.99,
+                  1292.5,
+                  1292.96,
+                  1292.41,
+                  1293.21
+                ],
+                "sample_latency_ns": [
+                  110096991,
+                  99217163,
+                  99148359,
+                  99032950,
+                  98997554,
+                  99039706,
+                  98978380
+                ],
+                "gpu_peak_memory_mib": 6793.0,
+                "gpu_start": {
+                  "memory_used_mib": 173.0,
+                  "utilization_percent": 0.0,
+                  "temperature_c": 60.0,
+                  "power_w": 29.23,
+                  "sm_clock_mhz": 210.0
+                }
+              },
+              {
+                "pair": 2,
+                "median_tokens_per_second": 1291.34,
+                "sample_tokens_per_second": [
+                  1153.42,
+                  1288.9,
+                  1291.34,
+                  1291.52,
+                  1291.24,
+                  1292.34,
+                  1291.97
+                ],
+                "sample_latency_ns": [
+                  110974353,
+                  99309356,
+                  99121504,
+                  99107651,
+                  99129397,
+                  99045374,
+                  99073383
+                ],
+                "gpu_peak_memory_mib": 6793.0,
+                "gpu_start": {
+                  "memory_used_mib": 173.0,
+                  "utilization_percent": 0.0,
+                  "temperature_c": 60.0,
+                  "power_w": 29.45,
+                  "sm_clock_mhz": 210.0
+                }
+              }
+            ]
+          },
+          "current_delta_percent": -0.08662059791413323
+        },
+        "512": {
+          "reference": {
+            "run_medians_tokens_per_second": [
+              1378.24,
+              1376.56
+            ],
+            "median_of_run_medians_tokens_per_second": 1377.4,
+            "all_14_samples_tokens_per_second": [
+              1353.57,
+              1368.27,
+              1381.26,
+              1382.62,
+              1371.86,
+              1383,
+              1378.24,
+              1351.7,
+              1376.56,
+              1374.72,
+              1383.62,
+              1374.01,
+              1378.41,
+              1382.03
+            ],
+            "sample_mean_tokens_per_second": 1374.2764285714286,
+            "sample_stddev_tokens_per_second": 10.230244456920444,
+            "sample_range_tokens_per_second": [
+              1351.7,
+              1383.62
+            ],
+            "median_sample_latency_ms": 371.714685,
+            "peak_gpu_memory_mib": 6793.0,
+            "per_run": [
+              {
+                "pair": 1,
+                "median_tokens_per_second": 1378.24,
+                "sample_tokens_per_second": [
+                  1353.57,
+                  1368.27,
+                  1381.26,
+                  1382.62,
+                  1371.86,
+                  1383,
+                  1378.24
+                ],
+                "sample_latency_ns": [
+                  378257671,
+                  374196272,
+                  370675771,
+                  370312680,
+                  373214575,
+                  370208893,
+                  371488759
+                ],
+                "gpu_peak_memory_mib": 6793.0,
+                "gpu_start": {
+                  "memory_used_mib": 173.0,
+                  "utilization_percent": 0.0,
+                  "temperature_c": 60.0,
+                  "power_w": 29.37,
+                  "sm_clock_mhz": 210.0
+                }
+              },
+              {
+                "pair": 2,
+                "median_tokens_per_second": 1376.56,
+                "sample_tokens_per_second": [
+                  1351.7,
+                  1376.56,
+                  1374.72,
+                  1383.62,
+                  1374.01,
+                  1378.41,
+                  1382.03
+                ],
+                "sample_latency_ns": [
+                  378781099,
+                  371940611,
+                  372439729,
+                  370043157,
+                  372630917,
+                  371441322,
+                  370468628
+                ],
+                "gpu_peak_memory_mib": 6793.0,
+                "gpu_start": {
+                  "memory_used_mib": 173.0,
+                  "utilization_percent": 0.0,
+                  "temperature_c": 60.0,
+                  "power_w": 29.15,
+                  "sm_clock_mhz": 210.0
+                }
+              }
+            ]
+          },
+          "current": {
+            "run_medians_tokens_per_second": [
+              1377.94,
+              1376.85
+            ],
+            "median_of_run_medians_tokens_per_second": 1377.395,
+            "all_14_samples_tokens_per_second": [
+              1353.1,
+              1368.78,
+              1382.62,
+              1383.65,
+              1369.41,
+              1381.59,
+              1377.94,
+              1354.15,
+              1366.9,
+              1383.04,
+              1383.41,
+              1370.76,
+              1381.92,
+              1376.85
+            ],
+            "sample_mean_tokens_per_second": 1373.8657142857144,
+            "sample_stddev_tokens_per_second": 10.45680250752201,
+            "sample_range_tokens_per_second": [
+              1353.1,
+              1383.65
+            ],
+            "median_sample_latency_ms": 371.7163885,
+            "peak_gpu_memory_mib": 6793.0,
+            "per_run": [
+              {
+                "pair": 1,
+                "median_tokens_per_second": 1377.94,
+                "sample_tokens_per_second": [
+                  1353.1,
+                  1368.78,
+                  1382.62,
+                  1383.65,
+                  1369.41,
+                  1381.59,
+                  1377.94
+                ],
+                "sample_latency_ns": [
+                  378389578,
+                  374056843,
+                  370311839,
+                  370036180,
+                  373883171,
+                  370587767,
+                  371569569
+                ],
+                "gpu_peak_memory_mib": 6793.0,
+                "gpu_start": {
+                  "memory_used_mib": 173.0,
+                  "utilization_percent": 0.0,
+                  "temperature_c": 60.0,
+                  "power_w": 29.23,
+                  "sm_clock_mhz": 210.0
+                }
+              },
+              {
+                "pair": 2,
+                "median_tokens_per_second": 1376.85,
+                "sample_tokens_per_second": [
+                  1354.15,
+                  1366.9,
+                  1383.04,
+                  1383.41,
+                  1370.76,
+                  1381.92,
+                  1376.85
+                ],
+                "sample_latency_ns": [
+                  378096076,
+                  374568964,
+                  370199411,
+                  370099262,
+                  373516691,
+                  370498600,
+                  371863208
+                ],
+                "gpu_peak_memory_mib": 6793.0,
+                "gpu_start": {
+                  "memory_used_mib": 173.0,
+                  "utilization_percent": 0.0,
+                  "temperature_c": 60.0,
+                  "power_w": 29.45,
+                  "sm_clock_mhz": 210.0
+                }
+              }
+            ]
+          },
+          "current_delta_percent": -0.00036300275882972244
+        },
+        "2048": {
+          "reference": {
+            "run_medians_tokens_per_second": [
+              1355.26,
+              1355.3
+            ],
+            "median_of_run_medians_tokens_per_second": 1355.28,
+            "all_14_samples_tokens_per_second": [
+              1360.79,
+              1359.93,
+              1355.47,
+              1355.26,
+              1354.79,
+              1354.41,
+              1353.61,
+              1358.23,
+              1356.66,
+              1356.34,
+              1355.3,
+              1355.21,
+              1354.45,
+              1353.76
+            ],
+            "sample_mean_tokens_per_second": 1356.015,
+            "sample_stddev_tokens_per_second": 2.2009954041821183,
+            "sample_range_tokens_per_second": [
+              1353.61,
+              1360.79
+            ],
+            "median_sample_latency_ms": 1511.1276885,
+            "peak_gpu_memory_mib": 6793.0,
+            "per_run": [
+              {
+                "pair": 1,
+                "median_tokens_per_second": 1355.26,
+                "sample_tokens_per_second": [
+                  1360.79,
+                  1359.93,
+                  1355.47,
+                  1355.26,
+                  1354.79,
+                  1354.41,
+                  1353.61
+                ],
+                "sample_latency_ns": [
+                  1505003705,
+                  1505955957,
+                  1510917066,
+                  1511152295,
+                  1511669960,
+                  1512102177,
+                  1512994190
+                ],
+                "gpu_peak_memory_mib": 6793.0,
+                "gpu_start": {
+                  "memory_used_mib": 173.0,
+                  "utilization_percent": 0.0,
+                  "temperature_c": 60.0,
+                  "power_w": 29.37,
+                  "sm_clock_mhz": 210.0
+                }
+              },
+              {
+                "pair": 2,
+                "median_tokens_per_second": 1355.3,
+                "sample_tokens_per_second": [
+                  1358.23,
+                  1356.66,
+                  1356.34,
+                  1355.3,
+                  1355.21,
+                  1354.45,
+                  1353.76
+                ],
+                "sample_latency_ns": [
+                  1507839348,
+                  1509589984,
+                  1509949024,
+                  1511103082,
+                  1511200937,
+                  1512052010,
+                  1512821024
+                ],
+                "gpu_peak_memory_mib": 6793.0,
+                "gpu_start": {
+                  "memory_used_mib": 173.0,
+                  "utilization_percent": 0.0,
+                  "temperature_c": 60.0,
+                  "power_w": 29.15,
+                  "sm_clock_mhz": 210.0
+                }
+              }
+            ]
+          },
+          "current": {
+            "run_medians_tokens_per_second": [
+              1355.69,
+              1355.32
+            ],
+            "median_of_run_medians_tokens_per_second": 1355.505,
+            "all_14_samples_tokens_per_second": [
+              1360.13,
+              1360.16,
+              1355.98,
+              1355.4,
+              1355.69,
+              1353.14,
+              1355.24,
+              1358.55,
+              1356.6,
+              1356.88,
+              1355.32,
+              1354.02,
+              1353.95,
+              1354.06
+            ],
+            "sample_mean_tokens_per_second": 1356.08,
+            "sample_stddev_tokens_per_second": 2.209636238771525,
+            "sample_range_tokens_per_second": [
+              1353.14,
+              1360.16
+            ],
+            "median_sample_latency_ms": 1510.835097,
+            "peak_gpu_memory_mib": 6793.0,
+            "per_run": [
+              {
+                "pair": 1,
+                "median_tokens_per_second": 1355.69,
+                "sample_tokens_per_second": [
+                  1360.13,
+                  1360.16,
+                  1355.98,
+                  1355.4,
+                  1355.69,
+                  1353.14,
+                  1355.24
+                ],
+                "sample_latency_ns": [
+                  1505733203,
+                  1505705034,
+                  1510343490,
+                  1510998455,
+                  1510671739,
+                  1513517209,
+                  1511170838
+                ],
+                "gpu_peak_memory_mib": 6793.0,
+                "gpu_start": {
+                  "memory_used_mib": 173.0,
+                  "utilization_percent": 0.0,
+                  "temperature_c": 60.0,
+                  "power_w": 29.23,
+                  "sm_clock_mhz": 210.0
+                }
+              },
+              {
+                "pair": 2,
+                "median_tokens_per_second": 1355.32,
+                "sample_tokens_per_second": [
+                  1358.55,
+                  1356.6,
+                  1356.88,
+                  1355.32,
+                  1354.02,
+                  1353.95,
+                  1354.06
+                ],
+                "sample_latency_ns": [
+                  1507485919,
+                  1509656358,
+                  1509340411,
+                  1511077416,
+                  1512538031,
+                  1512606284,
+                  1512484699
+                ],
+                "gpu_peak_memory_mib": 6793.0,
+                "gpu_start": {
+                  "memory_used_mib": 173.0,
+                  "utilization_percent": 0.0,
+                  "temperature_c": 60.0,
+                  "power_w": 29.45,
+                  "sm_clock_mhz": 210.0
+                }
+              }
+            ]
+          },
+          "current_delta_percent": 0.01660173543476251
+        },
+        "4096": {
+          "reference": {
+            "run_medians_tokens_per_second": [
+              1332.61,
+              1331.61
+            ],
+            "median_of_run_medians_tokens_per_second": 1332.11,
+            "all_14_samples_tokens_per_second": [
+              1338.86,
+              1337.35,
+              1333.8,
+              1332.61,
+              1331.45,
+              1329.87,
+              1329.53,
+              1338.12,
+              1334.04,
+              1332.74,
+              1331.61,
+              1330.68,
+              1329.76,
+              1328.65
+            ],
+            "sample_mean_tokens_per_second": 1332.7907142857143,
+            "sample_stddev_tokens_per_second": 3.302440739084439,
+            "sample_range_tokens_per_second": [
+              1328.65,
+              1338.86
+            ],
+            "median_sample_latency_ms": 3074.8214015,
+            "peak_gpu_memory_mib": 6793.0,
+            "per_run": [
+              {
+                "pair": 1,
+                "median_tokens_per_second": 1332.61,
+                "sample_tokens_per_second": [
+                  1338.86,
+                  1337.35,
+                  1333.8,
+                  1332.61,
+                  1331.45,
+                  1329.87,
+                  1329.53
+                ],
+                "sample_latency_ns": [
+                  3059318105,
+                  3062779395,
+                  3070924747,
+                  3073670091,
+                  3076349227,
+                  3079992533,
+                  3080779746
+                ],
+                "gpu_peak_memory_mib": 6793.0,
+                "gpu_start": {
+                  "memory_used_mib": 173.0,
+                  "utilization_percent": 0.0,
+                  "temperature_c": 60.0,
+                  "power_w": 29.37,
+                  "sm_clock_mhz": 210.0
+                }
+              },
+              {
+                "pair": 2,
+                "median_tokens_per_second": 1331.61,
+                "sample_tokens_per_second": [
+                  1338.12,
+                  1334.04,
+                  1332.74,
+                  1331.61,
+                  1330.68,
+                  1329.76,
+                  1328.65
+                ],
+                "sample_latency_ns": [
+                  3061006123,
+                  3070363654,
+                  3073359475,
+                  3075972712,
+                  3078121819,
+                  3080248255,
+                  3082818395
+                ],
+                "gpu_peak_memory_mib": 6793.0,
+                "gpu_start": {
+                  "memory_used_mib": 173.0,
+                  "utilization_percent": 0.0,
+                  "temperature_c": 60.0,
+                  "power_w": 29.15,
+                  "sm_clock_mhz": 210.0
+                }
+              }
+            ]
+          },
+          "current": {
+            "run_medians_tokens_per_second": [
+              1332.72,
+              1331.8
+            ],
+            "median_of_run_medians_tokens_per_second": 1332.26,
+            "all_14_samples_tokens_per_second": [
+              1340.41,
+              1338.68,
+              1336.12,
+              1332.72,
+              1331.69,
+              1330.56,
+              1329.5,
+              1338.77,
+              1336.03,
+              1333.34,
+              1331.8,
+              1331.39,
+              1329.59,
+              1328.8
+            ],
+            "sample_mean_tokens_per_second": 1333.5285714285715,
+            "sample_stddev_tokens_per_second": 3.8117346286331393,
+            "sample_range_tokens_per_second": [
+              1328.8,
+              1340.41
+            ],
+            "median_sample_latency_ms": 3074.47058,
+            "peak_gpu_memory_mib": 6793.0,
+            "per_run": [
+              {
+                "pair": 1,
+                "median_tokens_per_second": 1332.72,
+                "sample_tokens_per_second": [
+                  1340.41,
+                  1338.68,
+                  1336.12,
+                  1332.72,
+                  1331.69,
+                  1330.56,
+                  1329.5
+                ],
+                "sample_latency_ns": [
+                  3055791114,
+                  3059734186,
+                  3065599426,
+                  3073408982,
+                  3075796234,
+                  3078402826,
+                  3080864288
+                ],
+                "gpu_peak_memory_mib": 6793.0,
+                "gpu_start": {
+                  "memory_used_mib": 173.0,
+                  "utilization_percent": 0.0,
+                  "temperature_c": 60.0,
+                  "power_w": 29.23,
+                  "sm_clock_mhz": 210.0
+                }
+              },
+              {
+                "pair": 2,
+                "median_tokens_per_second": 1331.8,
+                "sample_tokens_per_second": [
+                  1338.77,
+                  1336.03,
+                  1333.34,
+                  1331.8,
+                  1331.39,
+                  1329.59,
+                  1328.8
+                ],
+                "sample_latency_ns": [
+                  3059516889,
+                  3065790560,
+                  3071993155,
+                  3075532178,
+                  3076490509,
+                  3080656583,
+                  3082483616
+                ],
+                "gpu_peak_memory_mib": 6793.0,
+                "gpu_start": {
+                  "memory_used_mib": 173.0,
+                  "utilization_percent": 0.0,
+                  "temperature_c": 60.0,
+                  "power_w": 29.45,
+                  "sm_clock_mhz": 210.0
+                }
+              }
+            ]
+          },
+          "current_delta_percent": 0.011260331354034925
+        }
+      },
+      "raw_files": [
+        "prefill_reference_pair1.json",
+        "prefill_current_pair1.json",
+        "prefill_reference_pair2.json",
+        "prefill_current_pair2.json"
+      ]
+    },
+    "combined": {
+      "contexts": {
+        "512": {
+          "reference": {
+            "run_medians_tokens_per_second": [
+              314.066,
+              314.677
+            ],
+            "median_of_run_medians_tokens_per_second": 314.37149999999997,
+            "all_14_samples_tokens_per_second": [
+              314.654,
+              314.446,
+              314.651,
+              313.893,
+              314.066,
+              313.622,
+              313.704,
+              314.753,
+              314.677,
+              314.799,
+              314.722,
+              314.481,
+              314.098,
+              313.526
+            ],
+            "sample_mean_tokens_per_second": 314.2922857142857,
+            "sample_stddev_tokens_per_second": 0.46004756084752274,
+            "sample_range_tokens_per_second": [
+              313.526,
+              314.799
+            ],
+            "median_sample_latency_ms": 2035.2113095,
+            "peak_gpu_memory_mib": 6805.0,
+            "per_run": [
+              {
+                "pair": 1,
+                "median_tokens_per_second": 314.066,
+                "sample_tokens_per_second": [
+                  314.654,
+                  314.446,
+                  314.651,
+                  313.893,
+                  314.066,
+                  313.622,
+                  313.704
+                ],
+                "sample_latency_ns": [
+                  2033982472,
+                  2035323337,
+                  2034001534,
+                  2038913043,
+                  2037788354,
+                  2040674165,
+                  2040140192
+                ],
+                "gpu_peak_memory_mib": 6805.0,
+                "gpu_start": {
+                  "memory_used_mib": 173.0,
+                  "utilization_percent": 0.0,
+                  "temperature_c": 60.0,
+                  "power_w": 29.54,
+                  "sm_clock_mhz": 210.0
+                }
+              },
+              {
+                "pair": 2,
+                "median_tokens_per_second": 314.677,
+                "sample_tokens_per_second": [
+                  314.753,
+                  314.677,
+                  314.799,
+                  314.722,
+                  314.481,
+                  314.098,
+                  313.526
+                ],
+                "sample_latency_ns": [
+                  2033342906,
+                  2033831735,
+                  2033040542,
+                  2033542869,
+                  2035099282,
+                  2037578430,
+                  2041297856
+                ],
+                "gpu_peak_memory_mib": 6805.0,
+                "gpu_start": {
+                  "memory_used_mib": 173.0,
+                  "utilization_percent": 0.0,
+                  "temperature_c": 60.0,
+                  "power_w": 29.25,
+                  "sm_clock_mhz": 210.0
+                }
+              }
+            ]
+          },
+          "current": {
+            "run_medians_tokens_per_second": [
+              332.166,
+              332.226
+            ],
+            "median_of_run_medians_tokens_per_second": 332.196,
+            "all_14_samples_tokens_per_second": [
+              332.563,
+              332.166,
+              332.51,
+              332.729,
+              331.774,
+              331.609,
+              331.776,
+              332.75,
+              332.067,
+              332.723,
+              332.434,
+              332.226,
+              331.915,
+              331.497
+            ],
+            "sample_mean_tokens_per_second": 332.19564285714284,
+            "sample_stddev_tokens_per_second": 0.4335645825626736,
+            "sample_range_tokens_per_second": [
+              331.497,
+              332.75
+            ],
+            "median_sample_latency_ms": 1926.575257,
+            "peak_gpu_memory_mib": 6803.0,
+            "per_run": [
+              {
+                "pair": 1,
+                "median_tokens_per_second": 332.166,
+                "sample_tokens_per_second": [
+                  332.563,
+                  332.166,
+                  332.51,
+                  332.729,
+                  331.774,
+                  331.609,
+                  331.776
+                ],
+                "sample_latency_ns": [
+                  1924448316,
+                  1926749120,
+                  1924753173,
+                  1923489001,
+                  1929026458,
+                  1929986168,
+                  1929013600
+                ],
+                "gpu_peak_memory_mib": 6803.0,
+                "gpu_start": {
+                  "memory_used_mib": 173.0,
+                  "utilization_percent": 0.0,
+                  "temperature_c": 60.0,
+                  "power_w": 29.3,
+                  "sm_clock_mhz": 210.0
+                }
+              },
+              {
+                "pair": 2,
+                "median_tokens_per_second": 332.226,
+                "sample_tokens_per_second": [
+                  332.75,
+                  332.067,
+                  332.723,
+                  332.434,
+                  332.226,
+                  331.915,
+                  331.497
+                ],
+                "sample_latency_ns": [
+                  1923365804,
+                  1927324372,
+                  1923522138,
+                  1925196462,
+                  1926401394,
+                  1928202931,
+                  1930633475
+                ],
+                "gpu_peak_memory_mib": 6803.0,
+                "gpu_start": {
+                  "memory_used_mib": 173.0,
+                  "utilization_percent": 0.0,
+                  "temperature_c": 60.0,
+                  "power_w": 29.12,
+                  "sm_clock_mhz": 210.0
+                }
+              }
+            ]
+          },
+          "current_delta_percent": 5.669884197517927
+        },
+        "4096": {
+          "reference": {
+            "run_medians_tokens_per_second": [
+              861.507,
+              860.387
+            ],
+            "median_of_run_medians_tokens_per_second": 860.9469999999999,
+            "all_14_samples_tokens_per_second": [
+              886.22,
+              883.786,
+              875.528,
+              861.507,
+              853.712,
+              814.222,
+              788.919,
+              886.014,
+              885.066,
+              881.979,
+              860.387,
+              846.451,
+              821.051,
+              767.355
+            ],
+            "sample_mean_tokens_per_second": 850.8712142857142,
+            "sample_stddev_tokens_per_second": 38.81870426082008,
+            "sample_range_tokens_per_second": [
+              767.355,
+              886.22
+            ],
+            "median_sample_latency_ms": 4906.2272625,
+            "peak_gpu_memory_mib": 6805.0,
+            "per_run": [
+              {
+                "pair": 1,
+                "median_tokens_per_second": 861.507,
+                "sample_tokens_per_second": [
+                  886.22,
+                  883.786,
+                  875.528,
+                  861.507,
+                  853.712,
+                  814.222,
+                  788.919
+                ],
+                "sample_latency_ns": [
+                  4766308725,
+                  4779436923,
+                  4824519111,
+                  4903037710,
+                  4947803633,
+                  5187773115,
+                  5354165049
+                ],
+                "gpu_peak_memory_mib": 6805.0,
+                "gpu_start": {
+                  "memory_used_mib": 173.0,
+                  "utilization_percent": 0.0,
+                  "temperature_c": 60.0,
+                  "power_w": 29.54,
+                  "sm_clock_mhz": 210.0
+                }
+              },
+              {
+                "pair": 2,
+                "median_tokens_per_second": 860.387,
+                "sample_tokens_per_second": [
+                  886.014,
+                  885.066,
+                  881.979,
+                  860.387,
+                  846.451,
+                  821.051,
+                  767.355
+                ],
+                "sample_latency_ns": [
+                  4767416737,
+                  4772526217,
+                  4789228655,
+                  4909416815,
+                  4990247292,
+                  5144627694,
+                  5504622134
+                ],
+                "gpu_peak_memory_mib": 6805.0,
+                "gpu_start": {
+                  "memory_used_mib": 173.0,
+                  "utilization_percent": 0.0,
+                  "temperature_c": 60.0,
+                  "power_w": 29.25,
+                  "sm_clock_mhz": 210.0
+                }
+              }
+            ]
+          },
+          "current": {
+            "run_medians_tokens_per_second": [
+              876.845,
+              878.726
+            ],
+            "median_of_run_medians_tokens_per_second": 877.7855,
+            "all_14_samples_tokens_per_second": [
+              906.344,
+              903.947,
+              893.19,
+              876.845,
+              852.135,
+              869.886,
+              793.657,
+              907.268,
+              905.291,
+              897.802,
+              869.584,
+              878.726,
+              824.192,
+              809.79
+            ],
+            "sample_mean_tokens_per_second": 870.6183571428571,
+            "sample_stddev_tokens_per_second": 37.62898823964792,
+            "sample_range_tokens_per_second": [
+              793.657,
+              907.268
+            ],
+            "median_sample_latency_ms": 4812.1149275,
+            "peak_gpu_memory_mib": 6803.0,
+            "per_run": [
+              {
+                "pair": 1,
+                "median_tokens_per_second": 876.845,
+                "sample_tokens_per_second": [
+                  906.344,
+                  903.947,
+                  893.19,
+                  876.845,
+                  852.135,
+                  869.886,
+                  793.657
+                ],
+                "sample_latency_ns": [
+                  4660481641,
+                  4672841365,
+                  4729118527,
+                  4817268921,
+                  4956960751,
+                  4855808035,
+                  5322196097
+                ],
+                "gpu_peak_memory_mib": 6803.0,
+                "gpu_start": {
+                  "memory_used_mib": 173.0,
+                  "utilization_percent": 0.0,
+                  "temperature_c": 60.0,
+                  "power_w": 29.3,
+                  "sm_clock_mhz": 210.0
+                }
+              },
+              {
+                "pair": 2,
+                "median_tokens_per_second": 878.726,
+                "sample_tokens_per_second": [
+                  907.268,
+                  905.291,
+                  897.802,
+                  869.584,
+                  878.726,
+                  824.192,
+                  809.79
+                ],
+                "sample_latency_ns": [
+                  4655733142,
+                  4665900935,
+                  4704823486,
+                  4857495817,
+                  4806960934,
+                  5125022109,
+                  5216167189
+                ],
+                "gpu_peak_memory_mib": 6803.0,
+                "gpu_start": {
+                  "memory_used_mib": 173.0,
+                  "utilization_percent": 0.0,
+                  "temperature_c": 60.0,
+                  "power_w": 29.12,
+                  "sm_clock_mhz": 210.0
+                }
+              }
+            ]
+          },
+          "current_delta_percent": 1.9558114494852896
+        }
+      },
+      "raw_files": [
+        "combined_reference_pair1.json",
+        "combined_current_pair1.json",
+        "combined_reference_pair2.json",
+        "combined_current_pair2.json"
+      ]
+    }
+  },
+  "raw_files": [
+    "results/reference_ab/decode_reference_pair1.json",
+    "results/reference_ab/decode_current_pair1.json",
+    "results/reference_ab/decode_reference_pair2.json",
+    "results/reference_ab/decode_current_pair2.json",
+    "results/reference_ab/prefill_reference_pair1.json",
+    "results/reference_ab/prefill_current_pair1.json",
+    "results/reference_ab/prefill_reference_pair2.json",
+    "results/reference_ab/prefill_current_pair2.json",
+    "results/reference_ab/combined_reference_pair1.json",
+    "results/reference_ab/combined_current_pair1.json",
+    "results/reference_ab/combined_reference_pair2.json",
+    "results/reference_ab/combined_current_pair2.json"
+  ]
+}

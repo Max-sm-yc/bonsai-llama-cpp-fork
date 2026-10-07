@@ -1,0 +1,45 @@
+[REFERENCE]
+executable=/tmp/bonsai2-reference/build/bin/llama-bench
+0ac0b7c1a08829d3fc4fca2d328daaf29c57acd1c63f1cf727b18bcd7dd74042  /tmp/bonsai2-reference/build/bin/llama-bench
+d3286529a3df9db8d53fe89145bf4c4f69062dcc9f49ba1f85216d571f55a51b  /tmp/bonsai2-reference/build/bin/libggml-cuda.so.0
+RUNPATH:
+ 0x000000000000001d (RUNPATH)            Library runpath: [/tmp/bonsai2-reference/build/bin:]
+ggml/llama library resolution:
+	libllama-bench-impl.so => /tmp/bonsai2-reference/build/bin/libllama-bench-impl.so (0x00007f6ff63e1000)
+	libllama-common.so.0 => /tmp/bonsai2-reference/build/bin/libllama-common.so.0 (0x00007f6ff5f6a000)
+	libllama.so.0 => /tmp/bonsai2-reference/build/bin/libllama.so.0 (0x00007f6ff5b9f000)
+	libggml.so.0 => /tmp/bonsai2-reference/build/bin/libggml.so.0 (0x00007f6ff5b94000)
+	libggml-cpu.so.0 => /tmp/bonsai2-reference/build/bin/libggml-cpu.so.0 (0x00007f6ff59f1000)
+	libggml-cuda.so.0 => /tmp/bonsai2-reference/build/bin/libggml-cuda.so.0 (0x00007f6ff1744000)
+	libggml-base.so.0 => /tmp/bonsai2-reference/build/bin/libggml-base.so.0 (0x00007f6ff1672000)
+selected CMake options:
+CMAKE_BUILD_TYPE:STRING=Release
+CMAKE_CUDA_ARCHITECTURES:UNINITIALIZED=86
+GGML_CUDA:BOOL=ON
+GGML_CUDA_FA_ALL_QUANTS:BOOL=OFF
+GGML_CUDA_FORCE_CUBLAS:BOOL=OFF
+GGML_CUDA_GRAPHS:BOOL=ON
+GGML_CUDA_NO_VMM:BOOL=OFF
+
+[CURRENT]
+executable=/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/llama-bench
+81187ab3fc4aeda74f92b08ca21ad774d74d1418fb2467d278b41dfe8dcdab13  /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/llama-bench
+bad70d76b19fdd1b21f61e5c9eb4900b5334c638ff75cdec11f3a4d3b2b28642  /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libggml-cuda.so.0
+RUNPATH:
+ 0x000000000000001d (RUNPATH)            Library runpath: [/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin:]
+ggml/llama library resolution:
+	libllama-bench-impl.so => /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libllama-bench-impl.so (0x00007f231372c000)
+	libllama-common.so.0 => /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libllama-common.so.0 (0x00007f2313200000)
+	libllama.so.0 => /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libllama.so.0 (0x00007f2312e00000)
+	libggml.so.0 => /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libggml.so.0 (0x00007f2313721000)
+	libggml-cpu.so.0 => /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libggml-cpu.so.0 (0x00007f2312c5d000)
+	libggml-cuda.so.0 => /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libggml-cuda.so.0 (0x00007f230e800000)
+	libggml-base.so.0 => /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libggml-base.so.0 (0x00007f2312b8b000)
+selected CMake options:
+CMAKE_BUILD_TYPE:STRING=Release
+CMAKE_CUDA_ARCHITECTURES:UNINITIALIZED=86
+GGML_CUDA:BOOL=ON
+GGML_CUDA_FA_ALL_QUANTS:BOOL=OFF
+GGML_CUDA_FORCE_CUBLAS:BOOL=OFF
+GGML_CUDA_GRAPHS:BOOL=ON
+GGML_CUDA_NO_VMM:BOOL=OFF

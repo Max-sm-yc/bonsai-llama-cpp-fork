@@ -14,7 +14,7 @@ This is the current verified snapshot, not the end of the campaign. The fastest 
 
 The reproducible baseline uses seven `llama-bench` repetitions per row with default warmups, a GPU start gate at or below 60°C and 5% utilization, contexts 128/512/2048/4096, and decode length 128. GPU layers 99, Flash Attention on, batch/microbatch 2048/512, F16 KV, and 8 CPU threads are held fixed. Raw samples, standard deviations, latency, and memory telemetry are recorded in JSON under `results/`. `llama-bench` excludes tokenization and sampling.
 
-The optimization comparison for Exp036 used the same main binary and two reversed-order pairs of seven decode repetitions, at contexts 512 and 4096. A single direct aggregate comparison of the current code against the frozen upstream runtime has not yet been rerun under isolated matched conditions; do not infer a total gain from the thermally loaded original baseline matrix.
+Exp041 directly compared the frozen project baseline with the current build under isolated matched conditions. Each mode used two reversed-order pairs of seven repetitions, with a fresh ≤60°C / ≤5%-utilization gate before every arm. The original prefill-first matrix remains format reference data; use Exp041 for the current-versus-reference cumulative gain.
 
 ## Original PTQ1_0 and PQ2_0 reference results
 
@@ -36,9 +36,26 @@ The current best is PTQ1_0, sm_86 planar batch-1 GEMV with ROWS=1, plus Exp036's
 | 512 | 83.3458 | 81.9939 | +1.65% | 6803 / 6805 MiB |
 | 4096 | 80.3522 | 79.1268 | +1.55% | 6803 / 6805 MiB |
 
-Each value is the median of two reversed-order seven-repetition run medians. Context-4096 runs had slow tails in both arms; all samples are retained in `results/exp036/`. The incremental Exp036 improvement is verified. Exp010's separate matched ROWS=1-vs-ROWS=4 test measured +5.42%/+5.34% at contexts 512/4096. These stage-wise results are not combined into a single total percentage because they came from different paired campaigns. A frozen-upstream-versus-current end-to-end A/B remains future work.
+Each value is the median of two reversed-order seven-repetition run medians. Context-4096 runs had slow tails in both arms; all samples are retained in `results/exp036/`. The incremental Exp036 improvement is verified. Exp010's separate matched ROWS=1-vs-ROWS=4 test measured +5.42%/+5.34% at contexts 512/4096. These stage-wise results are not combined into a single total percentage because they came from different paired campaigns; Exp041 measures the cumulative current-versus-reference change directly.
 
-Current prefill has not been remeasured: use 1378.14 tok/s at prompt 512 and 1331.25 tok/s at 4096 as reference values only. PQ2_0 has not been optimized; its best verified values remain the original baseline above.
+### Direct frozen-reference comparison
+
+The Exp041 comparison used the original project baseline commit `2a6ac568b69a61db0ee151b24c9b2cdb7a4f8a7c` and current production code `c6cdaa5fa62787c97db58d1d2e1db666a4aeddb5`; both use PrismML runtime source commit `6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17`. Each build had an isolated RUNPATH and `ldd` resolution. The following values are medians of two reversed-order run medians (14 samples per arm/context):
+
+| Workload | Frozen reference | Current best | Change |
+|---|---:|---:|---:|
+| Decode, context 512 | 78.106 tok/s | 83.433 tok/s | +6.82% |
+| Decode, context 4096 | 75.533 tok/s | 79.882 tok/s | +5.76% |
+| Combined, prompt 512 + 128 generated | 314.372 tok/s | 332.196 tok/s | +5.67% |
+| Combined, prompt 4096 + 128 generated | 860.947 tok/s | 877.786 tok/s | +1.96% |
+| Prefill at 128 tokens | 1292.995 tok/s | 1291.875 tok/s | -0.09% |
+| Prefill at 512 tokens | 1377.400 tok/s | 1377.395 tok/s | -0.00% |
+| Prefill at 2048 tokens | 1355.280 tok/s | 1355.505 tok/s | +0.02% |
+| Prefill at 4096 tokens | 1332.110 tok/s | 1332.260 tok/s | +0.01% |
+
+Decode and combined peak memory was 6,805 MiB for the reference and 6,803 MiB for current. The full sample arrays, per-run telemetry, build hashes, and exact options are in [the Exp041 report](experiments/041-reference-current-ab/REPORT.md) and `results/reference_ab/`. Context-4096 decode included rare slow-tail samples in both builds; no fastest-run selection was used.
+
+The matched comparison verifies +6.82%/+5.76% total decode improvement. This is a directly measured campaign result, not a product of the separate Exp010 and Exp036 deltas. Current prefill is unchanged within measurement noise. PQ2_0 has not been optimized; its best verified values remain the original baseline above.
 
 ### Performance progression across retained changes
 
@@ -48,6 +65,7 @@ Current prefill has not been remeasured: use 1378.14 tok/s at prompt 512 and 133
 | `2a6ac56` | PQ2_0 reference runtime | 31.11 / 25.53 tok/s | Original matrix; not optimized | 1326.92 tok/s | Baseline |
 | `9fa9720` | PTQ1_0 ROWS=1 planar GEMV | 82.22 / 79.70 tok/s | +5.42% / +5.34% vs matched ROWS=4 | Not remeasured | Keep |
 | `c6cdaa5` | ROWS=1 + coordinated QKV preparation | 83.35 / 80.35 tok/s | +1.65% / +1.55% vs same-binary disabled path | Not remeasured | Current best |
+| `c6cdaa5` | Same current build vs frozen project baseline | 83.43 / 79.88 tok/s | +6.82% / +5.76% vs matched baseline | 1332.26 tok/s | Current verified |
 
 ## Correctness and profile
 
@@ -64,4 +82,4 @@ Current prefill has not been remeasured: use 1378.14 tok/s at prompt 512 and 133
 - Exp040 tested `cp.async` copies of the next per-thread K-block while decoding the current item. SASS confirmed async copies and exactness passed, but work-plus-fold lost 10.40% at 40 blocks and 23.16% at 136. It was rejected before model integration.
 - Other important negative results: 2-bit side encodings, pairwise radix-3 decode, warp/multiwarp reductions, cooperative trit recurrence, strip mining, cache modifiers, next-item prefetch, padded 32-byte blocks, and the selective SoA sidecar did not improve the active decode path. The compact index and report links are in [research/EXPERIMENTS.md](research/EXPERIMENTS.md).
 - Architectural finding: active decode uses a dedicated planar Q8_1 / PTQ1_0 GEMV; generic `mmvq.cu` tuning does not reach it. CUDA Graphs are active, and the current PTQ1_0 GEMV remains the dominant measured family.
-- Next: quantify the current-versus-reference result with isolated, matched end-to-end decode and prefill measurements, then choose a fresh optimization target from the resulting profile.
+- Next: autotune the active GEMV CTA width (64/128/256/512 threads) together with compatible row-tile geometry; require active-planar correctness, a focused gain, and matched E2E decode improvement.

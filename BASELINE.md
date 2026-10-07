@@ -1,6 +1,6 @@
 # Reference baseline
 
-Status: these reference measurements were verified on the RTX 3080 using unmodified PrismML runtime commit `6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17`. The current optimized project commit is `9fa97200e68fd798ef027470c8e420172a0ac719`; see the matched isolated comparison below.
+Status: these reference measurements were verified on the RTX 3080 using unmodified PrismML runtime commit `6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17`. The current optimized production-code commit is `c6cdaa5fa62787c97db58d1d2e1db666a4aeddb5`; the newer commits add research records only.
 
 ## Conditions
 
@@ -34,7 +34,7 @@ Median tokens/s over seven repetitions:
 | 2048 | 42.82 | 29.26 | 46.3% |
 | 4096 | 39.21 | 25.53 | 53.6% |
 
-The first one or two timed repetitions were faster than the remaining repetitions in several decode rows. The seven-sample median tracks the stable middle of each row without selecting the fastest run. Raw distributions and standard deviations are retained for later comparisons. The 60°C gate applies only once per format, not before each mode; later modes inherit GPU heating from earlier ones. Decode-first screenings therefore cannot be compared with this prefill-first matrix, and a follow-up paired experiment should isolate each mode/context and record the thermal state for each run.
+The first one or two timed repetitions were faster than the remaining repetitions in several decode rows. The seven-sample median tracks the stable middle of each row without selecting the fastest run. Raw distributions and standard deviations are retained. The 60°C gate applies only once per format, not before each mode; later modes inherit GPU heating from earlier ones. Experiment 041 adds an isolated, reversed-order reference/current comparison under a fresh start gate before every arm.
 
 ## Combined prompt and generation throughput
 
@@ -66,3 +66,22 @@ The original matrix ran prefill before decode and warmed the GPU; its decode fig
 | 4096 | 79.70 tok/s | 75.66 tok/s | +5.34% |
 
 Both builds peaked at 6,805 MiB. The manager's final pair started at 51°C for ROWS=1 and 59°C for ROWS=4; two earlier reversed-order pairs starting at 58–60°C also favored ROWS=1. Full samples, per-run telemetry, and correctness evidence are in [experiment 010](experiments/010-ptq1-planar-rows/REPORT.md).
+
+## Matched frozen-reference versus current-best comparison (experiment 041)
+
+The baseline project commit `2a6ac568b69a61db0ee151b24c9b2cdb7a4f8a7c` was freshly built alongside current production code `c6cdaa5fa62787c97db58d1d2e1db666a4aeddb5`, both on runtime commit `6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17`. Both used Release, CUDA enabled for sm_86, CUDA graphs, and matching CMake settings. Each binary's RUNPATH and `ldd` were checked; each loaded libraries from its own build. Binary/library hashes are in `results/reference_ab/build_info.txt`.
+
+Every mode used two reversed-order pairs, seven repetitions per run, and a fresh ≤60°C / ≤5% GPU-utilization gate before each arm. Decode used 128 generated tokens at contexts 512/4096; prefill used 128/512/2048/4096; combined used prompts 512/4096 plus 128 generated tokens. Batch 2048, microbatch 512, F16 KV, 99 GPU layers, Flash Attention, and 8 CPU threads were fixed. All raw samples and telemetry are in `results/reference_ab/`.
+
+| Workload | Frozen reference | Current best | Change |
+|---|---:|---:|---:|
+| Decode, context 512 | 78.106 tok/s | 83.433 tok/s | +6.82% |
+| Decode, context 4096 | 75.533 tok/s | 79.882 tok/s | +5.76% |
+| Combined, prompt 512 + 128 generated | 314.372 tok/s | 332.196 tok/s | +5.67% |
+| Combined, prompt 4096 + 128 generated | 860.947 tok/s | 877.786 tok/s | +1.96% |
+| Prefill, 128 tokens | 1292.995 tok/s | 1291.875 tok/s | -0.09% |
+| Prefill, 512 tokens | 1377.400 tok/s | 1377.395 tok/s | -0.00% |
+| Prefill, 2048 tokens | 1355.280 tok/s | 1355.505 tok/s | +0.02% |
+| Prefill, 4096 tokens | 1332.110 tok/s | 1332.260 tok/s | +0.01% |
+
+Decode and combined peaks were 6,805 MiB for the reference and 6,803 MiB current. These direct results, not the thermally loaded original baseline matrix above, are the cumulative current-versus-reference comparison. See [experiment 041](experiments/041-reference-current-ab/REPORT.md) and `results/reference_ab/summary.json`.

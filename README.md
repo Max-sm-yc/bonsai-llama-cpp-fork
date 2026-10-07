@@ -5,6 +5,7 @@ This checkout tracks the PrismML `prism` llama.cpp fork and carries a local, rep
 - [Environment](ENVIRONMENT.md) and [setup](SETUP.md)
 - [Benchmark harness](benchmark/README.md) and [correctness checks](tests/README.md)
 - [Current research state](research/STATE.md), [baseline](BASELINE.md), and [profile](PROFILE.md)
+- [Matched reference/current measurements](results/reference_ab/README.md)
 - [Optimization log](OPTIMIZATION_LOG.md) and [final results](FINAL_RESULTS.md)
 
 The unmodified fork revision is `6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17`; research changes are on `research/rtx3080`.

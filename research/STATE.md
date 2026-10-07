@@ -3,7 +3,7 @@
 ## Current best
 
 - PTQ1_0 on RTX 3080/sm_86: ROWS=1 planar batch-1 GEMV plus Exp036 coordinated QKV RMS/FWHT/Q8 prep. Production code commit `c6cdaa5fa62787c97db58d1d2e1db666a4aeddb5`; reference runtime `6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17`.
-- Same-binary, two reversed-order pairs of seven decode runs: 83.35 tok/s at context 512 and 80.35 at 4096; Exp036 disabled control 81.99/79.13 (+1.65%/+1.55%). Peak whole-GPU memory 6,803 MiB. Prefill remains unremeasured: original PTQ1_0 reference medians 1,378/1,331 tok/s at 512/4096.
+- Same-binary, two reversed-order pairs of seven decode runs: 83.35 tok/s at context 512 and 80.35 at 4096; Exp036 disabled control 81.99/79.13 (+1.65%/+1.55%). Direct Exp041 reference/current A/B: +6.82%/+5.76% decode at contexts 512/4096, with 6,803 MiB versus 6,805 MiB peak GPU memory. Prefill measured 1,291.9/1,377.4/1,355.5/1,332.3 tok/s at contexts 128/512/2048/4096 and matches the frozen reference within 0.09%.
 - Correctness: `tests/run_correctness.sh` passed selected CTests 5/5, backend CUDA-vs-CPU cases 96/96, and fixed-seed 32-token PTQ1_0/PQ2_0 smokes. Current main CUDA library SHA-256 `bad70d76b19fdd1b21f61e5c9eb4900b5334c638ff75cdec11f3a4d3b2b28642`.
 
 ## Bottlenecks
@@ -33,4 +33,5 @@
 
 ## Next candidates
 
-1. Run isolated frozen-reference/current-best end-to-end decode and prefill comparisons; no total percentage gain is claimed until these matched measurements exist.
+1. Tune active GEMV CTA thread count and row tile together. Production uses 128 threads; prior row-tile and warp-split experiments did not test 64/256/512-thread CTAs. Measure exact active-planar work-plus-fold at K=40/136, then require matched model decode before keeping a candidate.
+2. Revisit gated/plain GEMV work sharing only if a focused trace identifies redundant computation; current SASS already shares activation loads.
