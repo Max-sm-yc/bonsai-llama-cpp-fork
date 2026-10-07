@@ -1,0 +1,4 @@
+c7e51688f34eb7a2078bcb1ae5b8340d12d70de95dd30cbc59fb6dd70436f4b4  build/bin/llama-bench
+88355f4de9695c29b91af15ea7dce16648a1792933c6e4b7cb89a238a8b0e522  build/bin/libggml-cuda.so.0
+6e70f593b92b80d7d8c8fdc2a7c7ee0f10fee5ab2b199db4592e8194cf54482a  build/bin/llama-cli
+88355f4de9695c29b91af15ea7dce16648a1792933c6e4b7cb89a238a8b0e522  build/bin/libggml-cuda.so.0

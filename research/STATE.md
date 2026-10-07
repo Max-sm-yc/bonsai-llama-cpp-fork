@@ -9,7 +9,7 @@
 ## Bottlenecks
 
 1. Active PTQ1_0 batch-1 GEMV (`mul_mat_vec_ptq1_0_pt`): 9.014 ms/token at context 512 and 9.022 ms/token at 4096, about 77.1%/74.7% of the Exp062 candidate graph's summed kernel duration. Its plain, fused-gate, and fused non-gate specializations cost ~4.57, ~2.31, and ~2.14 ms/token.
-2. QKV activation preparation: 0.752 ms/token (6.2–6.3%); GDN: 0.500 ms/token (4.1–4.2%, no distinct candidate after Exp049); BF16 `mul_mat_vec_f<__nv_bfloat16,float,1,256,false,false>`: ~0.311 ms/token (~2.6%). Remaining RMSNorm: 0.364 ms/token; Exp069 reprofiled attention at 0.230 ms/token (ctx512) and 0.581 ms (ctx4096), including 0.034–0.036 ms of fixup.
+2. QKV activation preparation: 0.752 ms/token (6.2–6.3%); GDN: 0.500 ms (4.1–4.2%, no distinct candidate after Exp049); BF16 `mul_mat_vec_f<__nv_bfloat16,float,1,256,false,false>`: ~0.311 ms (~2.6%). Remaining RMSNorm: 0.364 ms. Exp082 refreshed attention to 0.231 ms/token (ctx512) and 0.583 ms (ctx4096), including 0.034–0.036 ms of fixup.
 3. The earlier context-512 post-Exp036 trace's 1.166 s / 61.2% GEMV share is a mixed setup/decode denominator. Exp047 directly grouped 255 graph replays with 1,432 nodes/replay; it contains no quantized GEMM graph nodes.
 4. Nsight Compute counters fail with `ERR_NVGPUCTRPERM`; do not alter system-wide permissions. Exp074 found a 5.600 GB PTQ GEMV payload and ~621 GB/s payload-equivalent replay rate versus a ~725 GB/s synthetic stream ceiling. This makes traffic a live hypothesis but does not measure GEMV DRAM bandwidth. See [Exp047](../experiments/047-steady-decode-profile/REPORT.md) and [Exp074](../experiments/074-gemv-throughput-ceiling/REPORT.md).
 
@@ -50,11 +50,11 @@
 
 ## Experiment status
 
-- Exp077–081 completed with no production change. Exp077 did not qualify MTP/global arithmetic promotion; Exp078 rejected signed bit planes; Exp079 rejected L2 persistence after no E2E gain; Exp080 found no exact new partial-reduction mapping; Exp081 found direct 2-bit trits 8.8–95.5% slower in the active planar screen. Current best remains unchanged.
-- Exp082 is active: test whether a genuinely lower-resource Ampere attention kernel can raise resident Stream-K splits enough to offset extra partial/fixup work. Worktree base `39f6b1e`; experimenter configured explicitly as GPT-6 Luna.
+- Exp077–082 completed with no production change. Exp077 did not qualify MTP/global arithmetic promotion; Exp078 rejected signed bit planes; Exp079 rejected L2 persistence after no E2E gain; Exp080 found no exact new partial-reduction mapping; Exp081 found direct 2-bit trits 8.8–95.5% slower in the active planar screen; Exp082 doubled long-context FlashAttention CTAs via lower shared memory but total attention regressed 12.8–13.7%. Current best remains unchanged.
 
 ## Latest research result
 
+- Exp082 tested a one-stage version of the active Ampere FlashAttention path. It halved dynamic shared storage and raised context-4096 grid X from 68 to 136, but main+fixup rose from 0.583 to 0.658 ms/token (+12.8%); context 512 also lost 13.7%. The CUDA FlashAttention suite passed 2,994/2,994 and a fixed-seed model smoke matched. Source restored; no model A/B. See experiments/082-fa-split-occupancy/REPORT.md and results/exp082/.
 - Exp081 retested direct 2-bit trit packing in the active planar GEMV dataflow at K=40/136 and row tails 257/1025/4099. A standalone CUDA Graph screen was 8.8–95.5% slower across all six cases; manager rerun reproduced all regressions, with exact outputs and a clean memcheck. The 34-byte block adds 21.4% to PTQ payload. No runtime integration or E2E candidate; representation rejected. See experiments/081-ptq1-direct-2bit-planar/REPORT.md and results/exp081/.
 - Exp080 source-audited the active sm_86 path and built a clean 441-step Release reference. Active <1,1,false,false> SASS has 76 registers/thread, no spills, 32 IDP.4A, 9 activation vector loads, 217 LDS, and one CTA barrier. Exact output order uses four sequential modulo-4 FP32 streams; removing partial owners would serialize 10/34 block dots per stream at K=40/136, while splitting a stream changes FP32 association. No candidate or new timing; manager verified hashes and corrected the SASS count. See experiments/080-ptq1-gemv-dataflow/REPORT.md.
 - Exp079 used exact production PTQ1_0 GEMV graph replay with real weights and valid planar activations. One matrix gained 1.728 µs only on forced-cold replay; warm timing was 0.352 µs slower. In two reversed 7-repetition model pairs, maximum L2 reservation lost 0.894%/0.852%; exact-size reservation lost 0.159% at ctx512 and was flat at ctx4096. Output parity passed; both policies were rejected. No source or best-result change; see `experiments/079-ptq1-l2-persistence/REPORT.md`.
@@ -110,6 +110,6 @@
 
 ## Next candidates
 
-1. **Long-context FlashAttention split-count tradeoff.** The active path uses 17 K partitions and four output tiles at context 4096 (68 CTAs on 68 SMs), with 16 uniform fixups totaling about 0.036 ms/token. Test whether a higher partition count raises useful CTA parallelism enough to offset additional partial/fixup work. Keep exact-output tolerance and context-512/4096 checks; only run model A/B if focused main+fixup timing improves.
+1. **Map and screen one remaining repeated small-op fusion in decode.** At context 512, `cpy_scalar` is 0.209 ms/token across 112 calls; `unary_gated_op(SiLU)`, `k_get_rows_float`, and binary add total another ~0.275 ms. Exp060 already fuses concat/cache copy, Exp062 fuses the safe SSM/SiLU/L2 subset, and Exp061's final gather+add saved only 1–3 µs. First map operation names, consumers, aliasing, and exact adjacency; implement only a distinct high-frequency single-use chain with a credible launch/traffic reduction, then require decode A/B.
 2. **PTQ1_0 prompt-side MMQ** only with a concrete exact dataflow/decoder derivation; Exp065/066 closed geometry-only and ungrounded source screens.
 3. **Active GEMV representation/decode** only with a genuinely different packed-word load/decode that reduces the measured integer and global-load instruction work; Exp081 rejected direct 2-bit codes in the production planar mapping.

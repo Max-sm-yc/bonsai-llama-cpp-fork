@@ -6,9 +6,11 @@ Ranked against the current ROWS=1 implementation. Controlled batch-1 model decod
 
 ## Open candidates
 
-1. **Long-context FlashAttention split-count tradeoff:** the current path costs 0.581 ms/token at context 4096, with 17 K partitions × four output tiles (68 CTAs on 68 SMs) and 16 uniform fixups totaling 0.0359 ms. Test a higher split count to improve CTA parallelism and measure the added partial/fixup cost. Exp053/069 closed tile-only and lower-partition/barrier concepts; this is specifically a split-count balance experiment.
+1. **Repeated small-op decode fusion:** context-512 profile shows 112 `cpy_scalar` calls at 0.209 ms/token, 72 `unary_gated_op(SiLU)` calls at 0.096 ms, 50 gathers at 0.093 ms, and 49 adds at 0.086 ms. Exp060/062/061 already cover concat/cache copy, safe SSM/SiLU/L2 sites, and final gather+ADD. Reopen with a graph-to-op/consumer map and test one distinct high-frequency adjacent chain with a clear single-use/alias-safety case; require matched model decode improvement.
 2. **PTQ1_0 prefill MMQ:** Exp076 confirmed signed-int8 Tensor Core MMA is already active on sm_86; Exp065's occupancy schedule lost by 3.3–15.6% and Exp066 found no replacement decoder. Reopen only with a measured fragment, scale-accumulation, or layout bottleneck that supports a distinct exact candidate.
 3. **Active GEMV decoder/layout:** Exp081 found the direct 2-bit side representation 8.8–95.5% slower in the planar mapping and +21.4% larger. Revisit only with a different packed-word load/decode that reduces the observed integer and global-load instruction work; do not repeat base-3 LUT/floor, direct 2-bit, bit planes, or padded-block approaches.
+
+Exp082 closed the shared-memory-only attention occupancy premise: a one-stage 128-wide K/V tile halved shared storage and doubled the long-context launch grid, but total attention regressed +12.8% at context 4096 and +13.7% at 512 because main-kernel/fixup work increased. Keep the current two-stage Ampere config.
 
 ## Closed direction
 

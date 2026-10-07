@@ -1,0 +1,3 @@
+81187ab3fc4aeda74f92b08ca21ad774d74d1418fb2467d278b41dfe8dcdab13  /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/llama-bench
+7b0c851cd4c1ff7800dfe88aaf1e102922a5712274f7f70bc320532452b991a1  /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/libggml-cuda.so.0
+bb43ba1447276d0d9bbb1819900cf222cffd0689dd1e3ae3899dce601950e30f  /home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/llama-cli

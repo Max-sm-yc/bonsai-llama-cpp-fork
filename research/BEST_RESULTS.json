@@ -316,80 +316,58 @@
     ]
   },
   "latest_experiment": {
-    "id": "081",
-    "hypothesis": "Test direct 2-bit 0/1/2 PTQ1_0 codes in the active RTX 3080 planar-transposed GEMV path.",
-    "decision": "REVERT / NO CANDIDATE. The active-planar screen was slower in all six shapes; manager rerun reproduced the regression. No runtime library or E2E model A/B was built.",
+    "id": "082",
+    "hypothesis": "Reduce the active Ampere FlashAttention shared-memory footprint to enable more Stream-K partitions and improve total context-4096 attention/decode.",
+    "decision": "REVERT / NO CANDIDATE. One-stage mode doubled the context-4096 grid to 136 CTAs but total attention regressed 12.8%; context 512 regressed 13.7%. No model speed A/B.",
     "hardware": "NVIDIA GeForce RTX 3080, sm_86, 10,240 MiB",
-    "base_project_commit": "74642770549fe3bb53ef876be77082a5214bc242",
-    "active_kernel": "Standalone active-like <ncols=1, ROWS=1> planar GEMV screen; production sources unchanged.",
-    "kernel_screen": {
-      "samples_per_arm_and_shape": 20,
-      "graph_replays_per_sample": 300,
-      "results": [
-        {
-          "k_blocks": 40,
-          "rows": 257,
-          "base_median_us": 5.560107,
-          "direct_median_us": 6.14624,
-          "direct_delta_percent": 10.542
-        },
-        {
-          "k_blocks": 40,
-          "rows": 1025,
-          "base_median_us": 6.532373,
-          "direct_median_us": 7.164587,
-          "direct_delta_percent": 9.678
-        },
-        {
-          "k_blocks": 40,
-          "rows": 4099,
-          "base_median_us": 8.584001,
-          "direct_median_us": 10.571094,
-          "direct_delta_percent": 23.149
-        },
-        {
-          "k_blocks": 136,
-          "rows": 257,
-          "base_median_us": 20.241066,
-          "direct_median_us": 26.309973,
-          "direct_delta_percent": 29.983
-        },
-        {
-          "k_blocks": 136,
-          "rows": 1025,
-          "base_median_us": 22.042238,
-          "direct_median_us": 27.957335,
-          "direct_delta_percent": 26.835
-        },
-        {
-          "k_blocks": 136,
-          "rows": 4099,
-          "base_median_us": 37.614933,
-          "direct_median_us": 73.481598,
-          "direct_delta_percent": 95.352
-        }
-      ],
-      "manager_rerun_slower_all_six": true,
-      "payload_bytes_base": 5599641600,
-      "payload_bytes_direct": 6799564800,
-      "payload_growth_percent": 21.4285714286
+    "base_project_commit": "39f6b1e7bbe305dbbb068053e29298025276e26c",
+    "active_kernel": "flash_attn_ext_f16<256,256,1,8,...> Ampere F16 KV decode path",
+    "builds": {
+      "control_cuda_library_sha256": "7b0c851cd4c1ff7800dfe88aaf1e102922a5712274f7f70bc320532452b991a1",
+      "candidate_cuda_library_sha256": "88355f4de9695c29b91af15ea7dce16648a1792933c6e4b7cb89a238a8b0e522"
     },
+    "attention_ms_per_token": {
+      "512": {
+        "control_main": 0.19640987096774193,
+        "control_fixup": 0.034481806451612904,
+        "control_total": 0.23089167741935485,
+        "candidate_main": 0.2254326129032258,
+        "candidate_fixup": 0.03715845161290322,
+        "candidate_total": 0.262591064516129,
+        "candidate_regression_percent": 13.73,
+        "control_grid_x": 48,
+        "candidate_grid_x": 48
+      },
+      "4096": {
+        "control_main": 0.5465932903225806,
+        "control_fixup": 0.03618364516129032,
+        "control_total": 0.582776935483871,
+        "candidate_main": 0.6008912258064516,
+        "candidate_fixup": 0.05664948387096774,
+        "candidate_total": 0.6575407096774194,
+        "candidate_regression_percent": 12.83,
+        "control_grid_x": 68,
+        "candidate_grid_x": 136
+      }
+    },
+    "candidate_dynamic_shared_bytes": 33936,
+    "control_dynamic_shared_bytes": 67728,
     "correctness": {
-      "baseline_direct_outputs": "bit-exact for all six shapes",
-      "cpu_reference": "matched",
-      "compute_sanitizer_errors": 0
+      "flash_attention_backend_cuda_cases": "2994/2994 passed",
+      "fixed_seed_32_token_smoke": "exact body match",
+      "full_correctness_suite": "not run; focused performance rejected"
     },
-    "end_to_end": "Not measured; no candidate qualified.",
+    "end_to_end": "Not measured; candidate failed focused gate.",
     "current_best_unchanged": true,
     "artifacts": [
-      "experiments/081-ptq1-direct-2bit-planar/REPORT.md",
-      "results/exp081/manager-verification.md",
-      "results/exp081/"
+      "experiments/082-fa-split-occupancy/REPORT.md",
+      "results/exp082/manager-verification.md",
+      "results/exp082/"
     ],
-    "timestamp_utc": "2026-10-07T22:38:27Z"
+    "timestamp_utc": "2026-10-07T22:57:45Z"
   },
-  "updated_timestamp_utc": "2026-10-07T22:40:57Z",
-  "project_commit": "39f6b1e7bbe305dbbb068053e29298025276e26c",
+  "updated_timestamp_utc": "2026-10-07T22:57:45Z",
+  "project_commit": "ddc61b8464e45a690081c779ace27742c3acbca3",
   "current_best": {
     "commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
     "reference_runtime_commit": "6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17",
@@ -1711,6 +1689,57 @@
         "results/exp081/"
       ],
       "timestamp_utc": "2026-10-07T22:38:27Z"
+    },
+    {
+      "id": "082",
+      "hypothesis": "Reduce the active Ampere FlashAttention shared-memory footprint to enable more Stream-K partitions and improve total context-4096 attention/decode.",
+      "decision": "REVERT / NO CANDIDATE. One-stage mode doubled the context-4096 grid to 136 CTAs but total attention regressed 12.8%; context 512 regressed 13.7%. No model speed A/B.",
+      "hardware": "NVIDIA GeForce RTX 3080, sm_86, 10,240 MiB",
+      "base_project_commit": "39f6b1e7bbe305dbbb068053e29298025276e26c",
+      "active_kernel": "flash_attn_ext_f16<256,256,1,8,...> Ampere F16 KV decode path",
+      "builds": {
+        "control_cuda_library_sha256": "7b0c851cd4c1ff7800dfe88aaf1e102922a5712274f7f70bc320532452b991a1",
+        "candidate_cuda_library_sha256": "88355f4de9695c29b91af15ea7dce16648a1792933c6e4b7cb89a238a8b0e522"
+      },
+      "attention_ms_per_token": {
+        "512": {
+          "control_main": 0.19640987096774193,
+          "control_fixup": 0.034481806451612904,
+          "control_total": 0.23089167741935485,
+          "candidate_main": 0.2254326129032258,
+          "candidate_fixup": 0.03715845161290322,
+          "candidate_total": 0.262591064516129,
+          "candidate_regression_percent": 13.73,
+          "control_grid_x": 48,
+          "candidate_grid_x": 48
+        },
+        "4096": {
+          "control_main": 0.5465932903225806,
+          "control_fixup": 0.03618364516129032,
+          "control_total": 0.582776935483871,
+          "candidate_main": 0.6008912258064516,
+          "candidate_fixup": 0.05664948387096774,
+          "candidate_total": 0.6575407096774194,
+          "candidate_regression_percent": 12.83,
+          "control_grid_x": 68,
+          "candidate_grid_x": 136
+        }
+      },
+      "candidate_dynamic_shared_bytes": 33936,
+      "control_dynamic_shared_bytes": 67728,
+      "correctness": {
+        "flash_attention_backend_cuda_cases": "2994/2994 passed",
+        "fixed_seed_32_token_smoke": "exact body match",
+        "full_correctness_suite": "not run; focused performance rejected"
+      },
+      "end_to_end": "Not measured; candidate failed focused gate.",
+      "current_best_unchanged": true,
+      "artifacts": [
+        "experiments/082-fa-split-occupancy/REPORT.md",
+        "results/exp082/manager-verification.md",
+        "results/exp082/"
+      ],
+      "timestamp_utc": "2026-10-07T22:57:45Z"
     }
   ],
   "latest_research_audit": {
@@ -1759,14 +1788,5 @@
     ],
     "timestamp_utc": "2026-10-07T22:26:55Z"
   },
-  "active_experiment": {
-    "id": "082",
-    "hypothesis": "Test whether a lower-resource active Ampere FlashAttention kernel enables more resident Stream-K partitions and improves total long-context attention/decode.",
-    "status": "in_progress",
-    "base_project_commit": "39f6b1e7bbe305dbbb068053e29298025276e26c",
-    "production_source_commit": "ffb0ef37690b902829ea1158b02b14517ed93c2b",
-    "worktree": "/home/maxsun/autonomous_projects/.worktrees/exp082-fa-split-occupancy",
-    "assigned_model": "gpt-6-luna",
-    "current_best_unchanged": true
-  }
+  "active_experiment": null
 }

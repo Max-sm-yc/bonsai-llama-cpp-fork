@@ -428,3 +428,9 @@
 - The 34-byte direct-code representation was compared against the 28-byte PTQ1_0 block using an active-like planar CUDA Graph screen on RTX 3080, with 20 samples of 300 replays for K=40/136 and 257/1025/4099 rows. Median slowdown was +9.68%, +10.54%, +23.15%, +26.84%, +29.98%, and +95.35%, respectively; observed ranges were disjoint in all six cases.
 - Every direct output matched the base-3 device path and CPU reference bit-for-bit. Compute Sanitizer memcheck reported zero errors. A manager rerun reproduced the slower result in all six shapes. The candidate adds 1,199,923,200 bytes (+21.43%) across the active GEMV payload.
 - **REVERT / NO CANDIDATE.** No runtime model integration or E2E A/B was run. Current best and production sources remain unchanged. See experiments/081-ptq1-direct-2bit-planar/REPORT.md and results/exp081/.
+
+## Experiment 082: Ampere FlashAttention split occupancy
+
+- The one-stage 128-wide K/V candidate reduced dynamic shared storage from 67,728 to 33,936 B and doubled the context-4096 main grid from 68 to 136 CTAs. However, main+fixup time rose from 0.582777 to 0.657541 ms/token at context 4096 (+12.8%); at context 512 it rose 13.7% with the grid unchanged at 48.
+- The candidate passed 2,994/2,994 CUDA FlashAttention backend cases, and the fixed-seed 32-token model smoke matched. Full correctness and decode A/B were skipped because the focused path regressed. Source was restored.
+- **REVERT / NO CANDIDATE.** Retain the two-stage Ampere kernel and current best. See experiments/082-fa-split-occupancy/REPORT.md and results/exp082/.
