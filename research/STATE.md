@@ -22,6 +22,7 @@
 
 - Dispatch, decoder, and GEMV scheduling: generic-path edits in 001–003 do not reach the active sm_86 batch-1 path. LUT/floor, two-bit, pairwise, fixed-point, row-tile, warp/multiwarp reduction, recurrence distribution, and source strip-mining attempts (004–025, 039) were invalid for the target or exact but slower/no better. Exp024's isolated 1.49x cooperative recurrence screen became an 81.5% model regression.
 - Prefetch/cache/load/layout variants: next-item hints and `.cs` lost E2E; `.cg` lost its kernel screen; padding to 32B added 14.3% payload and lost. Exp032's same-footprint SoA block screen gained 7.8% at 136 blocks but tied at 40; the runtime sidecar in 034–035 had no repeatable decode gain, added 1,280 MiB peak VRAM, and cost ~294 ms load time. Synchronous shared staging (037) lost 9.9–12.9%; warp-register transpose (038) lost 2.42–2.75x. The measured sm_86 `cp.async` next-work-item pipeline (040) emitted real async transfers but lost 10.4%/23.2% at 40/136 blocks. CTA widths 64/128/256/512 (042) lowered active-kernel registers at 256/512 but did not win both K shapes; a 256-at-K40/128-otherwise dispatch regressed matched decode 0.60%/0.68%.
+- Register pressure/occupancy: Exp045 held 128-thread ROWS=1 geometry fixed and asked for 6/7/8 resident CTAs on `ncols==1`. Active plain/gated register use fell to 72/77, 68/72, and 60/63 with no active spills, but all three short reversed model screens regressed at contexts 512/4096 (-2.5% to -5.1%). Keep the four-CTA bound.
 - Inconclusive only: 014/016/027 ended before candidate measurement; 029 had one unmatched `.cg` trace. See `research/EXPERIMENTS.md` and linked reports before revisiting any idea.
 
 ## Important architectural discoveries
@@ -33,4 +34,4 @@
 
 ## Next candidates
 
-1. Sweep active 128-thread PTQ1_0 `__launch_bounds__` minimum-CTA constraints while holding ROWS=1 geometry fixed. The plain/gated kernels use 76/98 registers/thread, permitting about six/five 128-thread CTAs per SM by register capacity; Exp042 changed width and register use together. Test occupancy without spills, then exactness and matched E2E decode. Exp043/044 closed gate-stream and full activation-staging ideas; retain current production meanwhile.
+1. No launch-bound or CTA-width sweep remains open for the active ROWS=1 PTQ1_0 kernel. Exp045 lowered register counts with minimum-CTA bounds 6/7/8 but short decode screens regressed at both contexts; Exp042 geometry variants also failed matched decode. Keep the current 128-thread, four-CTA-bound implementation unless a new scheduling premise changes the active code path.

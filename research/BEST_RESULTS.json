@@ -321,7 +321,7 @@
     "cuda_library_sha256": "bad70d76b19fdd1b21f61e5c9eb4900b5334c638ff75cdec11f3a4d3b2b28642",
     "timestamp_utc": "2026-10-07T03:25:11+00:00"
   },
-  "updated_timestamp_utc": "2026-10-07T05:28:20+00:00",
+  "updated_timestamp_utc": "2026-10-07T06:36:26+00:00",
   "project_commit": "c6cdaa5fa62787c97db58d1d2e1db666a4aeddb5",
   "current_best": {
     "commit": "c6cdaa5fa62787c97db58d1d2e1db666a4aeddb5",
@@ -813,33 +813,82 @@
     ]
   },
   "latest_research_measurement": {
-    "id": "044",
-    "description": "Screened CTA-local shared-memory reuse of the planar PTQ1_0 Q8_1 activation tile across the production-compatible 16-row CTA.",
-    "decision": "REVERT; exact candidate lost focused work-plus-fold at K=40 and K=136. Current-best values remain unchanged.",
-    "focused_work_fold_change_percent_vs_direct_global": {
-      "K40": 2.0828653037645584,
-      "K136": 1.268948093706923
-    },
-    "correctness": "Independent host decoder and full-row outputs matched bit-for-bit for 2,048 rows at each shape.",
+    "id": "045",
+    "description": "Swept the active 128-thread ROWS=1 planar PTQ1_0 GEMV minimum resident CTA bound at ncols==1, isolating register pressure from CTA geometry.",
+    "decision": "REVERT; the 6/7/8-CTA candidates lowered active registers with no spills but lost short order-reversed decode screens. Current-best values remain unchanged.",
     "resources": {
-      "candidate_registers_per_thread": 40,
-      "candidate_spills": 0,
-      "cta_barriers": 1,
-      "activation_shared_bytes": {
-        "K40": 5760,
-        "K136": 19584
-      },
-      "estimated_production_total_shared_bytes": {
-        "K40": 8384,
-        "K136": 28416
+      "minimum_ctas_per_sm": [
+        4,
+        6,
+        7,
+        8
+      ],
+      "plain_registers_per_thread": [
+        76,
+        72,
+        68,
+        60
+      ],
+      "fused_no_gate_registers_per_thread": [
+        74,
+        72,
+        68,
+        60
+      ],
+      "fused_gate_registers_per_thread": [
+        98,
+        77,
+        72,
+        63
+      ],
+      "active_rows1_stack_bytes": 0,
+      "active_rows1_spill_bytes": 0,
+      "geometry": "128 threads/block, ROWS=1"
+    },
+    "short_decode_screens": {
+      "configuration": "RTX 3080 sm_86; PTQ1_0; contexts 512 and 4096; 128 tokens; 3 repetitions per arm/run; two order-reversed pairs; <=60 C / <=5% utilization gate before every arm.",
+      "paired_median_delta_percent": {
+        "minimum_ctas_6": {
+          "512": -2.5659,
+          "4096": -2.4498
+        },
+        "minimum_ctas_7": {
+          "512": -4.1573,
+          "4096": -4.1227
+        },
+        "minimum_ctas_8": {
+          "512": -5.0681,
+          "4096": -5.06
+        }
       }
     },
+    "correctness": "Not run; every candidate regressed in both short reversed decode screens, so no candidate advanced to correctness or full E2E.",
     "artifacts": [
-      "experiments/044-activation-tile-reuse/REPORT.md",
-      "results/exp044/screen_40.txt",
-      "results/exp044/screen_136.txt",
-      "results/exp044/activation_tile_screen.sass"
+      "experiments/045-ptq1-register-occupancy/REPORT.md",
+      "results/exp045/launch_bounds.patch",
+      "results/exp045/min8/active_ptxas_summary.txt",
+      "results/exp045/min8/active_ptx_excerpt.txt",
+      "results/exp045/min8/sass_excerpt.txt",
+      "results/exp045/min6_screen_candidate.json",
+      "results/exp045/min6_screen_control.json",
+      "results/exp045/min6_screen_control_reverse.json",
+      "results/exp045/min6_screen_candidate_reverse.json",
+      "results/exp045/min7_screen_candidate.json",
+      "results/exp045/min7_screen_control.json",
+      "results/exp045/min7_screen_control_reverse.json",
+      "results/exp045/min7_screen_candidate_reverse.json",
+      "results/exp045/min8_screen_candidate.json",
+      "results/exp045/min8_screen_control.json",
+      "results/exp045/min8_screen_control_reverse.json",
+      "results/exp045/min8_screen_candidate_reverse.json",
+      "results/exp045/min6/mmvq_ptxas.txt.gz",
+      "results/exp045/min6/quantize_ptxas.txt.gz",
+      "results/exp045/min7/mmvq_ptxas.txt.gz",
+      "results/exp045/min7/quantize_ptxas.txt.gz",
+      "results/exp045/raw/min6_candidate_first_raw.json",
+      "results/exp045/raw/min7_candidate_first_raw.json",
+      "results/exp045/raw/min8_candidate_first_raw.json"
     ],
-    "timestamp_utc": "2026-10-07T06:10:00+00:00"
+    "timestamp_utc": "2026-10-07T06:36:26+00:00"
   }
 }
