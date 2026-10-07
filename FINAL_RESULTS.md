@@ -1,77 +1,64 @@
-# Final results — research in progress
+# Current results — research in progress
 
-The optimization campaign is active. Experiment 010 remains the current verified best; experiment 021 produced no repeatable gain and left production unchanged. This file records the reference results and retained optimization while research continues.
+This is the current verified snapshot, not the end of the campaign. The fastest correct implementation remains PTQ1_0 with ROWS=1 planar GEMV and the coordinated QKV RMS/FWHT/Q8 preparation path. No production change was made in Exp037.
 
 ## Hardware and software
 
-- Hardware: NVIDIA GeForce RTX 3080 10 GiB, GA102, compute capability 8.6; Intel Core i7-10700K; Fedora 43 Workstation.
-- Driver 580.178.04; CUDA driver compatibility 13.0; CUDA Toolkit/NVCC 13.2.86; Nsight Systems 2025.6.3.541; Nsight Compute 2026.1.1.0.
-- Reference runtime: PrismML `https://github.com/PrismML-Eng/llama.cpp`, branch `prism`, commit `6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17`.
-- Model repository: `https://huggingface.co/prism-ml/Ternary-Bonsai-2-27B-gguf`, revision `b072e1d3b35a0a630cece372c2127528e0994386`.
-- Files: `Ternary-Bonsai-2-27B-PTQ1_0.gguf` (5,946,648,928 bytes; SHA-256 `53107f530aa52eb00912263ab1ee29bd199261c87cd7b4ad4ca1318c1fe33ee3`); `Ternary-Bonsai-2-27B-PQ2_0.gguf` (7,206,168,928 bytes; SHA-256 `3907dc1658db1f78a9826bf8d5bcb8dc65db0d466388937af57f2294fae62ec1`).
-- Current best project commit: `9fa97200e68fd798ef027470c8e420172a0ac719` (PTQ1_0 ROWS=1); project reference baseline commit: `2a6ac568b69a61db0ee151b24c9b2cdb7a4f8a7c`.
+- GPU: NVIDIA GeForce RTX 3080, GA102, compute capability 8.6, 10 GiB VRAM. Host: Intel Core i7-10700K, 31 GiB RAM, Fedora Linux 43 Workstation, kernel 7.1.8.
+- Driver 580.178.04; CUDA compatibility 13.0; Toolkit/NVCC 13.2.86; GCC 15.3.1; CMake 3.31.11; Ninja 1.13.1; Nsight Systems 2025.6.3.541; Nsight Compute 2026.1.1.0. Full environment is in [ENVIRONMENT.md](ENVIRONMENT.md).
+- Runtime/reference: PrismML `https://github.com/PrismML-Eng/llama.cpp`, branch `prism`, upstream commit `6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17`; project baseline commit `2a6ac568b69a61db0ee151b24c9b2cdb7a4f8a7c`.
+- Current best production code commit: `c6cdaa5fa62787c97db58d1d2e1db666a4aeddb5`; the current tree also includes research records and the direct Exp036 correctness test. Latest code-library SHA-256: `bad70d76b19fdd1b21f61e5c9eb4900b5334c638ff75cdec11f3a4d3b2b28642`.
+- Model repository revision `b072e1d3b35a0a630cece372c2127528e0994386`. PTQ1_0 file: 5,946,648,928 bytes, SHA-256 `53107f530aa52eb00912263ab1ee29bd199261c87cd7b4ad4ca1318c1fe33ee3`. PQ2_0 file: 7,206,168,928 bytes, SHA-256 `3907dc1658db1f78a9826bf8d5bcb8dc65db0d466388937af57f2294fae62ec1`. See [SETUP.md](SETUP.md).
 
-## Method
+## Benchmark method
 
-Seven llama-bench repetitions per row with default warm-up. Paired format runs start when the GPU is at or below 60°C and 5% utilization. Contexts 128/512/2048/4096; decode length 128; batch 2048, microbatch 512; batch-1 decode; F16 KV; Flash Attention on; 99 GPU layers; 8 CPU threads. The raw JSON stores each sample and sampled whole-GPU memory. Combined throughput includes prompt evaluation and 128 autoregressive tokens but excludes tokenization and sampling. Full details are in [BASELINE.md](BASELINE.md).
+The reproducible baseline uses seven `llama-bench` repetitions per row with default warmups, a GPU start gate at or below 60°C and 5% utilization, contexts 128/512/2048/4096, and decode length 128. GPU layers 99, Flash Attention on, batch/microbatch 2048/512, F16 KV, and 8 CPU threads are held fixed. Raw samples, standard deviations, latency, and memory telemetry are recorded in JSON under `results/`. `llama-bench` excludes tokenization and sampling.
 
-## Original reference performance
+The optimization comparison for Exp036 used the same main binary and two reversed-order pairs of seven decode repetitions, at contexts 512 and 4096. A single direct aggregate comparison of the current code against the frozen upstream runtime has not yet been rerun under isolated matched conditions; do not infer a total gain from the thermally loaded original baseline matrix.
 
-Median tokens/s from the controlled baseline:
+## Original PTQ1_0 and PQ2_0 reference results
 
-| Format | Prefill at 4096 | Decode at context 128 | Decode at context 4096 | Combined at prompt 4096 | Peak whole-GPU memory |
-|---|---:|---:|---:|---:|---:|
-| PTQ1_0 | 1331.3 | 46.88 | 39.21 | 426.16 | 6805 MiB |
-| PQ2_0 | 1326.9 | 35.53 | 25.53 | 346.71 | 7949 MiB |
+Median tokens/s from the original prefill-first baseline matrix:
 
-PTQ1_0 is 53.6% faster than PQ2_0 in the original context-4096 decode matrix; prefill is nearly tied. That matrix ran prefill before decode, heated the GPU, and is not an apples-to-apples speedup denominator for the later isolated decode experiment. The per-format data remain a reference record, not the matched optimization comparison.
+| Format | Prefill at 512 | Prefill at 4096 | Decode at context 512 | Decode at context 4096 | Combined at prompt 4096 | Peak whole-GPU memory |
+|---|---:|---:|---:|---:|---:|---:|
+| PTQ1_0 | 1378.14 | 1331.25 | 46.09 | 39.21 | 426.16 | 6805 MiB |
+| PQ2_0 | 1364.88 | 1326.92 | 31.11 | 25.53 | 346.71 | 7949 MiB |
 
-## Current best: PTQ1_0 ROWS=1
+PTQ1_0 was 53.6% faster than PQ2_0 in the original context-4096 decode matrix, while prefill was nearly tied. The matrix warmed the GPU before decode, so those values are reference records, not the denominator for later isolated A/B results. Both files fit within the RTX 3080's available VRAM.
 
-The active sm_86 planar GEMV now uses one row per item for batch-1 decode. In the manager's rebuilt source-default A/B, the seven-repetition medians were 82.22 tok/s at context 512 and 79.70 tok/s at context 4096. The paired archived ROWS=4 build measured 78.00 and 75.66 tok/s under the same isolated decode command, respectively: **+5.42% at context 512 and +5.34% at context 4096**. The improvement was also reproduced in two earlier reversed-order paired rounds. See [experiment 010](experiments/010-ptq1-planar-rows/REPORT.md) and its [raw paired measurements](results/exp010/final_rebuilt_pair/).
+## Current best results
 
-Both paired builds peaked at 6,805 MiB whole-GPU memory. The timing uses 128 generated tokens, batch-1 decode, F16 KV, Flash Attention, 99 GPU layers, batch/microbatch 2048/512, eight CPU threads, and a start gate of at most 60°C. The exact start temperatures in the manager's final pair differed (51°C candidate, 59°C control); earlier reversed-order pairs started at 58–60°C and showed the same direction. Keep this qualification with the point estimate.
+The current best is PTQ1_0, sm_86 planar batch-1 GEMV with ROWS=1, plus Exp036's guarded coordinated attention RMSNorm/weight/sign/FWHT/Q8 preparation. The Exp036 same-binary A/B measured:
 
-Optimized prefill was not remeasured; ROWS=1 only changes the one-column matvec schedule. The reference PTQ1_0 prefill medians remain 1,378.1 tok/s at prompt 512 and 1,331.3 tok/s at 4096 as reference values, not new measurements. PQ2_0 has not been optimized and retains its original benchmark results.
+| Context | Current best median tok/s | Same-binary disabled-path median | Improvement | Peak memory, enabled/disabled |
+|---:|---:|---:|---:|---:|
+| 512 | 83.3458 | 81.9939 | +1.65% | 6803 / 6805 MiB |
+| 4096 | 80.3522 | 79.1268 | +1.55% | 6803 / 6805 MiB |
 
-## Correctness and profiling
+Each value is the median of two reversed-order seven-repetition run medians. Context-4096 runs had slow tails in both arms; all samples are retained in `results/exp036/`. The incremental Exp036 improvement is verified. Exp010's separate matched ROWS=1-vs-ROWS=4 test measured +5.42%/+5.34% at contexts 512/4096. These stage-wise results are not combined into a single total percentage because they came from different paired campaigns. A frozen-upstream-versus-current end-to-end A/B remains future work.
 
-- Upstream quantization/layout/shape tests: 4/4 pass.
-- Random CUDA-vs-CPU PTQ1_0/PQ2_0 `MUL_MAT` checks: 96/96 pass, upstream NMSE threshold 5e-4.
-- Both actual model files load on CUDA and produce greedy 32-token completions.
-- Nsight Systems identifies ternary GEMV as 60.4% of GPU kernel time after ROWS=1 (down from 61.8% in the PTQ1_0 reference trace); the three active GEMV variants now total 1.166 s versus 1.253 s. Full ranking and profiler limitations are in [PROFILE.md](PROFILE.md).
-- Nsight Compute hardware counters were denied by `ERR_NVGPUCTRPERM`; no system-wide permission changes were made.
+Current prefill has not been remeasured: use 1378.14 tok/s at prompt 512 and 1331.25 tok/s at 4096 as reference values only. PQ2_0 has not been optimized; its best verified values remain the original baseline above.
 
-## Progression by verified implementation
+### Performance progression across retained changes
 
-| Code commit | Format / schedule | Decode tok/s at context 512 / 4096 | Matched decode delta | Prefill tok/s at 4096 | Correctness | Decision |
-|---|---|---:|---:|---:|---|---|
-| `2a6ac56` (PrismML `6bfcd79a`) | PTQ1_0 reference matrix | 46.09 / 39.21 | Original matrix; hot decode is not comparable to isolated pairs | 1331.3 | Pass | Baseline |
-| `2a6ac56` (PrismML `6bfcd79a`) | PQ2_0 reference matrix | 31.11 / 25.53 | Reference only; not optimized | 1326.9 | Pass | Baseline |
-| `9fa9720` | PTQ1_0 ROWS=1 | 82.22 / 79.70 | +5.42% / +5.34% vs matched isolated ROWS=4 at 78.00 / 75.66 | Not remeasured | Pass | Keep |
+| Code commit | Format / change | Decode at context 512 / 4096 | Matched result | Prefill at 4096 | Decision |
+|---|---|---:|---:|---:|---|
+| `2a6ac56` | PTQ1_0 reference runtime | 46.09 / 39.21 tok/s | Original matrix; not comparable with isolated A/B | 1331.25 tok/s | Baseline |
+| `2a6ac56` | PQ2_0 reference runtime | 31.11 / 25.53 tok/s | Original matrix; not optimized | 1326.92 tok/s | Baseline |
+| `9fa9720` | PTQ1_0 ROWS=1 planar GEMV | 82.22 / 79.70 tok/s | +5.42% / +5.34% vs matched ROWS=4 | Not remeasured | Keep |
+| `c6cdaa5` | ROWS=1 + coordinated QKV preparation | 83.35 / 80.35 tok/s | +1.65% / +1.55% vs same-binary disabled path | Not remeasured | Current best |
 
-The absolute reference-matrix decode figures are shown to preserve the original record. Due to heating before those decode rows, use the isolated ROWS=1-vs-ROWS=4 pair for the optimization percentage.
+## Correctness and profile
 
-## Retained changes, failures, and next work
+- `bash tests/run_correctness.sh`: selected CTests 5/5, including the direct fused RMS/FWHT/Q8 GPU reference test; CUDA-vs-CPU PTQ1_0/PQ2_0 backend cases 96/96; fixed-seed 32-token model smokes for both formats passed. The fused-kernel test's max error was 0.54 stored Q8 scale for one and three rows, with exact block sums. The PTQ1_0 normalized model completion matched the previous reference exactly.
+- The post-Exp036 Nsight Systems context-512 trace still ranks PTQ1_0 batch-1 GEMV first at 1.166 s / 61.22% of mixed-workload GPU kernel time. PTQ1_0 GEMM is 12.7%; activation prep and remaining RMSNorm are 5.2%; GDN is 4.6%. The trace is setup plus decode, not decode-only attribution.
+- Nsight Compute hardware counters are blocked by `ERR_NVGPUCTRPERM`; no system-wide permission change was made. See [PROFILE.md](PROFILE.md).
 
-- Retained optimization: one-row scheduling in the active PTQ1_0 planar batch-1 GEMV, for +5.3% median decode at context 4096 against the matched isolated ROWS=4 control. Current PQ2_0 remains the unmodified reference implementation.
-- The first format benchmark began PTQ1_0 cool and PQ2_0 hot and is excluded. Experiments 001/002 disabled explicit PTQ1_0 GEMV L2 prefetch; paired 128-token workloads tied within 0.04%, while longer tails varied with process order and clocks. The source was restored.
-- Experiment 003 changed the generic PTQ1_0 warp-count selection, but a dispatch audit found that sm_86 batch-1 inference bypasses it for the dedicated planar PT kernel. Its decode measurements compared the same active kernel and do not inform kernel geometry.
-- Experiment 004's exact constant-memory LUT matched 65,536 focused dot outputs but took 5.89x longer than multiply/byte-permute decoding; it was not integrated. Its harness excluded `qh` and production activation layout.
-- Experiment 005's 2-bit side prototype wrote 128 per-weight bytes into a 32-byte packed-code field, overrunning adjacent records, and also used the wrong base-3 element order. Its timing is invalid.
-- Experiment 006 fixed packing and element mapping and passed exact code/dot checks, but its Q8 activation address did not match production SOA_ISUM. Its measured 18.4–18.8% slowdown is inconclusive; no runtime integration or E2E test was run. The proposed correct code expands blocks from 28 to 34 bytes (+21.43%).
-- Experiment 007 used the SOA_ISUM mapping and DP4A block arithmetic; packed 2-bit was 3.44–3.50% slower at 65,536 blocks and 5.02% slower at 16,384 blocks. RTX 3080 batch-1 uses planar PT instead, so this rejects the tested SOA side dot but does not decide active-kernel performance.
-- Experiment 008's direct-floor trit identity passed host exhaustive checks, but the first packed CUDA implementation failed full-block correctness because its `qh` path did not interleave the two trit streams. No timing or runtime change was made.
-- Experiment 009 fixed the `qh` interleave and passed exhaustive device, full-block, and sanitizer checks; the floor-difference decoder was 1.24–7.04% slower in the SOA block harness. The active planar sm_86 kernel was not tested.
-- Experiments 001–009 tested prefetch, generic geometry, alternate decoders, and side-code variants; they either addressed an inactive SOA path, failed exactness, or lost their focused timings. Experiment 011's exact 2-bit codes lost 3.02–7.01% before conversion on the active planar mapping. Experiment 012's exact pairwise radix-3 decoder lost 1.97–24.59%. Details are indexed in [research/EXPERIMENTS.md](research/EXPERIMENTS.md).
-- Experiment 013 swept active planar CTA row-tile caps and shared-memory targets. Cap 8 was effectively tied with ROWS=1 (+0.11%/-0.01% at contexts 512/4096), while larger tiles regressed. The source and rebuilt CUDA library were restored and hash-verified; this does not change the best result.
-- Experiment 014 recorded a warp-per-row reduction hypothesis but did not implement or measure a candidate. It leaves no performance result and does not change the best.
-- Experiment 015 implemented the warp-per-output-row register reduction. It passed selected correctness and model checks but lost 3.3–3.8% in two reversed-order pairs; the exact ROWS=1 source and library were restored and hash-verified.
-- Experiment 016 proposed a cooperative multiwarp row reduction but did not implement or measure it; the hypothesis remains open.
-- Experiment 017 implemented two warps per row and passed selected correctness and model checks, but decode fell by 2.60% at context 512 and 1.82% at 4096. The source and active library were hash-verified after restoration.
-- Experiment 018 specialized four warps per row for K>64 and passed selected correctness/model checks. Context-512 medians lost 0.32%/0.69% in reversed pairs; context 4096 changed sign (+0.77%/-0.58%). No repeatable gain; ROWS=1 was restored.
-- Experiment 019 audited RMSNorm→FWHT/Q8_1 fusion. The attention norm output feeds Q/K/V projection paths, so one projection's fused transform cannot eliminate the shared result. No implementation or benchmark was made; a coordinated multi-output design would need a separate cost analysis.
-- Experiment 020 screened NT=128/256/512 for fused PTQ1_0 FWHT/Q8_1 on sm_86. NT=128 lost 0.9–1.0%; NT=512 tied within noise in reversed-order pairs. Correctness passed for both quantization formats; no production change was retained.
-- After ROWS=1, the active planar GEMV still accounts for 60.4% of profiled kernel time. Fixed and shape-gated warp-per-row reductions have not improved it. Next investigate the measured gated-delta kernel (4.6%) and RMSNorm (3.9%). CUDA Graphs are already active in the baseline trace.
-- Nsight Compute counters remain unavailable. Future claims should rely on isolated repeated end-to-end runs and available Nsight Systems timing.
-- Experiment 021 tested GDN columns-per-warp 1/2/4/8 on the active sm_86 path. A small column-1 advantage in the first pair collapsed in the reversed pair; the 2/8 screens were close to the later control and were not reversed-order pairs. The default source and active library were restored and hash-verified. No performance change is retained.
+## Retained optimizations, failed experiments, and next work
+
+- Retained: Exp010's ROWS=1 scheduling for the active sm_86 planar GEMV; Exp036's exact-shape/use-count-guarded coordinated QKV preparation, default on and disableable with `GGML_CUDA_RMS_FWHT_Q8=0`.
+- Exp037 tested CTA-local shared-memory staging of contiguous 28-byte AoS blocks. It matched codes/outputs and passed memcheck, but the production-equivalent work-plus-fold screen lost 9.85% at 40 blocks and 12.86% at 136 blocks. It was rejected before model integration.
+- Other important negative results: 2-bit side encodings, pairwise radix-3 decode, warp/multiwarp reductions, cooperative trit recurrence, strip mining, cache modifiers, next-item prefetch, padded 32-byte blocks, and the selective SoA sidecar did not improve the active decode path. The compact index and report links are in [research/EXPERIMENTS.md](research/EXPERIMENTS.md).
+- Architectural finding: active decode uses a dedicated planar Q8_1 / PTQ1_0 GEMV; generic `mmvq.cu` tuning does not reach it. CUDA Graphs are active, and the current PTQ1_0 GEMV remains the dominant measured family.
+- Next: screen a warp-register transpose for packed block loads at 40 and 136 blocks per row. It must preserve the real packed recurrence, prove correctness, and beat direct AoS in a repeated CUDA-event screen before any model benchmark.

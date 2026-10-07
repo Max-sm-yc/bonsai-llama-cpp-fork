@@ -321,7 +321,7 @@
     "cuda_library_sha256": "bad70d76b19fdd1b21f61e5c9eb4900b5334c638ff75cdec11f3a4d3b2b28642",
     "timestamp_utc": "2026-10-07T03:25:11+00:00"
   },
-  "updated_timestamp_utc": "2026-10-07T03:25:11+00:00",
+  "updated_timestamp_utc": "2026-10-07T04:07:33+00:00",
   "project_commit": "c6cdaa5fa62787c97db58d1d2e1db666a4aeddb5",
   "current_best": {
     "commit": "c6cdaa5fa62787c97db58d1d2e1db666a4aeddb5",
@@ -388,5 +388,36 @@
     "correctness": "pass: main-tree tests/run_correctness.sh; selected CTest 5/5 including direct fused RMS/FWHT/Q8 GPU reference test; CUDA-vs-CPU backend ops 96/96; fixed-seed PTQ1_0 and PQ2_0 32-token smokes; PTQ1_0 normalized completion exactly matched reference",
     "cuda_library_sha256": "bad70d76b19fdd1b21f61e5c9eb4900b5334c638ff75cdec11f3a4d3b2b28642",
     "timestamp_utc": "2026-10-07T03:25:11+00:00"
+  },
+  "latest_experiment_screen": {
+    "id": "037",
+    "hypothesis": "CTA-local shared-memory staging can coalesce active PTQ1_0 AoS block loads without changing model storage.",
+    "decision": "REVERT; no production code changed",
+    "hardware": "NVIDIA GeForce RTX 3080, sm_86",
+    "method": "CUDA-event work-plus-fold screen; 2048 rows; 9 rotated-order samples per arm; direct AoS compared with staged AoS",
+    "results_microseconds_median": {
+      "40_blocks_per_row": {
+        "direct_aos": 9.25696,
+        "staged": 10.16832,
+        "staged_delta_percent": 9.85
+      },
+      "136_blocks_per_row": {
+        "direct_aos": 25.0752,
+        "staged": 28.3008,
+        "staged_delta_percent": 12.86
+      }
+    },
+    "correctness": "Exact packed code and row outputs against direct and independent host references; Compute Sanitizer memcheck 0 errors.",
+    "end_to_end": "Not run; candidate lost both focused shapes.",
+    "artifacts": [
+      "experiments/037-fresh-gemv-challenge/REPORT.md",
+      "results/exp037/staging_screen.cu",
+      "results/exp037/staging_screen.sass",
+      "results/exp037/screen_40.txt",
+      "results/exp037/screen_136.txt",
+      "results/exp037/memcheck_40.txt",
+      "results/exp037/resources.txt"
+    ],
+    "candidate_source_sha256": "9ccad63769e7f9b2d66074c8f4e5b8d271c99d3264eaed1f1248e3484da2635f"
   }
 }

@@ -1,0 +1,30 @@
+========= COMPUTE-SANITIZER
+CORRECT rows=257 blocks_per_row=40 verified_device_codes=1315840 code_mismatches=0 aos_soa_mismatches=0 aos_staged_mismatches=0 independent_host_output_mismatches=0 max_error=0
+AoS 0.25134933 ms_pair
+AoS 0.24837333 ms_pair
+AoS 0.24426667 ms_pair
+AoS 0.22860800 ms_pair
+AoS 0.24507733 ms_pair
+AoS 0.23517866 ms_pair
+AoS 0.23886932 ms_pair
+AoS 0.22962134 ms_pair
+AoS 0.22766934 ms_pair
+SoA 0.23481600 ms_pair
+SoA 0.23098667 ms_pair
+SoA 0.23137067 ms_pair
+SoA 0.24268800 ms_pair
+SoA 0.22685868 ms_pair
+SoA 0.24459733 ms_pair
+SoA 0.22931200 ms_pair
+SoA 0.23620266 ms_pair
+SoA 0.24064000 ms_pair
+STAGED 0.21913600 ms_pair
+STAGED 0.23291732 ms_pair
+STAGED 0.22562134 ms_pair
+STAGED 0.22391467 ms_pair
+STAGED 0.23074134 ms_pair
+STAGED 0.23415466 ms_pair
+STAGED 0.23924267 ms_pair
+STAGED 0.21659733 ms_pair
+STAGED 0.23313068 ms_pair
+========= ERROR SUMMARY: 0 errors

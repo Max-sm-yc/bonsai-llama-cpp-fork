@@ -45,6 +45,7 @@
 - Experiment 031: padding PTQ1_0 blocks from 28 to 32 bytes enabled the intended two 128-bit loads and exact outputs, but lost 3.37% at 16K blocks and 21.39% at 65K; reject this layout and its +14.29% payload cost. No runtime integration.
 - Experiment 033: a full CUDA SoA conversion has no safe GEMV-only hook: multi-column/MMQ/vector-dot/utility readers and generic transfer callbacks assume AoS. A distinct selective sidecar for the 64 K=17,408 `ffn_down` tensors would cost 1,190 MiB and projects to 7,995 MiB total; not measured.
 - Experiments 034–035: a buffer-owned selective SoA sidecar was implemented in isolation and reached the actual 64 long-K `ffn_down` GEMVs correctly, but repeated decode was tied/noisy and it cost +1,280 MiB peak GPU memory plus ~294 ms load repacking. Keep AoS; do not repeat without a new traffic premise.
+- Experiment 037: CTA-local shared staging coalesced the 28-byte AoS blocks and matched all codes/outputs, but the CUDA-event screen lost 9.85% at 40 blocks and 12.86% at 136 blocks; Compute Sanitizer passed. Do not repeat this staging design. See `experiments/037-fresh-gemv-challenge/REPORT.md` and `results/exp037/`.
 
 ## Important discoveries
 
@@ -67,7 +68,8 @@
 
 ## Next candidates
 
-1. Fresh challenge of the active sm_86 PTQ1_0 GEMV dataflow. It remains 61.2% of mixed-trace kernel time after Exp036; seek a materially different packed-weight/activation mapping and screen it on the actual ROWS=1 specialization before model A/B.
-2. Revisit PQ2_0 or prompt-side work only if a format-specific or workload-level change has a stronger expected decode impact than the active PTQ1_0 GEMV.
+1. Screen a warp-register transpose of packed PTQ1_0 blocks: load contiguous word spans, redistribute words with warp shuffles, and compare the real packed dot against direct AoS loads. This avoids Exp037's shared-memory copy/barrier but may trade sectors for too many shuffles; require 40/136-block CUDA-event results before model A/B.
+2. If register redistribution loses, challenge packed-trit arithmetic with a distinct generated-code-backed decoder rather than repeating LUT, pairwise radix-3, or cooperative recurrence variants.
+3. Revisit PQ2_0 or prompt-side work only if a format-specific or workload-level change has stronger expected value than active PTQ1_0 decode.
 
 - Experiment 030: matched default/`.cg`/`.cs` screen completed with three actual-kernel traces per arm (485 target launches each). `.cg` was +128.4% target-kernel time; `.cs` was -0.30% in the kernel screen but lost 0.9–1.1% end-to-end median throughput in the reversed-order 7-rep comparison at contexts 512/4096. Reverted; production source, active source-default library, and backup hashes are intact. No exact correctness comparison was completed, so no candidate was retained. See report 030 and `results/exp030/`.
