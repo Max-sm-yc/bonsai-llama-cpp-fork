@@ -39,6 +39,10 @@
 - Exp052 compared the formats under the same runtime: each replay has 361 GEMV nodes in both formats, but PQ2_0 uses `mul_mat_vec_q<type 142>` and averages 10.71 ms versus PTQ1_0's dedicated planar `mul_mat_vec_ptq1_0_pt` at 9.02 ms. PQ2_0 also has 441 extra nodes/replay and ~0.59 ms more activation-prep plus standalone RMSNorm time. The PTQ1_0 model payload is 17.5% smaller. Systems timing cannot distinguish weight traffic from decoder/instruction/occupancy effects; Nsight Compute counters remain unavailable. See [Exp052](../experiments/052-pq2-steady-profile/REPORT.md).
 - Repeated context-4096 decode samples have slow tails in both arms. Preserve all repetitions/ranges and use medians. Verify candidate library paths with `ldd`/`LD_DEBUG`; earlier absolute RUNPATHs caused false A/Bs.
 
+## Active experiment
+
+- Exp066 is challenging type-143 prefill MMQ with a new ternary unpack/compute dataflow; the Exp065 I=64 schedule is excluded. Isolated worktree is `/home/maxsun/autonomous_projects/.worktrees/exp066-ptq1-mmq-dataflow`; production source remains unchanged pending correctness and timing review.
+
 ## Latest research result
 
 - Exp065 measured type-143 PTQ1_0 MMQ at 65.5% of the 4096-token prefill capture. The 128-thread/I=64 schedule lost in focused profiles at all tested prompts; baseline source/library restored. Current best and decode ranking are unchanged. See `experiments/065-ptq1-prefill-mmq/REPORT.md`.
