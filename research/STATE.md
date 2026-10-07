@@ -42,6 +42,7 @@
 - Experiment 027: active-kernel current-block prefetch has no useful lookahead; 28-byte weight-block spacing complicates vector loads. Static challenge ended before a candidate/event test, so alternate dataflows remain open.
 - Experiment 028: per-thread next-item lookahead was address-safe and emitted active `CCTL.E.PF1/PF2`, but one trace per variant showed 2.3% (distance 1) and 7.4% (distance 2) more plain-kernel time. Reverted at the focused screen; no E2E claim.
 - Experiment 029: `.cg` reached the active plain GEMV's six packed-word loads and retained 74 registers/no spills, but only one candidate trace was captured (4,115 launches; 177.969 ms). No matched control, correctness comparison, or E2E A/B exists; classify as inconclusive. Source was restored and rebuilt; see report for the distinct binary-hash recovery note.
+- Experiment 031: padding PTQ1_0 blocks from 28 to 32 bytes enabled the intended two 128-bit loads and exact outputs, but lost 3.37% at 16K blocks and 21.39% at 65K; reject this layout and its +14.29% payload cost. No runtime integration.
 
 ## Important discoveries
 
@@ -63,7 +64,7 @@
 
 ## Next candidates
 
-1. A different packed-weight staging/dataflow for the 28-byte PTQ1_0 block, only with an implementation-equivalent event screen and correctness proof.
-2. Audit fused-gate non-load reuse or targeted PQ2_0 decode only after a concrete SASS/source premise; maintain identical model and workload conditions.
+1. Screen a no-padding, per-row SoA PTQ1_0 weight layout: contiguous lanes would load the same packed word from adjacent K blocks, preserving the 28-byte/block footprint. Require exact output and implementation-equivalent timings at 40- and 136-block rows before considering loader/runtime integration.
+2. Audit fused-gate non-load work or targeted PQ2_0 decode only after a concrete source/SASS premise; retain matched model conditions.
 
 - Experiment 030: matched default/`.cg`/`.cs` screen completed with three actual-kernel traces per arm (485 target launches each). `.cg` was +128.4% target-kernel time; `.cs` was -0.30% in the kernel screen but lost 0.9–1.1% end-to-end median throughput in the reversed-order 7-rep comparison at contexts 512/4096. Reverted; production source, active source-default library, and backup hashes are intact. No exact correctness comparison was completed, so no candidate was retained. See report 030 and `results/exp030/`.

@@ -195,3 +195,10 @@
 - Two reversed-order, seven-repetition end-to-end comparisons at contexts 512/4096 rejected `.cs`: the matched 60 C pass was -1.10%/-0.91% median decode, with the same direction in the first pass. Both arms had long-context tails; all samples and peaks (6805 MiB) are saved.
 - A fixed-seed completion compare did not complete, so numerical equivalence was not checked. Neither candidate is retained; this is sufficient for rejection but not for a correctness claim. Source and active source-default library remain restored and intact. Temporary candidate binaries were removed after hashes, SASS, traces, and exact patch were preserved. See `experiments/030-ptq1-cache-policy-ab/REPORT.md` and `results/exp030/`.
 - Do not retry these cache modifiers on this active plain specialization without new cache-traffic evidence or a different data-reuse premise. Next investigate a different packed-weight staging/dataflow with a correctness-first event screen.
+
+## Experiment 031: padded PTQ1_0 weight blocks
+
+- A standalone sm_86 block-dot screen kept the packed base-3 decoder, activation layout, and arithmetic fixed while padding each 28-byte PTQ1 block to 32 bytes. It verified all 2.1M and 8.4M trits/output blocks exactly, and Compute Sanitizer memcheck reported zero errors.
+- SASS emitted the intended two `LDG.E.128` loads, but alternating CUDA-event medians lost 3.37% for 16,384 blocks and 21.39% for 65,536 blocks. The format also adds 14.29% weight payload (about 801 MiB at model scale, projection only).
+- Rejected before integration. Source SHA-256 remains `f398417accddf1948fbf12155b4180fd362a3dfea88366ef3980161700d56496`; preserved source-default library SHA-256 is `c828135b126ec507ffbecb4dc11b6a7a9ac5cd0fe050553323d7f35c38fae6c7`. Manager verified the raw sample medians and source/library hashes. See `experiments/031-ptq1-padded-block-loads/REPORT.md` and `results/exp031/`.
+- Next screen: a no-padding SoA block-row layout that coalesces same-word loads across K blocks; proceed to loader/runtime integration only if an implementation-equivalent event test shows a substantial win.
