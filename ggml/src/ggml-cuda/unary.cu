@@ -627,6 +627,33 @@ void ggml_cuda_op_unary_mul(ggml_backend_cuda_context & ctx, ggml_tensor * unary
     }
 }
 
+// Qwen3.5 full-attention gate: evaluate sigmoid(view) * attention output directly,
+// using the source view's per-head stride instead of materializing GGML_OP_CONT.
+void ggml_cuda_op_unary_mul_cont(ggml_backend_cuda_context & ctx, ggml_tensor * cont_node, ggml_tensor * unary_node, ggml_tensor * mul_node) {
+    const ggml_tensor * x = cont_node->src[0];
+    const ggml_tensor * other = (mul_node->src[0] == unary_node) ? mul_node->src[1] : mul_node->src[0];
+
+    GGML_ASSERT(cont_node->op == GGML_OP_CONT);
+    GGML_ASSERT(unary_node->op == GGML_OP_UNARY && unary_node->src[0] == cont_node);
+    GGML_ASSERT(ggml_get_unary_op(unary_node) == GGML_UNARY_OP_SIGMOID);
+    GGML_ASSERT(mul_node->op == GGML_OP_MUL && (mul_node->src[0] == unary_node || mul_node->src[1] == unary_node));
+    GGML_ASSERT(x != nullptr && x->op == GGML_OP_VIEW);
+    GGML_ASSERT(x->type == GGML_TYPE_F32 && other->type == GGML_TYPE_F32 && mul_node->type == GGML_TYPE_F32);
+    GGML_ASSERT(x->ne[0] == 256 && x->ne[1] == 24 && x->ne[2] == cont_node->ne[1] && x->ne[3] == 1);
+    GGML_ASSERT(x->nb[0] == sizeof(float) && x->nb[1] == 2 * x->ne[0] * sizeof(float));
+    GGML_ASSERT(x->nb[2] == x->ne[1] * x->nb[1]);
+    GGML_ASSERT(cont_node->ne[0] == x->ne[0] * x->ne[1] && cont_node->ne[2] == 1 && cont_node->ne[3] == 1);
+    GGML_ASSERT(ggml_are_same_shape(cont_node, other) && ggml_are_same_shape(unary_node, mul_node));
+    GGML_ASSERT(ggml_is_contiguous_1(other) && other->nb[0] == sizeof(float));
+
+    const int64_t k = ggml_nelements(mul_node);
+    const int64_t n = x->ne[0];
+    const int64_t stride_x = x->nb[1] / sizeof(float);
+    cudaStream_t stream = ctx.stream();
+    unary_gated_cuda<op_sigmoid>((const float *) x->data, (const float *) other->data,
+                                 (float *) mul_node->data, k, n, stride_x, n, stream);
+}
+
 /* fused relu + sqr */
 
 void ggml_cuda_op_relu_sqr(ggml_backend_cuda_context & ctx, ggml_tensor * relu_node, ggml_tensor * sqr_node) {

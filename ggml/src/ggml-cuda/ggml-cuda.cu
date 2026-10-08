@@ -3596,6 +3596,36 @@ static int ggml_cuda_try_fuse(ggml_backend_cuda_context * cuda_ctx, ggml_cgraph 
 
     ggml_tensor * node = cgraph->nodes[i];
 
+    // Qwen3.5 full-attention: fold the strided gate CONT into the existing
+    // sigmoid-times-attention kernel for this exact 256 x 24 head layout.
+    if (node->op == GGML_OP_CONT && i + 2 < cgraph->n_nodes &&
+            ggml_can_fuse_subgraph(cgraph, i, { GGML_OP_CONT, GGML_OP_UNARY, GGML_OP_MUL }, { i + 2 })) {
+        ggml_tensor * unary = cgraph->nodes[i + 1];
+        ggml_tensor * mul   = cgraph->nodes[i + 2];
+        const ggml_tensor * x = node->src[0];
+        const ggml_tensor * other = (mul->src[0] == unary) ? mul->src[1] : mul->src[0];
+        const bool exact_gate = node->ne[0] == 6144 && node->ne[1] >= 1 && node->ne[2] == 1 && node->ne[3] == 1 &&
+            unary->src[0] == node && ggml_get_unary_op(unary) == GGML_UNARY_OP_SIGMOID &&
+            (mul->src[0] == unary || mul->src[1] == unary) &&
+            x && x->op == GGML_OP_VIEW && x->type == GGML_TYPE_F32 &&
+            x->ne[0] == 256 && x->ne[1] == 24 && x->ne[2] == node->ne[1] && x->ne[3] == 1 &&
+            x->nb[0] == sizeof(float) && x->nb[1] == 2 * x->ne[0] * sizeof(float) &&
+            x->nb[2] == x->ne[1] * x->nb[1] &&
+            node->type == GGML_TYPE_F32 && unary->type == GGML_TYPE_F32 && mul->type == GGML_TYPE_F32 &&
+            ggml_are_same_shape(node, other) && ggml_are_same_shape(unary, mul) &&
+            ggml_is_contiguous_1(other) && other->nb[0] == sizeof(float) &&
+            ggml_node_get_use_count(cgraph, i) == 1 && ggml_node_get_use_count(cgraph, i + 1) == 1 &&
+            !(node->flags & GGML_TENSOR_FLAG_OUTPUT) && !(unary->flags & GGML_TENSOR_FLAG_OUTPUT) &&
+            node->data && x->data && other->data && mul->data;
+        if (exact_gate) {
+            const int out_nodes[] = { i + 2 };
+            if (ggml_cuda_check_fusion_memory_ranges(cgraph, i, 3, out_nodes, 1)) {
+                ggml_cuda_op_unary_mul_cont(*cuda_ctx, node, unary, mul);
+                return 2;
+            }
+        }
+    }
+
     // Qwen3.5 one-token recurrent site: materialize the full [4,10240] concat
     // and write the exact strided tail view into the cache in the same launch.
     if (node->op == GGML_OP_CONCAT && i + 3 < cgraph->n_nodes && node->type == GGML_TYPE_F32 &&
