@@ -139,7 +139,20 @@ The tested 64/64 single-stage Ampere tile reduced shared K/V storage from 67,584
 
 ## Frequent small decode signatures
 
-The baseline context-512 and 4096 node-level captures also expose several repeated kernels inside the ~1.0 ms/token “Other” family. At context 512 their totals are `cpy_scalar<&cpy_1_scalar<float,float>>` 0.209 ms (112 calls), `concat_cont<unsigned int>` 0.100 ms (48), `unary_gated_op_kernel<&op_silu,float>` 0.096 ms (72), `k_get_rows_float<float,float>` 0.093 ms (50), and `k_bin_bcast<&op_add,float,float,float,...>` 0.086 ms (49). Context-4096 totals are within about 1% of these values. Together these signatures account for roughly 0.584 ms/token, a ceiling before accounting for dependencies or fusion costs—not an expected gain. Raw per-signature timing is in `results/exp053/raw/base_ctx512.profile.json` and `base_ctx4096.profile.json`. Map them to actual graph operations and consumers before selecting one fusion to test.
+The original Exp053 trace found `cpy_scalar<&cpy_1_scalar<float,float>>` at 0.209 ms/token (112 calls), alongside repeated concat, SiLU, gather, and add kernels. Exp060 fused 48 recurrent concat/cache copies and Exp062 fused 24 recurrent SSM/SiLU/L2 sites. Exp083 then mapped and fused 16 full-attention Q-gate copies. The old 112-call count is historical; the current graph has 48 remaining `cpy_scalar` calls. The baseline family totals remain useful ceilings, not expected gains. Raw original signatures: `results/exp053/raw/base_ctx512.profile.json` and `base_ctx4096.profile.json`.
+
+## Exp083 full-attention gate fusion
+
+The current one-token graph starts with 1,360 nodes/replay after Exp062. Exp083 matched 16 exact Qwen3.5 full-attention sites with a strided F32 `[256,24,sequence]` view, `CONT -> SIGMOID -> MUL`, single-use intermediates, and disjoint output. The candidate reads the view directly in the existing sigmoid-times-attention kernel. At each context it removed 16 nodes; `cpy_scalar` fell from 64 to 48 calls/token. A paired 31-replay Nsight Systems profile measured:
+
+| Context | Graph nodes/replay | `cpy_scalar` calls / time | Fused sigmoid calls / time | Summed kernel time/replay |
+|---:|---:|---:|---:|---:|
+| 512 | 1,360 -> 1,344 | 64 / 0.112125 ms -> 48 / 0.082285 ms | 16 / 0.018824 ms -> 16 / 0.021466 ms | 11.726378 -> 11.701206 ms |
+| 4096 | 1,360 -> 1,344 | 64 / 0.112312 ms -> 48 / 0.082965 ms | 16 / 0.018844 ms -> 16 / 0.021676 ms | 12.077187 -> 12.067217 ms |
+
+The net graph-span reduction was about 0.0252 ms/token at context 512 and 0.0100 ms at 4096. Four reversed-order seven-repetition PTQ1_0 pairs improved +0.23%/+0.19%; two pairs per context for PQ2_0 improved +0.22%/+0.14%. PTQ1_0 prefill improved +0.32% at prompt 512 and +0.53% at 4096 in two matched pairs. Sampled peak memory did not increase. The remaining repeated-copy opportunity is 48 linear-attention `final_output` layout copies (0.082 ms/token at context 512); see [Exp083](experiments/083-small-op-fusion/REPORT.md) and `results/exp083/`.
+
+The final code was also compared directly with the frozen project reference in two reversed-order pairs per context, seven repetitions per run. A uniform <=65 C / <=5%-utilization gate was used because the <=60 C gate stopped at the machine's 61 C idle floor. PTQ1_0 decode medians were 77.690->84.234 tok/s at context 512 (+8.42%) and 75.549->81.388 tok/s at 4096 (+7.73%). The measured candidate/reference peak memory was 6,579/6,581 MiB and 6,803/6,805 MiB. See [final results](FINAL_RESULTS.md) and the retained run JSON in `results/exp083/raw/`.
 
 ## Recurrent concat/cache fusion profile (Exp060)
 

@@ -1,5 +1,7 @@
 # RTX 3080 Ternary Bonsai Research
 
+**Final verified research candidate:** commit `62b4b4c` adds a guarded CUDA fusion for 16 repeated Q-gate layout copies. See [final measurements](FINAL_RESULTS.md), [experiment report](experiments/083-small-op-fusion/REPORT.md), and the compressed [research state](research/STATE.md). The active PTQ1_0 GEMV remains the main future optimization target.
+
 This checkout tracks the PrismML `prism` llama.cpp fork and carries a local, reproducible optimization campaign for Ternary Bonsai 2 27B on an RTX 3080 (sm_86).
 
 - [Environment](ENVIRONMENT.md) and [setup](SETUP.md)

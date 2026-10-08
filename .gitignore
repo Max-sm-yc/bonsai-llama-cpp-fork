@@ -199,3 +199,10 @@ AGENTS.local.md
 /results/exp042/resources/width*.txt
 /results/exp042/resources/shape256_k40.txt
 /results/exp042/sass/
+
+# Experiment 083: keep full binary profiles and copied CUDA libraries local;
+# commit compact graph summaries, benchmark JSON, and correctness evidence.
+/results/exp083/raw/*.so
+/results/exp083/raw/*.nsys-rep
+/results/exp083/raw/*.sqlite
+/results/exp083/raw/*.stdout.txt

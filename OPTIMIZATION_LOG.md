@@ -434,3 +434,10 @@
 - The one-stage 128-wide K/V candidate reduced dynamic shared storage from 67,728 to 33,936 B and doubled the context-4096 main grid from 68 to 136 CTAs. However, main+fixup time rose from 0.582777 to 0.657541 ms/token at context 4096 (+12.8%); at context 512 it rose 13.7% with the grid unchanged at 48.
 - The candidate passed 2,994/2,994 CUDA FlashAttention backend cases, and the fixed-seed 32-token model smoke matched. Full correctness and decode A/B were skipped because the focused path regressed. Source was restored.
 - **REVERT / NO CANDIDATE.** Retain the two-stage Ampere kernel and current best. See experiments/082-fa-split-occupancy/REPORT.md and results/exp082/.
+
+## Experiment 083: full-attention Q-gate layout fusion
+
+- Fused 16 exact strided `CONT -> SIGMOID -> MUL` sites into the existing CUDA sigmoid-times-attention kernel. Shape, stride, operation, use-count, graph-output, and alias guards preserve the generic fallback. The graph lost 16 nodes/replay and 16 `cpy_scalar` calls/token.
+- On the RTX 3080, paired seven-repetition PTQ1_0 decode gained +0.23%/+0.19% at contexts 512/4096; PQ2_0 gained +0.22%/+0.14%. PTQ1_0 prefill gained +0.32%/+0.53% at prompts 512/4096. Profiled graph kernel time fell 0.215%/0.083% at contexts 512/4096. Peak VRAM was unchanged.
+- Existing candidate correctness passed (selected CTests 7/7, CUDA backend cases 96/96, both quantized model smokes). A new direct CUDA test passed all five strided sequence lengths and the contiguous fallback, with maximum absolute error 1.19e-7 at a 2e-6 tolerance.
+- Keep as commit `62b4b4c`. The active PTQ1_0 GEMV still dominates decode. The remaining 48 `final_output` layout copies are the next small-op mapping opportunity. See [Exp083 report](experiments/083-small-op-fusion/REPORT.md), `PROFILE.md`, and `results/exp083/`.

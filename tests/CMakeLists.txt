@@ -350,6 +350,9 @@ if (TARGET ggml-cuda)
     target_link_libraries(test-exp062-ssm-l2 PRIVATE ggml-cuda)
     add_test(NAME test-exp062-ssm-l2
         COMMAND bash ${CMAKE_CURRENT_SOURCE_DIR}/run-exp062-ssm-l2.sh $<TARGET_FILE:test-exp062-ssm-l2>)
+
+    llama_build_and_test(test-exp083-unary-mul-cont.cpp)
+    target_link_libraries(test-exp083-unary-mul-cont PRIVATE ggml-cuda)
 endif()
 llama_build_and_test(test-quantize-perf.cpp)
     llama_build_and_test(test-rope.cpp)

@@ -1,6 +1,6 @@
 # Reference baseline
 
-Status: these reference measurements were verified on the RTX 3080 using unmodified PrismML runtime commit `6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17`. The current optimized production-code commit is `c6cdaa5fa62787c97db58d1d2e1db666a4aeddb5`; the newer commits add research records only.
+Status: these reference measurements were verified on the RTX 3080 using unmodified PrismML runtime commit `6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17`. The final optimized production-code commit is `62b4b4c` (based on that same runtime); its current-versus-reference decode comparison is in [FINAL_RESULTS.md](FINAL_RESULTS.md). The original baseline figures below remain unchanged.
 
 ## Conditions
 

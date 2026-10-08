@@ -1,85 +1,111 @@
-# Current results — research in progress
+# Final results
 
-This is the current verified snapshot, not the end of the campaign. The fastest correct implementation remains PTQ1_0 with ROWS=1 planar GEMV and the coordinated QKV RMS/FWHT/Q8 preparation path. Experiments 037–040 screened alternatives without changing production code.
+The final verified code candidate is **62b4b4ce0c2809272b9d69d09f3359abd7111848**, based on the unmodified PrismML runtime at **6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17**. It retains the strongest correct implementation found during the campaign. PTQ1_0 remains the best format for batch-1 decode on this RTX 3080.
+
+A fresh, paired comparison against the frozen project reference measured **+8.42% decode throughput at context 512** and **+7.73% at context 4096**, with peak memory unchanged within 2 MiB. These gains come from one coherent current implementation; they are measured directly and are not the sum of stage-wise experiment deltas.
 
 ## Hardware and software
 
-- GPU: NVIDIA GeForce RTX 3080, GA102, compute capability 8.6, 10 GiB VRAM. Host: Intel Core i7-10700K, 31 GiB RAM, Fedora Linux 43 Workstation, kernel 7.1.8.
-- Driver 580.178.04; CUDA compatibility 13.0; Toolkit/NVCC 13.2.86; GCC 15.3.1; CMake 3.31.11; Ninja 1.13.1; Nsight Systems 2025.6.3.541; Nsight Compute 2026.1.1.0. Full environment is in [ENVIRONMENT.md](ENVIRONMENT.md).
-- Runtime/reference: PrismML `https://github.com/PrismML-Eng/llama.cpp`, branch `prism`, upstream commit `6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17`; project baseline commit `2a6ac568b69a61db0ee151b24c9b2cdb7a4f8a7c`.
-- Current best production code commit: `c6cdaa5fa62787c97db58d1d2e1db666a4aeddb5`; the current tree also includes research records and the direct Exp036 correctness test. Latest code-library SHA-256: `bad70d76b19fdd1b21f61e5c9eb4900b5334c638ff75cdec11f3a4d3b2b28642`.
-- Model repository revision `b072e1d3b35a0a630cece372c2127528e0994386`. PTQ1_0 file: 5,946,648,928 bytes, SHA-256 `53107f530aa52eb00912263ab1ee29bd199261c87cd7b4ad4ca1318c1fe33ee3`. PQ2_0 file: 7,206,168,928 bytes, SHA-256 `3907dc1658db1f78a9826bf8d5bcb8dc65db0d466388937af57f2294fae62ec1`. See [SETUP.md](SETUP.md).
+- GPU: NVIDIA GeForce RTX 3080, GA102, compute capability 8.6, 10 GiB VRAM; CUDA reports 9,867 MiB usable.
+- Host: Intel Core i7-10700K, 31 GiB RAM, Fedora Linux 43 Workstation, kernel 7.1.8.
+- Driver 580.178.04; CUDA compatibility 13.0; Toolkit/NVCC 13.2.86; GCC 15.3.1; CMake 3.31.11; Ninja 1.13.1; Nsight Systems 2025.6.3.541; Nsight Compute 2026.1.1.0. See [ENVIRONMENT.md](ENVIRONMENT.md).
+- Reference runtime: [PrismML llama.cpp](https://github.com/PrismML-Eng/llama.cpp), branch prism, upstream commit 6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17.
+- Frozen project reference: commit 2a6ac568b69a61db0ee151b24c9b2cdb7a4f8a7c.
+- Final optimized code: commit 62b4b4ce0c2809272b9d69d09f3359abd7111848. Candidate CUDA library SHA-256: 14471383ade09fbfb6153970f340119bb91e7bbe27a85bb9c4a2ebbfa2c20f0d.
+- [Model repository](https://huggingface.co/prism-ml/Ternary-Bonsai-2-27B-gguf) revision b072e1d3b35a0a630cece372c2127528e0994386:
+  - PTQ1_0: 5,946,648,928 bytes, SHA-256 53107f530aa52eb00912263ab1ee29bd199261c87cd7b4ad4ca1318c1fe33ee3.
+  - PQ2_0: 7,206,168,928 bytes, SHA-256 3907dc1658db1f78a9826bf8d5bcb8dc65db0d466388937af57f2294fae62ec1.
 
 ## Benchmark method
 
-The reproducible baseline uses seven `llama-bench` repetitions per row with default warmups, a GPU start gate at or below 60°C and 5% utilization, contexts 128/512/2048/4096, and decode length 128. GPU layers 99, Flash Attention on, batch/microbatch 2048/512, F16 KV, and 8 CPU threads are held fixed. Raw samples, standard deviations, latency, and memory telemetry are recorded in JSON under `results/`. `llama-bench` excludes tokenization and sampling.
+All results are from the actual RTX 3080. llama-bench was warmed up and used seven repetitions per process. The model was fully offloaded with 99 GPU layers, Flash Attention enabled, F16 K/V cache, batch/microbatch 2048/512, and 8 CPU threads. Batch-1 decode generated 128 tokens at the stated existing context. Reported decode latency is the median per-run median of the seven measured sample latencies; throughput is the median of the two reversed-order run medians per arm. Tokenization and sampling are excluded.
 
-Exp041 directly compared the frozen project baseline with the current build under isolated matched conditions. Each mode used two reversed-order pairs of seven repetitions, with a fresh ≤60°C / ≤5%-utilization gate before every arm. The original prefill-first matrix remains format reference data; use Exp041 for the current-versus-reference cumulative gain.
+The final frozen-reference comparison ran two reversed-order pairs per context and gated every arm at GPU temperature <=65 C and utilization <=5%. The normal <=60 C gate remained at a 61 C idle floor during the first attempt, so that incomplete refresh was excluded. The completed 65 C-gated comparison used the same gate, configuration, model, and alternating order for both isolated binaries; ldd confirmed each executable loaded libraries from its own build. All eight final run JSON files, telemetry, and the driver transcript are in results/exp083/raw/.
 
-## Original PTQ1_0 and PQ2_0 reference results
+The original baseline matrix and most optimization A/B tests used a <=60 C start gate; their own comparisons remain paired within their campaign. Do not directly mix throughput values across campaigns with different start gates.
 
-Median tokens/s from the original prefill-first baseline matrix:
+## Original PTQ1_0 and PQ2_0 reference matrix
 
-| Format | Prefill at 512 | Prefill at 4096 | Decode at context 512 | Decode at context 4096 | Combined at prompt 4096 | Peak whole-GPU memory |
-|---|---:|---:|---:|---:|---:|---:|
-| PTQ1_0 | 1378.14 | 1331.25 | 46.09 | 39.21 | 426.16 | 6805 MiB |
-| PQ2_0 | 1364.88 | 1326.92 | 31.11 | 25.53 | 346.71 | 7949 MiB |
+Median tokens/s from the original prefill-first seven-repetition baseline matrix:
 
-PTQ1_0 was 53.6% faster than PQ2_0 in the original context-4096 decode matrix, while prefill was nearly tied. The matrix warmed the GPU before decode, so those values are reference records, not the denominator for later isolated A/B results. Both files fit within the RTX 3080's available VRAM.
+| Format | Prefill at 512 | Prefill at 4096 | Decode at context 512 | Decode at context 4096 | Peak whole-GPU memory |
+|---|---:|---:|---:|---:|---:|
+| PTQ1_0 | 1,378.14 | 1,331.25 | 46.09 | 39.21 | 6,805 MiB |
+| PQ2_0 | 1,364.88 | 1,326.92 | 31.11 | 25.53 | 7,949 MiB |
 
-## Current best results
+In that matched format matrix, PTQ1_0 decoded 48.2% faster at context 512 and 53.6% faster at 4096 while prefill was nearly tied. The original matrix ran prefill before decode and warmed the GPU. Its decode numbers are useful format references, but they are not the denominator for the final cumulative speedup.
 
-The current best is PTQ1_0, sm_86 planar batch-1 GEMV with ROWS=1, plus Exp036's guarded coordinated attention RMSNorm/weight/sign/FWHT/Q8 preparation. The Exp036 same-binary A/B measured:
+## Final PTQ1_0 decode against the frozen reference
 
-| Context | Current best median tok/s | Same-binary disabled-path median | Improvement | Peak memory, enabled/disabled |
-|---:|---:|---:|---:|---:|
-| 512 | 83.3458 | 81.9939 | +1.65% | 6803 / 6805 MiB |
-| 4096 | 80.3522 | 79.1268 | +1.55% | 6803 / 6805 MiB |
+| Existing context | Frozen reference | Final candidate | Throughput change | Median latency: reference -> candidate | Peak memory: reference / candidate |
+|---:|---:|---:|---:|---:|---:|
+| 512 | 77.690 tok/s | 84.234 tok/s | **+8.42%** | 1,647.6 -> 1,519.6 ms | 6,581 / 6,579 MiB |
+| 4096 | 75.549 tok/s | 81.388 tok/s | **+7.73%** | 1,694.3 -> 1,572.7 ms | 6,805 / 6,803 MiB |
 
-Each value is the median of two reversed-order seven-repetition run medians. Context-4096 runs had slow tails in both arms; all samples are retained in `results/exp036/`. The incremental Exp036 improvement is verified. Exp010's separate matched ROWS=1-vs-ROWS=4 test measured +5.42%/+5.34% at contexts 512/4096. These stage-wise results are not combined into a single total percentage because they came from different paired campaigns; Exp041 measures the cumulative current-versus-reference change directly.
+Each value is based on two reversed-order run pairs with seven repetitions per run. The two run medians favored the candidate in every pair: 77.779/77.601->84.224/84.245 tok/s at context 512 and 75.503/75.596->81.273/81.503 at 4096. Across the 14 samples per arm, the min-max and sample standard deviation were 76.836-77.933 / 0.298 tok/s (reference) and 80.539-84.369 / 1.113 (candidate) at context 512; at context 4096 they were 72.352-75.637 / 1.102 and 63.075-81.902 / 4.974. One candidate context-4096 slow-tail sample drives much of that spread; it is retained, and no fastest-run selection is used. The sample arrays, run medians, latencies, and GPU telemetry are in results/exp083/raw/final65_ptq1_decode_ctx*.json.
 
-### Direct frozen-reference comparison
+## Final candidate format results
 
-The Exp041 comparison used the original project baseline commit `2a6ac568b69a61db0ee151b24c9b2cdb7a4f8a7c` and current production code `c6cdaa5fa62787c97db58d1d2e1db666a4aeddb5`; both use PrismML runtime source commit `6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17`. Each build had an isolated RUNPATH and `ldd` resolution. The following values are medians of two reversed-order run medians (14 samples per arm/context):
+The following are latest verified absolute measurements for the final code. PTQ1_0 decode values above are from the direct frozen-reference comparison. The incremental PTQ1_0 prefill and PQ2_0 decode values below come from paired Exp083 comparisons against the immediately preceding implementation; they are not presented as fresh direct comparisons against the frozen project reference.
 
-| Workload | Frozen reference | Current best | Change |
-|---|---:|---:|---:|
-| Decode, context 512 | 78.106 tok/s | 83.433 tok/s | +6.82% |
-| Decode, context 4096 | 75.533 tok/s | 79.882 tok/s | +5.76% |
-| Combined, prompt 512 + 128 generated | 314.372 tok/s | 332.196 tok/s | +5.67% |
-| Combined, prompt 4096 + 128 generated | 860.947 tok/s | 877.786 tok/s | +1.96% |
-| Prefill at 128 tokens | 1292.995 tok/s | 1291.875 tok/s | -0.09% |
-| Prefill at 512 tokens | 1377.400 tok/s | 1377.395 tok/s | -0.00% |
-| Prefill at 2048 tokens | 1355.280 tok/s | 1355.505 tok/s | +0.02% |
-| Prefill at 4096 tokens | 1332.110 tok/s | 1332.260 tok/s | +0.01% |
+| Format / workload | Context | Final candidate tok/s | Immediate-parent tok/s | Exp083 change | Peak memory |
+|---|---:|---:|---:|---:|---:|
+| PTQ1_0 prefill | 512 | 1,394.35 | 1,389.98 | +0.32% | 6,569 MiB |
+| PTQ1_0 prefill | 4096 | 1,350.34 | 1,343.21 | +0.53% | 6,775 MiB |
+| PQ2_0 decode | 512 | 70.937 | 70.783 | +0.22% | 7,723 / 7,725 MiB |
+| PQ2_0 decode | 4096 | 69.182 | 69.083 | +0.14% | 7,947 / 7,949 MiB |
 
-Decode and combined peak memory was 6,805 MiB for the reference and 6,803 MiB for current. The full sample arrays, per-run telemetry, build hashes, and exact options are in [the Exp041 report](experiments/041-reference-current-ab/REPORT.md) and `results/reference_ab/`. Context-4096 decode included rare slow-tail samples in both builds; no fastest-run selection was used.
+PQ2_0 has not received a format-specific production optimization. The shared graph fusion in Exp083 applies to both formats. Its final observed decode is slower and uses about 1.1 GiB more peak VRAM than PTQ1_0 in the original format comparison, so PTQ1_0 is the recommended format for this GPU and workload.
 
-The matched comparison verifies +6.82%/+5.76% total decode improvement. This is a directly measured campaign result, not a product of the separate Exp010 and Exp036 deltas. Current prefill is unchanged within measurement noise. PQ2_0 has not been optimized; its best verified values remain the original baseline above.
+## Performance progression across retained changes
 
-### Performance progression across retained changes
+Stage-wise experiments used their own matched controls and sometimes different thermal gates. These rows show measured effects, not factors that can be multiplied to estimate a total. The final row is the direct cumulative comparison above.
 
-| Code commit | Format / change | Decode at context 512 / 4096 | Matched result | Prefill at 4096 | Decision |
-|---|---|---:|---:|---:|---|
-| `2a6ac56` | PTQ1_0 reference runtime | 46.09 / 39.21 tok/s | Original matrix; not comparable with isolated A/B | 1331.25 tok/s | Baseline |
-| `2a6ac56` | PQ2_0 reference runtime | 31.11 / 25.53 tok/s | Original matrix; not optimized | 1326.92 tok/s | Baseline |
-| `9fa9720` | PTQ1_0 ROWS=1 planar GEMV | 82.22 / 79.70 tok/s | +5.42% / +5.34% vs matched ROWS=4 | Not remeasured | Keep |
-| `c6cdaa5` | ROWS=1 + coordinated QKV preparation | 83.35 / 80.35 tok/s | +1.65% / +1.55% vs same-binary disabled path | Not remeasured | Current best |
-| `c6cdaa5` | Same current build vs frozen project baseline | 83.43 / 79.88 tok/s | +6.82% / +5.76% vs matched baseline | 1332.26 tok/s | Current verified |
+| Code commit / milestone | Change | Measured result |
+|---|---|---|
+| 2a6ac56 | Frozen PTQ1_0 reference | Original matrix: 46.09 / 39.21 tok/s at contexts 512 / 4096 |
+| 9fa9720 | Exp010, ROWS=1 planar GEMV | 82.22 / 79.70 tok/s; +5.42% / +5.34% vs matched ROWS=4 |
+| c6cdaa5 | Exp036, coordinated QKV RMS/FWHT/Q8 preparation | 83.35 / 80.35 tok/s; +1.65% / +1.55% vs same-binary disabled path |
+| 4cb2072 | Exp060, recurrent concat/cache-tail fusion | +0.95% / +0.90% in its reversed-order decode pairs |
+| ffb0ef3 | Exp062, recurrent SSM/SiLU/L2 fusion | 84.41 / 81.88 tok/s; +0.037% at 512 (flat) / +0.231% at 4096 vs control |
+| 62b4b4c | Exp083, full-attention strided gate fusion | 84.49 / 82.09 tok/s; +0.23% / +0.19% vs immediate parent in the <=60 C incremental campaign |
+| 62b4b4c | Fresh direct frozen-reference comparison | 84.23 / 81.39 tok/s; +8.42% / +7.73% vs same-session reference under the <=65 C gate |
 
-## Correctness and profile
+## Correctness
 
-- `bash tests/run_correctness.sh`: selected CTests 5/5, including the direct fused RMS/FWHT/Q8 GPU reference test; CUDA-vs-CPU PTQ1_0/PQ2_0 backend cases 96/96; fixed-seed 32-token model smokes for both formats passed. The fused-kernel test's max error was 0.54 stored Q8 scale for one and three rows, with exact block sums. The PTQ1_0 normalized model completion matched the previous reference exactly.
-- The post-Exp036 Nsight Systems context-512 trace still ranks PTQ1_0 batch-1 GEMV first at 1.166 s / 61.22% of mixed-workload GPU kernel time. PTQ1_0 GEMM is 12.7%; activation prep and remaining RMSNorm are 5.2%; GDN is 4.6%. The trace is setup plus decode, not decode-only attribution.
-- Nsight Compute hardware counters are blocked by `ERR_NVGPUCTRPERM`; no system-wide permission change was made. See [PROFILE.md](PROFILE.md).
+- The final selected CUDA CTest set passed **7/7**, including the new Exp083 strided-view test.
+- CUDA-versus-CPU PTQ1_0/PQ2_0 backend cases passed **96/96** under the campaign's 5e-4 NMSE criterion.
+- Fixed-seed 32-token PTQ1_0 and PQ2_0 CUDA model smokes passed. PTQ1_0 normalized completion text matched the reference. The saved baseline smoke result retains its original SHA-256, 2a502e2d53f1ccb88c6944e4f84dc0f27f6b5ca8ea9e95e324084a0c20f7454d.
+- The new CUDA fusion test covered sequence lengths 1, 2, 128, 512, and 4096 plus a contiguous-source fallback. All six cases passed against a host scalar reference at 2e-6 tolerance; maximum absolute error was 1.1920929e-7.
+- See [tests/README.md](tests/README.md), [tests/run_correctness.sh](tests/run_correctness.sh), and the [Exp083 report](experiments/083-small-op-fusion/REPORT.md).
 
-## Retained optimizations, failed experiments, and next work
+## Bottlenecks and research summary
 
-- Retained: Exp010's ROWS=1 scheduling for the active sm_86 planar GEMV; Exp036's exact-shape/use-count-guarded coordinated QKV preparation, default on and disableable with `GGML_CUDA_RMS_FWHT_Q8=0`.
-- Exp037 tested CTA-local shared-memory staging of contiguous 28-byte AoS blocks. It matched codes/outputs and passed memcheck, but the production-equivalent work-plus-fold screen lost 9.85% at 40 blocks and 12.86% at 136 blocks. It was rejected before model integration.
-- Exp038 tested a warp-register transpose with contiguous packed loads. It was exact, but the four-lane-per-warp dot mapping and seven shuffles lost 142%/175% at 40/136 blocks. It was rejected before model integration.
-- Exp039 tested fixed-point floor-difference trit extraction in the active planar work-plus-fold path. Exhaustive byte/qh and full-row checks were exact, but the candidate lost 2.62% at 40 blocks and 4.28% at 136 blocks; it emitted 490 SASS instructions versus 338 for recurrence work. It was rejected before model integration.
-- Exp040 tested `cp.async` copies of the next per-thread K-block while decoding the current item. SASS confirmed async copies and exactness passed, but work-plus-fold lost 10.40% at 40 blocks and 23.16% at 136. It was rejected before model integration.
-- Other important negative results: 2-bit side encodings, pairwise radix-3 decode, warp/multiwarp reductions, cooperative trit recurrence, strip mining, cache modifiers, next-item prefetch, padded 32-byte blocks, and the selective SoA sidecar did not improve the active decode path. The compact index and report links are in [research/EXPERIMENTS.md](research/EXPERIMENTS.md).
-- Architectural finding: active decode uses a dedicated planar Q8_1 / PTQ1_0 GEMV; generic `mmvq.cu` tuning does not reach it. CUDA Graphs are active, and the current PTQ1_0 GEMV remains the dominant measured family.
-- Next: autotune the active GEMV CTA width (64/128/256/512 threads) together with compatible row-tile geometry; require active-planar correctness, a focused gain, and matched E2E decode improvement.
+The steady-state decode profile ranks the active PTQ1_0 batch-1 GEMV first: about **9.0 ms/token**, approximately **75% of summed kernel time** at contexts 512 and 4096. Other measured families are QKV activation preparation at about 0.75 ms, GDN at 0.50 ms, remaining RMSNorm at 0.36 ms, and attention at about 0.23/0.58 ms. The 48 remaining linear-attention final_output layout copies cost about 0.082 ms/token at context 512. Nsight Compute hardware counters remain unavailable with ERR_NVGPUCTRPERM; payload-equivalent and synthetic bandwidth figures do not establish actual GEMV DRAM throughput.
+
+The campaign covered the active PTQ1_0 GEMV encoding and scheduling, memory/cache behavior, tensor-core alternatives, model graph fusions, attention, MTP, and prefill scheduling. Successful production changes were ROWS=1 planar GEMV scheduling, coordinated QKV activation preparation, recurrent concat/cache fusion, recurrent SSM/L2 fusion, and the Exp083 Q-gate fusion. The last fusion removed 16 graph nodes and 16 cpy_scalar calls/token, but its end-to-end gain is necessarily small while GEMV dominates.
+
+Important negative findings:
+
+- LUT, floor-difference, direct 2-bit, pairwise, warp transpose, shared staging, and cp.async trit-decoder/GEMV variants were exact in some cases but slower or unsuitable for the active path.
+- Generic prefetch and GEMV geometry edits did not reach the dedicated sm_86 PTQ1_0 batch-1 planar kernel. Cache modifiers, padding, and sidecar layouts did not produce a repeatable model gain; maximum L2 persistence regressed decode.
+- An int8 Tensor Core GEMV mapping expands weights and wastes most output columns at batch one; PTQ1_0 prefill already uses an sm_86 int8 Tensor Core MMQ path.
+- The lower-shared-memory FlashAttention split doubled the long-context grid but regressed attention by 12.8% at context 4096 and 13.7% at 512.
+- Adaptive prompt ubatch selection improved long prefill/combined cases but regressed context-4096 batch-1 decode by about 1.8%, so the default remains ubatch 512.
+- The PQ2_0+MTP bundle did not meet correctness and long-context performance requirements; it was not promoted.
+
+See the experiment index and individual reports for measured negative results.
+
+## Future experiments
+
+1. Map the remaining 48 final_output CONT copies to their actual consumers. This is the best small-op opportunity; the estimated ceiling is below 0.8% at context 512, so require matched decode improvement before keeping a fusion.
+2. Keep PTQ1_0 GEMV as the main research target. Previous screens exhausted straightforward decoder substitutions, byte staging, simple tensor-core expansion, and owner-count reductions that preserve the exact four-stream FP32 order. A worthwhile next attempt needs a new dataflow or hardware-measured bottleneck premise.
+3. Revisit actual memory-versus-integer-pipeline balance when Nsight Compute counters are available without system-wide permission changes. Current synthetic bandwidth estimates are not proof of GEMV's limiting resource.
+4. Re-profile after any larger gain; then re-rank QKV preparation, GDN, attention, and remaining copies.
+
+## Reproduction
+
+- Run the baseline matrix: python3 benchmark/run.py --output results/latest.json.
+- Run selected correctness checks: bash tests/run_correctness.sh.
+- Reproduce the final direct PTQ1_0 comparison: python3 experiments/083-small-op-fusion/run_final_reference_ab.py.
+- Read [SETUP.md](SETUP.md), [ENVIRONMENT.md](ENVIRONMENT.md), [BASELINE.md](BASELINE.md), [PROFILE.md](PROFILE.md), [research/STATE.md](research/STATE.md), and the [Exp083 report](experiments/083-small-op-fusion/REPORT.md).

@@ -1,0 +1,299 @@
+{
+  "schema_version": 1,
+  "timestamp_utc": "2026-10-08T00:15:34.542475+00:00",
+  "hardware": {
+    "gpu": "NVIDIA GeForce RTX 3080",
+    "compute_capability": "8.6",
+    "vram_mib": 10240
+  },
+  "configuration": {
+    "contexts": [
+      512
+    ],
+    "decode_tokens": 128,
+    "repetitions": 7,
+    "warmup": "llama-bench default warmups enabled",
+    "n_gpu_layers": 99,
+    "flash_attention": "on",
+    "batch_size": 2048,
+    "ubatch_size": 512,
+    "kv_type": "f16",
+    "cpu_threads": 8,
+    "cooldown_temperature_c": 60.0,
+    "timing_scope": "llama-bench excludes tokenization and sampling; combined mode includes prompt evaluation and model token generation"
+  },
+  "runs": [
+    {
+      "format": "PTQ1_0",
+      "model": "models/Ternary-Bonsai-2-27B-PTQ1_0.gguf",
+      "mode": "prefill",
+      "command": [
+        "/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/llama-bench",
+        "-m",
+        "/home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PTQ1_0.gguf",
+        "-ngl",
+        "99",
+        "-fa",
+        "on",
+        "-b",
+        "2048",
+        "-ub",
+        "512",
+        "-ctk",
+        "f16",
+        "-ctv",
+        "f16",
+        "-t",
+        "8",
+        "-r",
+        "7",
+        "-o",
+        "json",
+        "-p",
+        "512",
+        "-n",
+        "0",
+        "-d",
+        "0"
+      ],
+      "exit_code": 0,
+      "gpu_memory_before": {
+        "memory_used_mib": 173.0,
+        "utilization_percent": 0.0,
+        "temperature_c": 58.0,
+        "power_w": 180.69,
+        "sm_clock_mhz": 1980.0
+      },
+      "gpu_memory_peak": {
+        "memory_used_mib": 6569.0,
+        "utilization_percent": 83.0,
+        "temperature_c": 64.0,
+        "power_w": 212.34,
+        "sm_clock_mhz": 1890.0
+      },
+      "gpu_memory_increase_mib": 6396.0,
+      "gpu_samples": [
+        {
+          "memory_used_mib": 173.0,
+          "utilization_percent": 0.0,
+          "temperature_c": 58.0,
+          "power_w": 180.69,
+          "sm_clock_mhz": 1980.0
+        },
+        {
+          "memory_used_mib": 397.0,
+          "utilization_percent": 3.0,
+          "temperature_c": 58.0,
+          "power_w": 127.92,
+          "sm_clock_mhz": 1980.0
+        },
+        {
+          "memory_used_mib": 397.0,
+          "utilization_percent": 0.0,
+          "temperature_c": 58.0,
+          "power_w": 125.57,
+          "sm_clock_mhz": 1980.0
+        },
+        {
+          "memory_used_mib": 5793.0,
+          "utilization_percent": 64.0,
+          "temperature_c": 58.0,
+          "power_w": 125.39,
+          "sm_clock_mhz": 1980.0
+        },
+        {
+          "memory_used_mib": 5793.0,
+          "utilization_percent": 91.0,
+          "temperature_c": 58.0,
+          "power_w": 126.83,
+          "sm_clock_mhz": 1980.0
+        },
+        {
+          "memory_used_mib": 5981.0,
+          "utilization_percent": 50.0,
+          "temperature_c": 58.0,
+          "power_w": 126.27,
+          "sm_clock_mhz": 1980.0
+        },
+        {
+          "memory_used_mib": 6551.0,
+          "utilization_percent": 98.0,
+          "temperature_c": 63.0,
+          "power_w": 152.19,
+          "sm_clock_mhz": 1875.0
+        },
+        {
+          "memory_used_mib": 6569.0,
+          "utilization_percent": 83.0,
+          "temperature_c": 64.0,
+          "power_w": 212.34,
+          "sm_clock_mhz": 1890.0
+        },
+        {
+          "memory_used_mib": 6569.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 65.0,
+          "power_w": 274.03,
+          "sm_clock_mhz": 1860.0
+        },
+        {
+          "memory_used_mib": 6569.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 65.0,
+          "power_w": 312.67,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 6569.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 65.0,
+          "power_w": 343.94,
+          "sm_clock_mhz": 1845.0
+        },
+        {
+          "memory_used_mib": 6569.0,
+          "utilization_percent": 98.0,
+          "temperature_c": 65.0,
+          "power_w": 344.15,
+          "sm_clock_mhz": 1875.0
+        },
+        {
+          "memory_used_mib": 6569.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 66.0,
+          "power_w": 343.38,
+          "sm_clock_mhz": 1830.0
+        },
+        {
+          "memory_used_mib": 6569.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 65.0,
+          "power_w": 341.06,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 6569.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 66.0,
+          "power_w": 343.42,
+          "sm_clock_mhz": 1845.0
+        },
+        {
+          "memory_used_mib": 6569.0,
+          "utilization_percent": 98.0,
+          "temperature_c": 66.0,
+          "power_w": 343.54,
+          "sm_clock_mhz": 1875.0
+        },
+        {
+          "memory_used_mib": 6569.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 66.0,
+          "power_w": 342.51,
+          "sm_clock_mhz": 1830.0
+        },
+        {
+          "memory_used_mib": 173.0,
+          "utilization_percent": 75.0,
+          "temperature_c": 61.0,
+          "power_w": 313.25,
+          "sm_clock_mhz": 1980.0
+        }
+      ],
+      "results": [
+        {
+          "test": null,
+          "prompt_tokens": 512,
+          "decode_tokens": 0,
+          "prefilled_context_tokens": 0,
+          "context_length_tokens": 512,
+          "average_tokens_per_second": 1388.328218,
+          "stddev_tokens_per_second": 15.88945,
+          "mean_latency_ms": 368.83083,
+          "stddev_latency_ms": 4.277098,
+          "sample_tokens_per_second": [
+            1356.46,
+            1384.77,
+            1401.3,
+            1401.76,
+            1382.87,
+            1396.84,
+            1394.3
+          ],
+          "sample_latency_ns": [
+            377452698,
+            369737050,
+            365374888,
+            365254802,
+            370245382,
+            366541039,
+            367209952
+          ],
+          "runtime_row": {
+            "build_commit": "e4ee842",
+            "build_number": 128,
+            "cpu_info": "Intel(R) Core(TM) i7-10700K CPU @ 3.80GHz",
+            "gpu_info": "NVIDIA GeForce RTX 3080",
+            "backends": "CUDA",
+            "model_filename": "/home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PTQ1_0.gguf",
+            "model_type": "qwen35 27B PTQ1_0 - 1.75 bpw ternary (group 128)",
+            "model_size": 5935527936,
+            "model_n_params": 26895998464,
+            "n_batch": 2048,
+            "n_ubatch": 512,
+            "n_threads": 8,
+            "cpu_mask": "0x0",
+            "cpu_strict": false,
+            "poll": 50,
+            "type_k": "f16",
+            "type_v": "f16",
+            "n_gpu_layers": 99,
+            "n_cpu_moe": 0,
+            "split_mode": "layer",
+            "main_gpu": 0,
+            "no_kv_offload": false,
+            "flash_attn": 1,
+            "devices": "auto",
+            "tensor_split": "0.00",
+            "tensor_buft_overrides": "none",
+            "load_mode": "auto",
+            "embeddings": false,
+            "no_op_offload": 0,
+            "no_host": false,
+            "fit_target": 0,
+            "fit_min_ctx": 0,
+            "n_prompt": 512,
+            "n_gen": 0,
+            "n_depth": 0,
+            "test_time": "2026-10-08T00:15:31Z",
+            "avg_ns": 368830830,
+            "stddev_ns": 4277098,
+            "avg_ts": 1388.328218,
+            "stddev_ts": 15.88945,
+            "samples_ns": [
+              377452698,
+              369737050,
+              365374888,
+              365254802,
+              370245382,
+              366541039,
+              367209952
+            ],
+            "samples_ts": [
+              1356.46,
+              1384.77,
+              1401.3,
+              1401.76,
+              1382.87,
+              1396.84,
+              1394.3
+            ]
+          },
+          "median_tokens_per_second": 1394.3,
+          "min_tokens_per_second": 1356.46,
+          "max_tokens_per_second": 1401.76
+        }
+      ]
+    }
+  ]
+}

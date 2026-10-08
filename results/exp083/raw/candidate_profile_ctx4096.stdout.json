@@ -1,0 +1,51 @@
+[
+  {
+    "build_commit": "e4ee842",
+    "build_number": 128,
+    "cpu_info": "Intel(R) Core(TM) i7-10700K CPU @ 3.80GHz",
+    "gpu_info": "NVIDIA GeForce RTX 3080",
+    "backends": "CUDA",
+    "model_filename": "models/Ternary-Bonsai-2-27B-PTQ1_0.gguf",
+    "model_type": "qwen35 27B PTQ1_0 - 1.75 bpw ternary (group 128)",
+    "model_size": 5935527936,
+    "model_n_params": 26895998464,
+    "n_batch": 2048,
+    "n_ubatch": 512,
+    "n_threads": 8,
+    "cpu_mask": "0x0",
+    "cpu_strict": false,
+    "poll": 50,
+    "type_k": "f16",
+    "type_v": "f16",
+    "n_gpu_layers": 99,
+    "n_cpu_moe": 0,
+    "split_mode": "layer",
+    "main_gpu": 0,
+    "no_kv_offload": false,
+    "flash_attn": 1,
+    "devices": "auto",
+    "tensor_split": "0.00",
+    "tensor_buft_overrides": "none",
+    "load_mode": "auto",
+    "embeddings": false,
+    "no_op_offload": 0,
+    "no_host": false,
+    "fit_target": 0,
+    "fit_min_ctx": 0,
+    "n_prompt": 0,
+    "n_gen": 16,
+    "n_depth": 4096,
+    "test_time": "2026-10-07T23:28:42Z",
+    "avg_ns": 223664583,
+    "stddev_ns": 17165558,
+    "avg_ts": 71.746987,
+    "stddev_ts": 5.506357,
+    "samples_ns": [ 235802466, 211526700 ],
+    "samples_ts": [ 67.8534, 75.6406 ]
+  }
+]
+Collecting data...
+Generating '/tmp/nsys-report-6b28.qdstrm'
+[1/1] [0%                          ] candidate_ctx4096.nsys-rep[1/1] [0%                          ] candidate_ctx4096.nsys-rep[1/1] [7%                          ] candidate_ctx4096.nsys-rep[1/1] [13%                         ] candidate_ctx4096.nsys-rep[1/1] [==20%                       ] candidate_ctx4096.nsys-rep[1/1] [====26%                     ] candidate_ctx4096.nsys-rep[1/1] [=====32%                    ] candidate_ctx4096.nsys-rep[1/1] [=======39%                  ] candidate_ctx4096.nsys-rep[1/1] [=========45%                ] candidate_ctx4096.nsys-rep[1/1] [===========50%              ] candidate_ctx4096.nsys-rep[1/1] [========================100%] candidate_ctx4096.nsys-rep[1/1] [========================100%] candidate_ctx4096.nsys-rep
+Generated:
+	/home/maxsun/autonomous_projects/.worktrees/exp083-small-op-fusion/results/exp083/raw/candidate_ctx4096.nsys-rep
