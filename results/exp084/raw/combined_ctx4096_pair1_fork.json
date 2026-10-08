@@ -1,0 +1,2440 @@
+{
+  "schema_version": 1,
+  "timestamp_utc": "2026-10-08T03:29:12.128455+00:00",
+  "hardware": {
+    "gpu": "NVIDIA GeForce RTX 3080",
+    "compute_capability": "8.6",
+    "vram_mib": 10240
+  },
+  "configuration": {
+    "contexts": [
+      4096
+    ],
+    "decode_tokens": 128,
+    "repetitions": 7,
+    "warmup": "llama-bench default warmups enabled",
+    "n_gpu_layers": 99,
+    "flash_attention": "on",
+    "batch_size": 2048,
+    "ubatch_size": 512,
+    "kv_type": "f16",
+    "cpu_threads": 8,
+    "cooldown_temperature_c": 65.0,
+    "timing_scope": "llama-bench excludes tokenization and sampling; combined mode includes prompt evaluation and model token generation"
+  },
+  "runs": [
+    {
+      "format": "PTQ1_0",
+      "model": "models/Ternary-Bonsai-2-27B-PTQ1_0.gguf",
+      "mode": "combined",
+      "command": [
+        "/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/llama-bench",
+        "-m",
+        "/home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PTQ1_0.gguf",
+        "-ngl",
+        "99",
+        "-fa",
+        "on",
+        "-b",
+        "2048",
+        "-ub",
+        "512",
+        "-ctk",
+        "f16",
+        "-ctv",
+        "f16",
+        "-t",
+        "8",
+        "-r",
+        "7",
+        "-o",
+        "json",
+        "-p",
+        "0",
+        "-n",
+        "0",
+        "-pg",
+        "4096,128"
+      ],
+      "exit_code": 0,
+      "gpu_memory_before": {
+        "memory_used_mib": 173.0,
+        "utilization_percent": 0.0,
+        "temperature_c": 65.0,
+        "power_w": 31.27,
+        "sm_clock_mhz": 210.0
+      },
+      "gpu_memory_peak": {
+        "memory_used_mib": 6803.0,
+        "utilization_percent": 99.0,
+        "temperature_c": 78.0,
+        "power_w": 340.52,
+        "sm_clock_mhz": 1905.0
+      },
+      "gpu_memory_increase_mib": 6630.0,
+      "gpu_samples": [
+        {
+          "memory_used_mib": 173.0,
+          "utilization_percent": 0.0,
+          "temperature_c": 65.0,
+          "power_w": 31.27,
+          "sm_clock_mhz": 210.0
+        },
+        {
+          "memory_used_mib": 190.0,
+          "utilization_percent": 0.0,
+          "temperature_c": 66.0,
+          "power_w": 34.4,
+          "sm_clock_mhz": 1530.0
+        },
+        {
+          "memory_used_mib": 397.0,
+          "utilization_percent": 0.0,
+          "temperature_c": 68.0,
+          "power_w": 44.61,
+          "sm_clock_mhz": 1845.0
+        },
+        {
+          "memory_used_mib": 5793.0,
+          "utilization_percent": 20.0,
+          "temperature_c": 68.0,
+          "power_w": 55.72,
+          "sm_clock_mhz": 1845.0
+        },
+        {
+          "memory_used_mib": 5793.0,
+          "utilization_percent": 91.0,
+          "temperature_c": 68.0,
+          "power_w": 93.2,
+          "sm_clock_mhz": 1965.0
+        },
+        {
+          "memory_used_mib": 5793.0,
+          "utilization_percent": 91.0,
+          "temperature_c": 69.0,
+          "power_w": 117.47,
+          "sm_clock_mhz": 1965.0
+        },
+        {
+          "memory_used_mib": 6791.0,
+          "utilization_percent": 72.0,
+          "temperature_c": 74.0,
+          "power_w": 144.38,
+          "sm_clock_mhz": 1845.0
+        },
+        {
+          "memory_used_mib": 6791.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 75.0,
+          "power_w": 208.82,
+          "sm_clock_mhz": 1830.0
+        },
+        {
+          "memory_used_mib": 6791.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 76.0,
+          "power_w": 252.19,
+          "sm_clock_mhz": 1830.0
+        },
+        {
+          "memory_used_mib": 6791.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 76.0,
+          "power_w": 310.2,
+          "sm_clock_mhz": 1770.0
+        },
+        {
+          "memory_used_mib": 6791.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 76.0,
+          "power_w": 344.93,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 6791.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 77.0,
+          "power_w": 344.32,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 6791.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 77.0,
+          "power_w": 342.16,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 6791.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 77.0,
+          "power_w": 340.7,
+          "sm_clock_mhz": 1770.0
+        },
+        {
+          "memory_used_mib": 6791.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 77.0,
+          "power_w": 343.38,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 6791.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 78.0,
+          "power_w": 343.33,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 6791.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 78.0,
+          "power_w": 344.49,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 6793.0,
+          "utilization_percent": 80.0,
+          "temperature_c": 76.0,
+          "power_w": 338.9,
+          "sm_clock_mhz": 1920.0
+        },
+        {
+          "memory_used_mib": 6793.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 78.0,
+          "power_w": 344.21,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 6793.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 78.0,
+          "power_w": 344.16,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 6793.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 78.0,
+          "power_w": 343.12,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 6793.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 78.0,
+          "power_w": 345.42,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 6793.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 78.0,
+          "power_w": 343.5,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 6793.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 79.0,
+          "power_w": 343.69,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 6793.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 78.0,
+          "power_w": 342.37,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 6793.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 78.0,
+          "power_w": 343.51,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 6793.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 79.0,
+          "power_w": 343.41,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 6793.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 79.0,
+          "power_w": 343.61,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 6793.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 79.0,
+          "power_w": 343.07,
+          "sm_clock_mhz": 1770.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 78.0,
+          "power_w": 340.52,
+          "sm_clock_mhz": 1905.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 78.0,
+          "power_w": 340.79,
+          "sm_clock_mhz": 1905.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 78.0,
+          "power_w": 340.31,
+          "sm_clock_mhz": 1905.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 78.0,
+          "power_w": 339.6,
+          "sm_clock_mhz": 1875.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 78.0,
+          "power_w": 342.21,
+          "sm_clock_mhz": 1890.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 79.0,
+          "power_w": 342.68,
+          "sm_clock_mhz": 1845.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 79.0,
+          "power_w": 344.07,
+          "sm_clock_mhz": 1785.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 79.0,
+          "power_w": 343.55,
+          "sm_clock_mhz": 1785.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 79.0,
+          "power_w": 343.35,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 80.0,
+          "power_w": 345.01,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 80.0,
+          "power_w": 342.51,
+          "sm_clock_mhz": 1785.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 80.0,
+          "power_w": 343.38,
+          "sm_clock_mhz": 1785.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 80.0,
+          "power_w": 344.52,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 80.0,
+          "power_w": 343.32,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 80.0,
+          "power_w": 343.85,
+          "sm_clock_mhz": 1785.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 80.0,
+          "power_w": 343.49,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 80.0,
+          "power_w": 343.39,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 80.0,
+          "power_w": 339.76,
+          "sm_clock_mhz": 1890.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 80.0,
+          "power_w": 341.47,
+          "sm_clock_mhz": 1905.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 80.0,
+          "power_w": 344.37,
+          "sm_clock_mhz": 1875.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 79.0,
+          "power_w": 342.06,
+          "sm_clock_mhz": 1860.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 80.0,
+          "power_w": 344.16,
+          "sm_clock_mhz": 1890.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 94.0,
+          "temperature_c": 80.0,
+          "power_w": 343.98,
+          "sm_clock_mhz": 1920.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 80.0,
+          "power_w": 344.1,
+          "sm_clock_mhz": 1755.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 80.0,
+          "power_w": 343.45,
+          "sm_clock_mhz": 1785.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 81.0,
+          "power_w": 343.83,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 81.0,
+          "power_w": 343.66,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 81.0,
+          "power_w": 342.18,
+          "sm_clock_mhz": 1770.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 81.0,
+          "power_w": 343.84,
+          "sm_clock_mhz": 1785.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 81.0,
+          "power_w": 343.62,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 81.0,
+          "power_w": 344.46,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 81.0,
+          "power_w": 343.79,
+          "sm_clock_mhz": 1770.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 81.0,
+          "power_w": 343.57,
+          "sm_clock_mhz": 1785.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 82.0,
+          "power_w": 345.62,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 81.0,
+          "power_w": 341.26,
+          "sm_clock_mhz": 1890.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 81.0,
+          "power_w": 343.22,
+          "sm_clock_mhz": 1890.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 81.0,
+          "power_w": 345.12,
+          "sm_clock_mhz": 1875.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 81.0,
+          "power_w": 341.34,
+          "sm_clock_mhz": 1860.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 80.0,
+          "power_w": 339.43,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 80.0,
+          "power_w": 326.98,
+          "sm_clock_mhz": 1770.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 79.0,
+          "power_w": 309.35,
+          "sm_clock_mhz": 1590.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 79.0,
+          "power_w": 295.32,
+          "sm_clock_mhz": 1590.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 79.0,
+          "power_w": 278.83,
+          "sm_clock_mhz": 1605.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 80.0,
+          "power_w": 269.04,
+          "sm_clock_mhz": 1620.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 80.0,
+          "power_w": 269.11,
+          "sm_clock_mhz": 1755.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 82.0,
+          "power_w": 284.42,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 82.0,
+          "power_w": 308.73,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 82.0,
+          "power_w": 331.54,
+          "sm_clock_mhz": 1785.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 82.0,
+          "power_w": 341.58,
+          "sm_clock_mhz": 1785.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 82.0,
+          "power_w": 344.99,
+          "sm_clock_mhz": 1785.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 83.0,
+          "power_w": 344.08,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 86.0,
+          "temperature_c": 83.0,
+          "power_w": 340.34,
+          "sm_clock_mhz": 1890.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 82.0,
+          "power_w": 343.83,
+          "sm_clock_mhz": 1875.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 82.0,
+          "power_w": 344.94,
+          "sm_clock_mhz": 1875.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 82.0,
+          "power_w": 343.62,
+          "sm_clock_mhz": 1860.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 81.0,
+          "power_w": 338.82,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 80.0,
+          "power_w": 329.47,
+          "sm_clock_mhz": 1695.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 95.0,
+          "temperature_c": 80.0,
+          "power_w": 310.78,
+          "sm_clock_mhz": 1635.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 80.0,
+          "power_w": 291.58,
+          "sm_clock_mhz": 1605.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 80.0,
+          "power_w": 276.96,
+          "sm_clock_mhz": 1605.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 80.0,
+          "power_w": 271.75,
+          "sm_clock_mhz": 1605.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 81.0,
+          "power_w": 270.73,
+          "sm_clock_mhz": 1620.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 81.0,
+          "power_w": 271.11,
+          "sm_clock_mhz": 1635.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 81.0,
+          "power_w": 275.01,
+          "sm_clock_mhz": 1665.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 81.0,
+          "power_w": 278.42,
+          "sm_clock_mhz": 1665.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 81.0,
+          "power_w": 284.87,
+          "sm_clock_mhz": 1695.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 82.0,
+          "power_w": 292.62,
+          "sm_clock_mhz": 1710.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 82.0,
+          "power_w": 298.04,
+          "sm_clock_mhz": 1710.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 82.0,
+          "power_w": 304.92,
+          "sm_clock_mhz": 1725.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 93.0,
+          "temperature_c": 82.0,
+          "power_w": 310.72,
+          "sm_clock_mhz": 1875.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 83.0,
+          "power_w": 323.44,
+          "sm_clock_mhz": 1890.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 83.0,
+          "power_w": 331.76,
+          "sm_clock_mhz": 1890.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 82.0,
+          "power_w": 340.36,
+          "sm_clock_mhz": 1830.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 81.0,
+          "power_w": 338.46,
+          "sm_clock_mhz": 1770.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 81.0,
+          "power_w": 319.61,
+          "sm_clock_mhz": 1650.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 80.0,
+          "power_w": 300.55,
+          "sm_clock_mhz": 1365.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 79.0,
+          "power_w": 265.04,
+          "sm_clock_mhz": 1335.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 79.0,
+          "power_w": 238.16,
+          "sm_clock_mhz": 1320.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 79.0,
+          "power_w": 218.49,
+          "sm_clock_mhz": 1335.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 79.0,
+          "power_w": 211.27,
+          "sm_clock_mhz": 1335.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 79.0,
+          "power_w": 210.46,
+          "sm_clock_mhz": 1365.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 79.0,
+          "power_w": 213.25,
+          "sm_clock_mhz": 1425.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 79.0,
+          "power_w": 216.39,
+          "sm_clock_mhz": 1440.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 80.0,
+          "power_w": 222.8,
+          "sm_clock_mhz": 1470.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 80.0,
+          "power_w": 230.7,
+          "sm_clock_mhz": 1515.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 80.0,
+          "power_w": 238.25,
+          "sm_clock_mhz": 1530.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 81.0,
+          "power_w": 243.24,
+          "sm_clock_mhz": 1560.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 81.0,
+          "power_w": 250.56,
+          "sm_clock_mhz": 1590.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 87.0,
+          "temperature_c": 81.0,
+          "power_w": 256.2,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 81.0,
+          "power_w": 267.97,
+          "sm_clock_mhz": 1755.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 81.0,
+          "power_w": 275.4,
+          "sm_clock_mhz": 1755.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 81.0,
+          "power_w": 282.61,
+          "sm_clock_mhz": 1725.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 80.0,
+          "power_w": 284.1,
+          "sm_clock_mhz": 1650.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 80.0,
+          "power_w": 269.67,
+          "sm_clock_mhz": 1425.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 97.0,
+          "temperature_c": 78.0,
+          "power_w": 255.47,
+          "sm_clock_mhz": 960.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 78.0,
+          "power_w": 224.22,
+          "sm_clock_mhz": 720.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 78.0,
+          "power_w": 196.15,
+          "sm_clock_mhz": 750.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 78.0,
+          "power_w": 181.53,
+          "sm_clock_mhz": 735.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 78.0,
+          "power_w": 167.07,
+          "sm_clock_mhz": 810.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 80.0,
+          "power_w": 171.23,
+          "sm_clock_mhz": 1695.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 83.0,
+          "power_w": 217.44,
+          "sm_clock_mhz": 1785.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 83.0,
+          "power_w": 252.18,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 84.0,
+          "power_w": 303.55,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 83.0,
+          "power_w": 343.61,
+          "sm_clock_mhz": 1740.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 84.0,
+          "power_w": 344.88,
+          "sm_clock_mhz": 1785.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 84.0,
+          "power_w": 343.36,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 84.0,
+          "power_w": 344.01,
+          "sm_clock_mhz": 1770.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 84.0,
+          "power_w": 343.58,
+          "sm_clock_mhz": 1755.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 87.0,
+          "temperature_c": 83.0,
+          "power_w": 341.48,
+          "sm_clock_mhz": 1875.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 84.0,
+          "power_w": 341.51,
+          "sm_clock_mhz": 1875.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 84.0,
+          "power_w": 336.54,
+          "sm_clock_mhz": 1845.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 83.0,
+          "power_w": 333.17,
+          "sm_clock_mhz": 1785.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 82.0,
+          "power_w": 327.99,
+          "sm_clock_mhz": 1725.0
+        },
+        {
+          "memory_used_mib": 6803.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 82.0,
+          "power_w": 307.69,
+          "sm_clock_mhz": 1575.0
+        },
+        {
+          "memory_used_mib": 437.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 80.0,
+          "power_w": 268.58,
+          "sm_clock_mhz": 1335.0
+        }
+      ],
+      "results": [
+        {
+          "test": null,
+          "prompt_tokens": 4096,
+          "decode_tokens": 128,
+          "prefilled_context_tokens": 0,
+          "context_length_tokens": 4096,
+          "average_tokens_per_second": 865.820645,
+          "stddev_tokens_per_second": 53.926025,
+          "mean_latency_ms": 4895.596367,
+          "stddev_latency_ms": 318.352161,
+          "sample_tokens_per_second": [
+            911.945,
+            909.072,
+            906.328,
+            884.813,
+            867.975,
+            794.715,
+            785.897
+          ],
+          "sample_latency_ns": [
+            4631860347,
+            4646496617,
+            4660562388,
+            4773892224,
+            4866500305,
+            5315115972,
+            5374746717
+          ],
+          "runtime_row": {
+            "build_commit": "62b4b4c",
+            "build_number": 129,
+            "cpu_info": "Intel(R) Core(TM) i7-10700K CPU @ 3.80GHz",
+            "gpu_info": "NVIDIA GeForce RTX 3080",
+            "backends": "CUDA",
+            "model_filename": "/home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PTQ1_0.gguf",
+            "model_type": "qwen35 27B PTQ1_0 - 1.75 bpw ternary (group 128)",
+            "model_size": 5935527936,
+            "model_n_params": 26895998464,
+            "n_batch": 2048,
+            "n_ubatch": 512,
+            "n_threads": 8,
+            "cpu_mask": "0x0",
+            "cpu_strict": false,
+            "poll": 50,
+            "type_k": "f16",
+            "type_v": "f16",
+            "n_gpu_layers": 99,
+            "n_cpu_moe": 0,
+            "split_mode": "layer",
+            "main_gpu": 0,
+            "no_kv_offload": false,
+            "flash_attn": 1,
+            "devices": "auto",
+            "tensor_split": "0.00",
+            "tensor_buft_overrides": "none",
+            "load_mode": "auto",
+            "embeddings": false,
+            "no_op_offload": 0,
+            "no_host": false,
+            "fit_target": 0,
+            "fit_min_ctx": 0,
+            "n_prompt": 4096,
+            "n_gen": 128,
+            "n_depth": 0,
+            "test_time": "2026-10-08T03:25:55Z",
+            "avg_ns": 4895596367,
+            "stddev_ns": 318352161,
+            "avg_ts": 865.820645,
+            "stddev_ts": 53.926025,
+            "samples_ns": [
+              4631860347,
+              4646496617,
+              4660562388,
+              4773892224,
+              4866500305,
+              5315115972,
+              5374746717
+            ],
+            "samples_ts": [
+              911.945,
+              909.072,
+              906.328,
+              884.813,
+              867.975,
+              794.715,
+              785.897
+            ]
+          },
+          "median_tokens_per_second": 884.813,
+          "min_tokens_per_second": 785.897,
+          "max_tokens_per_second": 911.945
+        }
+      ]
+    },
+    {
+      "format": "PQ2_0",
+      "model": "models/Ternary-Bonsai-2-27B-PQ2_0.gguf",
+      "mode": "combined",
+      "command": [
+        "/home/maxsun/autonomous_projects/bonsai2-rtx3080/build/bin/llama-bench",
+        "-m",
+        "/home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PQ2_0.gguf",
+        "-ngl",
+        "99",
+        "-fa",
+        "on",
+        "-b",
+        "2048",
+        "-ub",
+        "512",
+        "-ctk",
+        "f16",
+        "-ctv",
+        "f16",
+        "-t",
+        "8",
+        "-r",
+        "7",
+        "-o",
+        "json",
+        "-p",
+        "0",
+        "-n",
+        "0",
+        "-pg",
+        "4096,128"
+      ],
+      "exit_code": 0,
+      "gpu_memory_before": {
+        "memory_used_mib": 173.0,
+        "utilization_percent": 0.0,
+        "temperature_c": 65.0,
+        "power_w": 31.28,
+        "sm_clock_mhz": 210.0
+      },
+      "gpu_memory_peak": {
+        "memory_used_mib": 7947.0,
+        "utilization_percent": 97.0,
+        "temperature_c": 78.0,
+        "power_w": 342.18,
+        "sm_clock_mhz": 1890.0
+      },
+      "gpu_memory_increase_mib": 7774.0,
+      "gpu_samples": [
+        {
+          "memory_used_mib": 173.0,
+          "utilization_percent": 0.0,
+          "temperature_c": 65.0,
+          "power_w": 31.28,
+          "sm_clock_mhz": 210.0
+        },
+        {
+          "memory_used_mib": 190.0,
+          "utilization_percent": 0.0,
+          "temperature_c": 66.0,
+          "power_w": 32.84,
+          "sm_clock_mhz": 1845.0
+        },
+        {
+          "memory_used_mib": 397.0,
+          "utilization_percent": 0.0,
+          "temperature_c": 68.0,
+          "power_w": 48.63,
+          "sm_clock_mhz": 1845.0
+        },
+        {
+          "memory_used_mib": 6937.0,
+          "utilization_percent": 0.0,
+          "temperature_c": 68.0,
+          "power_w": 59.73,
+          "sm_clock_mhz": 1845.0
+        },
+        {
+          "memory_used_mib": 6937.0,
+          "utilization_percent": 92.0,
+          "temperature_c": 68.0,
+          "power_w": 66.49,
+          "sm_clock_mhz": 1965.0
+        },
+        {
+          "memory_used_mib": 6937.0,
+          "utilization_percent": 92.0,
+          "temperature_c": 69.0,
+          "power_w": 122.78,
+          "sm_clock_mhz": 1965.0
+        },
+        {
+          "memory_used_mib": 7925.0,
+          "utilization_percent": 6.0,
+          "temperature_c": 69.0,
+          "power_w": 129.1,
+          "sm_clock_mhz": 1965.0
+        },
+        {
+          "memory_used_mib": 7935.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 75.0,
+          "power_w": 165.15,
+          "sm_clock_mhz": 1845.0
+        },
+        {
+          "memory_used_mib": 7935.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 76.0,
+          "power_w": 227.6,
+          "sm_clock_mhz": 1845.0
+        },
+        {
+          "memory_used_mib": 7935.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 76.0,
+          "power_w": 286.13,
+          "sm_clock_mhz": 1860.0
+        },
+        {
+          "memory_used_mib": 7935.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 75.0,
+          "power_w": 339.02,
+          "sm_clock_mhz": 1770.0
+        },
+        {
+          "memory_used_mib": 7935.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 77.0,
+          "power_w": 343.81,
+          "sm_clock_mhz": 1830.0
+        },
+        {
+          "memory_used_mib": 7935.0,
+          "utilization_percent": 93.0,
+          "temperature_c": 77.0,
+          "power_w": 342.31,
+          "sm_clock_mhz": 1845.0
+        },
+        {
+          "memory_used_mib": 7935.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 77.0,
+          "power_w": 342.1,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 7935.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 77.0,
+          "power_w": 340.75,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 7935.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 77.0,
+          "power_w": 343.41,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 7935.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 78.0,
+          "power_w": 344.22,
+          "sm_clock_mhz": 1830.0
+        },
+        {
+          "memory_used_mib": 7935.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 78.0,
+          "power_w": 342.3,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 7935.0,
+          "utilization_percent": 82.0,
+          "temperature_c": 78.0,
+          "power_w": 341.26,
+          "sm_clock_mhz": 1830.0
+        },
+        {
+          "memory_used_mib": 7935.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 78.0,
+          "power_w": 344.32,
+          "sm_clock_mhz": 1845.0
+        },
+        {
+          "memory_used_mib": 7935.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 78.0,
+          "power_w": 343.48,
+          "sm_clock_mhz": 1830.0
+        },
+        {
+          "memory_used_mib": 7935.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 78.0,
+          "power_w": 342.56,
+          "sm_clock_mhz": 1770.0
+        },
+        {
+          "memory_used_mib": 7935.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 78.0,
+          "power_w": 343.67,
+          "sm_clock_mhz": 1830.0
+        },
+        {
+          "memory_used_mib": 7935.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 78.0,
+          "power_w": 343.32,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 7935.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 79.0,
+          "power_w": 343.43,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 7935.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 78.0,
+          "power_w": 341.67,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 7935.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 79.0,
+          "power_w": 343.54,
+          "sm_clock_mhz": 1830.0
+        },
+        {
+          "memory_used_mib": 7935.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 79.0,
+          "power_w": 342.77,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 7935.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 79.0,
+          "power_w": 342.58,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 97.0,
+          "temperature_c": 78.0,
+          "power_w": 342.18,
+          "sm_clock_mhz": 1890.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 78.0,
+          "power_w": 344.38,
+          "sm_clock_mhz": 1830.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 78.0,
+          "power_w": 343.24,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 78.0,
+          "power_w": 342.42,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 78.0,
+          "power_w": 342.07,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 78.0,
+          "power_w": 341.55,
+          "sm_clock_mhz": 1830.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 79.0,
+          "power_w": 342.57,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 93.0,
+          "temperature_c": 78.0,
+          "power_w": 340.76,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 79.0,
+          "power_w": 342.58,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 80.0,
+          "power_w": 344.27,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 80.0,
+          "power_w": 343.41,
+          "sm_clock_mhz": 1785.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 79.0,
+          "power_w": 342.89,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 80.0,
+          "power_w": 343.27,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 80.0,
+          "power_w": 341.51,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 80.0,
+          "power_w": 341.99,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 80.0,
+          "power_w": 343.51,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 80.0,
+          "power_w": 343.61,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 80.0,
+          "power_w": 343.24,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 80.0,
+          "power_w": 343.11,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 80.0,
+          "power_w": 344.17,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 80.0,
+          "power_w": 343.55,
+          "sm_clock_mhz": 1785.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 80.0,
+          "power_w": 343.17,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 80.0,
+          "power_w": 341.47,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 80.0,
+          "power_w": 342.28,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 80.0,
+          "power_w": 342.73,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 79.0,
+          "power_w": 342.41,
+          "sm_clock_mhz": 1725.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 80.0,
+          "power_w": 332.38,
+          "sm_clock_mhz": 1725.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 79.0,
+          "power_w": 321.07,
+          "sm_clock_mhz": 1725.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 80.0,
+          "power_w": 314.35,
+          "sm_clock_mhz": 1755.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 81.0,
+          "power_w": 312.2,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 81.0,
+          "power_w": 323.6,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 81.0,
+          "power_w": 332.07,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 81.0,
+          "power_w": 341.75,
+          "sm_clock_mhz": 1785.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 81.0,
+          "power_w": 344.32,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 81.0,
+          "power_w": 344.24,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 82.0,
+          "power_w": 344.76,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 81.0,
+          "power_w": 344.02,
+          "sm_clock_mhz": 1785.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 81.0,
+          "power_w": 344.23,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 81.0,
+          "power_w": 343.98,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 81.0,
+          "power_w": 343.65,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 81.0,
+          "power_w": 343.17,
+          "sm_clock_mhz": 1770.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 81.0,
+          "power_w": 340.77,
+          "sm_clock_mhz": 1755.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 80.0,
+          "power_w": 335.26,
+          "sm_clock_mhz": 1695.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 80.0,
+          "power_w": 322.82,
+          "sm_clock_mhz": 1680.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 80.0,
+          "power_w": 307.69,
+          "sm_clock_mhz": 1650.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 79.0,
+          "power_w": 290.03,
+          "sm_clock_mhz": 1605.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 79.0,
+          "power_w": 280.35,
+          "sm_clock_mhz": 1605.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 80.0,
+          "power_w": 269.03,
+          "sm_clock_mhz": 1620.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 80.0,
+          "power_w": 265.18,
+          "sm_clock_mhz": 1650.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 80.0,
+          "power_w": 268.46,
+          "sm_clock_mhz": 1650.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 80.0,
+          "power_w": 272.14,
+          "sm_clock_mhz": 1680.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 82.0,
+          "power_w": 288.07,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 82.0,
+          "power_w": 311.34,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 83.0,
+          "power_w": 325.44,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 82.0,
+          "power_w": 340.09,
+          "sm_clock_mhz": 1770.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 82.0,
+          "power_w": 345.33,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 82.0,
+          "power_w": 343.75,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 82.0,
+          "power_w": 343.41,
+          "sm_clock_mhz": 1785.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 81.0,
+          "power_w": 343.8,
+          "sm_clock_mhz": 1755.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 81.0,
+          "power_w": 338.13,
+          "sm_clock_mhz": 1725.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 81.0,
+          "power_w": 330.09,
+          "sm_clock_mhz": 1620.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 80.0,
+          "power_w": 309.84,
+          "sm_clock_mhz": 1515.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 98.0,
+          "temperature_c": 79.0,
+          "power_w": 285.77,
+          "sm_clock_mhz": 1410.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 78.0,
+          "power_w": 255.0,
+          "sm_clock_mhz": 1080.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 78.0,
+          "power_w": 234.34,
+          "sm_clock_mhz": 1110.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 78.0,
+          "power_w": 209.62,
+          "sm_clock_mhz": 1110.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 78.0,
+          "power_w": 194.34,
+          "sm_clock_mhz": 1260.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 78.0,
+          "power_w": 192.43,
+          "sm_clock_mhz": 1320.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 78.0,
+          "power_w": 195.68,
+          "sm_clock_mhz": 1350.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 82.0,
+          "power_w": 219.21,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 82.0,
+          "power_w": 261.83,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 83.0,
+          "power_w": 290.25,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 82.0,
+          "power_w": 328.7,
+          "sm_clock_mhz": 1755.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 83.0,
+          "power_w": 344.86,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 83.0,
+          "power_w": 344.83,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 84.0,
+          "power_w": 345.41,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 82.0,
+          "power_w": 342.56,
+          "sm_clock_mhz": 1755.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 83.0,
+          "power_w": 344.41,
+          "sm_clock_mhz": 1785.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 82.0,
+          "power_w": 343.29,
+          "sm_clock_mhz": 1755.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 82.0,
+          "power_w": 336.2,
+          "sm_clock_mhz": 1695.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 81.0,
+          "power_w": 326.35,
+          "sm_clock_mhz": 1635.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 81.0,
+          "power_w": 307.77,
+          "sm_clock_mhz": 1560.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 80.0,
+          "power_w": 290.8,
+          "sm_clock_mhz": 1350.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 93.0,
+          "temperature_c": 79.0,
+          "power_w": 260.44,
+          "sm_clock_mhz": 1125.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 79.0,
+          "power_w": 229.3,
+          "sm_clock_mhz": 1005.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 78.0,
+          "power_w": 212.25,
+          "sm_clock_mhz": 1005.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 78.0,
+          "power_w": 192.63,
+          "sm_clock_mhz": 1020.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 78.0,
+          "power_w": 183.53,
+          "sm_clock_mhz": 1170.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 78.0,
+          "power_w": 185.5,
+          "sm_clock_mhz": 1230.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 80.0,
+          "power_w": 190.42,
+          "sm_clock_mhz": 1770.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 83.0,
+          "power_w": 232.34,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 83.0,
+          "power_w": 278.6,
+          "sm_clock_mhz": 1815.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 84.0,
+          "power_w": 322.0,
+          "sm_clock_mhz": 1755.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 83.0,
+          "power_w": 343.09,
+          "sm_clock_mhz": 1770.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 84.0,
+          "power_w": 344.74,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 84.0,
+          "power_w": 343.35,
+          "sm_clock_mhz": 1800.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 84.0,
+          "power_w": 342.15,
+          "sm_clock_mhz": 1785.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 83.0,
+          "power_w": 344.14,
+          "sm_clock_mhz": 1770.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 83.0,
+          "power_w": 344.12,
+          "sm_clock_mhz": 1785.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 83.0,
+          "power_w": 342.25,
+          "sm_clock_mhz": 1770.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 83.0,
+          "power_w": 336.9,
+          "sm_clock_mhz": 1665.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 82.0,
+          "power_w": 325.08,
+          "sm_clock_mhz": 1605.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 81.0,
+          "power_w": 304.77,
+          "sm_clock_mhz": 1515.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 81.0,
+          "power_w": 286.72,
+          "sm_clock_mhz": 1245.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 80.0,
+          "power_w": 254.88,
+          "sm_clock_mhz": 1020.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 79.0,
+          "power_w": 223.96,
+          "sm_clock_mhz": 945.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 79.0,
+          "power_w": 199.56,
+          "sm_clock_mhz": 930.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 79.0,
+          "power_w": 187.41,
+          "sm_clock_mhz": 930.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 79.0,
+          "power_w": 179.27,
+          "sm_clock_mhz": 1095.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 79.0,
+          "power_w": 180.99,
+          "sm_clock_mhz": 1170.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 79.0,
+          "power_w": 185.92,
+          "sm_clock_mhz": 1245.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 80.0,
+          "power_w": 190.54,
+          "sm_clock_mhz": 1320.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 80.0,
+          "power_w": 198.19,
+          "sm_clock_mhz": 1380.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 80.0,
+          "power_w": 206.35,
+          "sm_clock_mhz": 1410.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 80.0,
+          "power_w": 211.36,
+          "sm_clock_mhz": 1440.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 81.0,
+          "power_w": 218.77,
+          "sm_clock_mhz": 1470.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 81.0,
+          "power_w": 226.97,
+          "sm_clock_mhz": 1500.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 81.0,
+          "power_w": 233.99,
+          "sm_clock_mhz": 1560.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 81.0,
+          "power_w": 239.53,
+          "sm_clock_mhz": 1560.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 96.0,
+          "temperature_c": 82.0,
+          "power_w": 248.38,
+          "sm_clock_mhz": 1635.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 82.0,
+          "power_w": 261.22,
+          "sm_clock_mhz": 1635.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 82.0,
+          "power_w": 268.35,
+          "sm_clock_mhz": 1590.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 81.0,
+          "power_w": 274.88,
+          "sm_clock_mhz": 1500.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 81.0,
+          "power_w": 271.3,
+          "sm_clock_mhz": 1395.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 80.0,
+          "power_w": 253.6,
+          "sm_clock_mhz": 870.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 99.0,
+          "temperature_c": 79.0,
+          "power_w": 237.12,
+          "sm_clock_mhz": 630.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 79.0,
+          "power_w": 207.93,
+          "sm_clock_mhz": 555.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 78.0,
+          "power_w": 183.08,
+          "sm_clock_mhz": 465.0
+        },
+        {
+          "memory_used_mib": 7947.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 78.0,
+          "power_w": 165.24,
+          "sm_clock_mhz": 465.0
+        },
+        {
+          "memory_used_mib": 437.0,
+          "utilization_percent": 100.0,
+          "temperature_c": 78.0,
+          "power_w": 158.73,
+          "sm_clock_mhz": 1260.0
+        }
+      ],
+      "results": [
+        {
+          "test": null,
+          "prompt_tokens": 4096,
+          "decode_tokens": 128,
+          "prefilled_context_tokens": 0,
+          "context_length_tokens": 4096,
+          "average_tokens_per_second": 784.760166,
+          "stddev_tokens_per_second": 89.452336,
+          "mean_latency_ms": 5453.007811,
+          "stddev_latency_ms": 724.923066,
+          "sample_tokens_per_second": [
+            856.634,
+            853.729,
+            844.559,
+            815.617,
+            766.432,
+            750.644,
+            605.707
+          ],
+          "sample_latency_ns": [
+            4930929562,
+            4947704849,
+            5001428121,
+            5178903489,
+            5511251195,
+            5627171499,
+            6973665965
+          ],
+          "runtime_row": {
+            "build_commit": "62b4b4c",
+            "build_number": 129,
+            "cpu_info": "Intel(R) Core(TM) i7-10700K CPU @ 3.80GHz",
+            "gpu_info": "NVIDIA GeForce RTX 3080",
+            "backends": "CUDA",
+            "model_filename": "/home/maxsun/autonomous_projects/bonsai2-rtx3080/models/Ternary-Bonsai-2-27B-PQ2_0.gguf",
+            "model_type": "qwen35 27B PQ2_0 - 2.13 bpw (group 128)",
+            "model_size": 7195047936,
+            "model_n_params": 26895998464,
+            "n_batch": 2048,
+            "n_ubatch": 512,
+            "n_threads": 8,
+            "cpu_mask": "0x0",
+            "cpu_strict": false,
+            "poll": 50,
+            "type_k": "f16",
+            "type_v": "f16",
+            "n_gpu_layers": 99,
+            "n_cpu_moe": 0,
+            "split_mode": "layer",
+            "main_gpu": 0,
+            "no_kv_offload": false,
+            "flash_attn": 1,
+            "devices": "auto",
+            "tensor_split": "0.00",
+            "tensor_buft_overrides": "none",
+            "load_mode": "auto",
+            "embeddings": false,
+            "no_op_offload": 0,
+            "no_host": false,
+            "fit_target": 0,
+            "fit_min_ctx": 0,
+            "n_prompt": 4096,
+            "n_gen": 128,
+            "n_depth": 0,
+            "test_time": "2026-10-08T03:28:30Z",
+            "avg_ns": 5453007811,
+            "stddev_ns": 724923066,
+            "avg_ts": 784.760166,
+            "stddev_ts": 89.452336,
+            "samples_ns": [
+              4930929562,
+              4947704849,
+              5001428121,
+              5178903489,
+              5511251195,
+              5627171499,
+              6973665965
+            ],
+            "samples_ts": [
+              856.634,
+              853.729,
+              844.559,
+              815.617,
+              766.432,
+              750.644,
+              605.707
+            ]
+          },
+          "median_tokens_per_second": 815.617,
+          "min_tokens_per_second": 605.707,
+          "max_tokens_per_second": 856.634
+        }
+      ]
+    }
+  ]
+}

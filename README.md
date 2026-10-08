@@ -15,6 +15,37 @@ The final reference comparison used Ternary Bonsai 2 27B PTQ1_0, 99 GPU layers, 
 
 The frozen-reference results are the cumulative measure of the retained implementation. The original PTQ1_0 vs PQ2_0 matrix found PTQ1_0 faster for batch-1 decode on this machine while prefill was nearly tied; PQ2_0 used about 1.1 GiB more peak VRAM. See [baseline](BASELINE.md) for the original format comparison and [matched A/B details](results/reference_ab/README.md).
 
+## Extended original-vs-fork workloads
+
+Exp084 expands the direct comparison to prefill, decode, and mixed prompt-plus-generation workloads for both Bonsai 2 27B formats. It is an independent run set alongside the earlier reference result above, so small run-to-run differences are expected. “Original” is the frozen project reference at `2a6ac568b69a61db0ee151b24c9b2cdb7a4f8a7c`; “fork” is the best retained CUDA/runtime candidate, code commit `62b4b4ce0c2809272b9d69d09f3359abd7111848`. This isolates the research changes while keeping the PrismML model and quantization support fixed. It is not a comparison against stock upstream llama.cpp, which does not provide these project-specific model paths.
+
+![RTX 3080 throughput change across prefill, decode, and combined workloads](results/exp084/fork-vs-original.svg)
+
+Each value below is tokens per second (tok/s), summarized as the median of two run medians. The final column is the fork’s change against the original.
+
+| Workload | Format | Context / prompt tokens | Original | Fork | Change |
+| --- | --- | ---: | ---: | ---: | ---: |
+| Prefill | PTQ1_0 | 512 | 1,374.30 | 1,377.93 | +0.26% |
+| Prefill | PTQ1_0 | 4096 | 1,332.49 | 1,336.48 | +0.30% |
+| Prefill | PQ2_0 | 512 | 1,363.93 | 1,365.22 | +0.09% |
+| Prefill | PQ2_0 | 4096 | 1,326.32 | 1,330.33 | +0.30% |
+| Decode | PTQ1_0 | 512 | 77.60 | 84.22 | +8.53% |
+| Decode | PTQ1_0 | 2048 | 76.63 | 83.02 | +8.35% |
+| Decode | PTQ1_0 | 4096 | 75.57 | 81.41 | +7.73% |
+| Decode | PQ2_0 | 512 | 69.59 | 70.43 | +1.21% |
+| Decode | PQ2_0 | 2048 | 68.71 | 69.57 | +1.26% |
+| Decode | PQ2_0 | 4096 | 67.23 | 67.92 | +1.02% |
+| Combined¹ | PTQ1_0 | 512 | 313.31 | 334.54 | +6.78% |
+| Combined¹ | PTQ1_0 | 4096 | 871.66 | 880.54 | +1.02% |
+| Combined¹ | PQ2_0 | 512 | 287.53 | 290.57 | +1.06% |
+| Combined¹ | PQ2_0 | 4096 | 806.24 | 805.99 | -0.03% |
+
+The most repeatable difference is PTQ1_0 decode: the fork is 7.73–8.53% faster at all three contexts, and the two reversed-order pairs differ by at most 0.18 percentage points. PQ2_0 decode is about 1.0–1.3% faster. Prefill changes stay within 0.3%, and the long combined PQ2_0 workload is effectively tied. These results do not establish a gain for every workload or hardware target.
+
+All runs used an RTX 3080 (sm_86), 99 GPU layers, Flash Attention, F16 KV cache, batch/microbatch 2048/512, eight CPU threads, and seven `llama-bench` repetitions per run. Workloads were prefill at 512/4096 prompt tokens; decode at contexts 512/2048/4096; and combined prompt plus 128 generated tokens at contexts 512/4096. Each format/workload had two reversed-order fork/original pairs. Runs were temperature-gated at 65°C and at most 5% GPU utilization; the second combined 4096 pair used a matched 66°C gate for both builds because 65°C was below the card’s stable idle floor. Peak whole-GPU memory differed by at most 2 MiB between builds within a format/workload. The chart’s whiskers show the two paired percentage changes.
+
+¹ Combined runs use `llama-bench`’s prompt-plus-generation test (`-pg prompt,128`); the throughput includes prompt evaluation and the 128 generated tokens. Details, per-run telemetry, binary hashes, raw JSON, and the separately excluded thermally unstable 70°C pilot are in the [Exp084 report](experiments/084-fork-vs-original/REPORT.md), [CSV](results/exp084/summary.csv), and [raw result directory](results/exp084/raw/).
+
 ## What changed
 
 The final candidate retains five measured CUDA/runtime optimizations. Each targets a specific graph or kernel shape, and guarded matchers fall back to the generic path outside the supported case.
@@ -31,7 +62,7 @@ The small gains are consistent with the measured profile: the active PTQ1_0 plan
 
 ## Experiments and what they established
 
-The campaign contains 83 numbered experiments spanning PTQ1_0 trit unpacking and GEMV scheduling, cache and memory behavior, tensor-core mappings, graph fusions, attention, prefill scheduling, and speculative decoding. Each report records its hypothesis, exact source/dispatch path, correctness gates, measurements, and keep/reject decision. The [experiment index](experiments/README.md), [optimization log](OPTIMIZATION_LOG.md), and [research state](research/STATE.md) are the best entry points.
+The research record contains 84 numbered reports spanning PTQ1_0 trit unpacking and GEMV scheduling, cache and memory behavior, tensor-core mappings, graph fusions, attention, prefill scheduling, speculative decoding, and reference measurements. Each report records its hypothesis, source/dispatch path where applicable, measurements, and keep/reject decision. The [experiment index](experiments/README.md), [optimization log](OPTIMIZATION_LOG.md), and [research state](research/STATE.md) are the best entry points.
 
 Many plausible kernel changes did not help. LUT and floor-difference trit decoders, direct 2-bit side representations, pairwise unpacking, warp-transpose/reduction layouts, shared staging, and simple Tensor Core alternatives were slower, invalid for the active dispatch, or unsuitable for batch one. L2 persistence regressed decode; a lower-shared-memory FlashAttention split regressed long-context attention; adaptive prompt ubatching hurt long-context decode; and the PQ2_0 plus MTP bundle did not satisfy correctness and long-context requirements. These negative results are preserved to prevent repeated work, not presented as universal conclusions for other GPUs, models, or batch sizes.
 
@@ -47,6 +78,7 @@ Many plausible kernel changes did not help. LUT and floor-difference trit decode
 - [Hardware/software environment](ENVIRONMENT.md), [setup](SETUP.md), and [reference baseline](BASELINE.md)
 - [Benchmark harness](benchmark/README.md), [correctness checks](tests/README.md), and [build instructions](docs/build.md)
 - [Matched reference/current measurements](results/reference_ab/README.md) and [complete final tables](FINAL_RESULTS.md)
+- [Expanded original-vs-fork comparison](experiments/084-fork-vs-original/REPORT.md), [chart](results/exp084/fork-vs-original.svg), and [CSV data](results/exp084/summary.csv)
 - [Experiment reports](experiments/README.md), [current profile](PROFILE.md), and [optimization log](OPTIMIZATION_LOG.md)
 
 Re-run the selected correctness suite with `bash tests/run_correctness.sh`. Reproduce the final PTQ1_0 reference comparison with `python3 experiments/083-small-op-fusion/run_final_reference_ab.py` after following [SETUP.md](SETUP.md) to provision the model and builds. Raw result JSON and telemetry are checked in under `results/`; generated model files and temporary build trees are not.
