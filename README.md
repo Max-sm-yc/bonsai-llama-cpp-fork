@@ -1,16 +1,57 @@
 # RTX 3080 Ternary Bonsai Research
 
-**Final verified research candidate:** commit `62b4b4c` adds a guarded CUDA fusion for 16 repeated Q-gate layout copies. See [final measurements](FINAL_RESULTS.md), [experiment report](experiments/083-small-op-fusion/REPORT.md), and the compressed [research state](research/STATE.md). The active PTQ1_0 GEMV remains the main future optimization target.
+**Current best measured candidate:** code commit `62b4b4ce0c2809272b9d69d09f3359abd7111848`, with the final research record at the branch tip. It improves batch-1 PTQ1_0 decode by **8.42% at context 512** and **7.73% at context 4096** against a freshly built, frozen project reference on an RTX 3080. Peak whole-GPU memory was within 2 MiB between the compared builds. These are direct A/B results; stage-by-stage experiment gains below are not additive. See [final results](FINAL_RESULTS.md), [the final experiment report](experiments/083-small-op-fusion/REPORT.md), and [research state](research/STATE.md).
 
-This checkout tracks the PrismML `prism` llama.cpp fork and carries a local, reproducible optimization campaign for Ternary Bonsai 2 27B on an RTX 3080 (sm_86).
+This repository is a research fork of PrismML's `prism` branch of [llama.cpp](https://github.com/PrismML-Eng/llama.cpp), evaluated with Ternary Bonsai 2 27B. The unmodified runtime base is commit `6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17`; the frozen project reference is `2a6ac568b69a61db0ee151b24c9b2cdb7a4f8a7c`. The PrismML fork supplies Bonsai-oriented low-bit formats and runtime support, including PTQ1_0 and PQ2_0 model paths. This campaign kept that model/runtime compatibility and investigated CUDA inference performance, especially batch-1 decode on NVIDIA Ampere (sm_86).
 
-- [Environment](ENVIRONMENT.md) and [setup](SETUP.md)
-- [Benchmark harness](benchmark/README.md) and [correctness checks](tests/README.md)
-- [Current research state](research/STATE.md), [baseline](BASELINE.md), and [profile](PROFILE.md)
-- [Matched reference/current measurements](results/reference_ab/README.md)
-- [Optimization log](OPTIMIZATION_LOG.md) and [final results](FINAL_RESULTS.md)
+## Research result
 
-The unmodified fork revision is `6bfcd79a2d426abcd2b50e3c2d09ae2225e70a17`; research changes are on `research/rtx3080`.
+The final reference comparison used Ternary Bonsai 2 27B PTQ1_0, 99 GPU layers, Flash Attention, F16 KV cache, batch/microbatch 2048/512, 8 CPU threads, and 128 generated tokens. Each context had two reversed-order pairs of seven-repetition runs, with a uniform GPU start gate and isolated builds. Throughput is the median of the paired run medians; full samples, telemetry, hashes, commands, and qualifications are in [FINAL_RESULTS.md](FINAL_RESULTS.md) and `results/exp083/raw/`.
+
+| Existing context | Frozen reference | Best candidate | Change | Peak memory, reference -> candidate |
+| ---: | ---: | ---: | ---: | ---: |
+| 512 | 77.690 tok/s | 84.234 tok/s | **+8.42%** | 6,581 -> 6,579 MiB |
+| 4096 | 75.549 tok/s | 81.388 tok/s | **+7.73%** | 6,805 -> 6,803 MiB |
+
+The frozen-reference results are the cumulative measure of the retained implementation. The original PTQ1_0 vs PQ2_0 matrix found PTQ1_0 faster for batch-1 decode on this machine while prefill was nearly tied; PQ2_0 used about 1.1 GiB more peak VRAM. See [baseline](BASELINE.md) for the original format comparison and [matched A/B details](results/reference_ab/README.md).
+
+## What changed
+
+The final candidate retains five measured CUDA/runtime optimizations. Each targets a specific graph or kernel shape, and guarded matchers fall back to the generic path outside the supported case.
+
+| Experiment | Improvement retained | Matched result recorded during that stage |
+| --- | --- | --- |
+| [Exp010](experiments/010-ptq1-planar-rows/REPORT.md) | Schedule the active sm_86 planar PTQ1_0 batch-1 GEMV with one output row per work item (`ROWS=1`), reducing register use while preserving dot arithmetic. | +5.42% at context 512 and +5.34% at 4096 vs. `ROWS=4`. |
+| [Exp036](experiments/036-coordinated-qkv-prep/REPORT.md) | Coordinate shared Q/K/V RMSNorm, sign, FWHT, and Q8_1 activation preparation so the common transform is prepared in one guarded path. | +1.65% / +1.55% at contexts 512 / 4096 vs. the same-binary disabled path. |
+| [Exp060](experiments/060-concat-cache-fusion/REPORT.md) | Fuse a recurrent concat tail and cache copy where graph layout and alias checks prove the exact supported pattern. | +0.95% / +0.90% in its paired decode comparison. |
+| [Exp062](experiments/062-repeated-smallop-fusion/REPORT.md) | Fuse supported recurrent SSM, SiLU, and L2-normalization work, removing 24 graph nodes per replay. | Flat at context 512 and +0.231% at 4096 vs. its control. |
+| [Exp083](experiments/083-small-op-fusion/REPORT.md) | Read a guarded strided Q-gate view directly in the sigmoid-times-attention CUDA kernel, removing 16 layout-copy nodes per token. | Incremental PTQ1_0 decode: +0.23% / +0.19%; PQ2_0: +0.22% / +0.14% at contexts 512 / 4096. |
+
+The small gains are consistent with the measured profile: the active PTQ1_0 planar GEMV costs about 9 ms per token, roughly 75% of summed decode kernel time. The Exp083 graph fusion saves around 0.03 ms per replay, so it cannot produce a large whole-model speedup by itself. [PROFILE.md](PROFILE.md) and [FINAL_RESULTS.md](FINAL_RESULTS.md) explain the profile and distinguish direct cumulative results from each stage's local comparison.
+
+## Experiments and what they established
+
+The campaign contains 83 numbered experiments spanning PTQ1_0 trit unpacking and GEMV scheduling, cache and memory behavior, tensor-core mappings, graph fusions, attention, prefill scheduling, and speculative decoding. Each report records its hypothesis, exact source/dispatch path, correctness gates, measurements, and keep/reject decision. The [experiment index](experiments/README.md), [optimization log](OPTIMIZATION_LOG.md), and [research state](research/STATE.md) are the best entry points.
+
+Many plausible kernel changes did not help. LUT and floor-difference trit decoders, direct 2-bit side representations, pairwise unpacking, warp-transpose/reduction layouts, shared staging, and simple Tensor Core alternatives were slower, invalid for the active dispatch, or unsuitable for batch one. L2 persistence regressed decode; a lower-shared-memory FlashAttention split regressed long-context attention; adaptive prompt ubatching hurt long-context decode; and the PQ2_0 plus MTP bundle did not satisfy correctness and long-context requirements. These negative results are preserved to prevent repeated work, not presented as universal conclusions for other GPUs, models, or batch sizes.
+
+## Directions for further work
+
+1. **Challenge PTQ1_0 GEMV with a new premise.** It remains the dominant cost. Straightforward decoder substitutions, staging, cache policies, row mappings, and a simple tensor-core expansion have been screened. A new experiment should identify a different exact dataflow or first obtain hardware evidence about the limiting resource. Nsight Compute hardware counters were unavailable in this environment (`ERR_NVGPUCTRPERM`), so synthetic bandwidth estimates are not treated as proof that the kernel is memory-bound.
+2. **Map the remaining layout copies.** The measured graph has 48 linear-attention `final_output` copies totaling about 0.082 ms per token at context 512. Inspect their actual consumers, aliasing, and fallback behavior before implementing a fusion; require a repeatable end-to-end gain.
+3. **Re-profile after meaningful changes.** QKV activation preparation, GDN, RMSNorm, and attention are smaller secondary costs. Their ranking may move after a larger GEMV improvement, so use a new trace before choosing the next target.
+4. **Expand validation across hardware and workloads.** These results apply to one RTX 3080, one 27B model, and the tested decode/prefill configurations. Repeat matched comparisons for other Ampere cards, newer architectures, formats, batch sizes, and contexts before generalizing.
+
+## Reproduction and research files
+
+- [Hardware/software environment](ENVIRONMENT.md), [setup](SETUP.md), and [reference baseline](BASELINE.md)
+- [Benchmark harness](benchmark/README.md), [correctness checks](tests/README.md), and [build instructions](docs/build.md)
+- [Matched reference/current measurements](results/reference_ab/README.md) and [complete final tables](FINAL_RESULTS.md)
+- [Experiment reports](experiments/README.md), [current profile](PROFILE.md), and [optimization log](OPTIMIZATION_LOG.md)
+
+Re-run the selected correctness suite with `bash tests/run_correctness.sh`. Reproduce the final PTQ1_0 reference comparison with `python3 experiments/083-small-op-fusion/run_final_reference_ab.py` after following [SETUP.md](SETUP.md) to provision the model and builds. Raw result JSON and telemetry are checked in under `results/`; generated model files and temporary build trees are not.
+
+The optimized code was developed on branch `research/rtx3080`; the published branch carries this research record alongside the candidate and its experiment artifacts.
 
 ---
 
